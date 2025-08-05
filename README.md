@@ -1,29 +1,33 @@
-# Create T3 App
+![Static Badge](https://img.shields.io/badge/nextjs-%3E%3D%2015.2.3-FFC857.svg) ![Static Badge](https://img.shields.io/badge/license-MIT-428f7e.svg?logo=open%20source%20initiative&logoColor=white&labelColor=555555)
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+# Audlect - Vote on music with your friends!
+With audlect, your guest can participate in song votes to create the perfect playlist for everyone.
 
-## What's next? How do I make an app with this?
+### Features
+Create Votes: Users can initiate song votes through Spotify search, using a songs name or url.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Voting: Users can express their preferences by liking votes created by others, influencing the overall popularity of a song.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Secure Sign-In: Utilizing Keycloak, the app ensures secure user authentication for a personalized experience.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Vote Management: Users have the ability to delete their votes, particularly those with less than two likes, to prevent fraudulent activities and maintain the integrity of the voting system.
 
-## Learn More
+30s Song Previews: Thanks to the use of Spotify API and its' song preview feature, you can listen votes without a spotify account
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Vote Report: If a user considers that a vote does not align with the event or violates guidelines, there's an option to formally report it for review -> info@nicodenetworks.com
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+### Dev Status
+currently in early development
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+### Roadmap
+ <b>Migrate to Next.JS:</b>
+1. [ ] Set up example voting
+2. [ ] Set up DB Structure
+3. [ ] From REST to tRPC
+4. [ ] Move to Tailwind
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+<b>Next Steps:</b>
+1. [ ] Set up Auth with Clerk
+2. [ ] Protected Routes
+3. [ ] Voting Management
+4. [ ] Home Page
