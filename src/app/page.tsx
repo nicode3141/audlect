@@ -23,9 +23,9 @@ export default async function Home() {
                 <br></br>into one playlist for everyone. </div>
            </div>
            <div className="Buttons flex gap-10 align-self self-start">
-              <div className={`ExampleBtn`}><a href="/example" className={` bg-primaryGreen px-5 py-3 rounded-[10px] text-white hover:text-black ${inter.className} 
+              <div className={`ExampleBtn`}><a href="/voting" className={` bg-indigo-400 px-5 py-3 rounded-[10px] text-white hover:text-black ${inter.className} 
                                                                             text-xl font-bold curser-pointer transition-all duration-200 ease-in-out`}>View Example</a></div>
-              <div className={`PricingBtn`}><a href="/pricing" className={` bg-gray-400 px-10 py-3 rounded-[10px] text-black hover:text-white ${inter.className}
+              <div className={`PricingBtn`}><a href="/pricing" className={` bg-gray-300 px-10 py-3 rounded-[10px] text-black hover:text-white ${inter.className}
                                                                              text-xl font-bold curser-pointer transition-all duration-200 ease-in-out`}>Pricing</a></div>
 
           </div>
