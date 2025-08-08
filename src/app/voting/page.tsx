@@ -1,7 +1,10 @@
+import { VotingDetails } from '@/components/Header/VotingDetails';
+
+
 export default function Voting(){
     return(
         <>
-        Hello World!
+            <VotingDetails></VotingDetails>
         </>
     )
 }

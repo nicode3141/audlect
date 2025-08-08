@@ -1,27 +1,14 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
-
 import { sql } from "drizzle-orm";
-import { index, pgTableCreator } from "drizzle-orm/pg-core";
+import { boolean, index, pgTable, pgTableCreator, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
-export const createTable = pgTableCreator((name) => `audlect_${name}`);
+export const votingsTable = pgTable("votings", {
+  voting_id: uuid("voting_id").primaryKey().defaultRandom(),
+  name: varchar("name", {length: 255}).notNull(), 
+  description: text("description").notNull(),
+  external_url: varchar("external_url", {length: 255}),
+  created_by: uuid("created_by"),
+  public: boolean("public").notNull(),
+  active: boolean("active").notNull(),
+  created_at: timestamp("created_at", {withTimezone: true}).defaultNow()
+});
 
-export const posts = createTable(
-  "post",
-  (d) => ({
-    id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
-    name: d.varchar({ length: 256 }),
-    createdAt: d
-      .timestamp({ withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
-  }),
-  (t) => [index("name_idx").on(t.name)],
-);

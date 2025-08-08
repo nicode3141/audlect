@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { posts } from "~/server/db/schema";
+import { votingsTable } from "~/server/db/schema";
 
 export const postRouter = createTRPCRouter({
   hello: publicProcedure
@@ -21,8 +21,8 @@ export const postRouter = createTRPCRouter({
     }),
 
   getLatest: publicProcedure.query(async ({ ctx }) => {
-    const post = await ctx.db.query.posts.findFirst({
-      orderBy: (posts, { desc }) => [desc(posts.createdAt)],
+    const post = await ctx.db.query.votingsTable.findFirst({
+      orderBy: (posts, { desc }) => [desc(votingsTable.createdAt)],
     });
 
     return post ?? null;
