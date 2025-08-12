@@ -19,14 +19,14 @@ export default async function Home() {
             <div className="TextHeader">
                 <div className={`self-stretch justify-start ${inter.className} text-5xl font-bold`}><span className={`text-indigo-400  font-extrabold`}>Vote Music</span> with your Friends, <br></br>
                     Guests and Artists</div>
-                <div className={`text-neutral-500 text-3xl font-medium${montserrat.className}`}><b>audlect</b>  is an easy way for you to simply vote music
+                <div className={`text-neutral-500 text-3xl font-medium ${montserrat.className}`}><b>audlect</b>  is an easy way for you to simply vote music
                 <br></br>into one playlist for everyone. </div>
            </div>
            <div className="Buttons flex gap-10 align-self self-start">
-              <div className={`ExampleBtn`}><a href="/voting" className={` bg-indigo-400 px-5 py-3 rounded-[10px] text-white hover:text-black ${inter.className} 
-                                                                            text-xl font-bold curser-pointer transition-all duration-200 ease-in-out`}>View Example</a></div>
-              <div className={`PricingBtn`}><a href="/pricing" className={` bg-gray-300 px-10 py-3 rounded-[10px] text-black hover:text-white ${inter.className}
-                                                                             text-xl font-bold curser-pointer transition-all duration-200 ease-in-out`}>Pricing</a></div>
+              <div className={`ExampleBtn`}><Link href="/voting" className={` bg-indigo-400 px-5 py-3 rounded-[10px] text-white hover:text-black ${inter.className} 
+                                                                            text-xl font-bold cursor-pointer transition-all duration-200 ease-in-out`}>View Example</Link></div>
+              <div className={`PricingBtn`}><Link href="/pricing" className={` bg-gray-300 px-10 py-3 rounded-[10px] text-black hover:text-white ${inter.className}
+                                                                             text-xl font-bold cursor-pointer transition-all duration-200 ease-in-out`}>Pricing</Link></div>
 
           </div>
         </div>
