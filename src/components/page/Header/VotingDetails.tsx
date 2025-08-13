@@ -20,9 +20,8 @@ export function VotingDetails(){
 
     return(
         <div className={`VotingDetails ${inter.className}`}>
-            <div className={`heading1 text-center mt-24 font-bold text-6xl text-gray-500`}>{isLoading ? "Loading..." : data?.name}</div>
-            <div className={`heading2small text-center font-medium text-3xl text-gray-400 text-shadow-2xs`}>{isLoading ? "Loading..." : data?.description}</div>
-            <div className={`DatabaseContent`}>{data?.created_at?.toDateString()}</div>
+            <div className={`heading1 text-center mt-24 font-bold text-6xl text-gray-500 font-inter`}>{isLoading ? "Loading..." : data?.name}</div>
+            <div className={`heading2small text-center font-medium text-3xl text-gray-400 text-shadow-2xs font-inter`}>{isLoading ? "Loading..." : data?.description}</div>
         </div>
     )
 }

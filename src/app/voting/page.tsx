@@ -1,4 +1,4 @@
-import { VotingDetails } from '@/components/Header/VotingDetails';
+import { VotingDetails } from '~/components/page/Header/VotingDetails';
 
 
 export default function Voting(){

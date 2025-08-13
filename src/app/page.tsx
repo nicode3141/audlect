@@ -1,15 +1,4 @@
-import Link from "next/link";
-
-import {Inter, Montserrat} from "next/font/google";
-
-const inter = Inter({
-  subsets: ['latin'],
-});
-
-const montserrat = Montserrat({
-  subsets: ['latin'],
-})
-
+import HomeButton from "~/components/ui/HomeButton"
 export default async function Home() {
 
   return (
@@ -17,17 +6,14 @@ export default async function Home() {
       <div className={`flex items-center justify-center h-screen text-left flex-col gap-10`}>
         <div className={`flex flex-col gap-10`}>
             <div className="TextHeader">
-                <div className={`self-stretch justify-start ${inter.className} text-5xl font-bold`}><span className={`text-indigo-400  font-extrabold`}>Vote Music</span> with your Friends, <br></br>
+                <div className={`self-stretch justify-start  text-5xl font-bold font-inter`}><span className={`text-indigo-400  font-extrabold`}>Vote Music</span> with your Friends, <br></br>
                     Guests and Artists</div>
-                <div className={`text-neutral-500 text-3xl font-medium ${montserrat.className}`}><b>audlect</b>  is an easy way for you to simply vote music
+                <div className={`text-neutral-500 text-3xl font-medium font-montserrat`}><b>audlect</b>  is an easy way for you to simply vote music
                 <br></br>into one playlist for everyone. </div>
            </div>
            <div className="Buttons flex gap-10 align-self self-start">
-              <div className={`ExampleBtn`}><Link href="/voting" className={` bg-indigo-400 px-5 py-3 rounded-[10px] text-white hover:text-black ${inter.className} 
-                                                                            text-xl font-bold cursor-pointer transition-all duration-200 ease-in-out`}>View Example</Link></div>
-              <div className={`PricingBtn`}><Link href="/pricing" className={` bg-gray-300 px-10 py-3 rounded-[10px] text-black hover:text-white ${inter.className}
-                                                                             text-xl font-bold cursor-pointer transition-all duration-200 ease-in-out`}>Pricing</Link></div>
-
+              <HomeButton variant="primary" href="/voting">View Example</HomeButton>
+              <HomeButton variant="secondary" href="/pricing">Pricing</HomeButton>
           </div>
         </div>
       </div>

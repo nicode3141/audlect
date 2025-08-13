@@ -1,5 +1,5 @@
 export default function Loading(){
     return(
-        <>Loading...</>
+        <div className={`text-center font-inter text-2xl`}>Loading</div>
     )
 }

@@ -1,27 +1,8 @@
 import "~/styles/globals.css";
-
+import { interFont, montserratFont } from "~/app/styles/fonts/font";
 import { type Metadata } from "next";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs'
-import { Geist, Geist_Mono  } from "next/font/google";
-
 import { TRPCReactProvider } from "~/trpc/react";
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
 
 export const metadata: Metadata = {
   title: 'Audlect Song Voting',
@@ -35,7 +16,7 @@ export default function RootLayout({
 
         <TRPCReactProvider>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <body className={`${interFont.variable} ${montserratFont.variable} antialiased`}>
           {children}
         </body>
       </html>
