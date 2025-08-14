@@ -29,6 +29,7 @@
     "class-variance-authority": "^0.7.1",
     "drizzle-orm": "^0.41.0",
     "framer-motion": "^12.23.12",
+    "jest": "^30.0.5",
     "next": "^15.2.3",
     "postgres": "^3.4.4",
     "react": "^19.0.0",

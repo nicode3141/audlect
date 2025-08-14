@@ -4,7 +4,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { votingsTable } from "~/server/db/schema";
 
-export const votingRouter = createTRPCRouter({
+export const songsRouter = createTRPCRouter({
 
     /**
      * POST song to voting (AUTH)

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { votingsTable } from "~/server/db/schema";
 
-export const searchRouter = createTRPCRouter({
+export const likesRouter = createTRPCRouter({
     /**
      * @brief GET tracks by string AUTH
      * 
