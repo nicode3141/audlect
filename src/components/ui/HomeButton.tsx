@@ -27,6 +27,6 @@ const homeButtonVariants = cva(
 
 export default function HomeButton({variant, href, children} : HomeButtonProps) {
     return(
-        <div className={`ExampleBtn`}><Link href={href} className={cn(homeButtonVariants({ variant }))}>{children}</Link></div>
+        <div><Link href={href} className={cn(homeButtonVariants({ variant }))}>{children}</Link></div>
     );
 };
