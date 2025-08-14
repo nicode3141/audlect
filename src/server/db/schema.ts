@@ -17,7 +17,7 @@ export const songsTable = pgTable("songs", {
   voting_id: uuid("voting_id").notNull().references(() => votingsTable.voting_id),
   cover_image: varchar("cover_image", { length: 255 }),
   song_artists: text("song_artists"),
-  preview_url: varchar("preview_url", {length: 255}),
+  preview_url: text("preview_url"),
   added_by: varchar("added_by", {length: 255}).notNull(), //clerk
   created_at: timestamp("created_at", {withTimezone: true}).defaultNow()
 });

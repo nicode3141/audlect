@@ -3,13 +3,16 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { votingsTable } from "~/server/db/schema";
-import { searchTrack } from "~/server/utils/deezer";
+import { searchTrack, getTrack } from "~/server/utils/deezer";
 
 export const searchRouter = createTRPCRouter({
     /**
-     * GET votings by ID (UUID)
+     * @brief search tracks by string
      * 
-     * voting: voting_id, name, description, created_by, public, active, created_at
+     * @param search_string
+     * 
+     * @return items
+     * 
      */
     searchString: publicProcedure
         .input( z.object({
@@ -18,6 +21,26 @@ export const searchRouter = createTRPCRouter({
         .query(async ({ input }) => {
              //deezer API fetch metadata
             const items = await searchTrack(input.search_string, 10, 0);
+            
+            return items.data; 
+        }),
+
+
+     /**
+     * @brief retreives metadata for a given track
+     * 
+     * @param track_id string
+     * 
+     * @return items
+     * 
+     */
+    getTrack: publicProcedure
+        .input( z.object({
+            track_id: z.string()
+        }))
+        .query(async ({ input }) => {
+             //deezer API fetch metadata
+            const items = await getTrack(input.track_id);
             
             return items.data; 
         }),

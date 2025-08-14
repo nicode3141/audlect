@@ -2,7 +2,8 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { votingsTable } from "~/server/db/schema";
+import { songsTable, votingsTable } from "~/server/db/schema";
+import { getTrack } from "~/server/utils/deezer";
 
 export const songsRouter = createTRPCRouter({
 
@@ -12,11 +13,30 @@ export const songsRouter = createTRPCRouter({
      * fetches metadata from spotify
      * 
      * @param voting_id UUID
-     * @param isrc string
+     * @param id string
      * @param added_by string
      * 
      * @return track:
      */
+
+    addSongID: publicProcedure
+        .input( z.object({
+            voting_id: z.string().uuid(),
+            id: z.number(),
+            added_by: z.string()
+        }))
+        .mutation(async ({ ctx, input }) => {
+            //deezer API fetch metadata
+            const items = await getTrack(input.id.toString());
+            
+            console.log(items);
+
+            await ctx.db.insert(songsTable).values({ 
+                isrc: items.isrc, voting_id: input.voting_id, cover_image: items.album.cover,
+                 song_artists: items.artist.name, preview_url: items.preview, added_by: "user_30rMaqwUhLfRWxfKVWyyOIVITw1" });
+
+            return;
+        }),
 
 
     /**

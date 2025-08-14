@@ -6,15 +6,32 @@ import { api } from "~/trpc/react"; // adjust import path to your tRPC hook
 export default function SearchBar() {
   const [query, setQuery] = useState("Imagine Dragons");
   const [searchString, setSearchString] = useState("");
+  const [playingUrl, setPlayingUrl] = useState<string | null>(null);
 
   const search = api.search.searchString.useQuery(
     { search_string: searchString },
     { enabled: !!searchString } // prevents auto-run on mount
   );
+  
+  const postSong = api.songs.addSongID.useMutation();
 
   const handleSearch = () => {
     setSearchString(query);
   };
+
+  const addSong = (id:number) => {
+    postSong.mutate({ voting_id: "5b0c7148-90cc-4b8f-83a1-dea74841939d", id: id, added_by: "user_30rMaqwUhLfRWxfKVWyyOIVITw1" })
+  }
+
+  const handlePlay = (url: string) => {
+    if (playingUrl === url) {
+      // stop playback
+      setPlayingUrl(null);
+    } else {
+      setPlayingUrl(url);
+    }
+  };
+
 
   return (
     <div className="p-4 space-y-4">
@@ -38,18 +55,47 @@ export default function SearchBar() {
       {search.isFetching && <p>Loading...</p>}
       {search.isError && <p className="text-red-500">Error: {search.error.message}</p>}
 
-      {search.data ? (
-        <ul className="space-y-2">
-          {search.data.map((track: any) => (
-            <li key={track.id} className="border-b pb-1">
+      {Array.isArray(search.data) &&
+        search.data.map((track: any) => (
+          <div
+            key={track.id}
+            className="flex items-center gap-4 border-b py-2"
+          >
+            {track.album?.cover && (
+              <img
+                src={track.album.cover}
+                alt={track.album.title}
+                className="w-12 h-12 object-cover rounded"
+              />
+            )}
+            <div className="flex-1">
               <p className="font-semibold">{track.title}</p>
-              <p className="text-sm text-gray-600">
-                {track.artist?.name} — {track.album?.title}
-              </p>
-            </li>
-          ))}
-        </ul>
-      ): (<>No data</>)}
+              <p className="text-sm text-gray-600">{track.artist?.name}</p>
+            </div>
+            {track.preview && (
+              <button
+                onClick={() => handlePlay(track.preview)}
+                className="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300"
+              >
+                {playingUrl === track.preview ? "Pause" : "Play"}
+              </button>
+            )}
+            <button
+                onClick={() => addSong(track.id)}
+                className="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300"
+              >
+                Add
+              </button>
+          </div>
+        ))}
+
+      {/* Audio element */}
+      <audio
+        key={playingUrl} // re-mount when URL changes
+        src={playingUrl || undefined}
+        autoPlay
+        onEnded={() => setPlayingUrl(null)}
+      /> 
     </div>
   );
 }

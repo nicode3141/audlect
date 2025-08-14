@@ -18,10 +18,25 @@ export async function searchTrack(search_string:string, limit:number, offset:num
 
     const response = await fetch(`https://api.deezer.com/search?q=${search_string}&limit=${limit}&page=${offset}`, searchParams);
 
-    console.log(`https://api.deezer.com/search?q=${search_string}limit=${limit}page=${offset}`)
     return response.json();
 }
 
-export async function getTrack(){
-    
+/**
+ * @brief GET a track with metadata by its id
+ * 
+ * @param track_id string
+ * 
+ * @return item
+ */
+export async function getTrack(track_id:string){
+    var searchParams = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+
+    const response = await fetch(`https://api.deezer.com/track/${track_id}`, searchParams);
+
+    return response.json();
 }
