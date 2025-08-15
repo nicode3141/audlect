@@ -2,7 +2,6 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { votingsTable } from "~/server/db/schema";
 import { searchTrack, getTrack } from "~/server/utils/deezer";
 
 export const searchRouter = createTRPCRouter({

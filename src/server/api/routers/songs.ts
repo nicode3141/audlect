@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure, protecedProcedure } from "~/server/api/trpc";
 import { songsTable, votingsTable } from "~/server/db/schema";
 import { getTrack } from "~/server/utils/deezer";
 
@@ -19,7 +19,7 @@ export const songsRouter = createTRPCRouter({
      * @return track:
      */
 
-    addSongID: publicProcedure
+    addSongID: protecedProcedure
         .input( z.object({
             voting_id: z.string().uuid(),
             id: z.number(),
@@ -33,7 +33,7 @@ export const songsRouter = createTRPCRouter({
 
             await ctx.db.insert(songsTable).values({ 
                 isrc: items.isrc, voting_id: input.voting_id, cover_image: items.album.cover,
-                 song_artists: items.artist.name, preview_url: items.preview, added_by: "user_30rMaqwUhLfRWxfKVWyyOIVITw1" });
+                 song_artists: items.artist.name, preview_url: items.preview, added_by: ctx.auth.userId});
 
             return;
         }),
