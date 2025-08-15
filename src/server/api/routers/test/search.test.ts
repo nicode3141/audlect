@@ -1,5 +1,5 @@
 import { test, expect } from "@jest/globals"
-import { getTrack, searchTrack } from "../../src/server/utils/deezer";
+import { getTrack, searchTrack } from "~/server/utils/deezer";
 
 
 test("search-test", async () => {

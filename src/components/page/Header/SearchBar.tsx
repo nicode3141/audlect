@@ -13,14 +13,18 @@ export default function SearchBar() {
     { enabled: !!searchString } // prevents auto-run on mount
   );
   
-  const postSong = api.songs.addSongID.useMutation();
+  const postSong = api.songs.addSongID.useMutation({ onError(error){}});
 
   const handleSearch = () => {
     setSearchString(query);
   };
 
   const addSong = (id:number) => {
-    postSong.mutate({ voting_id: "5b0c7148-90cc-4b8f-83a1-dea74841939d", id: id, added_by: "user_30rMaqwUhLfRWxfKVWyyOIVITw1" })
+    postSong.mutate({ voting_id: "5b0c7148-90cc-4b8f-83a1-dea74841939d", id: id })
+
+    if(postSong.error){
+      console.log("error!");
+    }
   }
 
   const handlePlay = (url: string) => {
@@ -54,6 +58,7 @@ export default function SearchBar() {
 
       {search.isFetching && <p>Loading...</p>}
       {search.isError && <p className="text-red-500">Error: {search.error.message}</p>}
+      {postSong.error && <p>Something went wrong! {postSong.error.message}</p>}
 
       {Array.isArray(search.data) &&
         search.data.map((track: any) => (

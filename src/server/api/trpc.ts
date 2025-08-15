@@ -9,6 +9,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
+import { CreateContextOptions } from "vm";
 import { ZodError } from "zod";
 
 import { db } from "~/server/db";
@@ -25,6 +26,20 @@ import { db } from "~/server/db";
  *
  * @see https://trpc.io/docs/server/context
  */
+
+/**
+ * TESTING CONTEXT
+ * 
+ */
+export const createInnerTRPCContext = async (opts: CreateContextOptions) => {
+  return {
+    auth: null,
+    db,
+    ...opts,
+  };
+};
+
+
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   return {
     auth: await auth(),

@@ -13,9 +13,12 @@ export const votingsTable = pgTable("votings", {
 });
 
 export const songsTable = pgTable("songs", {
-  isrc: varchar("isrc", { length: 12 }).primaryKey().unique(), //isrc from music api
+  song_id: uuid("song_id").primaryKey().defaultRandom(),
+  deezer_id: varchar("deezer_id").unique().notNull(),
+  isrc: varchar("isrc", { length: 12 }), //isrc from music api
   voting_id: uuid("voting_id").notNull().references(() => votingsTable.voting_id),
   cover_image: varchar("cover_image", { length: 255 }),
+  song_name: text("song_name"),
   song_artists: text("song_artists"),
   preview_url: text("preview_url"),
   added_by: varchar("added_by", {length: 255}).notNull(), //clerk
@@ -24,6 +27,6 @@ export const songsTable = pgTable("songs", {
 
 export const likesTable = pgTable("likes", {
   user_id: varchar("user_id", {length: 255}).notNull(), //clerk
-  isrc: varchar("isrc", {length: 12}).notNull().references(() => songsTable.isrc),
+  song_id: uuid("song_id").notNull().references(() => songsTable.song_id),
   voting_id: uuid("voting_id").notNull().references(() => votingsTable.voting_id)
 });
