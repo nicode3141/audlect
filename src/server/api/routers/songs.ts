@@ -1,9 +1,9 @@
 import { TRPCError } from "@trpc/server";
-import { eq, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, exists, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure, protecedProcedure } from "~/server/api/trpc";
-import { songsTable, votingsTable } from "~/server/db/schema";
+import { likesTable, songsTable, votingsTable } from "~/server/db/schema";
 import { getTrack } from "~/server/utils/deezer";
 
 export const songsRouter = createTRPCRouter({
@@ -67,41 +67,59 @@ export const songsRouter = createTRPCRouter({
             })
         )
         .query(async ({ ctx, input }) => {
-            //SELECT * FROM votings WHERE voting_id = 798327357943;
-
-            let sortQuery = ''
+            let sortQuery;
             switch(input.sort_method){
                 default:
-                sortQuery = 'ORDER BY likes_total DESC'
-                break
+                    sortQuery = desc(sql`likes_total`);
+                    break
                 case 'Least Likes':
-                sortQuery = 'ORDER BY likes_total ASC'
-                break
+                    sortQuery = asc(sql`likes_total`);
+                    break
                 case 'Date Added':
-                sortQuery = 'ORDER BY created_at DESC'
-                break
+                    sortQuery = asc(songsTable.created_at);
+                    break
                 case 'A-Z':
-                sortQuery = 'ORDER BY songName ASC'
-                break
+                    sortQuery = asc(songsTable.song_name);
+                    break
             }
 
             try{
 
-                let songsQuery = `SELECT *, (SELECT COUNT(*) FROM Likes WHERE song_uid = Songs.song_uid)
-                AS likes_total FROM Songs ${sortQuery} LIMIT ${input.limit} OFFSET ${input.offset}`
+                /**
+                 * SQL: 
+                 * let songsQuery = `SELECT *, (SELECT COUNT(*) FROM Likes WHERE song_uid = Songs.song_uid)
+                 *      AS likes_total FROM Songs ${sortQuery} LIMIT ${input.limit} OFFSET ${input.offset}`
+                 */
 
-                if(ctx.auth.userId){
-                songsQuery = `SELECT *, (SELECT COUNT(*) FROM Likes WHERE song_uid = Songs.song_uid) AS likes_total,
-                    EXISTS(SELECT 1 FROM Likes WHERE song_uid = Songs.song_uid AND user_id = ${ctx.auth.userId}) AS liked
-                    FROM Songs ${sortQuery} LIMIT ${input.limit} OFFSET ${input.offset}`
-                }
+                let query = ctx.db
+                    .select({
+                        song_id: songsTable.song_id,
+                        song_name: songsTable.song_name,
+                        created_at: songsTable.created_at,
+                        likes_total: count(likesTable.song_id).as("likes_total"),
+                        liked: ctx.auth?.userId ? exists(
+                            ctx.db.select({ one: sql`1`})
+                                .from(likesTable)
+                                .where(and(
+                                    eq(likesTable.song_id, songsTable.song_id),
+                                    eq(likesTable.user_id,ctx.auth?.userId)
+                                ))).as("liked") : sql`false`.as("liked"),
+                    })
+                    .from(songsTable)
+                    .leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
+                    .where(eq(songsTable.voting_id, input.voting_id))
+                    .groupBy(songsTable.song_id)
+                    .orderBy(sortQuery)
+                    .limit(input.limit)
+                    .offset(input.offset)
 
 
-                const [songQuery] = await ctx.db.execute(sql+songsQuery);
-                console.log(songQuery);
+                const songQuery = await query;
+
+                return songQuery;
 
             } catch(err){
-                
+                console.log(err)
             }  
 
             
