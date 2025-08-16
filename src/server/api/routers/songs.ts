@@ -1,51 +1,11 @@
 import { TRPCError } from "@trpc/server";
-import { and, asc, count, desc, eq, exists, sql } from "drizzle-orm";
+import { and, asc, count, desc, DrizzleError, eq, exists, sql } from "drizzle-orm";
 import { z } from "zod";
-
 import { createTRPCRouter, publicProcedure, protecedProcedure } from "~/server/api/trpc";
-import { likesTable, songsTable, votingsTable } from "~/server/db/schema";
+import { likesTable, songsTable } from "~/server/db/schema";
 import { getTrack } from "~/server/utils/deezer";
 
 export const songsRouter = createTRPCRouter({
-
-    /**
-     * POST song to voting (AUTH)
-     * 
-     * fetches metadata from spotify
-     * 
-     * @param voting_id UUID
-     * @param id string
-     * @param added_by string
-     * 
-     * @return track:
-     */
-
-    addSongID: protecedProcedure
-        .input( z.object({
-            voting_id: z.string().uuid(),
-            id: z.number()
-        }))
-        .mutation(async ({ ctx, input }) => {
-            //deezer API fetch metadata
-            const item = await getTrack(input.id.toString());
-
-            const [existingSong] = await ctx.db.select().from(songsTable).where(eq(songsTable.deezer_id, item.id));
-            
-            if(existingSong){
-                console.log("Song already added");
-                throw new TRPCError({
-                    code: 'BAD_REQUEST',
-                    message: 'Song already added'
-                })
-            }
-
-            await ctx.db.insert(songsTable).values({ 
-                deezer_id: item.id, isrc: item.isrc, voting_id: input.voting_id, cover_image: item.album.cover,
-                song_name: item.title, song_artists: item.artist.name, preview_url: item.preview, added_by: ctx.auth.userId});
-
-            return;
-        }),
-
 
     /**
      * GET all songs
@@ -82,7 +42,6 @@ export const songsRouter = createTRPCRouter({
                     sortQuery = asc(songsTable.song_name);
                     break
             }
-
             try{
 
                 /**
@@ -94,7 +53,14 @@ export const songsRouter = createTRPCRouter({
                 let query = ctx.db
                     .select({
                         song_id: songsTable.song_id,
+                        deezer_id: songsTable.deezer_id,
+                        isrc: songsTable.isrc,
+                        voting_id: songsTable.voting_id,
                         song_name: songsTable.song_name,
+                        song_artists: songsTable.song_artists,
+                        cover_image: songsTable.cover_image,
+                        preview_url: songsTable.preview_url,
+                        added_by: songsTable.added_by,
                         created_at: songsTable.created_at,
                         likes_total: count(likesTable.song_id).as("likes_total"),
                         liked: ctx.auth?.userId ? exists(
@@ -113,25 +79,151 @@ export const songsRouter = createTRPCRouter({
                     .limit(input.limit)
                     .offset(input.offset)
 
-
                 const songQuery = await query;
-
                 return songQuery;
 
-            } catch(err){
-                console.log(err)
-            }  
+            } catch(err: unknown){
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: (err instanceof Error) ? err.message : "couldn't fetch songs" 
+                });
+            }
+        }),
 
-            
-
-        })
-    
     /**
-     * GET song by isrc
+     * GET total entries
      * 
-     * @param isrc string
-     * @param voting_id UUID
-     * 
-     * song: 
+     * @return count: rows
      */
+
+    entriesTotal: publicProcedure
+        .query(async ({ ctx }) => {
+            try{
+                const [rows] = await ctx.db.select({ count: count().as("count") }).from(songsTable);
+                return rows;
+            } catch(err){
+                if(err instanceof Error){
+                    throw new TRPCError({
+                        code: 'INTERNAL_SERVER_ERROR',
+                        message: err.message
+                    });
+                }
+                throw new TRPCError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Something went wrong'
+                })
+            }
+        }),
+
+    /**
+     * POST song to voting (AUTH)
+     * 
+     * fetches metadata from spotify
+     * 
+     * @param voting_id UUID
+     * @param id string
+     * @param added_by string
+     * 
+     * @return track:
+     */
+
+    addSongID: protecedProcedure
+        .input( z.object({
+            voting_id: z.string().uuid(),
+            id: z.number()
+        }))
+        .mutation(async ({ ctx, input }) => {
+            try{
+                //deezer API fetch metadata
+                const item = await getTrack(input.id.toString());
+
+                if(!item || !item.id){
+                    console.log("Invalid deezer id");
+                    throw new TRPCError({
+                        code: 'BAD_REQUEST',
+                        message: 'Invalid deezer id'
+                    })
+                }
+
+                try{
+                    const [result] = await ctx.db
+                        .insert(songsTable)
+                        .values({ 
+                            deezer_id: item.id, isrc: item.isrc, voting_id: input.voting_id, cover_image: item.album.cover,
+                            song_name: item.title, song_artists: item.artist.name, preview_url: item.preview, added_by: ctx.auth.userId
+                        })
+                        .returning();
+
+                    return result;
+                } catch(err){
+                    if(err instanceof Error && err.message.includes('duplicate key')){
+                        throw new TRPCError({
+                            code: 'CONFLICT',
+                            message: 'Song already added'
+                        })
+                    }
+
+                        if(err instanceof Error){
+                            throw new TRPCError({
+                                code: 'INTERNAL_SERVER_ERROR',
+                                message: err.message
+                            });
+                        }
+                }
+                
+            }catch(err){
+                if (err instanceof TRPCError) throw err;
+
+                if(err instanceof Error){
+                    throw new TRPCError({
+                        code: 'INTERNAL_SERVER_ERROR',
+                        message: err.message
+                    });
+                }
+
+                throw new TRPCError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Failed to add song'
+                });
+            }
+        }),
+
+    /**
+     * DELETE song to voting (AUTH)
+     * 
+     * @param song_id uuid
+     * 
+     * @return track:
+     */
+
+    deleteSong: protecedProcedure
+        .input(z.object({
+            song_id: z.string().uuid()
+        }))
+        .mutation(async ({ctx, input }) => {
+            try{
+                const [result] = await ctx.db.delete(songsTable).where(
+                    and(
+                        eq(songsTable.song_id, input.song_id),
+                        eq(songsTable.added_by,ctx.auth.userId)
+                    ))
+                    .returning({ song_id: songsTable.song_id });
+
+                return result;
+            } catch(err){
+                if(err instanceof Error){
+                    throw new TRPCError({
+                        code: 'BAD_GATEWAY',
+                        message: err.message
+                    })
+                }
+
+                throw new TRPCError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Failed to delete song'
+                })
+            }
+            
+        })
+
 });
