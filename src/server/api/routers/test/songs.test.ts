@@ -2,6 +2,7 @@ import { test, expect } from "@jest/globals";
 import { appRouter } from "~/server/api/root";
 import { createContextInner } from "../test/context";
 import { createAuthContextInner } from "./authContext";
+import { TRPCError } from "@trpc/server";
 
 const testVotingId = "b4f9b324-59df-4af1-8ea1-8f0229240fc4";
 const audlectVotingId = "5b0c7148-90cc-4b8f-83a1-dea74841939d"
@@ -111,7 +112,7 @@ describe("errors while adding songs", () => {
 
     const result = await caller.songs.deleteSong({voting_id: testVotingId, song_id: addedSong2?.song_id});
     expect(result).toBeDefined();
-  })
+  });
 
   test("remove song", async () => {
     const caller = await getCaller();
@@ -120,5 +121,24 @@ describe("errors while adding songs", () => {
 
     const result = await caller.songs.deleteSong({voting_id: audlectVotingId, song_id: addedSong1?.song_id});
     expect(result).toBeDefined();
+  });
+});
+
+describe("add - delete", () => {
+  let addedSong : SongInfo | undefined;
+
+  afterEach(async () => { 
+    const caller = await getCaller(); 
+    if(addedSong === undefined) throw new Error(); 
+    await caller.songs.deleteSong({voting_id: testVotingId, song_id: addedSong?.song_id});
   })
+
+  test("two same songs same voting", async () => {
+    const caller = await getCaller();
+    const result = await caller.songs.addSongID({voting_id: testVotingId, id: 2127304097});
+
+    addedSong = result;
+
+    await expect(caller.songs.addSongID({voting_id: testVotingId, id: 2127304097})).rejects.toThrow(TRPCError);
+  });
 })
