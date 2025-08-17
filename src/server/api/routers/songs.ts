@@ -151,6 +151,7 @@ export const songsRouter = createTRPCRouter({
                 }
 
                 try{
+                    //BUG: same song but different voting_id gets rejected
                     const [result] = await ctx.db
                         .insert(songsTable)
                         .values({ 
@@ -164,7 +165,7 @@ export const songsRouter = createTRPCRouter({
                     if(err instanceof Error && err.message.includes('duplicate key')){
                         throw new TRPCError({
                             code: 'CONFLICT',
-                            message: 'Song already added'
+                            message: 'Song already added, ' + err.message
                         })
                     }
 

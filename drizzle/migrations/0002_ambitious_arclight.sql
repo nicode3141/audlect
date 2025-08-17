@@ -1,0 +1,1 @@
+ALTER TABLE "songs" DROP CONSTRAINT "songs_deezer_id_voting_id_unique";

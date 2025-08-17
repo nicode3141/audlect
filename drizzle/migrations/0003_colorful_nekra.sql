@@ -1,0 +1,1 @@
+ALTER TABLE "songs" ADD CONSTRAINT "deezer_id_voting_id_unique" UNIQUE("deezer_id","voting_id");
