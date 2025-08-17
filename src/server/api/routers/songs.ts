@@ -155,7 +155,7 @@ export const songsRouter = createTRPCRouter({
                         .insert(songsTable)
                         .values({ 
                             deezer_id: item.id, isrc: item.isrc, voting_id: input.voting_id, cover_image: item.album.cover,
-                            song_name: item.title, song_artists: item.artist.name, preview_url: item.preview, added_by: ctx.auth.userId
+                            song_name: item.title, song_artists: item.artist.name, preview_url: null, added_by: ctx.auth.userId
                         })
                         .returning();
 
