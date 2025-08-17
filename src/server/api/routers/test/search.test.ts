@@ -1,6 +1,22 @@
 import { test, expect } from "@jest/globals"
 import { getTrack, searchTrack } from "~/server/utils/deezer";
+import { createAuthContextInner } from "./authContext";
+import { appRouter } from "~/server/api/root";
 
+
+
+async function getCaller(){
+  const context = await createAuthContextInner({});
+  return appRouter.createCaller(context);;
+}
+
+
+jest.mock("@clerk/nextjs/server", () => ({
+  auth: jest.fn(() => ({
+    userId: "test-user-id",
+    sessionId: "test-session-id",
+  })),
+}));
 
 test("search-test", async () => {
     const searchOutput = await searchTrack("Waterfalls", 10, 0);
@@ -17,3 +33,9 @@ test("track-test Metadata", async () => {
 
     expect(searchOutput.artist.name).toBe("James Hype");
 })
+
+test("search track", async () => {
+    const caller = await getCaller();
+    const result = await caller.search.searchString({ search_string: "Cool", limit: 10, offset: 0 });
+    expect(result).toBeDefined();
+});

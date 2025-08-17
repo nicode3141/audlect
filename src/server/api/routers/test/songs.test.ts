@@ -71,8 +71,6 @@ describe("song post and delete", () => {
 
     const result = await caller.songs.addSongID({voting_id: audlectVotingId, id: 71059074})
 
-    console.log(result);
-
     addedSong = result;
 
     expect(result?.deezer_id).toBe("71059074");

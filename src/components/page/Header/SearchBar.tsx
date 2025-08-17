@@ -9,7 +9,7 @@ export default function SearchBar() {
   const [playingUrl, setPlayingUrl] = useState<string | null>(null);
 
   const search = api.search.searchString.useQuery(
-    { search_string: searchString },
+    { search_string: searchString, limit: 10, offset: 0 },
     { enabled: !!searchString } // prevents auto-run on mount
   );
   
