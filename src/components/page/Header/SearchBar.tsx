@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { api } from "~/trpc/react"; // adjust import path to your tRPC hook
+import { useEffect, useState } from "react";
+import { api } from "~/trpc/react";
+
 
 export default function SearchBar() {
   const [query, setQuery] = useState("Imagine Dragons");
+  const debouncedQuery = useDebounce(query, 100);
   const [searchString, setSearchString] = useState("");
   const [playingUrl, setPlayingUrl] = useState<string | null>(null);
 
   const search = api.search.searchString.useQuery(
-    { search_string: searchString, limit: 10, offset: 0 },
-    { enabled: !!searchString } // prevents auto-run on mount
+    { search_string: debouncedQuery, limit: 10, offset: 0 },
+    { enabled: !!debouncedQuery } // prevents auto-run on mount
   );
   
   const postSong = api.songs.addSongID.useMutation({ onError(error){}});
@@ -18,6 +20,17 @@ export default function SearchBar() {
   const handleSearch = () => {
     setSearchString(query);
   };
+
+  function useDebounce<T>(value: T, delay: number): T {
+    const [debounced, setDebounced] = useState(value);
+
+    useEffect(() => {
+      const handler = setTimeout(() => setDebounced(value), delay);
+      return () => clearTimeout(handler);
+    }, [value, delay]);
+
+    return debounced;
+  }
 
   const addSong = (id:number) => {
     postSong.mutate({ voting_id: "5b0c7148-90cc-4b8f-83a1-dea74841939d", id: id })
@@ -38,7 +51,8 @@ export default function SearchBar() {
 
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="flex items-center justify-center my-10">
+    <div className="p-4 space-y-4 w-1/2">
       <h1 className="text-xl font-bold">Deezer Search Test</h1>
 
       <div className="flex gap-2">
@@ -101,6 +115,7 @@ export default function SearchBar() {
         autoPlay
         onEnded={() => setPlayingUrl(null)}
       /> 
+    </div>
     </div>
   );
 }
