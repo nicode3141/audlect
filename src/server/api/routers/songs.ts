@@ -93,13 +93,18 @@ export const songsRouter = createTRPCRouter({
     /**
      * GET total entries
      * 
+     * @param voting_id uuid
+     * 
      * @return count: rows
      */
 
     entriesTotal: publicProcedure
-        .query(async ({ ctx }) => {
+        .input(z.object({
+            voting_id: z.string().uuid()
+        }))
+        .query(async ({ ctx, input }) => {
             try{
-                const [rows] = await ctx.db.select({ count: count().as("count") }).from(songsTable);
+                const [rows] = await ctx.db.select({ count: count().as("count") }).from(songsTable).where(eq(songsTable.voting_id, input.voting_id));
                 return rows;
             } catch(err){
                 if(err instanceof Error){
@@ -191,6 +196,7 @@ export const songsRouter = createTRPCRouter({
     /**
      * DELETE song to voting (AUTH)
      * 
+     * @param voting_id uuid
      * @param song_id uuid
      * 
      * @return track:
@@ -198,6 +204,7 @@ export const songsRouter = createTRPCRouter({
 
     deleteSong: protecedProcedure
         .input(z.object({
+            voting_id: z.string().uuid(),
             song_id: z.string().uuid()
         }))
         .mutation(async ({ctx, input }) => {
@@ -205,9 +212,17 @@ export const songsRouter = createTRPCRouter({
                 const [result] = await ctx.db.delete(songsTable).where(
                     and(
                         eq(songsTable.song_id, input.song_id),
-                        eq(songsTable.added_by,ctx.auth.userId)
+                        eq(songsTable.added_by,ctx.auth.userId),
+                        eq(songsTable.voting_id,input.voting_id)
                     ))
                     .returning({ song_id: songsTable.song_id });
+
+                if(result === undefined){
+                    throw new TRPCError({
+                        code: 'INTERNAL_SERVER_ERROR',
+                        message: 'Failed to delete song'
+                    })
+                }
 
                 return result;
             } catch(err){
