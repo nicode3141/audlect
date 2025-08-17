@@ -107,12 +107,11 @@ export const songsRouter = createTRPCRouter({
                 const [rows] = await ctx.db.select({ count: count().as("count") }).from(songsTable).where(eq(songsTable.voting_id, input.voting_id));
                 return rows;
             } catch(err){
-                if(err instanceof Error){
-                    throw new TRPCError({
-                        code: 'INTERNAL_SERVER_ERROR',
-                        message: err.message
-                    });
-                }
+                if(err instanceof Error) throw new TRPCError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: err.message
+                });
+
                 throw new TRPCError({
                     code: 'INTERNAL_SERVER_ERROR',
                     message: 'Something went wrong'

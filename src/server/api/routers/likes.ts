@@ -1,39 +1,141 @@
-import { eq } from "drizzle-orm";
+import { TRPCError } from "@trpc/server";
+import { and, count, eq, exists, sql } from "drizzle-orm";
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { votingsTable } from "~/server/db/schema";
+import { createTRPCRouter, protecedProcedure } from "~/server/api/trpc";
+import { likesTable, songsTable } from "~/server/db/schema";
 
 export const likesRouter = createTRPCRouter({
     /**
-     * @brief GET tracks by string AUTH
+     * POST like (AUTH)
      * 
-     * @param search_string string
-     * @param limit number
-     * @param offset number
-     * 
-     * @return tracks
-     */
-    searchString: publicProcedure
-        .input( z.object({
-            search_string: z.string()
-        }))
-        .query(async ({ ctx, input }) => {
-            //spotify API fetch metadata
-        }),
-
-    /**
-     * @brief GET track metadata by isrc AUTH
-     * 
-     * @param isrc string
+     * @param song_id uuid
+     * @param voting_id uuid
      * 
      * @return track
      */
-    getTrack: publicProcedure
+    like: protecedProcedure
         .input( z.object({
-            search_string: z.string().min(12)
+            song_id: z.string().uuid(),
+            voting_id: z.string().uuid()
         }))
-        .query(async ({ ctx, input }) => {
-            //spotify API fetch metadata
-        })
+        .mutation(async ({ ctx, input }) => {
+            try{
+                const result = await ctx.db
+                    .insert(likesTable)
+                    .values({ 
+                        song_id: input.song_id,
+                        voting_id: input.voting_id, 
+                        user_id: ctx.auth.userId 
+                    })
+                    .onConflictDoNothing()
+                    .returning();
+
+                    if(result.length > 0){
+                        const [song] = await ctx.db
+                            .select({
+                                song_id: songsTable.song_id,
+                                likes_total: count(likesTable.song_id).as("likes_total"),
+                                liked: ctx.auth?.userId ? exists(
+                                    ctx.db.select({ one: sql`1`})
+                                        .from(likesTable)
+                                        .where(and(
+                                            eq(likesTable.song_id, songsTable.song_id),
+                                            eq(likesTable.user_id,ctx.auth?.userId)
+                                        ))).as("liked") : sql`false`.as("liked"),
+                            })
+                            .from(songsTable)
+                            .leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
+                            .where(and(
+                                eq(songsTable.voting_id, input.voting_id),
+                                eq(songsTable.song_id, input.song_id)
+                            ))
+                            .groupBy(songsTable.song_id)
+                            .limit(1)
+
+                            return song;
+                    } else{
+                        throw new TRPCError({
+                            code: 'BAD_GATEWAY',
+                            message: "Error whilst liking song"
+                        });
+                    }
+            } catch(err){
+                if(err instanceof Error) throw new TRPCError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: err.message
+                })
+
+                throw new TRPCError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: "Couldn't like song"
+                });
+           } 
+        }),
+
+        /**
+         * POST unlike (AUTH)
+         * 
+         * @param song_id uuid
+         * @param voting_id uuid
+         * 
+         * @return track
+         */
+        unlike: protecedProcedure
+            .input( z.object({
+                song_id: z.string().uuid(),
+                voting_id: z.string().uuid()
+            }))
+            .mutation(async ({ ctx, input }) => {
+                try{
+                    const result = await ctx.db
+                        .delete(likesTable)
+                        .where(and(
+                            eq(likesTable.song_id, input.song_id),
+                            eq(likesTable.user_id, ctx.auth.userId),
+                            eq(likesTable.voting_id, input.voting_id)
+                        ))
+                        .returning()
+                    
+                        if(result.length > 0){
+                            const [song] = await ctx.db
+                            .select({
+                                song_id: songsTable.song_id,
+                                likes_total: count(likesTable.song_id).as("likes_total"),
+                                liked: ctx.auth?.userId ? exists(
+                                    ctx.db.select({ one: sql`1`})
+                                        .from(likesTable)
+                                        .where(and(
+                                            eq(likesTable.song_id, songsTable.song_id),
+                                            eq(likesTable.user_id,ctx.auth?.userId)
+                                        ))).as("liked") : sql`false`.as("liked"),
+                            })
+                            .from(songsTable)
+                            .leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
+                            .where(and(
+                                eq(songsTable.voting_id, input.voting_id),
+                                eq(songsTable.song_id, input.song_id)
+                            ))
+                            .groupBy(songsTable.song_id)
+                            .limit(1)
+
+                            return song;
+                        } else{
+                            throw new TRPCError({
+                                code: 'BAD_GATEWAY',
+                                message: "Error whilst unliking song"
+                            })
+                        }
+                } catch(err){
+                    if(err instanceof Error) throw new TRPCError({
+                        code: 'INTERNAL_SERVER_ERROR',
+                        message: err.message
+                    })
+
+                    throw new TRPCError({
+                        code: 'INTERNAL_SERVER_ERROR',
+                        message: "Error whilst unliking song"
+                    })
+                }
+            }),
 });

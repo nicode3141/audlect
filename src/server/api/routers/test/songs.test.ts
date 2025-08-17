@@ -3,6 +3,7 @@ import { appRouter } from "~/server/api/root";
 import { createContextInner } from "../test/context";
 import { createAuthContextInner } from "./authContext";
 import { TRPCError } from "@trpc/server";
+import { log } from "console";
 
 const testVotingId = "b4f9b324-59df-4af1-8ea1-8f0229240fc4";
 const audlectVotingId = "5b0c7148-90cc-4b8f-83a1-dea74841939d"
@@ -20,6 +21,8 @@ test("getAll test", async () => {
   const caller = appRouter.createCaller(context);
 
   const result = await caller.songs.songs({ limit: 1000, offset: 0, sort_method: "likes_total", voting_id: audlectVotingId});
+
+  log(result);
 
   expect(result).not.toBeUndefined();
 });
