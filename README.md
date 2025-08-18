@@ -21,13 +21,17 @@ currently in early development
 
 ### Roadmap
  <b>Migrate to Next.JS:</b>
-1. [ ] Set up example voting
-2. [ ] Set up DB Structure
-3. [ ] From REST to tRPC
-4. [ ] Move to Tailwind
+1. [x] Set up example voting
+2. [x] Set up DB Structure
+3. [x] From REST to tRPC
+4. [x] Move to Tailwind
 
 <b>Next Steps:</b>
-1. [ ] Set up Auth with Clerk
-2. [ ] Protected Routes
+1. [x] Set up Auth with Clerk
+2. [x] Protected Routes
 3. [ ] Voting Management
 4. [ ] Home Page
+
+<b>Include:</b>
+1. [ ] Sentry for Monitoring
+2. [ ] Posthog for analytics
