@@ -3,9 +3,7 @@
 import { db } from "~/server/db";
 import { auth } from "@clerk/nextjs/server";
 
-interface CreateContextOptions {
-
-}
+type CreateContextOptions = object;
 
 export async function createAuthContextInner(_opts: CreateContextOptions){
     return { 

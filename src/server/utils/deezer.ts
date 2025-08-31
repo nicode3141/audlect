@@ -1,4 +1,4 @@
-import { DeezerSearchResult, DeezerTrack } from "../types/deezer";
+import type { DeezerSearchResult, DeezerTrack } from "../types/deezer";
 
 /**
  * @brief Search for songs on deezer API
@@ -10,7 +10,7 @@ import { DeezerSearchResult, DeezerTrack } from "../types/deezer";
  * @return items
  */
 export async function searchTrack(search_string:string, limit:number, offset:number): Promise<DeezerSearchResult | undefined>{
-    let searchParams = {
+    const searchParams = {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -19,8 +19,8 @@ export async function searchTrack(search_string:string, limit:number, offset:num
     try{
       const response = await fetch(`https://api.deezer.com/search?q=${search_string}&limit=${limit}&page=${offset}`, searchParams);
       if(response.ok){
-        const { data } = await response.json();
-        return data;
+        const json = await response.json() as DeezerSearchResult ;
+        return json;
       } else{
         throw new Error('Response error');
       }
@@ -37,7 +37,7 @@ export async function searchTrack(search_string:string, limit:number, offset:num
  * @return item
  */
 export async function getTrack(track_id:string): Promise<DeezerTrack | undefined>{
-    let searchParams = {
+    const searchParams = {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -47,9 +47,8 @@ export async function getTrack(track_id:string): Promise<DeezerTrack | undefined
       const response = await fetch(`https://api.deezer.com/track/${track_id}`, searchParams);
       
       if(response.ok){
-        const { data } = await response.json();
-
-        return data;
+        const json = await response.json() as DeezerTrack;
+        return json;
 
       } else{
         throw new Error('Response error');
