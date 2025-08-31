@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { DeezerTrack } from "~/server/types/deezer";
 import { api } from "~/trpc/react";
 
 
@@ -75,7 +76,7 @@ export default function SearchBar() {
       {postSong.error && <p>Something went wrong! {postSong.error.message}</p>}
 
       {Array.isArray(search.data) &&
-        search.data.map((track) => (
+        search.data.map((track: DeezerTrack) => (
           <div
             key={track.id}
             className="flex items-center gap-4 border-b py-2"

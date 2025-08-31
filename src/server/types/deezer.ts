@@ -13,14 +13,15 @@ export type DeezerAlbum = {
 }
 
 export type DeezerTrack = {
-    id: string,
+    id: number,
     isrc: string,
     link: string,
     title: string,
     title_short: string,
     artist: DeezerArtist,
     preview: string,
-    type: string
+    type: string,
+    album: DeezerAlbum
 }
 
 export type DeezerTrackResponse = {
@@ -28,5 +29,5 @@ export type DeezerTrackResponse = {
 }
 
 export type DeezerSearchResult = {
-    
+    data: DeezerTrack[] 
 }
