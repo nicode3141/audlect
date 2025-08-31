@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import { createTRPCRouter, protecedProcedure, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { searchTrack, getTrack } from "~/server/utils/deezer";
 
 export const searchRouter = createTRPCRouter({
@@ -15,7 +15,7 @@ export const searchRouter = createTRPCRouter({
      * @return items
      * 
      */
-    searchString: protecedProcedure
+    searchString: protectedProcedure
         .input( z.object({
             search_string: z.string(),
             limit: z.number(),
