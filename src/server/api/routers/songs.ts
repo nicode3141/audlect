@@ -3,6 +3,7 @@ import { and, asc, count, desc, DrizzleError, eq, exists, sql } from "drizzle-or
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
 import { likesTable, songsTable } from "~/server/db/schema";
+import { DeezerTrack } from "~/server/types/deezer";
 import { getTrack } from "~/server/utils/deezer";
 
 export const songsRouter = createTRPCRouter({
@@ -50,7 +51,7 @@ export const songsRouter = createTRPCRouter({
                  *      AS likes_total FROM Songs ${sortQuery} LIMIT ${input.limit} OFFSET ${input.offset}`
                  */
 
-                let query = ctx.db
+                const query = ctx.db
                     .select({
                         song_id: songsTable.song_id,
                         deezer_id: songsTable.deezer_id,
@@ -139,10 +140,10 @@ export const songsRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }) => {
             try{
                 //deezer API fetch metadata
-                const item = await getTrack(input.id.toString());
+                const item: DeezerTrack | undefined = await getTrack(input.id.toString());
 
-                if(!item || !item.id){
-                    console.log("Invalid deezer id");
+                if(item === undefined){
+                    console.warn("Invalid deezer id");
                     throw new TRPCError({
                         code: 'BAD_REQUEST',
                         message: 'Invalid deezer id'
@@ -154,7 +155,7 @@ export const songsRouter = createTRPCRouter({
                     const [result] = await ctx.db
                         .insert(songsTable)
                         .values({ 
-                            deezer_id: item.id, isrc: item.isrc, voting_id: input.voting_id, cover_image: item.album.cover,
+                            deezer_id: item.id.toString(), isrc: item.isrc, voting_id: input.voting_id, cover_image: item.album.cover,
                             song_name: item.title, song_artists: item.artist.name, preview_url: null, added_by: ctx.auth.userId
                         })
                         .returning();

@@ -3,14 +3,12 @@
 import { db } from "~/server/db";
 
 
-interface CreateContextOptions {
-
-}
+type CreateContextOptions = object;
 
 export async function createContextInner(_opts: CreateContextOptions){
-    return { 
+    return {
         headers: new Headers(),
-        auth: null as any,
+        auth: null,
         db: db
     };
 }

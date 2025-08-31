@@ -76,8 +76,8 @@ export default function SearchBar() {
       {search.isError && <p className="text-red-500">Error: {search.error.message}</p>}
       {postSong.error && <p>Something went wrong! {postSong.error.message}</p>}
 
-      {Array.isArray(search.data) &&
-        search.data.map((track: DeezerTrack) => (
+      {Array.isArray(search.data?.data) &&
+        search.data.data.map((track: DeezerTrack) => (
           <div
             key={track.id}
             className="flex items-center gap-4 border-b py-2"
@@ -86,6 +86,8 @@ export default function SearchBar() {
               <Image
                 src={track.album.cover}
                 alt={track.album.title}
+                width={12}
+                height={12}
                 className="w-12 h-12 object-cover rounded"
               />
             )}
