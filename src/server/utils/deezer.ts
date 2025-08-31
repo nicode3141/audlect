@@ -9,16 +9,23 @@
  * @return items
  */
 export async function searchTrack(search_string:string, limit:number, offset:number){
-    var searchParams = {
+    let searchParams = {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         }
       }
-
-    const response = await fetch(`https://api.deezer.com/search?q=${search_string}&limit=${limit}&page=${offset}`, searchParams);
-
-    return response.json();
+    try{
+      const response = await fetch(`https://api.deezer.com/search?q=${search_string}&limit=${limit}&page=${offset}`, searchParams);
+      if(response.ok){
+        const { data } = await response.json();
+        return data;
+      } else{
+        throw new Error('Response error');
+      }
+    } catch(err){
+      console.warn(err);
+    }
 }
 
 /**
@@ -29,14 +36,25 @@ export async function searchTrack(search_string:string, limit:number, offset:num
  * @return item
  */
 export async function getTrack(track_id:string){
-    var searchParams = {
+    let searchParams = {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         }
       }
+    try{
+      const response = await fetch(`https://api.deezer.com/track/${track_id}`, searchParams);
+      
+      if(response.ok){
+        const { data } = await response.json();
 
-    const response = await fetch(`https://api.deezer.com/track/${track_id}`, searchParams);
+        return data;
 
-    return response.json();
+      } else{
+        throw new Error('Response error');
+      }
+
+    } catch(err){
+      console.warn(err);
+    }
 }
