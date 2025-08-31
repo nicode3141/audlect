@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
-import { DeezerTrack } from "~/server/types/deezer";
+import type { DeezerTrack } from "~/server/types/deezer";
 import { api } from "~/trpc/react";
 
 
@@ -82,7 +83,7 @@ export default function SearchBar() {
             className="flex items-center gap-4 border-b py-2"
           >
             {track.album?.cover && (
-              <img
+              <Image
                 src={track.album.cover}
                 alt={track.album.title}
                 className="w-12 h-12 object-cover rounded"
@@ -112,7 +113,7 @@ export default function SearchBar() {
       {/* Audio element */}
       <audio
         key={playingUrl} // re-mount when URL changes
-        src={playingUrl || undefined}
+        src={playingUrl ?? undefined}
         autoPlay
         onEnded={() => setPlayingUrl(null)}
       /> 

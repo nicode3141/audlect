@@ -1,3 +1,4 @@
+import { DeezerSearchResult, DeezerTrack } from "../types/deezer";
 
 /**
  * @brief Search for songs on deezer API
@@ -8,7 +9,7 @@
  * 
  * @return items
  */
-export async function searchTrack(search_string:string, limit:number, offset:number){
+export async function searchTrack(search_string:string, limit:number, offset:number): Promise<DeezerSearchResult | undefined>{
     let searchParams = {
         method: 'GET',
         headers: {
@@ -35,7 +36,7 @@ export async function searchTrack(search_string:string, limit:number, offset:num
  * 
  * @return item
  */
-export async function getTrack(track_id:string){
+export async function getTrack(track_id:string): Promise<DeezerTrack | undefined>{
     let searchParams = {
         method: 'GET',
         headers: {
