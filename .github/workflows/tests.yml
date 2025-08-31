@@ -1,0 +1,30 @@
+name: run-tests
+
+on:
+    pull_request:
+    push:
+        branches: [main]
+
+jobs:
+    test-jest:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with: 
+                node-version: 22
+            - run: npm ci
+
+            - name: run jest test
+              run: |
+                mkdir -p test-results
+                npx jest --ci --reporters=default --json --outputFile=test-results/jest-test.json
+              continue-on-error: true
+
+            - name: upload test results
+              if: failure()
+              uses: actions/upload-artifact@v4
+              with:
+                name: jest-results
+                path: test-results/
+                retention-days: 30
