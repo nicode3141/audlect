@@ -19,10 +19,8 @@ jobs:
               run: |
                 mkdir -p test-results
                 npx jest --ci --reporters=default --json --outputFile=test-results/jest-test.json
-              continue-on-error: true
-
             - name: upload test results
-              if: failure()
+              if: always()
               uses: actions/upload-artifact@v4
               with:
                 name: jest-results
