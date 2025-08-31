@@ -15,7 +15,7 @@ export default function SearchBar() {
     { enabled: !!debouncedQuery } // prevents auto-run on mount
   );
   
-  const postSong = api.songs.addSongID.useMutation({ onError(error){}});
+  const postSong = api.songs.addSongID.useMutation({});
 
   const handleSearch = () => {
     setSearchString(query);
@@ -75,7 +75,7 @@ export default function SearchBar() {
       {postSong.error && <p>Something went wrong! {postSong.error.message}</p>}
 
       {Array.isArray(search.data) &&
-        search.data.map((track: any) => (
+        search.data.map((track) => (
           <div
             key={track.id}
             className="flex items-center gap-4 border-b py-2"
