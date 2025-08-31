@@ -15,6 +15,7 @@ export default {
   transformIgnorePatterns: ["node_modules\\(?!(superjson)\\)"],
   moduleNameMapper: {
         "~/(.*)": ["<rootDir>/src/$1"],
-    }
-
+  },
+  // Force Jest to exit after tests complete
+  forceExit: true
 };
