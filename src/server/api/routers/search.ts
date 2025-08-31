@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-import { DeezerTrack } from "~/server/types/deezer";
+import { DeezerSearchResult, DeezerTrack } from "~/server/types/deezer";
 import { searchTrack, getTrack } from "~/server/utils/deezer";
 
 export const searchRouter = createTRPCRouter({
@@ -24,7 +24,7 @@ export const searchRouter = createTRPCRouter({
         }))
         .query(async ({ input }) => {
              //deezer API fetch metadata
-            const items = await searchTrack(input.search_string, input.limit, input.offset);
+            const items: DeezerSearchResult = await searchTrack(input.search_string, input.limit, input.offset);
             return items; 
         }),
 
