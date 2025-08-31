@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { and, count, eq, exists, sql } from "drizzle-orm";
 import { z } from "zod";
 
-import { createTRPCRouter, protecedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { likesTable, songsTable } from "~/server/db/schema";
 
 export const likesRouter = createTRPCRouter({
@@ -14,7 +14,7 @@ export const likesRouter = createTRPCRouter({
      * 
      * @return track
      */
-    like: protecedProcedure
+    like: protectedProcedure
         .input( z.object({
             song_id: z.string().uuid(),
             voting_id: z.string().uuid()
@@ -81,7 +81,7 @@ export const likesRouter = createTRPCRouter({
          * 
          * @return track
          */
-        unlike: protecedProcedure
+        unlike: protectedProcedure
             .input( z.object({
                 song_id: z.string().uuid(),
                 voting_id: z.string().uuid()

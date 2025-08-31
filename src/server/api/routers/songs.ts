@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { and, asc, count, desc, DrizzleError, eq, exists, sql } from "drizzle-orm";
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure, protecedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
 import { likesTable, songsTable } from "~/server/db/schema";
 import { getTrack } from "~/server/utils/deezer";
 
@@ -131,7 +131,7 @@ export const songsRouter = createTRPCRouter({
      * @return track:
      */
 
-    addSongID: protecedProcedure
+    addSongID: protectedProcedure
         .input( z.object({
             voting_id: z.string().uuid(),
             id: z.number()
@@ -202,7 +202,7 @@ export const songsRouter = createTRPCRouter({
      * @return track:
      */
 
-    deleteSong: protecedProcedure
+    deleteSong: protectedProcedure
         .input(z.object({
             voting_id: z.string().uuid(),
             song_id: z.string().uuid()
