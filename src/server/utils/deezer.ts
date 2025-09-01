@@ -1,4 +1,4 @@
-import type { DeezerSearchResult, DeezerTrack } from "../types/deezer";
+import type { DeezerSearchResult, DeezerTrack } from "../../types/deezer";
 
 /**
  * @brief Search for songs on deezer API

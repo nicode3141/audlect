@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-import type { DeezerSearchResult, DeezerTrack } from "~/server/types/deezer";
+import type { DeezerSearchResult, DeezerTrack } from "~/types/deezer";
 import { searchTrack, getTrack } from "~/server/utils/deezer";
 
 export const searchRouter = createTRPCRouter({
