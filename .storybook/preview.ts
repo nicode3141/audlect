@@ -1,3 +1,4 @@
+import "~/styles/globals.css";
 import type { Preview } from "@storybook/nextjs-vite";
 
 const preview: Preview = {
@@ -8,6 +9,8 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+
+    layout: 'centered',
 
     a11y: {
       // 'todo' - show a11y violations in the test UI only
