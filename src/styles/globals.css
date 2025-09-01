@@ -7,3 +7,9 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --color-primaryGreen: #54B886;
 }
+
+.cl-avatarBox{
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius:  10px;
+}
