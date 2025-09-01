@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import HomeButton from "~/components/ui/buttons/HomeButton";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import HomeButton from "~/components/ui/HomeButton/HomeButton";
 
 const meta = {
   component: HomeButton,
