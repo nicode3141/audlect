@@ -1,4 +1,4 @@
-import HomeButton from "~/components/ui/buttons/HomeButton"
+import HomeButton from "~/components/ui/HomeButton/HomeButton"
 export default async function Home() {
 
   return (
