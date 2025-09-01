@@ -14,6 +14,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     placeholder: "Search by Song, Artist",
-    onSubmit: () => console.log("Search submitted")
+    onSubmit: (value) => console.log(value)
   },
 };
