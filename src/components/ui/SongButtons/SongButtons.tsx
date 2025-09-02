@@ -1,11 +1,17 @@
 import React from 'react'
 import { motion } from "motion/react"
-import { LikeIcon } from '~/components/icons/Song'
+import { LikeIcon, PlusIcon } from '~/components/icons/Song'
 
 interface LikeButtonProps {
     liked: boolean,
     handleLike: () => void,
     isLoadingLike: boolean
+}
+
+interface AddSongButtonProps {
+    added: boolean,
+    handleAdd: () => void,
+    isLoadingAdd: boolean
 }
 
 export function LikeButton({ liked, handleLike, isLoadingLike }: LikeButtonProps) {
@@ -23,5 +29,21 @@ export function LikeButton({ liked, handleLike, isLoadingLike }: LikeButtonProps
                     <LikeIcon liked={liked}></LikeIcon>
             </motion.button>
         
+    )
+}
+
+export function AddSongButton({ added, handleAdd, isLoadingAdd }: AddSongButtonProps) {
+    return (
+        <motion.button className='bg-gray-300 rounded-full p-3 cursor-pointer' 
+            initial={{ opacity: 0, scale: 0.5 }} 
+            animate={{ opacity: 1, scale: 1 }} 
+            transition={{  type: 'tween', duration: 0.45, bounce: 0.51 }} 
+            whileTap={{ scale: 2 }}
+            onClick={() => {
+                handleAdd()
+            }} 
+            disabled={isLoadingAdd}>
+                <PlusIcon added={added}></PlusIcon>
+        </motion.button>
     )
 }
