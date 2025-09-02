@@ -1,8 +1,6 @@
-import { VotingDetails } from '~/components/layout/VotingDetails/VotingDetails';
-import { ClerkProvider } from '@clerk/nextjs'
+import { ClerkProvider } from "@clerk/nextjs";
 import { type Metadata } from "next";
-import VotingHeader from '~/components/features/voting/VotingHeader/VotingHeader';
-
+import VotingLayout from "~/components/layout/VotingLayout/VotingLayout";
 
 export const metadata: Metadata = {
     title: 'Audlect Top Songs',
@@ -12,8 +10,7 @@ export const metadata: Metadata = {
 export default function Voting(){
     return(
         <ClerkProvider>
-            <VotingHeader votingTitle='TestTitle'/>
-            <VotingDetails/>
+            <VotingLayout/>
         </ClerkProvider>
     )
 }
