@@ -1,4 +1,3 @@
-
 "use client";
 
 import { SignedIn, SignedOut, SignInButton, useClerk, UserButton } from '@clerk/nextjs'
@@ -30,7 +29,7 @@ export default function VotingHeader({ votingTitle, onBackClick, onUserClick }: 
         </SignedIn>
         <SignedOut>
             <SignInButton>
-                <span className='font-montserrat text-lg text-[#242424] font-bold underline cursor-pointer'>Sign In</span>
+                <span className='font-montserrat text-lg text-[#242424] font-bold underline cursor-pointer select-none'>Sign In</span>
             </SignInButton>
         </SignedOut>
     </div>
