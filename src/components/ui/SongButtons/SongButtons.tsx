@@ -5,7 +5,7 @@ import { LikeIcon, PlusIcon } from '~/components/icons/Song'
 interface LikeButtonProps {
     liked: boolean,
     handleLike: () => void,
-    isLoadingLike: boolean
+    isLoadingLike?: boolean
 }
 
 interface AddSongButtonProps {

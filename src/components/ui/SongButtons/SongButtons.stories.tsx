@@ -6,7 +6,7 @@ const meta = {
   component: LikeButton,
   subcomponents: { AddSongButton },
   tags: ["autodocs"],
-    argTypes: {
+  argTypes: {
     liked: { control: 'boolean' },
     isLoadingLike: { control: 'boolean' },
     handleLike: { action: 'handleLike' },

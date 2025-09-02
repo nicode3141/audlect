@@ -12,11 +12,11 @@ interface PlusIconProps {
 
 export function LikeIcon({ liked }: LikeIconProps) {
   return liked ? (
-    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="29" viewBox="0 0 33 29" fill="none">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28.5" height="25" viewBox="0 0 33 29" fill="none">
       <path d="M2.4875 14.747L16.5 29L30.5125 14.747C33.8292 11.3734 33.8292 5.90378 30.5125 2.53019C27.1958 -0.843397 21.8185 -0.843397 18.5018 2.53019L16.5 4.56633L14.4982 2.53019C11.1815 -0.843396 5.80417 -0.843397 2.4875 2.53019C-0.829167 5.90378 -0.829167 11.3734 2.4875 14.747Z" fill="#D1345B"/>
     </svg>
   ) : (
-    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="29" viewBox="0 0 33 29" fill="none">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28.5" height="24" viewBox="0 0 33 29" fill="none">
         <path d="M19.5713 3.58203C22.3001 0.806351 26.7135 0.806426 29.4424 3.58203C32.1852 6.37196 32.1852 10.9054 29.4424 13.6953L16.5 26.8604L3.55762 13.6953C0.814756 10.9054 0.814756 6.37196 3.55762 3.58203C6.28651 0.806426 10.6999 0.806351 13.4287 3.58203L15.4307 5.61816L16.5 6.70605L17.5693 5.61816L19.5713 3.58203Z" stroke="#7F7F7F" stroke-width="3"/>
     </svg>
   );
