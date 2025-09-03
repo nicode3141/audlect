@@ -41,7 +41,7 @@ const draw: Variants = {
 export function PlusIcon({ added }: PlusIconProps) {
   return (
     <AnimatePresence mode="wait" initial={false}>
-      {added ? (
+      {!added ? (
         <motion.svg 
           key="plus"
           xmlns="http://www.w3.org/2000/svg" 
