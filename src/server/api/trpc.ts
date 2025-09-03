@@ -9,7 +9,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { CreateContextOptions } from "vm";
+import type { CreateContextOptions } from "vm";
 import { ZodError } from "zod";
 
 import { db } from "~/server/db";

@@ -1,4 +1,3 @@
-import { sql } from "drizzle-orm";
 import { boolean, index, pgTable, pgTableCreator, text, timestamp, unique, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const votingsTable = pgTable("votings", {

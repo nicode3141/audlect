@@ -18,7 +18,7 @@ export const Default: Story = {
   },
 };
 
-export const secondary: Story = {
+export const Secondary: Story = {
   args: {
     variant: "secondary",
     href: "/",

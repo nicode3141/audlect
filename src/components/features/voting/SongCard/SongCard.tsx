@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react'
 import { AddSongButton, LikeButton } from '~/components/ui/SongButtons/SongButtons';
 import MoreIcon from '~/components/icons/MoreIcon';
+import { nop } from '~/lib/utils';
 
 interface SongCardProps {
     metadata: {
@@ -59,15 +60,15 @@ export default function SongCard({
                 added ? (
                     <>
                         <div className='flex flex-col gap-1'>
-                            <LikeButton liked={liked ?? false} isLoadingLike={isLoadingLike ?? false} handleLike={onLike ?? (() => {})}></LikeButton>
+                            <LikeButton liked={liked ?? false} isLoadingLike={isLoadingLike ?? false} handleLike={onLike ?? nop}></LikeButton>
                             <div className='text-center text-sm text-gray-700 select-none'>{metadata.likes_total}</div>
                         </div>
-                        <button className='cursor-pointer' onClick={onMore ?? (() => {})}>
+                        <button className='cursor-pointer' onClick={onMore ?? nop}>
                             <MoreIcon/>
                         </button>
                     </>
                 ) : (
-                    <AddSongButton added={addedSearchResult ?? false} isLoadingAdd={isLoadingAdd ?? false} handleAdd={onAdd ?? (() => {})}></AddSongButton>
+                    <AddSongButton added={addedSearchResult ?? false} isLoadingAdd={isLoadingAdd ?? false} handleAdd={onAdd ?? nop}></AddSongButton>
                 )
             }
 

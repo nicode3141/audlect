@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { AddSongButton, LikeButton } from "./SongButtons";
 import { useArgs } from 'storybook/preview-api';
+import { fn } from 'storybook/test';
 
 const meta = {
   component: LikeButton,
@@ -17,20 +18,20 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-let mockLiked = false;
+const mockLiked = false;
 
 export const Like: Story = {
   args: {
     liked: mockLiked,
     isLoadingLike: false,
-    handleLike: () => {},
+    handleLike: fn(),
   },
   render: (args) => {
     const [storyArgs, updateArgs] = useArgs();
     return (
       <LikeButton
-        liked={storyArgs.liked}
-        isLoadingLike={storyArgs.isLoadingLike}
+        liked={storyArgs.liked as boolean}
+        isLoadingLike={storyArgs.isLoadingLike as boolean}
         handleLike={() => updateArgs({ liked: !storyArgs.liked })}
       />
     );
@@ -41,14 +42,14 @@ export const Add: Story = {
   args: {
     liked: mockLiked,
     isLoadingLike: false,
-    handleLike: () => {},
+    handleLike:  fn(),
   },
   render: (args) => {
     const [storyArgs, updateArgs] = useArgs();
     return (
       <AddSongButton
-        added={storyArgs.liked}
-        isLoadingAdd={storyArgs.isLoadingLike}
+        added={storyArgs.liked as boolean}
+        isLoadingAdd={storyArgs.isLoadingLike as boolean}
         handleAdd={() => updateArgs({ liked: !storyArgs.liked })}
       />
     );

@@ -1,5 +1,6 @@
 import React from 'react'
-import { AnimatePresence, motion, Variants } from "motion/react"
+import { AnimatePresence, motion } from "motion/react"
+import type { Variants } from "motion/react"
 
 
 interface LikeIconProps {
@@ -24,7 +25,7 @@ export function LikeIcon({ liked }: LikeIconProps) {
 
 const draw: Variants = {
     hidden: { pathLength: 0, opacity: 0 },
-    visible: (i: number) => {
+    visible: () => {
         return {
             pathLength: 1,
             opacity: 1,
