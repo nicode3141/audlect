@@ -18,6 +18,14 @@ const preview: Preview = {
       // 'off' - skip a11y checks entirely
       test: "todo",
     },
+    
+    themes: {
+      default: "Light",
+      list: [
+        { name: "Light", class: "light", color: "#ffffff" },
+        { name: "Dark", class: "dark", color: "#000000" },
+      ],
+    },
   },
 };
 

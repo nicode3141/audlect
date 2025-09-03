@@ -1,9 +1,9 @@
 import React from 'react'
 import { BackArrow, ForwardArrow } from '~/components/icons/Arrows'
-import PGNumber from './PGNumber'
 import { usePagination } from '~/hooks/usePagination'
 import { cva } from 'class-variance-authority'
 import { cn } from '~/lib/utils'
+import PGNumber from './PGNumber'
 
 type PaginationVariant = "default" | "search_result";
 
