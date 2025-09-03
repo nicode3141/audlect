@@ -2,14 +2,35 @@ import React from 'react'
 import { BackArrow, ForwardArrow } from '~/components/icons/Arrows'
 import PGNumber from './PGNumber'
 import { usePagination } from '~/hooks/usePagination'
+import { cva } from 'class-variance-authority'
+import { cn } from '~/lib/utils'
+
+type PaginationVariant = "default" | "search_result";
+
+const paginationVariants = cva(
+    `flex items-center justify-center gap-4 px-3 py-2 bg-[#54B88636] rounded-[2.5rem] select-none`, //base css
+    {
+        variants: {
+            variant: {
+                default: `bg-[#54B88636]`,
+                search_result: `bg-[#F0F0F0]`
+            }
+        },
+        defaultVariants: {
+            variant: `default`
+        }
+    }
+)
 
 interface PaginationProps {
+  variant: PaginationVariant,
   totalPages: number,
   currentPage: number,
   gotoPage: (page: number) => void
 }
 
 export default function Pagination({
+  variant,
   totalPages,
   currentPage,
   gotoPage
@@ -18,7 +39,7 @@ export default function Pagination({
   const centerPageElements = usePagination({totalPages, currentPage});
   console.log({centerPageElements});
   return (
-    <div className='flex items-center justify-center gap-4 px-3 py-2 bg-[#54B88636] rounded-[2.5rem] select-none'>
+    <div className={cn(paginationVariants({ variant }))}>
       <button className={`${currentPage === 1 ? 'invert-50': 'cursor-pointer'}`} 
               aria-label='back-button'
               onClick={() => currentPage > 1 && gotoPage(currentPage-1)}
