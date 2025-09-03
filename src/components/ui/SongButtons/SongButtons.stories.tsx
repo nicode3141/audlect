@@ -26,7 +26,7 @@ export const Like: Story = {
     isLoadingLike: false,
     handleLike: fn(),
   },
-  render: (args) => {
+  render: () => {
     const [storyArgs, updateArgs] = useArgs();
     return (
       <LikeButton
@@ -44,7 +44,7 @@ export const Add: Story = {
     isLoadingLike: false,
     handleLike:  fn(),
   },
-  render: (args) => {
+  render: () => {
     const [storyArgs, updateArgs] = useArgs();
     return (
       <AddSongButton

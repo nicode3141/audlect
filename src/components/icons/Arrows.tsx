@@ -38,3 +38,11 @@ export function ForwardArrow({ width = 11, height = 17 }: SizeProps) {
     </svg>
   )
 }
+
+export function DropdownIcon({ width = 9, height = 6 }){
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 9 6" fill="none">
+      <path d="M4.66773 5.74177C4.58887 5.86318 4.41113 5.86318 4.33227 5.74177L0.80355 0.308941C0.717128 0.175887 0.812617 0 0.971274 0L8.02873 0C8.18738 0 8.28287 0.175887 8.19645 0.308941L4.66773 5.74177Z" fill="#898989"/>
+    </svg>
+  )
+}
