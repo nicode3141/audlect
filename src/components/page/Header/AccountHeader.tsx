@@ -13,9 +13,9 @@ export default function AccountHeader(){
                 <div className="flex-1 text-center font-montserrat font-medium "></div>
                 <div className=" flex items-center p-4 gap-4 h-16 justify-end">
                     <SignInButton>
-                        <button className="bg-[#59308b] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-8 px-4 sm:px-5 cursor-pointer">Sign In</button></SignInButton>
+                        <button className="bg-[#59308b] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-8 px-4 sm:px-5 cursor-pointer" aria-label='sign-in'>Sign In</button></SignInButton>
                     <SignUpButton>
-                        <button className="bg-[#42b75b] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-8 px-4 sm:px-5 cursor-pointer">
+                        <button className="bg-[#42b75b] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-8 px-4 sm:px-5 cursor-pointer" aria-label='sign-up'>
                         Sign Up
                         </button>
                     </SignUpButton>

@@ -52,7 +52,7 @@ export default function SongCard({
                 />
             <div className='flex flex-col leading-tight min-w-0'>
                 <div className='font-montserrat text-[1.15rem] font-semibold truncate'>{metadata.song_name}</div>
-                <div className='font-montserrat text-sm text-gray-500 truncate'>{metadata.song_artists}</div>
+                <div className='font-montserrat text-sm text-gray-600 truncate'>{metadata.song_artists}</div>
             </div>
         </div>
         <div className='flex justify-between items-center p-2 gap-4'>
@@ -63,7 +63,7 @@ export default function SongCard({
                             <LikeButton liked={liked ?? false} isLoadingLike={isLoadingLike ?? false} handleLike={onLike ?? nop}></LikeButton>
                             <div className='text-center text-sm text-gray-700 select-none'>{metadata.likes_total}</div>
                         </div>
-                        <button className='cursor-pointer' onClick={onMore ?? nop}>
+                        <button className='cursor-pointer' aria-label='more-info' onClick={onMore ?? nop}>
                             <MoreIcon/>
                         </button>
                     </>

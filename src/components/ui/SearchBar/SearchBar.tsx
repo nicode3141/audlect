@@ -31,7 +31,7 @@ export default function SearchBar({ placeholder, onSubmit }: SearchBarProps) {
                 type="text" placeholder={placeholder} value={value}
                 onChange={(e) => setValue(e.target.value)} onKeyDown={handleSearchKeyDown}/>
                 {value && 
-                    <button className='cursor-pointer' onClick={() => handleSearchReset()}>
+                    <button className='cursor-pointer'aria-label='Close' onClick={() => handleSearchReset()}>
                         <CloseIcon/>
                     </button>
                 }

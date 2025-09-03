@@ -25,6 +25,7 @@ export function LikeButton({ liked, handleLike, isLoadingLike }: LikeButtonProps
                 onClick={() => {
                     handleLike()
                 }} 
+                aria-label='like-button'
                 disabled={isLoadingLike}>
                     <LikeIcon liked={liked}></LikeIcon>
             </motion.button>
@@ -42,6 +43,7 @@ export function AddSongButton({ added, handleAdd, isLoadingAdd }: AddSongButtonP
             onClick={() => {
                 handleAdd()
             }} 
+            aria-label='add-song-button'
             disabled={isLoadingAdd}>
                 <PlusIcon added={added}></PlusIcon>
         </motion.button>

@@ -21,7 +21,7 @@ export default function VotingHeader({ votingTitle, onBackClick, onUserClick }: 
         </Link>
         <SignedIn>
             <div className='flex items-center gap-3 cursor-pointer'>
-                <button onClick={() => onUserClick()}>
+                <button onClick={() => onUserClick()} aria-label='user-menu'>
                     <ArrowDown/>
                 </button>
                 <UserButton/>
