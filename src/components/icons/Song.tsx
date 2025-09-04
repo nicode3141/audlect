@@ -18,7 +18,7 @@ export function LikeIcon({ liked }: LikeIconProps) {
     </svg>
   ) : (
     <svg xmlns="http://www.w3.org/2000/svg" width="28.5" height="24" viewBox="0 0 33 29" fill="none">
-        <path d="M19.5713 3.58203C22.3001 0.806351 26.7135 0.806426 29.4424 3.58203C32.1852 6.37196 32.1852 10.9054 29.4424 13.6953L16.5 26.8604L3.55762 13.6953C0.814756 10.9054 0.814756 6.37196 3.55762 3.58203C6.28651 0.806426 10.6999 0.806351 13.4287 3.58203L15.4307 5.61816L16.5 6.70605L17.5693 5.61816L19.5713 3.58203Z" stroke="#7F7F7F" stroke-width="3"/>
+        <path d="M19.5713 3.58203C22.3001 0.806351 26.7135 0.806426 29.4424 3.58203C32.1852 6.37196 32.1852 10.9054 29.4424 13.6953L16.5 26.8604L3.55762 13.6953C0.814756 10.9054 0.814756 6.37196 3.55762 3.58203C6.28651 0.806426 10.6999 0.806351 13.4287 3.58203L15.4307 5.61816L16.5 6.70605L17.5693 5.61816L19.5713 3.58203Z" stroke="#7F7F7F" strokeWidth="3"/>
     </svg>
   );
 }
@@ -53,7 +53,7 @@ export function PlusIcon({ added }: PlusIconProps) {
           animate="visible"
           exit="exit">
           <motion.path variants={draw} 
-            d="M9.5 2V17M2 9.5H17" stroke="#54B886" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            d="M9.5 2V17M2 9.5H17" stroke="#54B886" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
         </motion.svg>
       ) : (
         <motion.svg
@@ -67,7 +67,7 @@ export function PlusIcon({ added }: PlusIconProps) {
           animate="visible"
           exit="exit">
           <motion.path variants={draw} 
-            d="M2.19686 2.1967L12.8035 12.8033M2.19686 12.8033L12.8035 2.1967" stroke="#D1345B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            d="M2.19686 2.1967L12.8035 12.8033M2.19686 12.8033L12.8035 2.1967" stroke="#D1345B" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
         </motion.svg>
       )}
     </AnimatePresence>
