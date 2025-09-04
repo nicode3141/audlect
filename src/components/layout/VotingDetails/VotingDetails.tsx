@@ -9,7 +9,7 @@ export function VotingDetails(){
 
     return(
         <>    
-            <div className={`VotingDetails font-inter`}>
+            <div className={`VotingDetails font-inter pt-7 lg:mt-24`}>
                 <VotingTitle>{isLoading? "Loading..." : data?.name}</VotingTitle>
                 <VotingSubitle>{isLoading ? "Loading..." : data?.description}</VotingSubitle>
             </div>

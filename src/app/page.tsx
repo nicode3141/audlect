@@ -12,7 +12,7 @@ export default async function Home() {
                 <br></br>into one playlist for everyone. </div>
            </div>
            <div className="Buttons flex gap-10 align-self self-start">
-              <HomeButton variant="primary" href="/voting">View Example</HomeButton>
+              <HomeButton variant="primary" href="/example">View Example</HomeButton>
               <HomeButton variant="secondary" href="/pricing">Pricing</HomeButton>
           </div>
         </div>

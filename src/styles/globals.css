@@ -6,10 +6,19 @@
   --font-montserrat: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --color-primaryGreen: #54B886;
+  --bg: white; /*TEMP*/
+  --text: black; /*TEMP*/
+
 }
 
 .cl-avatarBox{
   width: 2.5rem;
   height: 2.5rem;
   border-radius:  10px;
+}
+
+/*TEMP*/
+body {
+  background-color: var(--bg);
+  color: var(--text);
 }
