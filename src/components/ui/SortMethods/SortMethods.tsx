@@ -7,12 +7,14 @@ import { SortIcon } from '~/components/icons/Search'
 import type { SortMethodsType } from '~/types/global';
 
 interface SortMethodProps {
+    className?: string,
     currentSort: SortMethodsType,
     sortOptions: Array<SortMethodsType>
     onChange: (sortMethod: SortMethodsType) => void,
 }
 
 export default function SortMethods({
+    className,
     currentSort,
     sortOptions,
     onChange
@@ -31,10 +33,10 @@ export default function SortMethods({
     }, []);
 
     return (
-        <div className='relative inline-block' ref={dropdownRef}>
-            <button className='flex p-2 rounded-[0.5rem] bg-[#D9D9D9] items-center gap-1 cursor-pointer' onClick={() => setDropdownActive((prev) => !prev)}>
+        <div className={`relative inline-block ${className}`} ref={dropdownRef}>
+            <button className='flex p-2 rounded-[0.5rem] bg-[#dfdfdf] items-center gap-1 cursor-pointer' onClick={() => setDropdownActive((prev) => !prev)}>
                 <SortIcon />
-                <span className='font-montserrat font-semibold text-gray-600'>{currentSort}</span>
+                <span className='font-montserrat font-semibold text-[#848181]'>{currentSort}</span>
                 <DropdownIcon />
             </button>
             <div className='pt-3'>

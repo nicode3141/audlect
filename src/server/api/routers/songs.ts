@@ -1,9 +1,9 @@
 import { TRPCError } from "@trpc/server";
-import { and, asc, count, desc, DrizzleError, eq, exists, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, exists, sql } from "drizzle-orm";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
 import { likesTable, songsTable } from "~/server/db/schema";
-import { DeezerTrack } from "~/types/deezer";
+import type { DeezerTrack } from "~/types/deezer";
 import { getTrack } from "~/server/utils/deezer";
 
 export const songsRouter = createTRPCRouter({

@@ -5,6 +5,8 @@ import { FlatCompat } from "@eslint/eslintrc";
 import tseslint from "typescript-eslint";
 // @ts-ignore -- no types for this plugin
 import drizzle from "eslint-plugin-drizzle";
+// @ts-ignore -- no types for this plugin
+import svgJsx from "eslint-plugin-svg-jsx";
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
@@ -16,6 +18,7 @@ export default tseslint.config({
   files: ["**/*.ts", "**/*.tsx"],
   plugins: {
     drizzle,
+    "svg-jsx": svgJsx,
   },
   extends: [
     ...tseslint.configs.recommended,
@@ -46,6 +49,9 @@ export default tseslint.config({
       "error",
       { drizzleObjectName: ["db", "ctx.db"] },
     ],
+    'svg-jsx/camel-case-dash': 'error',
+    'svg-jsx/camel-case-colon': 'error',
+    'svg-jsx/no-style-string': 'error',
   },
 }, {
   linterOptions: {
