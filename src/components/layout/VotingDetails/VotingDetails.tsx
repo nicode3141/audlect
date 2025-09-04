@@ -5,7 +5,7 @@ import { VotingSubitle, VotingTitle } from "~/components/ui/VotingTitle/VotingTi
 import { useVotingDetails } from "~/hooks/useVotingDetails";
 
 export function VotingDetails(){
-    const { data, isLoading, error } = useVotingDetails("5b0c7148-90cc-4b8f-83a1-dea74841939d");
+    const { data, isLoading } = useVotingDetails("5b0c7148-90cc-4b8f-83a1-dea74841939d");
 
     return(
         <>    

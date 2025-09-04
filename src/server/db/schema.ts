@@ -30,4 +30,6 @@ export const likesTable = pgTable("likes", {
   user_id: varchar("user_id", {length: 255}).notNull(), //clerk
   song_id: uuid("song_id").notNull().references(() => songsTable.song_id),
   voting_id: uuid("voting_id").notNull().references(() => votingsTable.voting_id)
-});
+}, (t) => [
+  unique("song_user_voting-unique").on(t.song_id, t.user_id, t.voting_id)
+]);

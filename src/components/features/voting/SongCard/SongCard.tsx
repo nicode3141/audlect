@@ -3,22 +3,10 @@ import React from 'react'
 import { AddSongButton, LikeButton } from '~/components/ui/SongButtons/SongButtons';
 import MoreIcon from '~/components/icons/MoreIcon';
 import { nop } from '~/lib/utils';
+import type { TSongMetadata } from '~/types/deezer';
 
 interface SongCardProps {
-    metadata: {
-        song_id: string;
-        deezer_id: string;
-        isrc: string;
-        voting_id: string;
-        song_name: string;
-        song_artists: string;
-        cover_image: string;
-        preview_url: string;
-        added_by: string;
-        created_at: Date;
-        likes_total: number;
-        liked: unknown;
-    },
+    metadata: TSongMetadata
     added: boolean,
     addedSearchResult?: boolean,
     liked?: boolean,
@@ -44,7 +32,7 @@ export default function SongCard({
     <div className='flex bg-[#F0F0F0] p-2.5 rounded-3xl items-center justify-between gap-5 w-[90vw] md:w-2xl'>
         <div className='flex gap-2 items-center flex-1 min-w-0'>
             <Image
-                src={metadata.cover_image}
+                src={metadata.cover_image ?? ""}
                 alt={metadata.song_name}
                 width={90}
                 height={90}
