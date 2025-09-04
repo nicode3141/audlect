@@ -11,5 +11,10 @@ interface ISongQueryProps {
 }
 
 export function useSongs({limit, offset, sort_method, voting_id}: ISongQueryProps) {
-    return api.songs.songs.useQuery({ limit, offset, sort_method, voting_id });
+    return api.songs.songs.useQuery(
+        { limit, offset, sort_method, voting_id},
+        {
+            staleTime: 30_000
+        }
+    );
 }

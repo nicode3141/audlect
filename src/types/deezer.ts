@@ -31,3 +31,18 @@ export type DeezerTrackResponse = {
 export type DeezerSearchResult = {
     data: DeezerTrack[] 
 }
+
+export type TSongMetadata = {
+    song_id: string;
+    deezer_id: string;
+    isrc?: string;
+    voting_id: string;
+    song_name: string;
+    song_artists: string;
+    cover_image?: string;
+    preview_url?: string;
+    added_by: string;
+    created_at?: Date;
+    likes_total: number;
+    liked: unknown;
+}
