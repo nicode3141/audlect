@@ -36,6 +36,6 @@ test("track-test Metadata", async () => {
 
 test("search track", async () => {
     const caller = await getCaller();
-    const result = await caller.search.searchString({ search_string: "Cool", limit: 10, offset: 0 });
+    const result = await caller.deezerSearch.searchString({ search_string: "Cool", limit: 10, offset: 0 });
     expect(result).toBeDefined();
 });

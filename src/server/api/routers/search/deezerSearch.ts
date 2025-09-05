@@ -2,10 +2,10 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-import type { DeezerSearchResult, DeezerTrack } from "~/types/deezer";
+import type { DeezerSearchResult, DeezerTrack } from "~/types/songs";
 import { searchTrack, getTrack } from "~/server/utils/deezer";
 
-export const searchRouter = createTRPCRouter({
+export const searchDeezerRouter = createTRPCRouter({
     /**
      * @brief search tracks by string
      * 

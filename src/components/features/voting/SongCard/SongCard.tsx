@@ -3,7 +3,7 @@ import React from 'react'
 import { AddSongButton, LikeButton } from '~/components/ui/SongButtons/SongButtons';
 import MoreIcon from '~/components/icons/MoreIcon';
 import { nop } from '~/lib/utils';
-import type { TSongMetadata } from '~/types/deezer';
+import type { TSongMetadata } from '~/types/songs';
 
 interface SongCardProps {
     metadata: TSongMetadata
