@@ -7,10 +7,12 @@ import { api } from "~/trpc/react";
 interface ISearchCardProps {
   metadata: TSongMetadata;
   addedSong: boolean;
+  activePreview: string | null;
+  setPreviewUrl: (url: string | null) => void;
 }
 
 export default function SearchCardContainer(props: ISearchCardProps) {
-  const { metadata, addedSong } = props;
+  const { metadata, addedSong, activePreview, setPreviewUrl } = props;
 
   const [added, setAdded] = useState<boolean>(addedSong);
 
@@ -44,9 +46,18 @@ export default function SearchCardContainer(props: ISearchCardProps) {
     }
   }
 
+  function handlePlay() {
+    if (activePreview === metadata.preview_url) {
+      setPreviewUrl(null);
+    } else {
+      setPreviewUrl(metadata.preview_url!);
+    }
+  }
+
   return (
     <SongCard
       metadata={{ ...metadata }}
+      onPlay={() => handlePlay()}
       added={false}
       addedSearchResult={added}
       onAdd={() =>
@@ -56,6 +67,7 @@ export default function SearchCardContainer(props: ISearchCardProps) {
         })
       }
       isLoadingAdd={false}
+      playState={activePreview === metadata.preview_url ? "pause" : "play"}
     />
   );
 }
