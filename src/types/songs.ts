@@ -34,7 +34,7 @@ export type DeezerSearchResult = {
 
 export type TSongMetadata = {
   song_id?: string;
-  deezer_id: string;
+  deezer_id: number;
   isrc?: string;
   voting_id: string;
   song_name: string;

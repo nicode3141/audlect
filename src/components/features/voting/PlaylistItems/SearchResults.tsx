@@ -8,6 +8,7 @@ import type { RouterOutputs } from "~/trpc/react";
 import type { TRPCClientErrorLike } from "@trpc/client";
 import type { AppRouter } from "~/server/api/root";
 import SongCard from "../SongCard/SongCard";
+import SearchCardContainer from "../SongCard/SearchCardContainer";
 
 interface IPlaylistItemProps {
   voting_id: string;
@@ -68,7 +69,7 @@ export default function SearchResults(props: IPlaylistItemProps) {
             Add Songs
           </div>
           {search_data?.deezer_items?.map((items) => (
-            <SongCard
+            <SearchCardContainer
               key={items.deezer_id}
               metadata={{
                 deezer_id: items.deezer_id,
@@ -78,7 +79,7 @@ export default function SearchResults(props: IPlaylistItemProps) {
                 cover_image: items.cover_image,
                 preview_url: items.preview_url,
               }}
-              added={false}
+              addedSong={false}
             />
           ))}
         </div>
