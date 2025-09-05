@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import type { DeezerTrack } from "~/types/deezer";
+import type { DeezerTrack } from "~/types/songs";
 import { api } from "~/trpc/react";
 
 

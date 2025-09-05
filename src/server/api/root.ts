@@ -1,8 +1,9 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { votingsRouter } from "./routers/votings";
-import { searchRouter } from "./routers/search";
+import { searchDeezerRouter } from "./routers/search/deezerSearch";
 import { likesRouter } from "./routers/likes";
 import { songsRouter } from "./routers/songs";
+import { searchRouter } from "./routers/search/search";
 
 /**
  * This is the primary router for your server.
@@ -12,6 +13,7 @@ import { songsRouter } from "./routers/songs";
 export const appRouter = createTRPCRouter({
   votings: votingsRouter,
   search: searchRouter,
+  deezerSearch: searchDeezerRouter,
   likes: likesRouter,
   songs: songsRouter
 });

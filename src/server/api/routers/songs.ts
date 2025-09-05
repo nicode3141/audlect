@@ -3,7 +3,7 @@ import { and, asc, count, desc, eq, exists, sql } from "drizzle-orm";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
 import { likesTable, songsTable } from "~/server/db/schema";
-import type { DeezerTrack } from "~/types/deezer";
+import type { DeezerTrack } from "~/types/songs";
 import { getTrack } from "~/server/utils/deezer";
 
 export const songsRouter = createTRPCRouter({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import SongCard from './SongCard'
-import type { TSongMetadata } from '~/types/deezer'
+import type { TSongMetadata } from '~/types/songs'
 import { api, type RouterOutputs } from '~/trpc/react';
 import { nop } from '~/lib/utils';
 
