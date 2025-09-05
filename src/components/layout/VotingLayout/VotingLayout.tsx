@@ -15,6 +15,8 @@ import { set } from "zod";
 export default function VotingLayout() {
   const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
   const [searchString, setSearchString] = useState<string>("");
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
   const {
     data: search_data,
     isLoading,
@@ -59,9 +61,15 @@ export default function VotingLayout() {
           search_data={search_data}
           isLoading={isLoading}
           error={error}
+          activePreview={previewUrl}
+          setPreviewUrl={setPreviewUrl}
         />
       ) : (
-        <PlaylistItems voting_id="5b0c7148-90cc-4b8f-83a1-dea74841939d" />
+        <PlaylistItems
+          voting_id="5b0c7148-90cc-4b8f-83a1-dea74841939d"
+          activePreview={previewUrl}
+          setPreviewUrl={setPreviewUrl}
+        />
       )}
       <div className="flex items-center justify-center p-10">
         <Pagination
@@ -73,6 +81,13 @@ export default function VotingLayout() {
           }}
         />
       </div>
+      <audio
+        key={previewUrl}
+        src={previewUrl ?? undefined}
+        autoPlay
+        hidden
+        onEnded={() => setPreviewUrl(null)}
+      />
     </>
   );
 }

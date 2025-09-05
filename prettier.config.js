@@ -6,6 +6,7 @@ const prettierConfig = {
   semi: true,
   singleQuote: false,
   trailingComma: "all",
+  printWidth: 120,
   overrides: [
     {
       files: ["*.ts", "*.tsx", "*.js", "*.jsx"],

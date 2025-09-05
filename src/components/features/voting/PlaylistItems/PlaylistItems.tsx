@@ -9,10 +9,12 @@ import { nop } from "~/lib/utils";
 
 interface IPlaylistItemProps {
   voting_id: string;
+  activePreview: string | null;
+  setPreviewUrl: (url: string | null) => void;
 }
 
 export default function PlaylistItems(props: IPlaylistItemProps) {
-  const { voting_id } = props;
+  const { voting_id, activePreview, setPreviewUrl } = props;
   const {
     data: songs,
     isLoading,
@@ -58,6 +60,8 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
               liked: items.liked,
             }}
             variant="playlist"
+            activePreview={activePreview}
+            setPreviewUrl={setPreviewUrl}
           />
         ))}
     </div>

@@ -7,6 +7,7 @@ import {
 import MoreIcon from "~/components/icons/MoreIcon";
 import { nop } from "~/lib/utils";
 import type { TSongMetadata } from "~/types/songs";
+import PlayIcon from "~/components/icons/PlayIcon";
 
 interface SongCardProps {
   metadata: TSongMetadata;
@@ -16,6 +17,8 @@ interface SongCardProps {
   onLike?: () => void;
   onMore?: () => void;
   onAdd?: () => void;
+  onPlay?: () => void;
+  playState?: "play" | "pause" | "loading";
   isLoadingLike?: boolean;
   isLoadingAdd?: boolean;
 }
@@ -28,19 +31,30 @@ export default function SongCard({
   onLike,
   onMore,
   onAdd,
+  onPlay,
+  playState,
   isLoadingLike,
   isLoadingAdd,
 }: SongCardProps) {
   return (
     <div className="flex w-[90vw] items-center justify-between gap-5 rounded-3xl bg-[#F0F0F0] p-2.5 md:w-2xl">
       <div className="flex min-w-0 flex-1 items-center gap-2">
-        <Image
-          src={metadata.cover_image ?? ""}
-          alt={metadata.song_name}
-          width={90}
-          height={90}
-          className="h-16 w-16 rounded-xl"
-        />
+        <div className="flex shrink-0 items-center justify-center">
+          <button
+            className="absolute z-10 flex cursor-pointer items-center justify-center"
+            onClick={onPlay ?? nop}
+            aria-label="play-button"
+          >
+            <PlayIcon type={playState} className="h-10 w-10" />
+          </button>
+          <Image
+            src={metadata.cover_image ?? ""}
+            alt={metadata.song_name}
+            width={90}
+            height={90}
+            className="h-16 w-16 rounded-xl"
+          />
+        </div>
         <div className="flex min-w-0 flex-col leading-tight">
           <div className="font-montserrat truncate text-[1.15rem] font-semibold">
             {metadata.song_name}

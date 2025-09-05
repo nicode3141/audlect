@@ -1,22 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SongCard from "./SongCard";
 import type { TSongMetadata } from "~/types/songs";
 import { api, type RouterOutputs } from "~/trpc/react";
 import { nop } from "~/lib/utils";
+import { set } from "zod";
 
 type Song = RouterOutputs["likes"]["like"];
 
 interface ISongCardContainerProps {
   metadata: TSongMetadata;
   variant: "playlist" | "search";
+  activePreview?: string | null;
+  setPreviewUrl: (url: string | null) => void;
 }
 
 export default function SongCardContainer(props: ISongCardContainerProps) {
-  const { metadata, variant } = props;
+  const { metadata, variant, activePreview, setPreviewUrl } = props;
 
   const [likes, setLikes] = useState<number>(metadata.likes_total!);
   const [liked, setLiked] = useState<boolean>(metadata.liked as boolean);
   const [loadingLike, setIsLoadingLike] = useState<boolean>(false);
+  const [fetchedPreviewUrl, setFetchedPreview] = useState<string | undefined>(
+    undefined,
+  );
+
+  const query = api.deezerSearch.getTrack.useQuery(
+    { track_id: metadata.deezer_id },
+    { enabled: false },
+  );
 
   useEffect(() => {
     setLiked(metadata.liked as boolean);
@@ -98,6 +109,16 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
     }
   }
 
+  async function handlePlay() {
+    if (activePreview === fetchedPreviewUrl) {
+      setPreviewUrl(null);
+    } else {
+      const result = await query.refetch();
+      if (result.data?.preview) setPreviewUrl(result.data.preview);
+      setFetchedPreview(result.data?.preview);
+    }
+  }
+
   return (
     <SongCard
       metadata={{ ...metadata, likes_total: likes, liked: liked }}
@@ -111,6 +132,14 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
       onMore={() => nop()}
       isLoadingLike={loadingLike}
       isLoadingAdd={false}
+      playState={
+        activePreview === fetchedPreviewUrl
+          ? "pause"
+          : query.isLoading
+            ? "loading"
+            : "play"
+      }
+      onPlay={() => handlePlay()}
     />
   );
 }
