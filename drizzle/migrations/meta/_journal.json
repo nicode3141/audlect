@@ -36,6 +36,13 @@
       "when": 1756997479612,
       "tag": "0004_fresh_patriot",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1757074020106,
+      "tag": "0005_friendly_doctor_faustus",
+      "breakpoints": true
     }
   ]
 }

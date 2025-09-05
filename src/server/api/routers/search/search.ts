@@ -79,9 +79,9 @@ export const searchRouter = createTRPCRouter({
           added_items.map((item) => item.deezer_id),
         );
         const filtered_deezer_items = deezer_items?.data
-          .filter((item) => !added_song_ids.has(item.id.toString()))
+          .filter((item) => !added_song_ids.has(item.id))
           .map((item) => ({
-            deezer_id: item.id.toString(),
+            deezer_id: item.id,
             song_name: item.title,
             song_artists: item.artist.name,
             cover_image: item.album.cover,
