@@ -6,18 +6,18 @@ interface SizeProps {
 }
 
 
-export function SearchIcon() {
+export function SearchIcon({ className }: { className?: string }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" fill="none" className={className}>
         <circle cx="9.21053" cy="9.21053" r="8.21053" stroke="#212121" strokeWidth="2"/>
         <path d="M15 15L21.364 21.364" stroke="#212121" strokeWidth="2" strokeLinecap="round"/>
     </svg>
   )
 }
 
-export function CloseIcon() {
+export function CloseIcon({ className }: { className?: string }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" className={className} fill="none">
       <path d="M1.36377 13.7004L13.5246 1.53962" stroke="#757575" strokeWidth="2" strokeLinecap="round"/>
       <path d="M1.36377 13.7004L13.5246 1.53962" stroke="#757575" strokeWidth="2" strokeLinecap="round"/>
       <path d="M1.36377 13.7004L13.5246 1.53962" stroke="#757575" strokeWidth="2" strokeLinecap="round"/>
