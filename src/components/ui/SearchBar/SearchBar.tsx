@@ -25,6 +25,7 @@ export default function SearchBar(props: ISearchBarProps) {
     if (e.key === "Enter") {
       e.preventDefault();
       onSubmit(value);
+      (e.target as HTMLInputElement).blur();
     }
   };
 
