@@ -1,21 +1,34 @@
-import HomeButton from "~/components/ui/HomeButton/HomeButton"
+import HomeButton from '~/components/ui/HomeButton/HomeButton';
 export default async function Home() {
-
-  return (
-    
-      <div className={`flex items-center justify-center h-screen text-left flex-col gap-10 px-5`}>
-        <div className={`flex flex-col gap-10`}>
-            <div className="TextHeader">
-                <div className={`self-stretch justify-start  text-5xl font-bold font-inter`}><span className={`text-indigo-400  font-extrabold`}>Vote Music</span> with your Friends, <br></br>
-                    Guests and Artists</div>
-                <div className={`text-neutral-500 text-3xl font-medium font-montserrat`}><b>audlect</b>  is an easy way for you to simply vote music
-                <br></br>into one playlist for everyone. </div>
-           </div>
-           <div className="Buttons flex gap-10 align-self self-start flex-col md:flex-row">
-              <HomeButton variant="primary" href="/example">View Example</HomeButton>
-              <HomeButton variant="secondary" href="/pricing">Pricing</HomeButton>
-          </div>
-        </div>
-      </div>
-  );
+	return (
+		<div
+			className={`flex h-screen flex-col items-center justify-center gap-10 px-5 text-left`}
+		>
+			<div className={`flex flex-col gap-10`}>
+				<div className="TextHeader">
+					<div
+						className={`font-inter justify-start self-stretch text-5xl font-bold`}
+					>
+						<span className={`font-extrabold text-indigo-400`}>Vote Music</span>{' '}
+						with your Friends, <br></br>
+						Guests and Artists
+					</div>
+					<div
+						className={`font-montserrat text-3xl font-medium text-neutral-500`}
+					>
+						<b>audlect</b> is an easy way for you to simply vote music
+						<br></br>into one playlist for everyone.{' '}
+					</div>
+				</div>
+				<div className="Buttons align-self flex flex-col gap-10 self-start md:flex-row">
+					<HomeButton variant="primary" href="/example">
+						View Example
+					</HomeButton>
+					<HomeButton variant="secondary" href="/pricing">
+						Pricing
+					</HomeButton>
+				</div>
+			</div>
+		</div>
+	);
 }
