@@ -11,7 +11,7 @@ interface HomeButtonProps {
 };
 
 const homeButtonVariants = cva(
-    `py-3 rounded-[10px] font-inter text-xl font-bold cursor-pointer transition-all duration-200 ease-in-out`, //base css
+    `py-3 rounded-[10px] font-inter text-xl font-bold cursor-pointer transition-all duration-200 ease-in-out whitespace-nowrap`, //base css
     {
         variants: {
             variant: {
