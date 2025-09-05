@@ -28,6 +28,7 @@ export default function SearchResults(props: IPlaylistItemProps) {
           ))}
         </div>
       )}
+
       {error && (
         <div className="font-inter flex flex-col items-center justify-center text-center font-semibold text-balance">
           <span className="text-xl text-[#C04848]">
@@ -38,6 +39,7 @@ export default function SearchResults(props: IPlaylistItemProps) {
           </span>
         </div>
       )}
+
       {!isLoading &&
         !error &&
         search_data?.added_items.map((items) => (
@@ -59,13 +61,13 @@ export default function SearchResults(props: IPlaylistItemProps) {
             />
           </div>
         ))}
-      <div className="flex flex-col gap-3.5">
-        <div className="font-montserrat pt-[-2] text-center text-[-2rem] font-bold">
-          Add Songs
-        </div>
-        {!isLoading &&
-          !error &&
-          search_data?.deezer_items?.map((items) => (
+
+      {!isLoading && search_data?.deezer_items && !error && (
+        <div className="flex flex-col gap-3.5">
+          <div className="font-montserrat pt-[-2] text-center text-[-2rem] font-bold">
+            Add Songs
+          </div>
+          {search_data?.deezer_items?.map((items) => (
             <SongCard
               key={items.deezer_id}
               metadata={{
@@ -79,7 +81,8 @@ export default function SearchResults(props: IPlaylistItemProps) {
               added={false}
             />
           ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
