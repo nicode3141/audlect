@@ -5,48 +5,50 @@ import { useState } from "react";
 import { CloseIcon, SearchIcon } from "~/components/icons/Search";
 
 interface ISearchBarProps {
-	inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-	placeholder?: string;
-	onSubmit: (value: string) => void;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  placeholder?: string;
+  onSubmit: (value: string) => void;
+  onClose?: () => void;
 }
 
 export default function SearchBar(props: ISearchBarProps) {
-	const { inputProps, placeholder, onSubmit } = props;
-	const [value, setValue] = useState("");
+  const { inputProps, placeholder, onSubmit, onClose } = props;
+  const [value, setValue] = useState("");
 
-	const handleSearchReset = () => {
-		setValue("");
-		onSubmit("");
-	};
+  const handleSearchReset = () => {
+    setValue("");
+    onSubmit("");
+    onClose?.();
+  };
 
-	const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === "Enter") {
-			e.preventDefault();
-			onSubmit(value);
-		}
-	};
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      onSubmit(value);
+    }
+  };
 
-	return (
-		<form className="flex w-[90vw] shrink-0 items-center gap-2 rounded-[25px] bg-[#E1E1E1] px-4 py-2 focus-within:outline-2 focus-within:outline-gray-400 md:w-2xl">
-			<SearchIcon className="h-6 w-6 shrink-0 text-gray-600" />
-			<input
-				className="min-w-0 flex-1 p-1 text-xl font-medium outline-0 placeholder:text-xl placeholder:font-normal"
-				type="text"
-				placeholder={placeholder}
-				value={value}
-				onChange={(e) => setValue(e.target.value)}
-				onKeyDown={handleSearchKeyDown}
-				{...inputProps}
-			/>
-			{value && (
-				<button
-					className="shrink-0 cursor-pointer"
-					aria-label="Close"
-					onClick={() => handleSearchReset()}
-				>
-					<CloseIcon className="h-4 w-4" />
-				</button>
-			)}
-		</form>
-	);
+  return (
+    <form className="flex w-[90vw] shrink-0 items-center gap-2 rounded-[25px] bg-[#E1E1E1] px-4 py-2 focus-within:outline-2 focus-within:outline-gray-400 md:w-2xl">
+      <SearchIcon className="h-6 w-6 shrink-0 text-gray-600" />
+      <input
+        className="min-w-0 flex-1 p-1 text-xl font-medium outline-0 placeholder:text-xl placeholder:font-normal"
+        type="text"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onKeyDown={handleSearchKeyDown}
+        {...inputProps}
+      />
+      {value && (
+        <button
+          className="shrink-0 cursor-pointer"
+          aria-label="Close"
+          onClick={() => handleSearchReset()}
+        >
+          <CloseIcon className="h-4 w-4" />
+        </button>
+      )}
+    </form>
+  );
 }
