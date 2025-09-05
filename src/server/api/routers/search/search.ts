@@ -1,10 +1,10 @@
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
-import type { DeezerSearchResult } from '~/types/songs';
-import { searchTrack } from '~/server/utils/deezer';
-import { likesTable, songsTable } from '~/server/db/schema';
-import { and, count, eq, exists, ilike, sql } from 'drizzle-orm';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import type { DeezerSearchResult } from "~/types/songs";
+import { searchTrack } from "~/server/utils/deezer";
+import { likesTable, songsTable } from "~/server/db/schema";
+import { and, count, eq, exists, ilike, sql } from "drizzle-orm";
 
 export const searchRouter = createTRPCRouter({
 	/**
@@ -41,7 +41,7 @@ export const searchRouter = createTRPCRouter({
 						preview_url: songsTable.preview_url,
 						added_by: songsTable.added_by,
 						created_at: songsTable.created_at,
-						likes_total: count(likesTable.song_id).as('likes_total'),
+						likes_total: count(likesTable.song_id).as("likes_total"),
 						liked: ctx.auth?.userId
 							? exists(
 									ctx.db
@@ -53,8 +53,8 @@ export const searchRouter = createTRPCRouter({
 												eq(likesTable.user_id, ctx.auth?.userId),
 											),
 										),
-								).as('liked')
-							: sql`false`.as('liked'),
+								).as("liked")
+							: sql`false`.as("liked"),
 					})
 					.from(songsTable)
 					.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
@@ -92,7 +92,7 @@ export const searchRouter = createTRPCRouter({
 				};
 			} catch (err) {
 				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
+					code: "INTERNAL_SERVER_ERROR",
 					message: err instanceof Error ? err.message : "couldn't fetch songs",
 				});
 			}

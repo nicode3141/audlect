@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useSongs } from '~/hooks/useSongs';
-import SongCard from '../SongCard/SongCard';
-import SkeletonSongCard from '../SongCard/SkeletonSongCard';
-import SongCardContainer from '../SongCard/SongCardContainer';
-import { nop } from '~/lib/utils';
+import React from "react";
+import { useSongs } from "~/hooks/useSongs";
+import SongCard from "../SongCard/SongCard";
+import SkeletonSongCard from "../SongCard/SkeletonSongCard";
+import SongCardContainer from "../SongCard/SongCardContainer";
+import { nop } from "~/lib/utils";
 
 interface IPlaylistItemProps {
 	voting_id: string;
@@ -20,8 +20,8 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 	} = useSongs({
 		limit: 10,
 		offset: 0,
-		sort_method: 'Likes',
-		voting_id: '5b0c7148-90cc-4b8f-83a1-dea74841939d',
+		sort_method: "Likes",
+		voting_id: "5b0c7148-90cc-4b8f-83a1-dea74841939d",
 	});
 
 	return (
@@ -50,8 +50,8 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 							deezer_id: items.deezer_id,
 							isrc: items.isrc ?? undefined,
 							voting_id: voting_id,
-							song_name: items.song_name ?? 'Loading',
-							song_artists: items.song_artists ?? 'Loading',
+							song_name: items.song_name ?? "Loading",
+							song_artists: items.song_artists ?? "Loading",
 							cover_image: items.cover_image ?? undefined,
 							added_by: items.added_by,
 							likes_total: items.likes_total,

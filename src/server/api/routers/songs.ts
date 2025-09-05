@@ -1,14 +1,14 @@
-import { TRPCError } from '@trpc/server';
-import { and, asc, count, desc, eq, exists, sql } from 'drizzle-orm';
-import { z } from 'zod';
+import { TRPCError } from "@trpc/server";
+import { and, asc, count, desc, eq, exists, sql } from "drizzle-orm";
+import { z } from "zod";
 import {
 	createTRPCRouter,
 	publicProcedure,
 	protectedProcedure,
-} from '~/server/api/trpc';
-import { likesTable, songsTable } from '~/server/db/schema';
-import type { DeezerTrack } from '~/types/songs';
-import { getTrack } from '~/server/utils/deezer';
+} from "~/server/api/trpc";
+import { likesTable, songsTable } from "~/server/db/schema";
+import type { DeezerTrack } from "~/types/songs";
+import { getTrack } from "~/server/utils/deezer";
 
 export const songsRouter = createTRPCRouter({
 	/**
@@ -36,13 +36,13 @@ export const songsRouter = createTRPCRouter({
 				default:
 					sortQuery = desc(sql`likes_total`);
 					break;
-				case 'Least Likes':
+				case "Least Likes":
 					sortQuery = asc(sql`likes_total`);
 					break;
-				case 'Date Added':
+				case "Date Added":
 					sortQuery = asc(songsTable.created_at);
 					break;
-				case 'A-Z':
+				case "A-Z":
 					sortQuery = asc(songsTable.song_name);
 					break;
 			}
@@ -65,7 +65,7 @@ export const songsRouter = createTRPCRouter({
 						preview_url: songsTable.preview_url,
 						added_by: songsTable.added_by,
 						created_at: songsTable.created_at,
-						likes_total: count(likesTable.song_id).as('likes_total'),
+						likes_total: count(likesTable.song_id).as("likes_total"),
 						liked: ctx.auth?.userId
 							? exists(
 									ctx.db
@@ -77,8 +77,8 @@ export const songsRouter = createTRPCRouter({
 												eq(likesTable.user_id, ctx.auth?.userId),
 											),
 										),
-								).as('liked')
-							: sql`false`.as('liked'),
+								).as("liked")
+							: sql`false`.as("liked"),
 					})
 					.from(songsTable)
 					.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
@@ -92,7 +92,7 @@ export const songsRouter = createTRPCRouter({
 				return songQuery;
 			} catch (err: unknown) {
 				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
+					code: "INTERNAL_SERVER_ERROR",
 					message: err instanceof Error ? err.message : "couldn't fetch songs",
 				});
 			}
@@ -115,20 +115,20 @@ export const songsRouter = createTRPCRouter({
 		.query(async ({ ctx, input }) => {
 			try {
 				const [rows] = await ctx.db
-					.select({ count: count().as('count') })
+					.select({ count: count().as("count") })
 					.from(songsTable)
 					.where(eq(songsTable.voting_id, input.voting_id));
 				return rows;
 			} catch (err) {
 				if (err instanceof Error)
 					throw new TRPCError({
-						code: 'INTERNAL_SERVER_ERROR',
+						code: "INTERNAL_SERVER_ERROR",
 						message: err.message,
 					});
 
 				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
-					message: 'Something went wrong',
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Something went wrong",
 				});
 			}
 		}),
@@ -160,10 +160,10 @@ export const songsRouter = createTRPCRouter({
 				);
 
 				if (item === undefined) {
-					console.warn('Invalid deezer id');
+					console.warn("Invalid deezer id");
 					throw new TRPCError({
-						code: 'BAD_REQUEST',
-						message: 'Invalid deezer id',
+						code: "BAD_REQUEST",
+						message: "Invalid deezer id",
 					});
 				}
 
@@ -185,16 +185,16 @@ export const songsRouter = createTRPCRouter({
 
 					return result;
 				} catch (err) {
-					if (err instanceof Error && err.message.includes('duplicate key')) {
+					if (err instanceof Error && err.message.includes("duplicate key")) {
 						throw new TRPCError({
-							code: 'CONFLICT',
-							message: 'Song already added, ' + err.message,
+							code: "CONFLICT",
+							message: "Song already added, " + err.message,
 						});
 					}
 
 					if (err instanceof Error) {
 						throw new TRPCError({
-							code: 'INTERNAL_SERVER_ERROR',
+							code: "INTERNAL_SERVER_ERROR",
 							message: err.message,
 						});
 					}
@@ -204,14 +204,14 @@ export const songsRouter = createTRPCRouter({
 
 				if (err instanceof Error) {
 					throw new TRPCError({
-						code: 'INTERNAL_SERVER_ERROR',
+						code: "INTERNAL_SERVER_ERROR",
 						message: err.message,
 					});
 				}
 
 				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
-					message: 'Failed to add song',
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Failed to add song",
 				});
 			}
 		}),
@@ -247,8 +247,8 @@ export const songsRouter = createTRPCRouter({
 
 				if (result === undefined) {
 					throw new TRPCError({
-						code: 'INTERNAL_SERVER_ERROR',
-						message: 'Failed to delete song',
+						code: "INTERNAL_SERVER_ERROR",
+						message: "Failed to delete song",
 					});
 				}
 
@@ -256,14 +256,14 @@ export const songsRouter = createTRPCRouter({
 			} catch (err) {
 				if (err instanceof Error) {
 					throw new TRPCError({
-						code: 'BAD_GATEWAY',
+						code: "BAD_GATEWAY",
 						message: err.message,
 					});
 				}
 
 				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
-					message: 'Failed to delete song',
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Failed to delete song",
 				});
 			}
 		}),

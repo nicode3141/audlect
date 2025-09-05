@@ -1,9 +1,9 @@
-import { createCallerFactory, createTRPCRouter } from '~/server/api/trpc';
-import { votingsRouter } from './routers/votings';
-import { searchDeezerRouter } from './routers/search/deezerSearch';
-import { likesRouter } from './routers/likes';
-import { songsRouter } from './routers/songs';
-import { searchRouter } from './routers/search/search';
+import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
+import { votingsRouter } from "./routers/votings";
+import { searchDeezerRouter } from "./routers/search/deezerSearch";
+import { likesRouter } from "./routers/likes";
+import { songsRouter } from "./routers/songs";
+import { searchRouter } from "./routers/search/search";
 
 /**
  * This is the primary router for your server.

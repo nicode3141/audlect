@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { LikeIcon, PlusIcon } from '~/components/icons/Song';
+import React from "react";
+import { motion } from "motion/react";
+import { LikeIcon, PlusIcon } from "~/components/icons/Song";
 
 interface LikeButtonProps {
 	liked: boolean;
@@ -24,7 +24,7 @@ export function LikeButton({
 			className="cursor-pointer"
 			initial={{ opacity: 0, scale: 0.5 }}
 			animate={{ opacity: 1, scale: 1 }}
-			transition={{ type: 'spring', duration: 0.8, bounce: 0.4 }}
+			transition={{ type: "spring", duration: 0.8, bounce: 0.4 }}
 			whileTap={{ scale: 2 }}
 			onClick={() => {
 				handleLike();
@@ -47,7 +47,7 @@ export function AddSongButton({
 			className="cursor-pointer rounded-full bg-gray-300 p-3"
 			initial={{ opacity: 0, scale: 0.5 }}
 			animate={{ opacity: 1, scale: 1 }}
-			transition={{ type: 'tween', duration: 0.45, bounce: 0.51 }}
+			transition={{ type: "tween", duration: 0.45, bounce: 0.51 }}
 			whileTap={{ scale: 2 }}
 			onClick={() => {
 				handleAdd();

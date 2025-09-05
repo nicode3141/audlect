@@ -1,4 +1,4 @@
-import type { DeezerSearchResult, DeezerTrack } from '../../types/songs';
+import type { DeezerSearchResult, DeezerTrack } from "../../types/songs";
 
 /**
  * @brief Search for songs on deezer API
@@ -15,9 +15,9 @@ export async function searchTrack(
 	offset: number,
 ): Promise<DeezerSearchResult | undefined> {
 	const searchParams = {
-		method: 'GET',
+		method: "GET",
 		headers: {
-			'Content-Type': 'application/json',
+			"Content-Type": "application/json",
 		},
 	};
 	try {
@@ -29,7 +29,7 @@ export async function searchTrack(
 			const json = (await response.json()) as DeezerSearchResult;
 			return json;
 		} else {
-			throw new Error('Response error');
+			throw new Error("Response error");
 		}
 	} catch (err) {
 		console.warn(err);
@@ -47,9 +47,9 @@ export async function getTrack(
 	track_id: string,
 ): Promise<DeezerTrack | undefined> {
 	const searchParams = {
-		method: 'GET',
+		method: "GET",
 		headers: {
-			'Content-Type': 'application/json',
+			"Content-Type": "application/json",
 		},
 	};
 	try {
@@ -62,7 +62,7 @@ export async function getTrack(
 			const json = (await response.json()) as DeezerTrack;
 			return json;
 		} else {
-			throw new Error('Response error');
+			throw new Error("Response error");
 		}
 	} catch (err) {
 		console.warn(err);

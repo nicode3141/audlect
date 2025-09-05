@@ -1,16 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { AddSongButton, LikeButton } from './SongButtons';
-import { useArgs } from 'storybook/preview-api';
-import { fn } from 'storybook/test';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { AddSongButton, LikeButton } from "./SongButtons";
+import { useArgs } from "storybook/preview-api";
+import { fn } from "storybook/test";
 
 const meta = {
 	component: LikeButton,
 	subcomponents: { AddSongButton },
-	tags: ['autodocs'],
+	tags: ["autodocs"],
 	argTypes: {
-		liked: { control: 'boolean' },
-		isLoadingLike: { control: 'boolean' },
-		handleLike: { action: 'handleLike' },
+		liked: { control: "boolean" },
+		isLoadingLike: { control: "boolean" },
+		handleLike: { action: "handleLike" },
 	},
 } satisfies Meta<typeof LikeButton>;
 

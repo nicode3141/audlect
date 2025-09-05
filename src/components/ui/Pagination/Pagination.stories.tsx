@@ -1,16 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import Pagination from './Pagination';
-import { fn } from 'storybook/test';
-import { useArgs } from 'storybook/preview-api';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import Pagination from "./Pagination";
+import { fn } from "storybook/test";
+import { useArgs } from "storybook/preview-api";
 
 const meta = {
 	component: Pagination,
-	tags: ['autodocs'],
+	tags: ["autodocs"],
 	argTypes: {
-		variant: { control: 'select', options: ['default', 'search_result'] },
-		totalPages: { control: 'number' },
-		currentPage: { control: 'number' },
-		gotoPage: { action: 'gotoPage' },
+		variant: { control: "select", options: ["default", "search_result"] },
+		totalPages: { control: "number" },
+		currentPage: { control: "number" },
+		gotoPage: { action: "gotoPage" },
 	},
 } satisfies Meta<typeof Pagination>;
 
@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		variant: 'default',
+		variant: "default",
 		totalPages: 4,
 		currentPage: 1,
 		gotoPage: fn(),
@@ -45,7 +45,7 @@ export const Default: Story = {
 
 export const SearchResult: Story = {
 	args: {
-		variant: 'search_result',
+		variant: "search_result",
 		totalPages: 4,
 		currentPage: 1,
 		gotoPage: fn(),

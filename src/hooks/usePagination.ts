@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
 interface UsePaginationProps {
 	totalPages: number;
@@ -25,7 +25,7 @@ export const usePagination = ({
 
 		// LEFT
 		if (leftSiblingIndex > 2) {
-			range.push('...');
+			range.push("...");
 		}
 
 		//CENTER
@@ -44,7 +44,7 @@ export const usePagination = ({
 
 		//RIGHT
 		if (rightSiblingIndex < totalPages - 1) {
-			range.push('...');
+			range.push("...");
 		}
 
 		range.push(totalPages); // LAST

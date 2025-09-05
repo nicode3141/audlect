@@ -1,19 +1,19 @@
-import { test, expect } from '@jest/globals';
-import { appRouter } from '~/server/api/root';
-import { createContextInner } from '../test/context';
-import { createAuthContextInner } from './authContext';
-import { TRPCError } from '@trpc/server';
-import { log } from 'console';
+import { test, expect } from "@jest/globals";
+import { appRouter } from "~/server/api/root";
+import { createContextInner } from "../test/context";
+import { createAuthContextInner } from "./authContext";
+import { TRPCError } from "@trpc/server";
+import { log } from "console";
 
-const testVotingId = 'b4f9b324-59df-4af1-8ea1-8f0229240fc4';
-const audlectVotingId = '5b0c7148-90cc-4b8f-83a1-dea74841939d';
+const testVotingId = "b4f9b324-59df-4af1-8ea1-8f0229240fc4";
+const audlectVotingId = "5b0c7148-90cc-4b8f-83a1-dea74841939d";
 
 async function getCaller() {
 	const context = await createAuthContextInner({});
 	return appRouter.createCaller(context);
 }
 
-test('getAll test', async () => {
+test("getAll test", async () => {
 	const context = await createContextInner({});
 
 	const caller = appRouter.createCaller(context);
@@ -21,7 +21,7 @@ test('getAll test', async () => {
 	const result = await caller.songs.songs({
 		limit: 1000,
 		offset: 0,
-		sort_method: 'likes_total',
+		sort_method: "likes_total",
 		voting_id: audlectVotingId,
 	});
 
@@ -30,7 +30,7 @@ test('getAll test', async () => {
 	expect(result).not.toBeUndefined();
 });
 
-test('get entries', async () => {
+test("get entries", async () => {
 	const context = await createContextInner({});
 
 	const caller = appRouter.createCaller(context);
@@ -42,10 +42,10 @@ test('get entries', async () => {
 	console.log(result);
 });
 
-jest.mock('@clerk/nextjs/server', () => ({
+jest.mock("@clerk/nextjs/server", () => ({
 	auth: jest.fn(() => ({
-		userId: 'test-user-id',
-		sessionId: 'test-session-id',
+		userId: "test-user-id",
+		sessionId: "test-session-id",
 	})),
 }));
 
@@ -62,9 +62,9 @@ type SongInfo = {
 	added_by: string;
 };
 
-describe('song post and delete', () => {
+describe("song post and delete", () => {
 	let addedSong: SongInfo | undefined;
-	test('add Song test', async () => {
+	test("add Song test", async () => {
 		const context = await createAuthContextInner({});
 
 		const caller = appRouter.createCaller(context);
@@ -76,10 +76,10 @@ describe('song post and delete', () => {
 
 		addedSong = result;
 
-		expect(result?.deezer_id).toBe('71059074');
+		expect(result?.deezer_id).toBe("71059074");
 	});
 
-	test('remove Song test', async () => {
+	test("remove Song test", async () => {
 		const context = await createAuthContextInner({});
 		const caller = appRouter.createCaller(context);
 
@@ -94,11 +94,11 @@ describe('song post and delete', () => {
 	});
 });
 
-describe('errors while adding songs', () => {
+describe("errors while adding songs", () => {
 	let addedSong1: SongInfo | undefined;
 	let addedSong2: SongInfo | undefined;
 
-	test('add song', async () => {
+	test("add song", async () => {
 		const caller = await getCaller();
 		const result = await caller.songs.addSongID({
 			voting_id: audlectVotingId,
@@ -108,7 +108,7 @@ describe('errors while adding songs', () => {
 		expect(result).toBeDefined();
 	});
 
-	test('add song another voting', async () => {
+	test("add song another voting", async () => {
 		const caller = await getCaller();
 		const result = await caller.songs.addSongID({
 			voting_id: testVotingId,
@@ -118,7 +118,7 @@ describe('errors while adding songs', () => {
 		expect(result).toBeDefined();
 	});
 
-	test('remove song another voting', async () => {
+	test("remove song another voting", async () => {
 		const caller = await getCaller();
 
 		if (addedSong2 === undefined) throw new Error();
@@ -130,7 +130,7 @@ describe('errors while adding songs', () => {
 		expect(result).toBeDefined();
 	});
 
-	test('remove song', async () => {
+	test("remove song", async () => {
 		const caller = await getCaller();
 
 		if (addedSong1 === undefined) throw new Error();
@@ -143,7 +143,7 @@ describe('errors while adding songs', () => {
 	});
 });
 
-describe('add - delete', () => {
+describe("add - delete", () => {
 	let addedSong: SongInfo | undefined;
 
 	afterEach(async () => {
@@ -155,7 +155,7 @@ describe('add - delete', () => {
 		});
 	});
 
-	test('two same songs same voting', async () => {
+	test("two same songs same voting", async () => {
 		const caller = await getCaller();
 		const result = await caller.songs.addSongID({
 			voting_id: testVotingId,

@@ -1,13 +1,13 @@
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 import {
 	createTRPCRouter,
 	protectedProcedure,
 	publicProcedure,
-} from '~/server/api/trpc';
-import type { DeezerSearchResult, DeezerTrack } from '~/types/songs';
-import { searchTrack, getTrack } from '~/server/utils/deezer';
+} from "~/server/api/trpc";
+import type { DeezerSearchResult, DeezerTrack } from "~/types/songs";
+import { searchTrack, getTrack } from "~/server/utils/deezer";
 
 export const searchDeezerRouter = createTRPCRouter({
 	/**
@@ -37,7 +37,7 @@ export const searchDeezerRouter = createTRPCRouter({
 			);
 			if (items === undefined) {
 				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
+					code: "INTERNAL_SERVER_ERROR",
 					message: "could'nt fetch data from deezer",
 				});
 			}
@@ -63,7 +63,7 @@ export const searchDeezerRouter = createTRPCRouter({
 			const items: DeezerTrack | undefined = await getTrack(input.track_id);
 			if (items === undefined) {
 				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
+					code: "INTERNAL_SERVER_ERROR",
 					message: "could'nt fetch data from deezer",
 				});
 			}

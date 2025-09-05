@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface PGNumberProps {
 	number: number;
@@ -13,7 +13,7 @@ export default function PGNumber({
 }: PGNumberProps) {
 	return (
 		<button
-			className={`${isActive ? 'text-[#0DA955]' : 'text-gray-900'} font-montserrat cursor-pointer text-xl font-semibold`}
+			className={`${isActive ? "text-[#0DA955]" : "text-gray-900"} font-montserrat cursor-pointer text-xl font-semibold`}
 			onClick={() => gotoPage(number)}
 		>
 			{number}

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { ClerkProvider } from '@clerk/nextjs';
-import VotingHeader from '~/components/features/voting/VotingHeader/VotingHeader';
-import VotingLayout from '~/components/layout/VotingLayout/VotingLayout';
+import React from "react";
+import { ClerkProvider } from "@clerk/nextjs";
+import VotingHeader from "~/components/features/voting/VotingHeader/VotingHeader";
+import VotingLayout from "~/components/layout/VotingLayout/VotingLayout";
 
 /** VotingPage.tsx
  * contains everything non static of the vote.
@@ -16,7 +16,7 @@ export default function VotingPage() {
 			<VotingHeader
 				votingTitle="Audlect Top Songs"
 				onBackClick={() => {
-					console.log('test');
+					console.log("test");
 				}}
 			/>
 			<VotingLayout />

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
 	SignedIn,
@@ -6,10 +6,10 @@ import {
 	SignInButton,
 	useClerk,
 	UserButton,
-} from '@clerk/nextjs';
-import Link from 'next/link';
-import React from 'react';
-import { ArrowDown, ArrowLeft } from '~/components/icons/Arrows';
+} from "@clerk/nextjs";
+import Link from "next/link";
+import React from "react";
+import { ArrowDown, ArrowLeft } from "~/components/icons/Arrows";
 
 interface VotingHeaderProps {
 	votingTitle: string;
@@ -26,7 +26,7 @@ export default function VotingHeader({
 		<div className="inline-flex w-full items-center justify-between self-stretch px-3 py-2">
 			<Link
 				className="flex items-center gap-4"
-				href={'/'}
+				href={"/"}
 				onClick={onBackClick}
 			>
 				<ArrowLeft />

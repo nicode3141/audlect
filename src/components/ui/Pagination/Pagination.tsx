@@ -1,11 +1,11 @@
-import React from 'react';
-import { BackArrow, ForwardArrow } from '~/components/icons/Arrows';
-import { usePagination } from '~/hooks/usePagination';
-import { cva } from 'class-variance-authority';
-import { cn } from '~/lib/utils';
-import PGNumber from './PGNumber';
+import React from "react";
+import { BackArrow, ForwardArrow } from "~/components/icons/Arrows";
+import { usePagination } from "~/hooks/usePagination";
+import { cva } from "class-variance-authority";
+import { cn } from "~/lib/utils";
+import PGNumber from "./PGNumber";
 
-type PaginationVariant = 'default' | 'search_result';
+type PaginationVariant = "default" | "search_result";
 
 const paginationVariants = cva(
 	`flex items-center justify-center gap-4 px-3 py-2 bg-[#54B88636] rounded-[2.5rem] select-none`, //base css
@@ -40,7 +40,7 @@ export default function Pagination({
 	return (
 		<div className={cn(paginationVariants({ variant }))}>
 			<button
-				className={`${currentPage === 1 ? 'invert-50' : 'cursor-pointer'}`}
+				className={`${currentPage === 1 ? "invert-50" : "cursor-pointer"}`}
 				aria-label="back-button"
 				onClick={() => currentPage > 1 && gotoPage(currentPage - 1)}
 				disabled={currentPage === 1}
@@ -49,7 +49,7 @@ export default function Pagination({
 			</button>
 			<div className="flex items-center gap-2">
 				{centerPageElements.map((page, index) =>
-					page === '...' ? (
+					page === "..." ? (
 						<span key={index} className="font-montserrat text-xl font-semibold">
 							...
 						</span>
@@ -64,7 +64,7 @@ export default function Pagination({
 				)}
 			</div>
 			<button
-				className={`${currentPage >= totalPages ? 'invert-50' : 'cursor-pointer'}`}
+				className={`${currentPage >= totalPages ? "invert-50" : "cursor-pointer"}`}
 				aria-label="forward-button"
 				onClick={() => currentPage < totalPages && gotoPage(currentPage + 1)}
 				disabled={currentPage >= totalPages}

@@ -4,7 +4,7 @@ const prettierConfig = {
   tabWidth: 4,
   useTabs: true,
   semi: true,
-  singleQuote: true,
+  singleQuote: false,
   trailingComma: "all",
   overrides: [
     {

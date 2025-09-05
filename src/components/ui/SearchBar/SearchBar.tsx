@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useState } from 'react';
-import { CloseIcon, SearchIcon } from '~/components/icons/Search';
+import React from "react";
+import { useState } from "react";
+import { CloseIcon, SearchIcon } from "~/components/icons/Search";
 
 interface ISearchBarProps {
 	inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -12,15 +12,15 @@ interface ISearchBarProps {
 
 export default function SearchBar(props: ISearchBarProps) {
 	const { inputProps, placeholder, onSubmit } = props;
-	const [value, setValue] = useState('');
+	const [value, setValue] = useState("");
 
 	const handleSearchReset = () => {
-		setValue('');
-		onSubmit('');
+		setValue("");
+		onSubmit("");
 	};
 
 	const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === 'Enter') {
+		if (e.key === "Enter") {
 			e.preventDefault();
 			onSubmit(value);
 		}

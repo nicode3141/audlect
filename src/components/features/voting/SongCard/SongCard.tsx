@@ -1,12 +1,12 @@
-import Image from 'next/image';
-import React from 'react';
+import Image from "next/image";
+import React from "react";
 import {
 	AddSongButton,
 	LikeButton,
-} from '~/components/ui/SongButtons/SongButtons';
-import MoreIcon from '~/components/icons/MoreIcon';
-import { nop } from '~/lib/utils';
-import type { TSongMetadata } from '~/types/songs';
+} from "~/components/ui/SongButtons/SongButtons";
+import MoreIcon from "~/components/icons/MoreIcon";
+import { nop } from "~/lib/utils";
+import type { TSongMetadata } from "~/types/songs";
 
 interface SongCardProps {
 	metadata: TSongMetadata;
@@ -35,7 +35,7 @@ export default function SongCard({
 		<div className="flex w-[90vw] items-center justify-between gap-5 rounded-3xl bg-[#F0F0F0] p-2.5 md:w-2xl">
 			<div className="flex min-w-0 flex-1 items-center gap-2">
 				<Image
-					src={metadata.cover_image ?? ''}
+					src={metadata.cover_image ?? ""}
 					alt={metadata.song_name}
 					width={90}
 					height={90}

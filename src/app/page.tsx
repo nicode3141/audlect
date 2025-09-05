@@ -1,4 +1,4 @@
-import HomeButton from '~/components/ui/HomeButton/HomeButton';
+import HomeButton from "~/components/ui/HomeButton/HomeButton";
 export default async function Home() {
 	return (
 		<div
@@ -9,7 +9,7 @@ export default async function Home() {
 					<div
 						className={`font-inter justify-start self-stretch text-5xl font-bold`}
 					>
-						<span className={`font-extrabold text-indigo-400`}>Vote Music</span>{' '}
+						<span className={`font-extrabold text-indigo-400`}>Vote Music</span>{" "}
 						with your Friends, <br></br>
 						Guests and Artists
 					</div>
@@ -17,7 +17,7 @@ export default async function Home() {
 						className={`font-montserrat text-3xl font-medium text-neutral-500`}
 					>
 						<b>audlect</b> is an easy way for you to simply vote music
-						<br></br>into one playlist for everyone.{' '}
+						<br></br>into one playlist for everyone.{" "}
 					</div>
 				</div>
 				<div className="Buttons align-self flex flex-col gap-10 self-start md:flex-row">

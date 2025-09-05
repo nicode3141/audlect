@@ -4,7 +4,7 @@ import {
 	SignedIn,
 	SignedOut,
 	UserButton,
-} from '@clerk/nextjs';
+} from "@clerk/nextjs";
 
 export default function AccountHeader() {
 	return (

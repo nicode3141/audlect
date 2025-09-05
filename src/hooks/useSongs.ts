@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { api } from '~/trpc/react';
-import type { SortMethodsType } from '~/types/global';
+import { api } from "~/trpc/react";
+import type { SortMethodsType } from "~/types/global";
 
 interface ISongQueryProps {
 	limit: number;

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import SongCard from './SongCard';
-import type { TSongMetadata } from '~/types/songs';
-import { api, type RouterOutputs } from '~/trpc/react';
-import { nop } from '~/lib/utils';
+import React, { useEffect, useState } from "react";
+import SongCard from "./SongCard";
+import type { TSongMetadata } from "~/types/songs";
+import { api, type RouterOutputs } from "~/trpc/react";
+import { nop } from "~/lib/utils";
 
-type Song = RouterOutputs['likes']['like'];
+type Song = RouterOutputs["likes"]["like"];
 
 interface ISongCardContainerProps {
 	metadata: TSongMetadata;
-	variant: 'playlist' | 'search';
+	variant: "playlist" | "search";
 }
 
 export default function SongCardContainer(props: ISongCardContainerProps) {
@@ -82,7 +82,7 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 		<SongCard
 			metadata={{ ...metadata, likes_total: likes, liked: liked }}
 			liked={liked}
-			added={variant !== 'search'}
+			added={variant !== "search"}
 			addedSearchResult={false}
 			onLike={() =>
 				liked

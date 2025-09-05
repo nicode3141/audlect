@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import SortMethods from './SortMethods';
-import { nop } from '~/lib/utils';
-import type { SortMethodsType } from '~/types/global';
-import { useArgs } from 'storybook/internal/preview-api';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import SortMethods from "./SortMethods";
+import { nop } from "~/lib/utils";
+import type { SortMethodsType } from "~/types/global";
+import { useArgs } from "storybook/internal/preview-api";
 
 const meta = {
 	component: SortMethods,
-	tags: ['autodocs'],
+	tags: ["autodocs"],
 } satisfies Meta<typeof SortMethods>;
 
 export default meta;
@@ -15,8 +15,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		currentSort: 'Likes',
-		sortOptions: ['Likes', 'A-Z', 'Date Added', 'Least Likes', 'Random'],
+		currentSort: "Likes",
+		sortOptions: ["Likes", "A-Z", "Date Added", "Least Likes", "Random"],
 		onChange: () => nop,
 	},
 	render: (args) => {

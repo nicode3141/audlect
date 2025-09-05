@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import { cva } from 'class-variance-authority';
-import { cn } from '~/lib/utils';
+import Link from "next/link";
+import { cva } from "class-variance-authority";
+import { cn } from "~/lib/utils";
 
-type ButtonVariant = 'primary' | 'secondary';
+type ButtonVariant = "primary" | "secondary";
 
 interface HomeButtonProps {
 	variant: ButtonVariant;

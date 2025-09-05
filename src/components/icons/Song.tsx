@@ -1,6 +1,6 @@
-import React from 'react';
-import { AnimatePresence, motion } from 'motion/react';
-import type { Variants } from 'motion/react';
+import React from "react";
+import { AnimatePresence, motion } from "motion/react";
+import type { Variants } from "motion/react";
 
 interface LikeIconProps {
 	liked: boolean;
@@ -48,7 +48,7 @@ const draw: Variants = {
 			pathLength: 1,
 			opacity: 1,
 			transition: {
-				pathLength: { type: 'spring', duration: 1.5, bounce: 0 },
+				pathLength: { type: "spring", duration: 1.5, bounce: 0 },
 				opacity: { duration: 0.01 },
 			},
 		};

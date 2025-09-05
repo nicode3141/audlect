@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { AnimatePresence, motion } from 'motion/react';
-import React, { useEffect, useRef, useState } from 'react';
-import { DropdownIcon } from '~/components/icons/Arrows';
-import { SortIcon } from '~/components/icons/Search';
-import type { SortMethodsType } from '~/types/global';
+import { AnimatePresence, motion } from "motion/react";
+import React, { useEffect, useRef, useState } from "react";
+import { DropdownIcon } from "~/components/icons/Arrows";
+import { SortIcon } from "~/components/icons/Search";
+import type { SortMethodsType } from "~/types/global";
 
 interface SortMethodProps {
 	className?: string;
@@ -31,8 +31,8 @@ export default function SortMethods({
 				setDropdownActive(false);
 			}
 		};
-		document.body.addEventListener('mousedown', closeDropdown);
-		return () => document.body.removeEventListener('mousedown', closeDropdown);
+		document.body.addEventListener("mousedown", closeDropdown);
+		return () => document.body.removeEventListener("mousedown", closeDropdown);
 	}, []);
 
 	return (
@@ -55,7 +55,7 @@ export default function SortMethods({
 							animate="open"
 							exit="collapsed"
 							variants={{
-								open: { opacity: 1, height: 'auto' },
+								open: { opacity: 1, height: "auto" },
 								collapsed: { opacity: 0, height: 0 },
 							}}
 							transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}

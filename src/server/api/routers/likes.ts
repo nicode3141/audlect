@@ -1,9 +1,9 @@
-import { TRPCError } from '@trpc/server';
-import { and, count, eq, exists, sql } from 'drizzle-orm';
-import { z } from 'zod';
+import { TRPCError } from "@trpc/server";
+import { and, count, eq, exists, sql } from "drizzle-orm";
+import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
-import { likesTable, songsTable } from '~/server/db/schema';
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { likesTable, songsTable } from "~/server/db/schema";
 
 export const likesRouter = createTRPCRouter({
 	/**
@@ -37,7 +37,7 @@ export const likesRouter = createTRPCRouter({
 					const [song] = await ctx.db
 						.select({
 							song_id: songsTable.song_id,
-							likes_total: count(likesTable.song_id).as('likes_total'),
+							likes_total: count(likesTable.song_id).as("likes_total"),
 							liked: ctx.auth?.userId
 								? exists(
 										ctx.db
@@ -49,8 +49,8 @@ export const likesRouter = createTRPCRouter({
 													eq(likesTable.user_id, ctx.auth?.userId),
 												),
 											),
-									).as('liked')
-								: sql`false`.as('liked'),
+									).as("liked")
+								: sql`false`.as("liked"),
 						})
 						.from(songsTable)
 						.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
@@ -66,19 +66,19 @@ export const likesRouter = createTRPCRouter({
 					return song;
 				} else {
 					throw new TRPCError({
-						code: 'BAD_GATEWAY',
-						message: 'Error whilst liking song',
+						code: "BAD_GATEWAY",
+						message: "Error whilst liking song",
 					});
 				}
 			} catch (err) {
 				if (err instanceof Error)
 					throw new TRPCError({
-						code: 'INTERNAL_SERVER_ERROR',
+						code: "INTERNAL_SERVER_ERROR",
 						message: err.message,
 					});
 
 				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
+					code: "INTERNAL_SERVER_ERROR",
 					message: "Couldn't like song",
 				});
 			}
@@ -116,7 +116,7 @@ export const likesRouter = createTRPCRouter({
 					const [song] = await ctx.db
 						.select({
 							song_id: songsTable.song_id,
-							likes_total: count(likesTable.song_id).as('likes_total'),
+							likes_total: count(likesTable.song_id).as("likes_total"),
 							liked: ctx.auth?.userId
 								? exists(
 										ctx.db
@@ -128,8 +128,8 @@ export const likesRouter = createTRPCRouter({
 													eq(likesTable.user_id, ctx.auth?.userId),
 												),
 											),
-									).as('liked')
-								: sql`false`.as('liked'),
+									).as("liked")
+								: sql`false`.as("liked"),
 						})
 						.from(songsTable)
 						.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
@@ -145,20 +145,20 @@ export const likesRouter = createTRPCRouter({
 					return song;
 				} else {
 					throw new TRPCError({
-						code: 'BAD_GATEWAY',
-						message: 'Error whilst unliking song',
+						code: "BAD_GATEWAY",
+						message: "Error whilst unliking song",
 					});
 				}
 			} catch (err) {
 				if (err instanceof Error)
 					throw new TRPCError({
-						code: 'INTERNAL_SERVER_ERROR',
+						code: "INTERNAL_SERVER_ERROR",
 						message: err.message,
 					});
 
 				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
-					message: 'Error whilst unliking song',
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Error whilst unliking song",
 				});
 			}
 		}),
