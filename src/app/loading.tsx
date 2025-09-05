@@ -1,5 +1,3 @@
-export default function Loading(){
-    return(
-        <div className={`text-center font-inter text-2xl`}>Loading</div>
-    )
+export default function Loading() {
+	return <div className={`font-inter text-center text-2xl`}>Loading</div>;
 }

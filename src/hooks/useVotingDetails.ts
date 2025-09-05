@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { api } from "~/trpc/react";
+import { api } from '~/trpc/react';
 
 export function useVotingDetails(voting_id: string) {
-    return api.votings.votings.useQuery({ voting_id });
+	return api.votings.votings.useQuery({ voting_id });
 }

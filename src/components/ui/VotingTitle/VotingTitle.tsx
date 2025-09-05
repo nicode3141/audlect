@@ -1,17 +1,25 @@
-import React from 'react'
+import React from 'react';
 
 interface VotingTitleProps {
-    children?: React.ReactNode
+	children?: React.ReactNode;
 }
 
 export function VotingTitle({ children }: VotingTitleProps) {
-  return (
-    <div className={`heading1 text-center font-bold lg:text-6xl text-4xl text-[#898989] font-inter`}>{children}</div>
-  )
+	return (
+		<div
+			className={`heading1 font-inter text-center text-4xl font-bold text-[#898989] lg:text-6xl`}
+		>
+			{children}
+		</div>
+	);
 }
 
 export function VotingSubitle({ children }: VotingTitleProps) {
-  return (
-    <div className={`heading2small text-center font-medium lg:text-3xl text-2xl text-[#B5B5B5] text-shadow-2xs font-inter`}>{children}</div>
-  )
+	return (
+		<div
+			className={`heading2small font-inter text-center text-2xl font-medium text-[#B5B5B5] text-shadow-2xs lg:text-3xl`}
+		>
+			{children}
+		</div>
+	);
 }
