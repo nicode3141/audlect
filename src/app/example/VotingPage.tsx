@@ -16,7 +16,7 @@ export default function VotingPage() {
 			<VotingHeader
 				votingTitle="Audlect Top Songs"
 				onBackClick={() => {
-					console.log("test");
+					history.back();
 				}}
 			/>
 			<VotingLayout />
