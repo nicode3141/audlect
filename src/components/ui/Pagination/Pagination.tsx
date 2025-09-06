@@ -29,14 +29,8 @@ interface PaginationProps {
 	gotoPage: (page: number) => void;
 }
 
-export default function Pagination({
-	variant,
-	totalPages,
-	currentPage,
-	gotoPage,
-}: PaginationProps) {
+export default function Pagination({ variant, totalPages, currentPage, gotoPage }: PaginationProps) {
 	const centerPageElements = usePagination({ totalPages, currentPage });
-	console.log({ centerPageElements });
 	return (
 		<div className={cn(paginationVariants({ variant }))}>
 			<button
@@ -50,7 +44,7 @@ export default function Pagination({
 			<div className="flex items-center gap-2">
 				{centerPageElements.map((page, index) =>
 					page === "..." ? (
-						<span key={index} className="font-montserrat text-xl font-semibold">
+						<span key={index} className="font-montserrat text-xl font-semibold text-gray-500">
 							...
 						</span>
 					) : (
@@ -58,7 +52,7 @@ export default function Pagination({
 							number={Number(page)}
 							key={String(index)}
 							isActive={page === currentPage}
-							gotoPage={gotoPage}
+							gotoPage={(number) => gotoPage(number)}
 						/>
 					),
 				)}
