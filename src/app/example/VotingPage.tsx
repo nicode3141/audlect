@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ClerkProvider } from "@clerk/nextjs";
-import VotingHeader from "~/components/features/voting/VotingHeader/VotingHeader";
+import VotingHeader from "~/features/voting/VotingHeader/VotingHeader";
 import VotingLayout from "~/components/layout/VotingLayout/VotingLayout";
 
 /** VotingPage.tsx
