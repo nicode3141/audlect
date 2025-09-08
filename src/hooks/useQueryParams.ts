@@ -1,6 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import { scrollSmoothToTop } from "~/lib/utils";
 import type { SortMethodsType } from "~/types/global";
 
 interface IQueryParams {
@@ -37,6 +38,7 @@ export function useQueryParams() {
 			const params = new URLSearchParams(searchParams.toString());
 			params.set("page", page.toString());
 			router.push(`?${params.toString()}`);
+			scrollSmoothToTop(0);
 		},
 		[searchParams, router],
 	);
@@ -47,6 +49,7 @@ export function useQueryParams() {
 			params.set("sort", method);
 			params.set("page", "1");
 			router.push(`?${params.toString()}`);
+			scrollSmoothToTop(0);
 		},
 		[searchParams, router],
 	);

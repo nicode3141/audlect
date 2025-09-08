@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import SearchBar from "~/components/ui/SearchBar/SearchBar";
 import SortMethods from "~/components/ui/SortMethods/SortMethods";
 import PlaylistItems from "~/features/voting/PlaylistItems/PlaylistItems";
@@ -40,6 +40,15 @@ export default function VotingLayout() {
 		{ enabled: showSearchResults },
 	);
 
+	const handleSearchSubmit = useCallback(
+		(value: string) => {
+			setPage(1);
+			setShowSearchResults(true);
+			setSearchString(value);
+		},
+		[setPage, setShowSearchResults, setSearchString],
+	);
+
 	const { data: entriesTotal, isLoading: entriesLoading } = api.songs.entriesTotal.useQuery(
 		{ voting_id: votingId },
 		{ placeholderData: { count: 30 } },
@@ -49,11 +58,8 @@ export default function VotingLayout() {
 		<>
 			<div className="flex flex-col items-center justify-center gap-2 pt-5">
 				<SearchBar
-					onSubmit={(value) => {
-						setPage(1);
-						setShowSearchResults(true);
-						setSearchString(value);
-					}}
+					onSubmit={(value) => handleSearchSubmit(value)}
+					lastSearch={searchString}
 					onClose={() => {
 						setShowSearchResults(false);
 						setSearchString("");
@@ -66,7 +72,6 @@ export default function VotingLayout() {
 					sortOptions={["A-Z", "Date Added", "Least Likes", "Likes", "Random"]}
 					onChange={(method) => {
 						setSortMethod(method);
-						scrollSmoothToTop(0);
 					}}
 				/>
 			</div>
@@ -96,7 +101,6 @@ export default function VotingLayout() {
 						gotoPage={async (page) => {
 							setPage(page);
 							await refetchSearch();
-							scrollSmoothToTop(0);
 						}}
 					/>
 				) : (
@@ -106,7 +110,6 @@ export default function VotingLayout() {
 						currentPage={currentPage}
 						gotoPage={(page) => {
 							setPage(page);
-							scrollSmoothToTop(0);
 						}}
 					/>
 				)}
