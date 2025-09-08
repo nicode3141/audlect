@@ -1,14 +1,12 @@
 "use client";
 
 import React from "react";
-import SkeletonSongCard from "../../songs/SongCard/SkeletonSongCard";
-import SongCardContainer from "../../songs/SongCard/SongCardContainer";
-import { nop } from "~/lib/utils";
+import SkeletonSongCard from "../SongCard/SkeletonSongCard";
+import SongCardContainer from "../SongCard/SongCardContainer";
 import type { RouterOutputs } from "~/trpc/react";
 import type { TRPCClientErrorLike } from "@trpc/client";
 import type { AppRouter } from "~/server/api/root";
-import SongCard from "../../songs/SongCard/SongCard";
-import SearchCardContainer from "../../songs/SongCard/SearchCardContainer";
+import SearchCardContainer from "../SongCard/SearchCardContainer";
 import { useVoting } from "~/context/VotingContext";
 
 interface IPlaylistItemProps {
@@ -20,8 +18,8 @@ interface IPlaylistItemProps {
 }
 
 export default function SearchResults(props: IPlaylistItemProps) {
-	const { search_data, isLoading, error, activePreview, setPreviewUrl } = props;
 	const { votingId } = useVoting();
+	const { search_data, isLoading, error, activePreview, setPreviewUrl } = props;
 
 	return (
 		<div className="flex flex-col items-center justify-center">
@@ -51,7 +49,7 @@ export default function SearchResults(props: IPlaylistItemProps) {
 								song_id: items.song_id,
 								deezer_id: items.deezer_id,
 								isrc: items.isrc ?? undefined,
-								voting_id: items.voting_id,
+								voting_id: votingId,
 								song_name: items.song_name ?? "Loading",
 								song_artists: items.song_artists ?? "Loading",
 								cover_image: items.cover_image ?? undefined,

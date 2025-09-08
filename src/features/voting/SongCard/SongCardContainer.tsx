@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
+import SongCard from "./SongCard";
 import type { TSongMetadata } from "~/types/songs";
 import { api, type RouterOutputs } from "~/trpc/react";
 import { nop } from "~/lib/utils";
 import { set } from "zod";
-import SongCard from "~/features/songs/SongCard/SongCard";
 
 type Song = RouterOutputs["likes"]["like"];
 

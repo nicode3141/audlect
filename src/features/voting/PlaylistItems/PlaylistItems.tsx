@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
-import { useVoting } from "~/context/VotingContext";
-import SkeletonSongCard from "~/features/songs/SongCard/SkeletonSongCard";
-import SongCardContainer from "~/features/songs/SongCard/SongCardContainer";
 import { useSongs } from "~/hooks/useSongs";
+import SkeletonSongCard from "../SongCard/SkeletonSongCard";
+import SongCardContainer from "../SongCard/SongCardContainer";
+import { useVoting } from "~/context/VotingContext";
 
 interface IPlaylistItemProps {
+	voting_id: string;
 	activePreview: string | null;
 	setPreviewUrl: (url: string | null) => void;
 	offset: number;
@@ -14,8 +15,8 @@ interface IPlaylistItemProps {
 }
 
 export default function PlaylistItems(props: IPlaylistItemProps) {
-	const { activePreview, setPreviewUrl, offset, limit } = props;
 	const { votingId } = useVoting();
+	const { activePreview, setPreviewUrl, offset, limit } = props;
 	const {
 		data: songs,
 		isLoading,
