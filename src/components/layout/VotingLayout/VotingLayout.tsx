@@ -29,12 +29,13 @@ export default function VotingLayout() {
 		data: search_data,
 		isLoading,
 		error,
+		refetch: refetchSearch,
 	} = api.search.fullSearch.useQuery(
 		{
 			search_string: searchString,
 			voting_id: votingId,
-			limit: 30,
-			offset: 0,
+			limit: itemsPerPage,
+			offset: (currentPage - 1) * itemsPerPage,
 		},
 		{ enabled: showSearchResults },
 	);
@@ -49,6 +50,7 @@ export default function VotingLayout() {
 			<div className="flex flex-col items-center justify-center gap-2 pt-5">
 				<SearchBar
 					onSubmit={(value) => {
+						setPage(1);
 						setShowSearchResults(true);
 						setSearchString(value);
 					}}
@@ -86,15 +88,28 @@ export default function VotingLayout() {
 				/>
 			)}
 			<div className="flex items-center justify-center p-10">
-				<Pagination
-					variant={"default"}
-					totalPages={Math.ceil((entriesTotal?.count ?? 30) / itemsPerPage)}
-					currentPage={currentPage}
-					gotoPage={(page) => {
-						setPage(page);
-						scrollSmoothToTop(0);
-					}}
-				/>
+				{showSearchResults ? (
+					<Pagination
+						variant={"search_result"}
+						totalPages={4}
+						currentPage={currentPage}
+						gotoPage={async (page) => {
+							setPage(page);
+							await refetchSearch();
+							scrollSmoothToTop(0);
+						}}
+					/>
+				) : (
+					<Pagination
+						variant={showSearchResults ? "search_result" : "default"}
+						totalPages={showSearchResults ? 4 : Math.ceil((entriesTotal?.count ?? 30) / itemsPerPage)}
+						currentPage={currentPage}
+						gotoPage={(page) => {
+							setPage(page);
+							scrollSmoothToTop(0);
+						}}
+					/>
+				)}
 			</div>
 			<audio key={previewUrl} src={previewUrl ?? undefined} autoPlay hidden onEnded={() => setPreviewUrl(null)} />
 		</>
