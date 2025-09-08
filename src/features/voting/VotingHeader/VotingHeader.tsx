@@ -9,7 +9,7 @@ interface VotingHeaderProps {
 	votingTitle: string;
 }
 
-export default function VotingHeader({ votingTitle, onBackClick }: VotingHeaderProps) {
+export default function VotingHeader({ votingTitle }: VotingHeaderProps) {
 	const { openUserProfile } = useClerk();
 
 	return (
