@@ -22,7 +22,7 @@ export async function searchTrack(
 	};
 	try {
 		const response = await fetch(
-			`https://api.deezer.com/search?q=${search_string}&limit=${limit}&page=${offset}`,
+			`https://api.deezer.com/search?q=${search_string}&limit=${limit}&index=${offset}`,
 			searchParams,
 		);
 		if (response.ok) {
@@ -43,9 +43,7 @@ export async function searchTrack(
  *
  * @return item
  */
-export async function getTrack(
-	track_id: string,
-): Promise<DeezerTrack | undefined> {
+export async function getTrack(track_id: string): Promise<DeezerTrack | undefined> {
 	const searchParams = {
 		method: "GET",
 		headers: {
@@ -53,10 +51,7 @@ export async function getTrack(
 		},
 	};
 	try {
-		const response = await fetch(
-			`https://api.deezer.com/track/${track_id}`,
-			searchParams,
-		);
+		const response = await fetch(`https://api.deezer.com/track/${track_id}`, searchParams);
 
 		if (response.ok) {
 			const json = (await response.json()) as DeezerTrack;
