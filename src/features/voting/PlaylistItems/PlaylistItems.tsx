@@ -5,6 +5,7 @@ import { useSongs } from "~/hooks/useSongs";
 import SkeletonSongCard from "../SongCard/SkeletonSongCard";
 import SongCardContainer from "../SongCard/SongCardContainer";
 import { useVoting } from "~/context/VotingContext";
+import { useQueryParams } from "~/hooks/useQueryParams";
 
 interface IPlaylistItemProps {
 	voting_id: string;
@@ -16,6 +17,7 @@ interface IPlaylistItemProps {
 
 export default function PlaylistItems(props: IPlaylistItemProps) {
 	const { votingId } = useVoting();
+	const { sortMethod } = useQueryParams();
 	const { activePreview, setPreviewUrl, offset, limit } = props;
 	const {
 		data: songs,
@@ -24,7 +26,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 	} = useSongs({
 		limit,
 		offset,
-		sort_method: "Likes",
+		sort_method: sortMethod,
 		voting_id: votingId,
 	});
 

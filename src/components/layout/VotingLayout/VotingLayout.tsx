@@ -1,28 +1,28 @@
 "use client";
 
 import React, { useState } from "react";
-import { VotingDetails } from "../VotingDetails/VotingDetails";
 import SearchBar from "~/components/ui/SearchBar/SearchBar";
 import SortMethods from "~/components/ui/SortMethods/SortMethods";
 import PlaylistItems from "~/features/voting/PlaylistItems/PlaylistItems";
 import Pagination from "~/components/ui/Pagination/Pagination";
 import SearchResults from "~/features/voting/PlaylistItems/SearchResults";
 import { api } from "~/trpc/react";
-import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useVoting } from "~/context/VotingContext";
+import { useQueryParams } from "~/hooks/useQueryParams";
+import { set } from "zod";
+import { scrollSmoothToTop } from "~/lib/utils";
 
 export default function VotingLayout() {
 	const router = useRouter();
-	const searchParams = useSearchParams();
 	const { votingId } = useVoting();
+	const { currentPage, sortMethod, setPage, setSortMethod } = useQueryParams();
 
 	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
 	const [searchString, setSearchString] = useState<string>("");
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-	const currentPage = parseInt(searchParams.get("page") ?? "1");
-	const itemsPerPage = 10;
+	const itemsPerPage = 30;
 	const offset = (currentPage - 1) * itemsPerPage;
 
 	const {
@@ -33,7 +33,7 @@ export default function VotingLayout() {
 		{
 			search_string: searchString,
 			voting_id: votingId,
-			limit: 10,
+			limit: 30,
 			offset: 0,
 		},
 		{ enabled: showSearchResults },
@@ -43,12 +43,6 @@ export default function VotingLayout() {
 		{ voting_id: votingId },
 		{ placeholderData: { count: 30 } },
 	);
-
-	async function handlePageChange(page: number) {
-		const newSearchParams = new URLSearchParams(searchParams);
-		newSearchParams.set("page", page.toString());
-		router.push(`?${newSearchParams.toString()}`);
-	}
 
 	return (
 		<>
@@ -66,10 +60,11 @@ export default function VotingLayout() {
 				/>
 				<SortMethods
 					className="w-[80vw] lg:w-[40rem]"
-					currentSort={"Likes"}
-					sortOptions={["A-Z", "Date Added"]}
-					onChange={function (): void {
-						throw new Error("Function not implemented.");
+					currentSort={sortMethod}
+					sortOptions={["A-Z", "Date Added", "Least Likes", "Likes", "Random"]}
+					onChange={(method) => {
+						setSortMethod(method);
+						scrollSmoothToTop(0);
 					}}
 				/>
 			</div>
@@ -83,7 +78,7 @@ export default function VotingLayout() {
 				/>
 			) : (
 				<PlaylistItems
-					voting_id="5b0c7148-90cc-4b8f-83a1-dea74841939d"
+					voting_id={votingId}
 					activePreview={previewUrl}
 					setPreviewUrl={setPreviewUrl}
 					offset={offset}
@@ -95,7 +90,10 @@ export default function VotingLayout() {
 					variant={"default"}
 					totalPages={Math.ceil((entriesTotal?.count ?? 30) / itemsPerPage)}
 					currentPage={currentPage}
-					gotoPage={(page) => handlePageChange(page)}
+					gotoPage={(page) => {
+						setPage(page);
+						scrollSmoothToTop(0);
+					}}
 				/>
 			</div>
 			<audio key={previewUrl} src={previewUrl ?? undefined} autoPlay hidden onEnded={() => setPreviewUrl(null)} />
