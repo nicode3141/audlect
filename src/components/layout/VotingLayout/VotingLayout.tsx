@@ -10,10 +10,12 @@ import SearchResults from "~/components/features/voting/PlaylistItems/SearchResu
 import { api } from "~/trpc/react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { useVoting } from "~/context/VotingContext";
 
 export default function VotingLayout() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
+	const { votingId } = useVoting();
 
 	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
 	const [searchString, setSearchString] = useState<string>("");
@@ -23,11 +25,14 @@ export default function VotingLayout() {
 	const itemsPerPage = 10;
 	const offset = (currentPage - 1) * itemsPerPage;
 
-	//prettier-ignore
-	const { data: search_data, isLoading, error } = api.search.fullSearch.useQuery(
+	const {
+		data: search_data,
+		isLoading,
+		error,
+	} = api.search.fullSearch.useQuery(
 		{
 			search_string: searchString,
-			voting_id: "5b0c7148-90cc-4b8f-83a1-dea74841939d",
+			voting_id: votingId,
 			limit: 10,
 			offset: 0,
 		},
@@ -35,7 +40,7 @@ export default function VotingLayout() {
 	);
 
 	const { data: entriesTotal, isLoading: entriesLoading } = api.songs.entriesTotal.useQuery(
-		{ voting_id: "5b0c7148-90cc-4b8f-83a1-dea74841939d" },
+		{ voting_id: votingId },
 		{ placeholderData: { count: 30 } },
 	);
 
@@ -47,7 +52,6 @@ export default function VotingLayout() {
 
 	return (
 		<>
-			<VotingDetails />
 			<div className="flex flex-col items-center justify-center gap-2 pt-5">
 				<SearchBar
 					onSubmit={(value) => {
@@ -71,7 +75,6 @@ export default function VotingLayout() {
 			</div>
 			{showSearchResults ? (
 				<SearchResults
-					voting_id="5b0c7148-90cc-4b8f-83a1-dea74841939d"
 					search_data={search_data}
 					isLoading={isLoading}
 					error={error}

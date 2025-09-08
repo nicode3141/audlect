@@ -2,10 +2,9 @@
 
 import React from "react";
 import { useSongs } from "~/hooks/useSongs";
-import SongCard from "../SongCard/SongCard";
 import SkeletonSongCard from "../SongCard/SkeletonSongCard";
 import SongCardContainer from "../SongCard/SongCardContainer";
-import { nop } from "~/lib/utils";
+import { useVoting } from "~/context/VotingContext";
 
 interface IPlaylistItemProps {
 	voting_id: string;
@@ -16,7 +15,8 @@ interface IPlaylistItemProps {
 }
 
 export default function PlaylistItems(props: IPlaylistItemProps) {
-	const { voting_id, activePreview, setPreviewUrl, offset, limit } = props;
+	const { votingId } = useVoting();
+	const { activePreview, setPreviewUrl, offset, limit } = props;
 	const {
 		data: songs,
 		isLoading,
@@ -25,7 +25,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 		limit,
 		offset,
 		sort_method: "Likes",
-		voting_id,
+		voting_id: votingId,
 	});
 
 	return (
@@ -49,7 +49,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 							song_id: items.song_id,
 							deezer_id: items.deezer_id,
 							isrc: items.isrc ?? undefined,
-							voting_id: voting_id,
+							voting_id: votingId,
 							song_name: items.song_name ?? "Loading",
 							song_artists: items.song_artists ?? "Loading",
 							cover_image: items.cover_image ?? undefined,
