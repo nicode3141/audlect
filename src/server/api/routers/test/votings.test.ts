@@ -24,11 +24,11 @@ jest.mock("@clerk/nextjs/server", () => ({
 		sessionId: "test-session-id",
 	})),
 }));
-/**
+
 test("create voting", async () => {
 	const caller = await getCaller();
 
-	const result = caller.votings.createVoting({
+	const result = await caller.votings.createVoting({
 		name: "nicode's songs",
 		description: "beste Songs ever?",
 		public: true,
@@ -36,4 +36,3 @@ test("create voting", async () => {
 
 	console.log(result);
 });
- */
