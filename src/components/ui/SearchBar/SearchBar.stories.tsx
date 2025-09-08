@@ -14,5 +14,6 @@ export const Default: Story = {
 	args: {
 		placeholder: "Search by Song, Artist",
 		onSubmit: (value) => console.log(value),
+		lastSearch: "",
 	},
 };
