@@ -53,6 +53,7 @@ export default function SongCard({
 						placeholder="data:image/ImagePlaceholder.png"
 						blurDataURL="ImagePlaceholder.png"
 						onError={(e) => (e.currentTarget.src = "/ImagePlaceholder.png")}
+						unoptimized
 					/>
 				</div>
 				<div className="flex min-w-0 flex-col leading-tight">

@@ -6,9 +6,15 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
-    images:{
-        remotePatterns: [new URL('https://api.deezer.com/album/**')],
-    }
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "api.deezer.com",
+				pathname: "/album/**",
+			},
+		],
+	},
 };
 
 export default config;
