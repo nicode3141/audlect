@@ -10,10 +10,10 @@ export default function SkeletonSongCard() {
 
 					<div className="flex min-w-0 flex-col leading-tight">
 						<div className="font-montserrat truncate text-[1.15rem] font-semibold">
-							<Skeleton width={"15rem"} borderRadius="7px" />
+							<Skeleton width={"min(20rem, 40vw)"} borderRadius="7px" />
 						</div>
 						<div className="font-montserrat truncate text-sm text-gray-600 dark:text-gray-200">
-							<Skeleton width={"10rem"} borderRadius="7px" />
+							<Skeleton width={"min(16rem, 35vw)"} borderRadius="7px" />
 						</div>
 					</div>
 				</SkeletonTheme>
