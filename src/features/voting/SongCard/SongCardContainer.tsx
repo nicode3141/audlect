@@ -4,6 +4,8 @@ import type { TSongMetadata } from "~/types/songs";
 import { api, type RouterOutputs } from "~/trpc/react";
 import { nop } from "~/lib/utils";
 import { set } from "zod";
+import SongInfo from "./SongInfo";
+import { usePopup } from "~/hooks/usePopup";
 
 type Song = RouterOutputs["likes"]["like"];
 
@@ -21,6 +23,7 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 	const [liked, setLiked] = useState<boolean>(metadata.liked as boolean);
 	const [loadingLike, setIsLoadingLike] = useState<boolean>(false);
 	const [fetchedPreviewUrl, setFetchedPreview] = useState<string | undefined>(undefined);
+	const [showSongInfo, setShowSongInfo, SongRef] = usePopup();
 
 	const query = api.deezerSearch.getTrack.useQuery({ track_id: metadata.deezer_id }, { enabled: false });
 
@@ -115,18 +118,21 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 	}
 
 	return (
-		<SongCard
-			metadata={{ ...metadata, likes_total: likes, liked: liked }}
-			liked={liked}
-			added={variant !== "search"}
-			addedSearchResult={false}
-			onLike={() => handleLike({ song_id: metadata.song_id, voting_id: metadata.voting_id })}
-			onAdd={() => nop()}
-			onMore={() => nop()}
-			isLoadingLike={loadingLike}
-			isLoadingAdd={false}
-			playState={activePreview === fetchedPreviewUrl ? "pause" : query.isLoading ? "loading" : "play"}
-			onPlay={() => handlePlay()}
-		/>
+		<>
+			<SongCard
+				metadata={{ ...metadata, likes_total: likes, liked: liked }}
+				liked={liked}
+				added={variant !== "search"}
+				addedSearchResult={false}
+				onLike={() => handleLike({ song_id: metadata.song_id, voting_id: metadata.voting_id })}
+				onAdd={() => nop()}
+				onMore={() => setShowSongInfo?.(true)}
+				isLoadingLike={loadingLike}
+				isLoadingAdd={false}
+				playState={activePreview === fetchedPreviewUrl ? "pause" : query.isLoading ? "loading" : "play"}
+				onPlay={() => handlePlay()}
+			/>
+			<SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} />
+		</>
 	);
 }
