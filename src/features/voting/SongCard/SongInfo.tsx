@@ -1,8 +1,11 @@
+import { useClerk } from "@clerk/nextjs";
 import { AnimatePresence } from "motion/react";
 import Link from "next/link";
 import React from "react";
-import { LinkIcon, ReportIcon } from "~/components/icons/Icons";
+import { DeleteIcon, LinkIcon, ReportIcon } from "~/components/icons/Icons";
+import PlayIcon from "~/components/icons/PlayIcon";
 import PopupCard from "~/components/popups/PopupCard";
+import { api } from "~/trpc/react";
 import type { TSongMetadata } from "~/types/songs";
 
 interface ISongInfo {
@@ -13,6 +16,18 @@ interface ISongInfo {
 
 export default function SongInfo(props: ISongInfo) {
 	const { metadata, showPopup, ref } = props;
+	const deleteSong = api.songs.deleteSong.useMutation();
+	const utils = api.useUtils();
+	const clerk = useClerk();
+
+	async function removeSong() {
+		if (!metadata.song_id) return;
+		deleteSong.mutate({ voting_id: metadata.voting_id, song_id: metadata.song_id });
+		if (!deleteSong.error) {
+			await utils.songs.songs.refetch();
+		}
+	}
+
 	return (
 		showPopup && (
 			<AnimatePresence>
@@ -24,13 +39,27 @@ export default function SongInfo(props: ISongInfo) {
 						<LinkIcon className="items-center text-black dark:text-white" />
 						<span className="font-montserrat text-2xl font-bold dark:text-white">Open Song</span>
 					</Link>
-					<Link
-						className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap dark:bg-[#010101]"
-						href={`mailto:info@nicodenetworks.com?subject=[${metadata.voting_id}] Item Report (${metadata.song_name})`}
-					>
-						<ReportIcon className="tems-center text-black dark:text-white" />
-						<span className="font-montserrat text-2xl font-bold dark:text-white">Report Song</span>
-					</Link>
+					{metadata.added_by === clerk.user?.id ? (
+						<button
+							className="flex min-w-3/4 cursor-pointer items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap dark:bg-[#010101]"
+							onClick={() => !deleteSong.isPending && removeSong()}
+						>
+							{!deleteSong.isPending ? (
+								<DeleteIcon className="tems-center text-black dark:text-white" />
+							) : (
+								<PlayIcon type="loading" className="h-6 w-6" />
+							)}
+							<span className="font-montserrat text-2xl font-bold dark:text-white">Delete Song</span>
+						</button>
+					) : (
+						<Link
+							className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap dark:bg-[#010101]"
+							href={`mailto:info@nicodenetworks.com?subject=[${metadata.voting_id}] Item Report (${metadata.song_name})`}
+						>
+							<ReportIcon className="tems-center text-black dark:text-white" />
+							<span className="font-montserrat text-2xl font-bold dark:text-white">Report Song</span>
+						</Link>
+					)}
 				</PopupCard>
 			</AnimatePresence>
 		)

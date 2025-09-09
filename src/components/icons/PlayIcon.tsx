@@ -17,7 +17,7 @@ export default function PlayIcon(props: IPlayIconProps) {
 					height="150%"
 					viewBox="0 0 50 50"
 					fill="none"
-					className={`${className} h-12 w-12 animate-spin`}
+					className={`${className} ${!className?.includes("h-") && "h-12 w-12"} animate-spin`}
 				>
 					<path
 						fill="#C7C7C7"
