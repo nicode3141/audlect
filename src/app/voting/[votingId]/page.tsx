@@ -6,6 +6,7 @@ import { db } from "~/server/db";
 import { votingsTable } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { VotingProvider } from "~/context/VotingContext";
+import { LoginWarnProvider } from "~/context/LoginWarningContext";
 
 export const metadata: Metadata = {
 	title: "Audlect Top Songs",
@@ -28,7 +29,9 @@ export default async function Page({ params }: PageParams) {
 		<VotingProvider votingId={voting.voting_id} votingShortId={voting.short_id}>
 			<VotingHeader votingTitle={voting.name} />
 			<VotingDetails votingId={voting.voting_id} name={voting.name} description={voting.description} />
-			<VotingLayout />
+			<LoginWarnProvider>
+				<VotingLayout />
+			</LoginWarnProvider>
 		</VotingProvider>
 	);
 }

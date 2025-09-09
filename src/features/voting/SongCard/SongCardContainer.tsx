@@ -6,6 +6,7 @@ import { nop } from "~/lib/utils";
 import { set } from "zod";
 import SongInfo from "./SongInfo";
 import { usePopup } from "~/hooks/usePopup";
+import { useRequireLogin } from "~/hooks/useRequireLogin";
 
 type Song = RouterOutputs["likes"]["like"];
 
@@ -24,6 +25,7 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 	const [loadingLike, setIsLoadingLike] = useState<boolean>(false);
 	const [fetchedPreviewUrl, setFetchedPreview] = useState<string | undefined>(undefined);
 	const [showSongInfo, setShowSongInfo, SongRef] = usePopup();
+	const { requireLogin } = useRequireLogin();
 
 	const query = api.deezerSearch.getTrack.useQuery({ track_id: metadata.deezer_id }, { enabled: false });
 
@@ -93,18 +95,20 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 	}
 
 	function handleLike({ song_id, voting_id }: IHandleLike) {
-		if (song_id === undefined || voting_id === undefined) return;
-		if (liked) {
-			unlikeMutation.mutate({
-				song_id: metadata.song_id ?? "",
-				voting_id: metadata.voting_id,
-			});
-		} else {
-			likeMutation.mutate({
-				song_id: metadata.song_id ?? "",
-				voting_id: metadata.voting_id,
-			});
-		}
+		requireLogin(() => {
+			if (song_id === undefined || voting_id === undefined) return;
+			if (liked) {
+				unlikeMutation.mutate({
+					song_id: metadata.song_id ?? "",
+					voting_id: metadata.voting_id,
+				});
+			} else {
+				likeMutation.mutate({
+					song_id: metadata.song_id ?? "",
+					voting_id: metadata.voting_id,
+				});
+			}
+		});
 	}
 
 	async function handlePlay() {

@@ -7,20 +7,23 @@ import PlaylistItems from "~/features/voting/PlaylistItems/PlaylistItems";
 import Pagination from "~/components/ui/Pagination/Pagination";
 import SearchResults from "~/features/voting/PlaylistItems/SearchResults";
 import { api } from "~/trpc/react";
-import { useRouter } from "next/navigation";
 import { useVoting } from "~/context/VotingContext";
 import { useQueryParams } from "~/hooks/useQueryParams";
-import { set } from "zod";
-import { scrollSmoothToTop } from "~/lib/utils";
+import NotLoggedIn from "~/features/voting/Popups/NotLoggedIn";
+import { useUser } from "@clerk/nextjs";
+import { useRequireLogin } from "~/hooks/useRequireLogin";
+import { useLoginWarning } from "~/context/LoginWarningContext";
 
 export default function VotingLayout() {
-	const router = useRouter();
 	const { votingId } = useVoting();
 	const { currentPage, sortMethod, setPage, setSortMethod } = useQueryParams();
+	const { isSignedIn } = useUser();
 
 	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
 	const [searchString, setSearchString] = useState<string>("");
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+	const { requireLogin } = useRequireLogin();
+	const { showWarning } = useLoginWarning();
 
 	const itemsPerPage = 30;
 	const offset = (currentPage - 1) * itemsPerPage;
@@ -49,7 +52,7 @@ export default function VotingLayout() {
 		[setPage, setShowSearchResults, setSearchString],
 	);
 
-	const { data: entriesTotal, isLoading: entriesLoading } = api.songs.entriesTotal.useQuery(
+	const { data: entriesTotal } = api.songs.entriesTotal.useQuery(
 		{ voting_id: votingId },
 		{ placeholderData: { count: 30 } },
 	);
@@ -115,6 +118,7 @@ export default function VotingLayout() {
 				)}
 			</div>
 			<audio key={previewUrl} src={previewUrl ?? undefined} autoPlay hidden onEnded={() => setPreviewUrl(null)} />
+			<NotLoggedIn />
 		</>
 	);
 }
