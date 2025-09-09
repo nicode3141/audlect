@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { CloseIcon, SearchIcon } from "~/components/icons/Search";
 import { useDebounce } from "~/hooks/useDebounce";
+import { useRequireLogin } from "~/hooks/useRequireLogin";
 
 interface ISearchBarProps {
 	inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -16,14 +17,17 @@ interface ISearchBarProps {
 export default function SearchBar(props: ISearchBarProps) {
 	const { inputProps, placeholder, onSubmit, onClose, lastSearch } = props;
 	const [value, setValue] = useState("");
+	const { requireLogin } = useRequireLogin();
 
 	const { debounced: debouncedSearch, setDebounced: setDebouncedSearch } = useDebounce(value, 500);
 
 	useEffect(() => {
 		if (debouncedSearch === "") return;
-		if (lastSearch === debouncedSearch) return;
-		onSubmit(debouncedSearch);
-	}, [debouncedSearch, lastSearch, onSubmit]);
+		requireLogin(() => {
+			if (lastSearch === debouncedSearch) return;
+			onSubmit(debouncedSearch);
+		});
+	}, [debouncedSearch, lastSearch, onSubmit, requireLogin]);
 
 	const handleSearchReset = () => {
 		setValue("");
@@ -51,7 +55,7 @@ export default function SearchBar(props: ISearchBarProps) {
 				type="text"
 				placeholder={placeholder}
 				value={value}
-				onChange={(e) => setValue(e.target.value)}
+				onChange={(e) => requireLogin(() => setValue(e.target.value))}
 				onKeyDown={handleSearchKeyDown}
 				{...inputProps}
 			/>
