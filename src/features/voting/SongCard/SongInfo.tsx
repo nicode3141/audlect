@@ -33,15 +33,15 @@ export default function SongInfo(props: ISongInfo) {
 			<AnimatePresence>
 				<PopupCard title="SONG" subtitle={metadata.song_name} ref={ref}>
 					<Link
-						className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap dark:bg-[#010101]"
+						className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
 						href={`https://www.deezer.com/de/track/${metadata.deezer_id}`}
 					>
 						<LinkIcon className="items-center text-black dark:text-white" />
-						<span className="font-montserrat text-2xl font-bold dark:text-white">Open Song</span>
+						<span className="font-montserrat text-2xl font-bold md:text-xl dark:text-white">Open Song</span>
 					</Link>
 					{metadata.added_by === clerk.user?.id ? (
 						<button
-							className="flex min-w-3/4 cursor-pointer items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap dark:bg-[#010101]"
+							className="flex min-w-3/4 cursor-pointer items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
 							onClick={() => !deleteSong.isPending && removeSong()}
 						>
 							{!deleteSong.isPending ? (
@@ -49,15 +49,15 @@ export default function SongInfo(props: ISongInfo) {
 							) : (
 								<PlayIcon type="loading" className="h-6 w-6" />
 							)}
-							<span className="font-montserrat text-2xl font-bold dark:text-white">Delete Song</span>
+							<span className="font-montserrat text-2xl font-bold md:text-xl dark:text-white">Delete Song</span>
 						</button>
 					) : (
 						<Link
-							className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap dark:bg-[#010101]"
+							className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
 							href={`mailto:info@nicodenetworks.com?subject=[${metadata.voting_id}] Item Report (${metadata.song_name})`}
 						>
 							<ReportIcon className="tems-center text-black dark:text-white" />
-							<span className="font-montserrat text-2xl font-bold dark:text-white">Report Song</span>
+							<span className="font-montserrat text-2xl font-bold md:text-xl dark:text-white">Report Song</span>
 						</Link>
 					)}
 				</PopupCard>
