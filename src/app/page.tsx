@@ -10,7 +10,7 @@ export default async function Home() {
 						<span className={`font-extrabold text-indigo-400`}>Vote Music</span> with your Friends, Guests and Artists
 					</div>
 					<div className={`font-montserrat text-3xl font-medium text-neutral-500 dark:text-gray-100`}>
-						<b className="text-white">Audlect</b> is an easy way for you to simply vote music into one playlist for
+						<b className="dark:text-white">Audlect</b> is an easy way for you to simply vote music into one playlist for
 						everyone.
 					</div>
 				</div>
