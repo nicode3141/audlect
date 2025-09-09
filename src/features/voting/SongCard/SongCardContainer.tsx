@@ -122,7 +122,7 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 	}
 
 	return (
-		<>
+		<div className="relative inline-block">
 			<SongCard
 				metadata={{ ...metadata, likes_total: likes, liked: liked }}
 				liked={liked}
@@ -137,6 +137,6 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 				onPlay={() => handlePlay()}
 			/>
 			<SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} />
-		</>
+		</div>
 	);
 }
