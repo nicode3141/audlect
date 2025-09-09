@@ -14,11 +14,7 @@ interface AddSongButtonProps {
 	isLoadingAdd: boolean;
 }
 
-export function LikeButton({
-	liked,
-	handleLike,
-	isLoadingLike,
-}: LikeButtonProps) {
+export function LikeButton({ liked, handleLike, isLoadingLike }: LikeButtonProps) {
 	return (
 		<motion.button
 			className="cursor-pointer"
@@ -37,14 +33,10 @@ export function LikeButton({
 	);
 }
 
-export function AddSongButton({
-	added,
-	handleAdd,
-	isLoadingAdd,
-}: AddSongButtonProps) {
+export function AddSongButton({ added, handleAdd, isLoadingAdd }: AddSongButtonProps) {
 	return (
 		<motion.button
-			className="cursor-pointer rounded-full bg-gray-300 p-3"
+			className="cursor-pointer rounded-full bg-gray-300 p-3 dark:bg-[#191919]"
 			initial={{ opacity: 0, scale: 0.5 }}
 			animate={{ opacity: 1, scale: 1 }}
 			transition={{ type: "tween", duration: 0.45, bounce: 0.51 }}

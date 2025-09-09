@@ -12,8 +12,8 @@ const paginationVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: `bg-[#54B88636]`,
-				search_result: `bg-[#F0F0F0]`,
+				default: `bg-[#54B88636] dark:bg-[]`,
+				search_result: `bg-[#F0F0F0] dark:bg-[#2e2e2e]`,
 			},
 		},
 		defaultVariants: {

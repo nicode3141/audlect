@@ -14,7 +14,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 	return (
 		<TRPCReactProvider>
 			<html lang="en">
-				<body className={`${interFont.variable} ${montserratFont.variable} antialiased`}>{children}</body>
+				<body className={`${interFont.variable} ${montserratFont.variable} antialiase bg-white dark:bg-[#161616]`}>
+					{children}
+				</body>
 			</html>
 		</TRPCReactProvider>
 	);

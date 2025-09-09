@@ -34,7 +34,7 @@ export default function SearchResults(props: IPlaylistItemProps) {
 			{error && (
 				<div className="font-inter flex flex-col items-center justify-center text-center font-semibold text-balance">
 					<span className="text-xl text-[#C04848]">Something went wrong, try reloading your page...</span>
-					<span className="max-w-[80vw] text-sm text-gray-700">
+					<span className="max-w-[80vw] text-sm text-gray-700 dark:text-gray-100">
 						If this error persists, contact info@nicodenetworks.com
 					</span>
 				</div>
@@ -66,7 +66,7 @@ export default function SearchResults(props: IPlaylistItemProps) {
 
 			{!isLoading && search_data?.deezer_items && !error && (
 				<div className="flex flex-col gap-3.5">
-					<div className="font-montserrat pt-[-2] text-center text-[-2rem] font-bold">Add Songs</div>
+					<div className="font-montserrat pt-[-2] text-center text-[-2rem] font-bold dark:text-white">Add Songs</div>
 					{search_data?.deezer_items?.map((items) => (
 						<SearchCardContainer
 							key={items.deezer_id}
