@@ -34,7 +34,7 @@ export default function SongCard({
 	isLoadingAdd,
 }: SongCardProps) {
 	return (
-		<div className="flex w-[90vw] items-center justify-between gap-5 rounded-3xl bg-[#F0F0F0] p-2.5 md:w-2xl">
+		<div className="flex w-[90vw] items-center justify-between gap-5 rounded-3xl bg-[#F0F0F0] p-2.5 md:w-2xl dark:bg-[#252525]">
 			<div className="flex min-w-0 flex-1 items-center gap-2">
 				<div className="flex shrink-0 items-center justify-center">
 					<button
@@ -56,8 +56,12 @@ export default function SongCard({
 					/>
 				</div>
 				<div className="flex min-w-0 flex-col leading-tight">
-					<div className="font-montserrat truncate text-[1.15rem] font-semibold">{metadata.song_name}</div>
-					<div className="font-montserrat truncate text-sm text-gray-600">{metadata.song_artists}</div>
+					<div className="font-montserrat truncate text-[1.15rem] font-semibold dark:text-white">
+						{metadata.song_name}
+					</div>
+					<div className="font-montserrat truncate text-sm text-gray-600 dark:text-gray-200">
+						{metadata.song_artists}
+					</div>
 				</div>
 			</div>
 			<div className="flex items-center justify-between gap-4 p-2">
@@ -69,7 +73,9 @@ export default function SongCard({
 								isLoadingLike={isLoadingLike ?? false}
 								handleLike={onLike ?? nop}
 							></LikeButton>
-							<div className="text-center text-sm text-gray-700 select-none">{metadata.likes_total}</div>
+							<div className="text-center text-sm text-gray-700 select-none dark:text-gray-200">
+								{metadata.likes_total}
+							</div>
 						</div>
 						<button className="cursor-pointer" aria-label="more-info" onClick={onMore ?? nop}>
 							<MoreIcon />

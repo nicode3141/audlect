@@ -13,21 +13,13 @@ interface SortMethodProps {
 	onChange: (sortMethod: SortMethodsType) => void;
 }
 
-export default function SortMethods({
-	className,
-	currentSort,
-	sortOptions,
-	onChange,
-}: SortMethodProps) {
+export default function SortMethods({ className, currentSort, sortOptions, onChange }: SortMethodProps) {
 	const [dropdownActive, setDropdownActive] = useState<boolean>();
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const closeDropdown = (e: MouseEvent) => {
-			if (
-				dropdownRef.current &&
-				!dropdownRef.current.contains(e.target as Node)
-			) {
+			if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
 				setDropdownActive(false);
 			}
 		};
@@ -38,13 +30,11 @@ export default function SortMethods({
 	return (
 		<div className={`relative inline-block ${className}`} ref={dropdownRef}>
 			<button
-				className="flex cursor-pointer items-center gap-1 rounded-[0.5rem] bg-[#dfdfdf] p-2"
+				className="flex cursor-pointer items-center gap-1 rounded-[0.5rem] bg-[#dfdfdf] p-2 dark:bg-[#272727]"
 				onClick={() => setDropdownActive((prev) => !prev)}
 			>
 				<SortIcon />
-				<span className="font-montserrat font-semibold text-[#848181]">
-					{currentSort}
-				</span>
+				<span className="font-montserrat font-semibold text-[#848181] dark:text-gray-100">{currentSort}</span>
 				<DropdownIcon />
 			</button>
 			<div className="pt-3">
