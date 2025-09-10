@@ -7,6 +7,7 @@ import { votingsTable } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { VotingProvider } from "~/context/VotingContext";
 import { LoginWarnProvider } from "~/context/LoginWarningContext";
+import Footer from "~/components/layout/global/Footer";
 
 export const metadata: Metadata = {
 	title: "Audlect Top Songs",
@@ -32,6 +33,7 @@ export default async function Page({ params }: PageParams) {
 			<LoginWarnProvider>
 				<VotingLayout />
 			</LoginWarnProvider>
+			<Footer />
 		</VotingProvider>
 	);
 }
