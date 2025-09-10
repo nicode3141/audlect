@@ -96,25 +96,29 @@ export default function VotingLayout() {
 				/>
 			)}
 			<div className="flex items-center justify-center p-10">
-				{showSearchResults ? (
-					<Pagination
-						variant={"search_result"}
-						totalPages={4}
-						currentPage={currentPage}
-						gotoPage={async (page) => {
-							setPage(page);
-							await refetchSearch();
-						}}
-					/>
-				) : (
-					<Pagination
-						variant={showSearchResults ? "search_result" : "default"}
-						totalPages={showSearchResults ? 4 : Math.ceil((entriesTotal?.count ?? 30) / itemsPerPage)}
-						currentPage={currentPage}
-						gotoPage={(page) => {
-							setPage(page);
-						}}
-					/>
+				{entriesTotal && entriesTotal?.count > 0 && (
+					<>
+						{showSearchResults ? (
+							<Pagination
+								variant={"search_result"}
+								totalPages={4}
+								currentPage={currentPage}
+								gotoPage={async (page) => {
+									setPage(page);
+									await refetchSearch();
+								}}
+							/>
+						) : (
+							<Pagination
+								variant={showSearchResults ? "search_result" : "default"}
+								totalPages={showSearchResults ? 4 : Math.ceil((entriesTotal?.count ?? 30) / itemsPerPage)}
+								currentPage={currentPage}
+								gotoPage={(page) => {
+									setPage(page);
+								}}
+							/>
+						)}
+					</>
 				)}
 			</div>
 			<audio key={previewUrl} src={previewUrl ?? undefined} autoPlay hidden onEnded={() => setPreviewUrl(null)} />
