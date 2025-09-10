@@ -65,7 +65,7 @@ export default function SongCard({
 					</div>
 				</div>
 			</div>
-			<div className="flex items-center justify-between gap-4 p-2">
+			<div className="flex items-center justify-between gap-3 p-2">
 				{added ? (
 					<>
 						<div className="flex flex-col gap-1">
@@ -78,7 +78,7 @@ export default function SongCard({
 								{metadata.likes_total}
 							</div>
 						</div>
-						<button className="cursor-pointer" aria-label="more-info" onClick={onMore ?? nop}>
+						<button className="cursor-pointer px-1 py-4" aria-label="more-info" onClick={onMore ?? nop}>
 							<MoreIcon />
 						</button>
 					</>

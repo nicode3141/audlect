@@ -1,14 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import SongCard from "./SongCard";
 import type { TSongMetadata } from "~/types/songs";
-import { api, type RouterOutputs } from "~/trpc/react";
+import { api } from "~/trpc/react";
 import { nop } from "~/lib/utils";
-import { set } from "zod";
 import SongInfo from "./SongInfo";
 import { usePopup } from "~/hooks/usePopup";
-import { useRequireLogin } from "~/hooks/useRequireLogin";
-
-type Song = RouterOutputs["likes"]["like"];
+import { useLikeSong } from "~/hooks/useLikeSong";
 
 interface ISongCardContainerProps {
 	metadata: TSongMetadata;
@@ -20,96 +17,11 @@ interface ISongCardContainerProps {
 export default function SongCardContainer(props: ISongCardContainerProps) {
 	const { metadata, variant, activePreview, setPreviewUrl } = props;
 
-	const [likes, setLikes] = useState<number>(metadata.likes_total!);
-	const [liked, setLiked] = useState<boolean>(metadata.liked as boolean);
-	const [loadingLike, setIsLoadingLike] = useState<boolean>(false);
 	const [fetchedPreviewUrl, setFetchedPreview] = useState<string | undefined>(undefined);
 	const [showSongInfo, setShowSongInfo, SongRef] = usePopup();
-	const { requireLogin } = useRequireLogin();
+	const { liked, likes, loadingLike, handleLike } = useLikeSong(metadata);
 
 	const query = api.deezerSearch.getTrack.useQuery({ track_id: metadata.deezer_id }, { enabled: false });
-
-	useEffect(() => {
-		setLiked(metadata.liked as boolean);
-	}, [metadata.likes_total]);
-
-	const likeMutation = api.likes.like.useMutation({
-		onMutate: (vars) => {
-			const likesBefore = likes;
-			setLiked(true);
-			setLikes((prev) => prev + 1);
-			setIsLoadingLike(true);
-
-			return { likesBefore };
-		},
-		onError: (err, vars, ctx) => {
-			setLiked(false);
-			setLikes(ctx?.likesBefore ?? likes);
-			setIsLoadingLike(false);
-		},
-		onSettled: (data, err, vars, ctx) => {
-			if (data?.likes_total === undefined || data?.liked === undefined) {
-				setLiked(false);
-				setLikes(ctx?.likesBefore ?? likes);
-				setIsLoadingLike(false);
-				return;
-			}
-
-			setLikes(data?.likes_total);
-			setLiked(data?.liked as boolean);
-			setIsLoadingLike(false);
-		},
-	});
-
-	const unlikeMutation = api.likes.unlike.useMutation({
-		onMutate: () => {
-			const likesBefore = likes;
-			setLiked(false);
-			setLikes((prev) => prev - 1);
-			setIsLoadingLike(true);
-
-			return { likesBefore };
-		},
-		onError: (err, vars, ctx) => {
-			setLiked(false);
-			setLikes(ctx?.likesBefore ?? likes);
-			setIsLoadingLike(false);
-		},
-		onSettled: (data, err, vars, ctx) => {
-			if (data?.likes_total === undefined || data?.liked === undefined) {
-				setLiked(false);
-				setLikes(ctx?.likesBefore ?? likes);
-				setIsLoadingLike(false);
-				return;
-			}
-
-			setLikes(data?.likes_total);
-			setLiked(data?.liked as boolean);
-			setIsLoadingLike(false);
-		},
-	});
-
-	interface IHandleLike {
-		song_id: string | undefined;
-		voting_id: string | undefined;
-	}
-
-	function handleLike({ song_id, voting_id }: IHandleLike) {
-		requireLogin(() => {
-			if (song_id === undefined || voting_id === undefined) return;
-			if (liked) {
-				unlikeMutation.mutate({
-					song_id: metadata.song_id ?? "",
-					voting_id: metadata.voting_id,
-				});
-			} else {
-				likeMutation.mutate({
-					song_id: metadata.song_id ?? "",
-					voting_id: metadata.voting_id,
-				});
-			}
-		});
-	}
 
 	async function handlePlay() {
 		if (activePreview === fetchedPreviewUrl) {
@@ -130,7 +42,7 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 				addedSearchResult={false}
 				onLike={() => handleLike({ song_id: metadata.song_id, voting_id: metadata.voting_id })}
 				onAdd={() => nop()}
-				onMore={() => setShowSongInfo?.(true)}
+				onMore={() => setShowSongInfo?.((prev) => !prev)}
 				isLoadingLike={loadingLike}
 				isLoadingAdd={false}
 				playState={activePreview === fetchedPreviewUrl ? "pause" : query.isLoading ? "loading" : "play"}
