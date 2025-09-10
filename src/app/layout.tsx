@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<TRPCReactProvider>
-			<html lang="en">
+			<html lang="en" className="scroll-smooth">
 				<body className={`${interFont.variable} ${montserratFont.variable} antialiase bg-white dark:bg-[#161616]`}>
 					{children}
 				</body>
