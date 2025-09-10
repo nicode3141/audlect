@@ -5,6 +5,7 @@ import MoreIcon from "~/components/icons/MoreIcon";
 import { nop } from "~/lib/utils";
 import type { TSongMetadata } from "~/types/songs";
 import PlayIcon from "~/components/icons/PlayIcon";
+import { motion } from "motion/react";
 
 interface SongCardProps {
 	metadata: TSongMetadata;
@@ -34,7 +35,12 @@ export default function SongCard({
 	isLoadingAdd,
 }: SongCardProps) {
 	return (
-		<div className="flex w-[90vw] items-center justify-between gap-5 rounded-3xl bg-[#F0F0F0] p-2.5 md:w-2xl dark:bg-[#252525]">
+		<motion.div
+			className="flex w-[90vw] items-center justify-between gap-5 rounded-3xl bg-[#F0F0F0] p-2.5 md:w-2xl dark:bg-[#252525]"
+			initial={{ scaleX: 0.97, opacity: 0.5 }}
+			whileInView={{ scaleX: 1, opacity: 1 }}
+			transition={{ duration: 0.3, ease: "easeOut" }}
+		>
 			<div className="flex min-w-0 flex-1 items-center gap-2">
 				<div className="flex shrink-0 items-center justify-center">
 					<button
@@ -90,6 +96,6 @@ export default function SongCard({
 					></AddSongButton>
 				)}
 			</div>
-		</div>
+		</motion.div>
 	);
 }
