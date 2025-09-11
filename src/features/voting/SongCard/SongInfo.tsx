@@ -12,10 +12,11 @@ interface ISongInfo {
 	metadata: TSongMetadata;
 	showPopup: boolean;
 	ref: React.RefObject<HTMLDivElement | HTMLElement | null>;
+	onRemove?: () => void;
 }
 
 export default function SongInfo(props: ISongInfo) {
-	const { metadata, showPopup, ref } = props;
+	const { metadata, showPopup, ref, onRemove } = props;
 	const deleteSong = api.songs.deleteSong.useMutation();
 	const utils = api.useUtils();
 	const clerk = useClerk();
@@ -24,7 +25,8 @@ export default function SongInfo(props: ISongInfo) {
 		if (!metadata.song_id) return;
 		deleteSong.mutate({ voting_id: metadata.voting_id, song_id: metadata.song_id });
 		if (!deleteSong.error) {
-			await utils.songs.songs.refetch();
+			await Promise.all([utils.songs.songs.refetch(), utils.search.fullSearch.refetch()]);
+			onRemove?.();
 		}
 	}
 

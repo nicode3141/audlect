@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
-export function usePopup(): [boolean, (value: boolean) => void, React.RefObject<HTMLDivElement | HTMLElement | null>] {
+export function usePopup(): [
+	boolean,
+	React.Dispatch<React.SetStateAction<boolean>>,
+	React.RefObject<HTMLDivElement | HTMLElement | null>,
+] {
 	const ref = useRef<HTMLDivElement | HTMLElement | null>(null);
 	const [isActive, setIsActive] = useState<boolean>(false);
 

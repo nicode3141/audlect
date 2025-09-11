@@ -19,7 +19,7 @@ export default function SearchBar(props: ISearchBarProps) {
 	const [value, setValue] = useState("");
 	const { requireLogin } = useRequireLogin();
 
-	const { debounced: debouncedSearch, setDebounced: setDebouncedSearch } = useDebounce(value, 500);
+	const { debounced: debouncedSearch, setDebounced: setDebouncedSearch } = useDebounce(value, 350);
 
 	useEffect(() => {
 		if (debouncedSearch === "") return;
