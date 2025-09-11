@@ -1,6 +1,5 @@
 import { test, expect } from "@jest/globals";
 import { appRouter } from "~/server/api/root";
-import { createContextInner } from "../test/context";
 import { createAuthContextInner } from "./authContext";
 
 async function getCaller() {

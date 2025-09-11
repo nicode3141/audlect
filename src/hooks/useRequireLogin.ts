@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/nextjs";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useLoginWarning } from "~/context/LoginWarningContext";
 
 export function useRequireLogin() {
@@ -14,7 +14,7 @@ export function useRequireLogin() {
 			}
 			action();
 		},
-		[isSignedIn],
+		[isSignedIn, triggerLoginWarning],
 	);
 
 	return { requireLogin };

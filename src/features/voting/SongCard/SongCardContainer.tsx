@@ -1,14 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SongCard from "./SongCard";
 import type { TSongMetadata } from "~/types/songs";
-import { api, type RouterOutputs } from "~/trpc/react";
+import { api } from "~/trpc/react";
 import { nop } from "~/lib/utils";
-import { set } from "zod";
 import SongInfo from "./SongInfo";
 import { usePopup } from "~/hooks/usePopup";
 import { useRequireLogin } from "~/hooks/useRequireLogin";
-
-type Song = RouterOutputs["likes"]["like"];
 
 interface ISongCardContainerProps {
 	metadata: TSongMetadata;
@@ -31,10 +28,10 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 
 	useEffect(() => {
 		setLiked(metadata.liked as boolean);
-	}, [metadata.likes_total]);
+	}, [metadata.liked, metadata.likes_total]);
 
 	const likeMutation = api.likes.like.useMutation({
-		onMutate: (vars) => {
+		onMutate: () => {
 			const likesBefore = likes;
 			setLiked(true);
 			setLikes((prev) => prev + 1);

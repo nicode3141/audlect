@@ -1,9 +1,8 @@
-import { test, expect } from "@jest/globals";
+import { test } from "@jest/globals";
 import { appRouter } from "~/server/api/root";
 import { createAuthContextInner } from "./authContext";
 
 const testVotingId = "b4f9b324-59df-4af1-8ea1-8f0229240fc4";
-const audlectVotingId = "5b0c7148-90cc-4b8f-83a1-dea74841939d";
 
 async function getCaller() {
 	const context = await createAuthContextInner({});
