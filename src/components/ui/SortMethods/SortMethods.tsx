@@ -28,7 +28,7 @@ export default function SortMethods({ className, currentSort, sortOptions, onCha
 	}, []);
 
 	return (
-		<div className={`relative inline-block ${className}`} ref={dropdownRef}>
+		<div className={`relative inline-block ${className}`}>
 			<button
 				className="flex cursor-pointer items-center gap-1 rounded-[0.5rem] bg-[#dfdfdf] p-2 dark:bg-[#272727]"
 				onClick={() => setDropdownActive((prev) => !prev)}
@@ -37,7 +37,7 @@ export default function SortMethods({ className, currentSort, sortOptions, onCha
 				<span className="font-montserrat font-semibold text-[#848181] dark:text-gray-100">{currentSort}</span>
 				<DropdownIcon />
 			</button>
-			<div className="pt-3">
+			<div className="pt-3" ref={dropdownRef}>
 				<AnimatePresence>
 					{dropdownActive && sortOptions && (
 						<motion.ul

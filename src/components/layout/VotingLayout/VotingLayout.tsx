@@ -10,20 +10,14 @@ import { api } from "~/trpc/react";
 import { useVoting } from "~/context/VotingContext";
 import { useQueryParams } from "~/hooks/useQueryParams";
 import NotLoggedIn from "~/features/voting/Popups/NotLoggedIn";
-import { useUser } from "@clerk/nextjs";
-import { useRequireLogin } from "~/hooks/useRequireLogin";
-import { useLoginWarning } from "~/context/LoginWarningContext";
 
 export default function VotingLayout() {
 	const { votingId } = useVoting();
 	const { currentPage, sortMethod, setPage, setSortMethod } = useQueryParams();
-	const { isSignedIn } = useUser();
 
 	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
 	const [searchString, setSearchString] = useState<string>("");
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-	const { requireLogin } = useRequireLogin();
-	const { showWarning } = useLoginWarning();
 
 	const itemsPerPage = 30;
 	const offset = (currentPage - 1) * itemsPerPage;

@@ -9,7 +9,6 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from "~/components/ui/@shadcn/dialog";
 import { useLoginWarning } from "~/context/LoginWarningContext";
 

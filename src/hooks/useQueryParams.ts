@@ -4,12 +4,6 @@ import { useCallback, useMemo } from "react";
 import { scrollSmoothToTop } from "~/lib/utils";
 import type { SortMethodsType } from "~/types/global";
 
-interface IQueryParams {
-	page?: number;
-	sortMethod?: SortMethodsType;
-	[key: string]: string | number | undefined;
-}
-
 export function useQueryParams() {
 	const searchParams = useSearchParams();
 	const router = useRouter();

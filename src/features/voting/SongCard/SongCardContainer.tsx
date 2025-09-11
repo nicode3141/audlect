@@ -7,6 +7,7 @@ import SongInfo from "./SongInfo";
 import { usePopup } from "~/hooks/usePopup";
 import { useLikeSong } from "~/hooks/useLikeSong";
 
+
 interface ISongCardContainerProps {
 	metadata: TSongMetadata;
 	variant: "playlist" | "search";
@@ -22,6 +23,7 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 	const { liked, likes, loadingLike, handleLike } = useLikeSong(metadata);
 
 	const query = api.deezerSearch.getTrack.useQuery({ track_id: metadata.deezer_id }, { enabled: false });
+
 
 	async function handlePlay() {
 		if (activePreview === fetchedPreviewUrl) {

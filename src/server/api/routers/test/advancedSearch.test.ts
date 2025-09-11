@@ -1,4 +1,4 @@
-import { test, expect } from "@jest/globals";
+import { test } from "@jest/globals";
 import { createAuthContextInner } from "./authContext";
 import { appRouter } from "~/server/api/root";
 
