@@ -31,7 +31,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 		<TRPCReactProvider>
 			<html lang="en" className="scroll-smooth">
 				<head>
-					<link rel="manifest" href="manifest.json" />
+					<link rel="manifest" href="/manifest.json" />
 					<meta name="mobile-web-app-capable" content="yes" />
 					<meta name="apple-mobile-web-app-capable" content="yes" />
 					<meta name="application-name" content="Audlect" />

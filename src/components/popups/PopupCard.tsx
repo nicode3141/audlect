@@ -30,7 +30,7 @@ export default function PopupCard(props: IPopupCard) {
 			exit={{ height: 0, opacity: 0 }}
 			transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
 		>
-			<div className="flex flex-col items-center justify-center gap-2.5 rounded-xl p-5 md:bg-gray-200">
+			<div className="flex flex-col items-center justify-center gap-2.5 rounded-xl p-5 md:bg-gray-200 dark:bg-[#010101]">
 				<span className="font-montserrat truncate text-lg font-semibold md:text-base dark:text-gray-200">{title}</span>
 				<span className="font-montserrat w-9/10 truncate text-center text-3xl font-bold md:text-lg dark:text-white">
 					{subtitle}
