@@ -32,6 +32,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 			<html lang="en" className="scroll-smooth">
 				<head>
 					<link rel="manifest" href="/manifest.json" />
+					<meta name="google-site-verification" content="yLjcVnpIMX5kpihar7L_mOImR_sVKCkDCK4uH0rV_hM" />
 					<meta name="mobile-web-app-capable" content="yes" />
 					<meta name="apple-mobile-web-app-capable" content="yes" />
 					<meta name="application-name" content="Audlect" />
