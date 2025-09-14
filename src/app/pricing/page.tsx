@@ -1,5 +1,3 @@
-export default function pricing(){
-    return(
-        <>Pricing</>
-    )
+export default function pricing() {
+	return <>Pricing</>;
 }

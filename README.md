@@ -19,6 +19,9 @@ Vote Report: If a user considers that a vote does not align with the event or vi
 ### Dev Status
 currently in early development
 
+### Milestone v2.0
+See Issues
+
 ### Roadmap
  <b>Migrate to Next.JS:</b>
 1. [x] Set up example voting

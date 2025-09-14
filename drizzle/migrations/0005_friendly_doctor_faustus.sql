@@ -1,0 +1,1 @@
+ALTER TABLE "songs" ALTER COLUMN "deezer_id" SET DATA TYPE integer;

@@ -1,0 +1,1 @@
+ALTER TABLE "likes" ADD CONSTRAINT "song_user_voting-unique" UNIQUE("song_id","user_id","voting_id");

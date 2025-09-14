@@ -36,6 +36,8 @@
     "**/*.cjs",
     "**/*.js",
     ".next/types/**/*.ts",
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx",
     "test"
 , "src/server/api/routers/server", "src/server/api/routers/server"  ],
   "exclude": ["node_modules"]

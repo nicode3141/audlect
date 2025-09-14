@@ -1,0 +1,22 @@
+"use server";
+
+import { VotingSubitle, VotingTitle } from "~/components/ui/VotingTitle/VotingTitle";
+
+interface IVotingDetails {
+	votingId: string;
+	name: string;
+	description: string;
+}
+
+export async function VotingDetails(props: IVotingDetails) {
+	const { name, description } = props;
+
+	return (
+		<>
+			<div className={`VotingDetails font-inter pt-7 lg:mt-24`}>
+				<VotingTitle>{name}</VotingTitle>
+				<VotingSubitle>{description}</VotingSubitle>
+			</div>
+		</>
+	);
+}

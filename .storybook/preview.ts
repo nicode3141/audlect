@@ -1,0 +1,32 @@
+import "~/styles/globals.css";
+import type { Preview } from "@storybook/nextjs-vite";
+
+const preview: Preview = {
+	parameters: {
+		controls: {
+			matchers: {
+				color: /(background|color)$/i,
+				date: /Date$/i,
+			},
+		},
+
+		layout: "centered",
+
+		a11y: {
+			// 'todo' - show a11y violations in the test UI only
+			// 'error' - fail CI on a11y violations
+			// 'off' - skip a11y checks entirely
+			test: "todo",
+		},
+
+		themes: {
+			default: "Light",
+			list: [
+				{ name: "Light", class: "light", color: "#ffffff" },
+				{ name: "Dark", class: "dark", color: "#000000" },
+			],
+		},
+	},
+};
+
+export default preview;
