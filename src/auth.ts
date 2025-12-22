@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { admin, twoFactor, username } from "better-auth/plugins";
 import { db } from "~/server/db";
 
 export const auth = betterAuth({
@@ -11,4 +14,5 @@ export const auth = betterAuth({
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
 		},
 	},
+	plugins: [admin(), twoFactor(), username()],
 });
