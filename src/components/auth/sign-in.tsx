@@ -1,24 +1,16 @@
-import { authClient } from "@/lib/auth-client";
+import { useRouter, usePathname } from "next/navigation";
 
 export const SignIn = () => {
+	const router = useRouter();
+
+	const location = usePathname();
+
 	const handleSignIn = async () => {
-		const { data, error } = await authClient.signIn.email({
-			email: "user@example.com",
-			password: "password",
-			rememberMe: true,
-		});
-
-		if (error) {
-			alert("Sign-in failed. Please check your credentials and try again.");
-			console.error(error);
-			return;
-		}
-
-		window.location.reload();
+		router.push(`/auth/sign-in?redirectTo=${encodeURIComponent(location)}`);
 	};
 
 	return (
-		<button onClick={handleSignIn} type="submit">
+		<button onClick={handleSignIn} type="submit" className="cursor-pointer">
 			Sign in
 		</button>
 	);
