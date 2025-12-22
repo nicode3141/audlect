@@ -42,12 +42,17 @@ export const searchRouter = createTRPCRouter({
 						added_by: songsTable.added_by,
 						created_at: songsTable.created_at,
 						likes_total: count(likesTable.song_id).as("likes_total"),
-						liked: ctx.auth?.userId
+						liked: ctx.auth?.session?.userId
 							? exists(
 									ctx.db
 										.select({ one: sql`1` })
 										.from(likesTable)
-										.where(and(eq(likesTable.song_id, songsTable.song_id), eq(likesTable.user_id, ctx.auth?.userId))),
+										.where(
+											and(
+												eq(likesTable.song_id, songsTable.song_id),
+												eq(likesTable.user_id, ctx.auth?.session?.userId),
+											),
+										),
 								).as("liked")
 							: sql`false`.as("liked"),
 					})

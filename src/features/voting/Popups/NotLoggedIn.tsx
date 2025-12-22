@@ -1,5 +1,5 @@
-import { SignInButton } from "@clerk/nextjs";
 import React from "react";
+import { SignIn } from "~/components/auth/sign-in";
 import { Button } from "~/components/ui/@shadcn/button";
 import {
 	Dialog,
@@ -25,9 +25,7 @@ export default function NotLoggedIn() {
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>
-					<SignInButton>
-						<Button variant="default">Sign In</Button>
-					</SignInButton>
+					<SignIn />
 					<DialogClose asChild>
 						<Button variant="outline">Cancel</Button>
 					</DialogClose>

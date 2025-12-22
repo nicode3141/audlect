@@ -65,12 +65,17 @@ export const songsRouter = createTRPCRouter({
 						added_by: songsTable.added_by,
 						created_at: songsTable.created_at,
 						likes_total: count(likesTable.song_id).as("likes_total"),
-						liked: ctx.auth?.userId
+						liked: ctx.auth?.session?.userId
 							? exists(
 									ctx.db
 										.select({ one: sql`1` })
 										.from(likesTable)
-										.where(and(eq(likesTable.song_id, songsTable.song_id), eq(likesTable.user_id, ctx.auth?.userId))),
+										.where(
+											and(
+												eq(likesTable.song_id, songsTable.song_id),
+												eq(likesTable.user_id, ctx.auth?.session?.userId),
+											),
+										),
 								).as("liked")
 							: sql`false`.as("liked"),
 					})
@@ -171,7 +176,7 @@ export const songsRouter = createTRPCRouter({
 							song_name: item.title,
 							song_artists: item.artist.name,
 							preview_url: null,
-							added_by: ctx.auth.userId,
+							added_by: ctx.auth?.session?.userId,
 						})
 						.returning();
 
@@ -231,7 +236,7 @@ export const songsRouter = createTRPCRouter({
 					.where(
 						and(
 							eq(songsTable.song_id, input.song_id),
-							eq(songsTable.added_by, ctx.auth.userId),
+							eq(songsTable.added_by, ctx.auth?.session?.userId),
 							eq(songsTable.voting_id, input.voting_id),
 						),
 					)

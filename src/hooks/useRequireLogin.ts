@@ -1,9 +1,9 @@
-import { useUser } from "@clerk/nextjs";
 import { useCallback } from "react";
 import { useLoginWarning } from "~/context/LoginWarningContext";
+import { useSession } from "~/lib/auth-client";
 
 export function useRequireLogin() {
-	const { isSignedIn } = useUser();
+	const { data: isSignedIn } = useSession();
 	const { triggerLoginWarning } = useLoginWarning();
 
 	const requireLogin = useCallback(
