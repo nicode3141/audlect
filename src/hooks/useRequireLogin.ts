@@ -3,11 +3,11 @@ import { useLoginWarning } from "~/context/LoginWarningContext";
 import { useSession } from "~/lib/auth-client";
 
 export function useRequireLogin() {
-	const { data: isSignedIn } = useSession();
+	const { data: isSignedIn, refetch } = useSession();
 	const { triggerLoginWarning } = useLoginWarning();
 
 	const requireLogin = useCallback(
-		(action: () => void) => {
+		async (action: () => void) => {
 			if (!isSignedIn) {
 				triggerLoginWarning();
 				return;
