@@ -8,6 +8,7 @@ import { SignUp } from "~/components/auth/sign-up";
 import { ArrowDown, ArrowLeft } from "~/components/icons/Arrows";
 import { SingOut } from "~/components/auth/sign-out";
 import { nop } from "~/lib/utils";
+import { UserButton } from "@daveyplate/better-auth-ui";
 
 interface VotingHeaderProps {
 	votingTitle: string;
@@ -29,7 +30,7 @@ export default function VotingHeader({ votingTitle }: VotingHeaderProps) {
 					</button>
 					{session ? (
 						<>
-							<span className="">Signed in as {session.user?.name}</span>
+							<UserButton />
 							<SingOut />
 						</>
 					) : (

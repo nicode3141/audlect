@@ -10,7 +10,7 @@ export const SingOut = () => {
 	};
 
 	return (
-		<button type="submit" onClick={handleSignOut}>
+		<button type="submit" onClick={handleSignOut} className="cursor-pointer">
 			Sign Out
 		</button>
 	);
