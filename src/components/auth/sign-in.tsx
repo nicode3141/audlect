@@ -14,8 +14,7 @@ export const SignIn = () => {
 			return;
 		}
 
-		// Handle successful sign in
-		console.log("Signed in:", data);
+		window.location.reload();
 	};
 
 	return (
