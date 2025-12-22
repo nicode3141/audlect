@@ -46,7 +46,7 @@ export const votingsRouter = createTRPCRouter({
 					name: input.name,
 					description: input.description,
 					public: input.public,
-					created_by: ctx.auth.userId,
+					created_by: ctx.auth.session.userId,
 					active: true,
 					short_id: nanoid(10),
 				})

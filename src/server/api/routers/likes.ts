@@ -28,7 +28,7 @@ export const likesRouter = createTRPCRouter({
 					.values({
 						song_id: input.song_id,
 						voting_id: input.voting_id,
-						user_id: ctx.auth.userId,
+						user_id: ctx.auth.session.userId,
 					})
 					.onConflictDoNothing()
 					.returning();
@@ -38,7 +38,7 @@ export const likesRouter = createTRPCRouter({
 						.select({
 							song_id: songsTable.song_id,
 							likes_total: count(likesTable.song_id).as("likes_total"),
-							liked: ctx.auth?.userId
+							liked: ctx.auth?.session?.userId
 								? exists(
 										ctx.db
 											.select({ one: sql`1` })
@@ -46,7 +46,7 @@ export const likesRouter = createTRPCRouter({
 											.where(
 												and(
 													eq(likesTable.song_id, songsTable.song_id),
-													eq(likesTable.user_id, ctx.auth?.userId),
+													eq(likesTable.user_id, ctx.auth?.session?.userId),
 												),
 											),
 									).as("liked")
@@ -54,12 +54,7 @@ export const likesRouter = createTRPCRouter({
 						})
 						.from(songsTable)
 						.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
-						.where(
-							and(
-								eq(songsTable.voting_id, input.voting_id),
-								eq(songsTable.song_id, input.song_id),
-							),
-						)
+						.where(and(eq(songsTable.voting_id, input.voting_id), eq(songsTable.song_id, input.song_id)))
 						.groupBy(songsTable.song_id)
 						.limit(1);
 
@@ -106,7 +101,7 @@ export const likesRouter = createTRPCRouter({
 					.where(
 						and(
 							eq(likesTable.song_id, input.song_id),
-							eq(likesTable.user_id, ctx.auth.userId),
+							eq(likesTable.user_id, ctx.auth?.session?.userId),
 							eq(likesTable.voting_id, input.voting_id),
 						),
 					)
@@ -117,7 +112,7 @@ export const likesRouter = createTRPCRouter({
 						.select({
 							song_id: songsTable.song_id,
 							likes_total: count(likesTable.song_id).as("likes_total"),
-							liked: ctx.auth?.userId
+							liked: ctx.auth?.session?.userId
 								? exists(
 										ctx.db
 											.select({ one: sql`1` })
@@ -125,7 +120,7 @@ export const likesRouter = createTRPCRouter({
 											.where(
 												and(
 													eq(likesTable.song_id, songsTable.song_id),
-													eq(likesTable.user_id, ctx.auth?.userId),
+													eq(likesTable.user_id, ctx.auth?.session?.userId),
 												),
 											),
 									).as("liked")
@@ -133,12 +128,7 @@ export const likesRouter = createTRPCRouter({
 						})
 						.from(songsTable)
 						.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
-						.where(
-							and(
-								eq(songsTable.voting_id, input.voting_id),
-								eq(songsTable.song_id, input.song_id),
-							),
-						)
+						.where(and(eq(songsTable.voting_id, input.voting_id), eq(songsTable.song_id, input.song_id)))
 						.groupBy(songsTable.song_id)
 						.limit(1);
 
