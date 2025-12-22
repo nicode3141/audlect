@@ -1,6 +1,5 @@
 "use client";
 
-import { SignedIn, SignedOut, SignInButton, useClerk, UserButton } from "@clerk/nextjs";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import React from "react";
@@ -8,13 +7,13 @@ import { SignIn } from "~/components/auth/sign-in";
 import { SignUp } from "~/components/auth/sign-up";
 import { ArrowDown, ArrowLeft } from "~/components/icons/Arrows";
 import { SingOut } from "~/components/auth/sign-out";
+import { nop } from "~/lib/utils";
 
 interface VotingHeaderProps {
 	votingTitle: string;
 }
 
 export default function VotingHeader({ votingTitle }: VotingHeaderProps) {
-	const { openUserProfile } = useClerk();
 	const { data: session, isPending, error, refetch } = authClient.useSession();
 
 	return (
@@ -25,7 +24,7 @@ export default function VotingHeader({ votingTitle }: VotingHeaderProps) {
 			</Link>
 			<div>
 				<div className="flex cursor-pointer items-center gap-3">
-					<button onClick={() => openUserProfile()} aria-label="user-menu">
+					<button onClick={() => nop} aria-label="user-menu">
 						<ArrowDown />
 					</button>
 					{session ? (
