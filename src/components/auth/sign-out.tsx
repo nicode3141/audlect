@@ -21,7 +21,7 @@ export function SignOut({ redirectTo }: { redirectTo?: string }) {
 		if (signingOut.current) return;
 		signingOut.current = true;
 
-		void authClient.signOut().finally(onSuccess);
+		void authClient.signOut().finally(() => onSuccess());
 	}, [authClient, onSuccess]);
 
 	return <Loader2 className="animate-spin" />;

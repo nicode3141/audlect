@@ -12,9 +12,7 @@ import type { AccountViewPath } from "~/lib/auth/view-paths";
 import { cn } from "~/lib/utils";
 import { Button } from "../ui/button";
 import { AccountSettingsCards } from "../settings/account-settings-cards";
-import { UserTeamsCard } from "../settings/teams/user-teams-card";
 import { SecuritySettingsCards } from "../settings/security-settings-cards";
-import { ApiKeysCard } from "../settings/api-key/api-keys-card";
 import type { SettingsCardClassNames } from "../settings/shared/settings-card";
 
 export interface AccountViewProps {
@@ -164,12 +162,6 @@ export function AccountView({
 			{view === "SETTINGS" && <AccountSettingsCards classNames={classNames} localization={localization} />}
 
 			{view === "SECURITY" && <SecuritySettingsCards classNames={classNames} localization={localization} />}
-
-			{view === "TEAMS" && teamsEnabled && showTeams && (
-				<UserTeamsCard classNames={classNames} localization={localization} />
-			)}
-
-			{view === "API_KEYS" && <ApiKeysCard classNames={classNames?.card} localization={localization} />}
 
 			{view === "ORGANIZATIONS" && organization && <div className="grid w-full gap-4 md:gap-6"></div>}
 		</div>
