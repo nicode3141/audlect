@@ -75,7 +75,7 @@ export function useLikeSong(metadata: TSongMetadata) {
 	}
 
 	function handleLike({ song_id, voting_id }: IHandleLike) {
-		requireLogin(() => {
+		void requireLogin(() => {
 			if (song_id === undefined || voting_id === undefined) return;
 			if (liked) {
 				unlikeMutation.mutate({

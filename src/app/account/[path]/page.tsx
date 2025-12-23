@@ -1,5 +1,6 @@
-import { AccountView } from "@daveyplate/better-auth-ui";
-import { accountViewPaths } from "@daveyplate/better-auth-ui/server";
+import { AccountView } from "~/components/auth/account/account-view";
+import { accountViewPaths } from "~/lib/auth/view-paths";
+
 export const dynamicParams = false;
 export function generateStaticParams() {
 	return Object.values(accountViewPaths).map((path) => ({ path }));
