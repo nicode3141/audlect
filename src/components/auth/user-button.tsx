@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
- 
+
 "use client";
 import { ChevronsUpDown, LogInIcon, LogOutIcon, PlusCircleIcon, SettingsIcon, UserRoundPlus } from "lucide-react";
 import {
@@ -32,6 +32,8 @@ import { useIsHydrated } from "~/hooks/use-hydrated";
 import type { AnyAuthClient } from "~/types/auth/any-auth-client";
 import type { User } from "~/types/auth/auth-client";
 import { cn } from "~/lib/utils";
+import { usePathname, useRouter } from "next/navigation";
+import { ArrowDown } from "../icons/Arrows";
 
 export interface UserButtonClassNames {
 	base?: string;
@@ -131,6 +133,8 @@ export function UserButton({
 		deviceSessionsPending = isPending;
 	}
 
+	const location = usePathname();
+
 	const { data: sessionData, isPending: sessionPending } = useSession();
 	const user = sessionData?.user;
 	const [activeSessionPending, setActiveSessionPending] = useState(false);
@@ -182,11 +186,16 @@ export function UserButton({
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild className={cn(size === "icon" && "rounded-full", classNames?.trigger?.base)}>
+			<DropdownMenuTrigger
+				asChild
+				className={cn(size === "icon" && "cursor-pointer rounded-full", classNames?.trigger?.base)}
+			>
 				{trigger ??
 					(size === "icon" ? (
 						<Button size="icon" className="size-fit rounded-full" variant="ghost">
+							<ArrowDown />
 							<UserAvatar
+								size={"lg"}
 								key={user?.image}
 								isPending={isPending}
 								className={cn(className, classNames?.base)}
@@ -295,7 +304,7 @@ export function UserButton({
 							</Link>
 						)}
 
-						<Link href={`${basePath}/${viewPaths.SIGN_OUT}`}>
+						<Link href={`${basePath}/${viewPaths.SIGN_OUT}?redirectTo=${encodeURIComponent(location)}`}>
 							<DropdownMenuItem className={classNames?.content?.menuItem}>
 								<LogOutIcon />
 

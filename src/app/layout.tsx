@@ -5,6 +5,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import { AuthProvider } from "~/context/AuthProvider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
 	title: "Audlect - Vote Music",
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 				<body
 					className={`${interFont.variable} ${montserratFont.variable} antialiase min-h-screen bg-white dark:bg-[#161616]`}
 				>
+					<Toaster position="top-center" richColors expand />
 					<AuthProvider>{children}</AuthProvider>
 				</body>
 			</html>

@@ -1,12 +1,9 @@
- 
- 
- 
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useContext, useEffect, useRef } from "react";
-import { Form, useForm } from "react-hook-form";
+import { Form, FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { cn } from "~/lib/utils";
@@ -123,7 +120,7 @@ export function ResetPasswordForm({ className, classNames, localization, passwor
 	}
 
 	return (
-		<Form {...form}>
+		<FormProvider {...form}>
 			<form
 				onSubmit={form.handleSubmit(resetPassword)}
 				className={cn("grid w-full gap-6", className, classNames?.base)}
@@ -182,6 +179,6 @@ export function ResetPasswordForm({ className, classNames, localization, passwor
 					{isSubmitting ? <Loader2 className="animate-spin" /> : localization.RESET_PASSWORD_ACTION}
 				</Button>
 			</form>
-		</Form>
+		</FormProvider>
 	);
 }

@@ -25,18 +25,13 @@ export default function VotingHeader({ votingTitle }: VotingHeaderProps) {
 			</Link>
 			<div>
 				<div className="flex cursor-pointer items-center gap-3">
-					<button onClick={() => nop} aria-label="user-menu">
-						<ArrowDown />
-					</button>
 					{session ? (
 						<>
-							<UserButton />
-							<SingOut />
+							<UserButton size={"icon"} />
 						</>
 					) : (
 						<>
 							<SignIn />
-							<SignUp />
 						</>
 					)}
 				</div>

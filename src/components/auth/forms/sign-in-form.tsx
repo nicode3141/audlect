@@ -25,6 +25,10 @@ import { Captcha } from "../captcha/captcha";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { PasswordInput } from "../password-input";
+import { ProviderButton } from "../provider-button";
+import { activeProviders, socialProviders, type SocialProviderType } from "~/lib/auth/social-providers";
+import { Separator } from "../ui/separator";
+import { FieldSeparator } from "../ui/field";
 
 export interface SignInFormProps {
 	className?: string;
@@ -100,6 +104,12 @@ export function SignInForm({
 		setIsSubmitting?.(form.formState.isSubmitting || transitionPending);
 	}, [form.formState.isSubmitting, transitionPending, setIsSubmitting]);
 
+	async function oauth(provider: SocialProviderType) {
+		setIsSubmitting?.(true);
+		await authClient.signIn.social({ provider: provider.provider });
+		setIsSubmitting?.(false);
+	}
+
 	async function signIn({ email, password, rememberMe }: z.infer<typeof formSchema>) {
 		try {
 			let response: Record<string, unknown> = {};
@@ -139,6 +149,8 @@ export function SignInForm({
 			form.resetField("password");
 			resetCaptcha();
 
+			console.log("error");
+
 			toast({
 				variant: "error",
 				message: getLocalizedError({
@@ -157,6 +169,22 @@ export function SignInForm({
 				noValidate={isHydrated}
 				className={cn("grid w-full gap-6", className, classNames?.base)}
 			>
+				{activeProviders.map((provider: SocialProviderType) => (
+					<Button
+						key={provider.name}
+						className={cn("w-full", className + " cursor-pointer")}
+						disabled={isSubmitting}
+						variant="outline"
+						onClick={async () => await oauth(provider)}
+					>
+						{provider.icon && <provider.icon />}
+
+						{`${localization.SIGN_IN_WITH} ${provider.name}`}
+					</Button>
+				))}
+
+				<FieldSeparator>or continue with email</FieldSeparator>
+
 				<FormField
 					control={form.control}
 					name="email"

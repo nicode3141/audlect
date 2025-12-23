@@ -1,13 +1,14 @@
- 
- 
- 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { BetterFetchOption } from "better-auth/react";
 import { Loader2 } from "lucide-react";
 import { useContext, useEffect } from "react";
-import { Form, useForm } from "react-hook-form";
+import { Form, FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 import type { AuthFormClassNames } from "../auth-form";
 import type { AuthLocalization } from "~/localization/auth-localization";
@@ -111,7 +112,7 @@ export function ForgotPasswordForm({
 	}
 
 	return (
-		<Form {...form}>
+		<FormProvider {...form}>
 			<form
 				onSubmit={form.handleSubmit(forgotPassword)}
 				noValidate={isHydrated}
@@ -149,6 +150,6 @@ export function ForgotPasswordForm({
 					{isSubmitting ? <Loader2 className="animate-spin" /> : localization.FORGOT_PASSWORD_ACTION}
 				</Button>
 			</form>
-		</Form>
+		</FormProvider>
 	);
 }
