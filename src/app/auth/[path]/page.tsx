@@ -1,5 +1,5 @@
-import { AuthView } from "@daveyplate/better-auth-ui";
-import { authViewPaths } from "@daveyplate/better-auth-ui/server";
+import { AuthView } from "~/components/auth/auth-view";
+import { authViewPaths } from "~/lib/auth/view-paths";
 
 export const dynamicParams = false;
 
