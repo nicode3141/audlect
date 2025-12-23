@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
- 
- 
- 
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { BetterFetchOption } from "better-auth/react";
 import { Loader2, Trash2Icon, UploadCloudIcon } from "lucide-react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { Form, useForm } from "react-hook-form";
+import { Form, FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 
 import type { AuthFormClassNames } from "../auth-form";
@@ -31,6 +29,8 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Textarea } from "../ui/textarea";
 import { UserAvatar } from "../user-avatar";
 import { PasswordInput } from "../password-input";
+import { activeProviders, type SocialProviderType } from "~/lib/auth/social-providers";
+import { FieldSeparator } from "../ui/field";
 export interface SignUpFormProps {
 	className?: string;
 	classNames?: AuthFormClassNames;
@@ -106,6 +106,12 @@ export function SignUpForm({
 		() => redirectTo ?? getSearchParam("redirectTo") ?? contextRedirectTo,
 		[redirectTo, contextRedirectTo],
 	);
+
+	async function oauth(provider: SocialProviderType) {
+		setIsSubmitting?.(true);
+		await authClient.signIn.social({ provider: provider.provider });
+		setIsSubmitting?.(false);
+	}
 
 	const getCallbackURL = useCallback(
 		() =>
@@ -385,7 +391,7 @@ export function SignUpForm({
 	}
 
 	return (
-		<Form {...form}>
+		<FormProvider {...form}>
 			<form
 				onSubmit={form.handleSubmit(signUp)}
 				noValidate={isHydrated}
@@ -698,7 +704,23 @@ export function SignUpForm({
 				>
 					{isSubmitting ? <Loader2 className="animate-spin" /> : localization.SIGN_UP_ACTION}
 				</Button>
+
+				<FieldSeparator>or continue with</FieldSeparator>
+
+				{activeProviders.map((provider: SocialProviderType) => (
+					<Button
+						key={provider.name}
+						className={cn("w-full", className + " cursor-pointer")}
+						disabled={isSubmitting}
+						variant="outline"
+						onClick={async () => await oauth(provider)}
+					>
+						{provider.icon && <provider.icon />}
+
+						{`${localization.SIGN_IN_WITH} ${provider.name}`}
+					</Button>
+				))}
 			</form>
-		</Form>
+		</FormProvider>
 	);
 }

@@ -1,6 +1,3 @@
- 
- 
- 
 import type { SocialProvider } from "better-auth/social-providers";
 import { useCallback, useContext } from "react";
 
@@ -121,7 +118,7 @@ export function ProviderButton({
 		<Button
 			className={cn(
 				socialLayout === "vertical" ? "w-full" : "grow",
-				className,
+				className + " cursor-pointer",
 				classNames?.form?.button,
 				classNames?.form?.outlineButton,
 				classNames?.form?.providerButton,

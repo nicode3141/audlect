@@ -25,6 +25,25 @@ import {
 	ZoomIcon,
 } from "~/components/auth/provider-icons";
 
+export type SocialProviderType = {
+	provider: string;
+	name: string;
+	icon: ProviderIcon;
+};
+
+export const activeProviders = [
+	{
+		provider: "github",
+		name: "GitHub",
+		icon: GitHubIcon,
+	},
+	{
+		provider: "google",
+		name: "Google",
+		icon: GoogleIcon,
+	},
+] as const;
+
 export const socialProviders = [
 	{
 		provider: "apple",
