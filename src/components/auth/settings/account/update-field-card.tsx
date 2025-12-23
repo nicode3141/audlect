@@ -14,11 +14,11 @@ import { Input } from "../../ui/input";
 import { Skeleton } from "../../ui/skeleton";
 import { Textarea } from "../../ui/textarea";
 import { SettingsCard, type SettingsCardClassNames } from "../shared/settings-card";
-import type { FieldType } from "better-auth";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import { getLocalizedError } from "~/lib/auth/utils";
 import { cn } from "~/lib/utils";
 import type { AuthLocalization } from "~/localization/auth-localization";
+import type { FieldType } from "~/types/auth/additional-fields";
 
 export interface UpdateFieldCardProps {
 	className?: string;
