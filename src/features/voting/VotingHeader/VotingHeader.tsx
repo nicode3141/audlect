@@ -3,10 +3,10 @@
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import React from "react";
-import { SignIn } from "~/components/auth/sign-in";
-import { SignUp } from "~/components/auth/sign-up";
+import { SignIn } from "~/components/oldauth/sign-in";
+import { SignUp } from "~/components/oldauth/sign-up";
 import { ArrowDown, ArrowLeft } from "~/components/icons/Arrows";
-import { SingOut } from "~/components/auth/sign-out";
+import { SingOut } from "~/components/oldauth/sign-out";
 import { nop } from "~/lib/utils";
 import { UserButton } from "@daveyplate/better-auth-ui";
 
