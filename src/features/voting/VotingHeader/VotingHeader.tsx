@@ -8,6 +8,7 @@ import { SignUp } from "~/components/oldauth/sign-up";
 import { ArrowDown, ArrowLeft } from "~/components/icons/Arrows";
 import { SingOut } from "~/components/oldauth/sign-out";
 import { nop } from "~/lib/utils";
+import { UserButton } from "~/components/auth/user-button";
 
 interface VotingHeaderProps {
 	votingTitle: string;
