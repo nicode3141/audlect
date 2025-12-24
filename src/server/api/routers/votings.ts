@@ -32,6 +32,32 @@ export const votingsRouter = createTRPCRouter({
 			return votings[0];
 		}),
 
+	joinVoting: protectedProcedure
+		.input(
+			z.object({
+				voting_id: z.string().uuid(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			try {
+				if (
+					ctx.auth.user.votingMemberships.find((membership) => membership.votingId === input.voting_id) === undefined
+				) {
+					const [membership] = await ctx.db
+						.insert(voting_membershipsTable)
+						.values({ voting_id: input.voting_id, user_id: ctx.auth.session.userId, role: "participant" })
+						.returning();
+
+					return membership;
+				}
+			} catch (err: unknown) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: err instanceof Error ? err.message : "couldn't fetch songs",
+				});
+			}
+		}),
+
 	createVoting: protectedProcedure
 		.input(
 			z.object({
