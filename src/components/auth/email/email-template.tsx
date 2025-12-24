@@ -57,7 +57,7 @@ export const EmailTemplate = ({
 	url,
 }: EmailTemplateProps) => {
 	baseUrl = baseUrl ?? process.env.BASE_URL ?? process.env.NEXT_PUBLIC_BASE_URL;
-	imageUrl = imageUrl ?? `${baseUrl}/apple-touch-icon.png`;
+	imageUrl = imageUrl ?? `${baseUrl}/manifest-icon-512.maskable.png`;
 	siteName = siteName ?? process.env.SITE_NAME ?? process.env.NEXT_PUBLIC_SITE_NAME;
 	preview = preview ?? (typeof heading === "string" ? heading : undefined);
 
