@@ -55,7 +55,7 @@ export function SecuritySettingsCards({
 				/>
 			)}
 
-			{(social?.providers?.length ?? genericOAuth?.providers?.length) && (
+			{(social?.providers?.length ?? genericOAuth?.providers?.length ?? true) && (
 				<ProvidersCard
 					accounts={accounts}
 					classNames={classNames?.card}
@@ -72,7 +72,7 @@ export function SecuritySettingsCards({
 
 			<SessionsCard classNames={classNames?.card} localization={localization} />
 
-			{deleteUser && (
+			{true && (
 				<DeleteAccountCard
 					accounts={accounts}
 					classNames={classNames?.card}

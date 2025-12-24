@@ -6,6 +6,11 @@ import { sendEmail } from "./email";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, { provider: "pg" }),
+	user: {
+		deleteUser: {
+			enabled: true,
+		},
+	},
 	emailAndPassword: {
 		enabled: true,
 		sendResetPassword: async ({ user, url, token }, request) => {
