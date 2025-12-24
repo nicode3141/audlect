@@ -56,7 +56,6 @@ export default function SongCard({
 						width={90}
 						height={90}
 						className="h-16 w-16 rounded-xl"
-						placeholder="data:image/ImagePlaceholder.png"
 						blurDataURL="ImagePlaceholder.png"
 						onError={(e) => (e.currentTarget.src = "/ImagePlaceholder.png")}
 						unoptimized
