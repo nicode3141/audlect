@@ -37,7 +37,6 @@ export default async function Page({ params }: PageParams) {
 			<div className="flex min-h-screen flex-col">
 				<VotingHeader votingTitle={voting.name} />
 				<VotingDetails votingId={voting.voting_id} name={voting.name} description={voting.description} />
-				<Memberships />
 				<LoginWarnProvider>
 					<VotingLayout />
 				</LoginWarnProvider>
