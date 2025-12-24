@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { and, asc, count, desc, eq, exists, sql } from "drizzle-orm";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
-import { likesTable, songsTable } from "~/server/db/schema";
+import { likesTable, songsTable, voting_membershipsTable } from "~/server/db/schema";
 import type { DeezerTrack } from "~/types/songs";
 import { getTrack } from "~/server/utils/deezer";
 
@@ -231,15 +231,43 @@ export const songsRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
+				const [memberships] = await ctx.db
+					.select()
+					.from(voting_membershipsTable)
+					.where(eq(voting_membershipsTable.user_id, ctx.auth.session.userId));
+
+				if (!memberships) {
+					throw new TRPCError({
+						code: "BAD_REQUEST",
+						message: "You do not belong to this voting",
+					});
+				}
+
+				if (memberships.role !== "owner" && memberships.role !== "moderator") {
+					const [result] = await ctx.db
+						.delete(songsTable)
+						.where(
+							and(
+								eq(songsTable.song_id, input.song_id),
+								eq(songsTable.voting_id, input.voting_id),
+								eq(songsTable.added_by, ctx.auth.session.userId),
+							),
+						)
+						.returning({ song_id: songsTable.song_id });
+
+					if (result === undefined) {
+						throw new TRPCError({
+							code: "INTERNAL_SERVER_ERROR",
+							message: "Failed to delete song",
+						});
+					}
+
+					return result;
+				}
+
 				const [result] = await ctx.db
 					.delete(songsTable)
-					.where(
-						and(
-							eq(songsTable.song_id, input.song_id),
-							eq(songsTable.added_by, ctx.auth?.session?.userId),
-							eq(songsTable.voting_id, input.voting_id),
-						),
-					)
+					.where(and(eq(songsTable.song_id, input.song_id), eq(songsTable.voting_id, input.voting_id)))
 					.returning({ song_id: songsTable.song_id });
 
 				if (result === undefined) {
