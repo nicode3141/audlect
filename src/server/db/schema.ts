@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { boolean, integer, pgTable, text, timestamp, unique, uuid, varchar, index } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, text, timestamp, unique, uuid, varchar, index, pgEnum } from "drizzle-orm/pg-core";
 
 export const votingsTable = pgTable("votings", {
 	voting_id: uuid("voting_id").primaryKey().defaultRandom(),
@@ -44,6 +44,23 @@ export const likesTable = pgTable(
 			.references(() => votingsTable.voting_id),
 	},
 	(t) => [unique("song_user_voting-unique").on(t.song_id, t.user_id, t.voting_id)],
+);
+
+export const roleEnum = pgEnum("role_enum", ["owner", "moderator", "participant"]);
+
+export const voting_membershipsTable = pgTable(
+	"voting_memberships",
+	{
+		membership_id: uuid("id").primaryKey().defaultRandom(),
+		role: roleEnum().notNull().default("participant"),
+		user_id: text("user_id")
+			.notNull()
+			.references(() => user.id),
+		voting_id: uuid("voting_id")
+			.notNull()
+			.references(() => votingsTable.voting_id),
+	},
+	(t) => [unique("voting_membership-unique").on(t.user_id, t.voting_id)],
 );
 
 export const user = pgTable("user", {
