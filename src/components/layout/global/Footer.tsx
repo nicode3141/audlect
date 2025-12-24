@@ -5,43 +5,60 @@ import { LikeIcon } from "~/components/icons/Song";
 
 export default function Footer() {
 	return (
-		<footer className="font-montserrat mt-auto flex w-full items-center justify-center bg-[#717171] px-4 py-3 text-sm text-white dark:bg-transparent">
-			<div className="grid grid-cols-2 grid-rows-[1.5fr_1fr] gap-4 md:flex md:w-full md:max-w-svh md:grid-cols-1 md:grid-rows-1 md:justify-around">
-				<div className="flex flex-col gap-2 md:gap-0.5">
-					<span className="inline font-bold text-pretty">
-						built with <HeartIcon strokeWidth="2" className="inline w-4 align-middle" /> by{" "}
+		<footer className="font-montserrat mt-auto w-full bg-[#717171] px-6 py-4 text-sm text-white dark:bg-transparent dark:text-gray-300">
+			<div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 md:flex-row md:gap-0">
+				{/* Left section */}
+				<div className="flex flex-col items-center gap-1 text-center md:items-start md:text-left">
+					<span className="font-semibold">
+						Built with <span className="text-red-400">♥</span> by{" "}
 						<Link
-							href={"https://github.com/nicode3141"}
-							className="text-gray-200 underline transition-all hover:text-black"
+							href="https://github.com/nicode3141"
+							className="underline decoration-gray-300 transition-colors hover:text-black dark:hover:text-white"
 						>
 							nicode3141
 						</Link>
 					</span>
-					<Link className="font-bold dark:text-gray-300" href={"mailto:info@nicodenetworks.com"}>
+
+					<Link
+						href="mailto:info@nicodenetworks.com"
+						className="text-gray-200 underline transition-colors hover:text-black dark:hover:text-white"
+					>
 						Report a problem
 					</Link>
+					<span className="pt-2 font-semibold">Copyright © 2025 Nicolas Pfeifer</span>
 				</div>
-				<div className="flex flex-col gap-1 text-right font-bold text-gray-300 md:flex-row md:gap-2 md:text-center">
-					<Link href={"/legal/terms"} className="underline transition-all hover:text-black">
+
+				{/* Center section (Legal links) */}
+				<div className="flex flex-wrap justify-center gap-4 text-center font-semibold text-gray-200">
+					<Link
+						href="/legal/terms"
+						className="underline decoration-gray-300 transition-colors hover:text-black dark:hover:text-white"
+					>
 						Terms and Conditions
 					</Link>
-					<Link href={"/legal/privacy"} className="underline transition-all hover:text-black">
+					<Link
+						href="/legal/privacy"
+						className="underline decoration-gray-300 transition-colors hover:text-black dark:hover:text-white"
+					>
 						Privacy Policy
 					</Link>
-					<Link href={"/legal/cookies"} className="underline transition-all hover:text-black">
-						Cookies Notice
+					<Link
+						href="/legal/cookies"
+						className="underline decoration-gray-300 transition-colors hover:text-black dark:hover:text-white"
+					>
+						Cookies Policy
 					</Link>
 				</div>
-				<div className="pt-2 md:pt-0">
-					<div className="flex flex-col text-gray-300">
-						<span className="font-bold">Mail:</span>
-						<Link
-							href={"mailto:info@nicodenetworks.com"}
-							className="font-semibold underline transition-all hover:text-black"
-						>
-							info@nicodenetworks.com
-						</Link>
-					</div>
+
+				{/* Right section */}
+				<div className="flex flex-col items-center text-center md:items-end md:text-right">
+					<span className="font-semibold text-gray-100">Mail</span>
+					<Link
+						href="mailto:info@nicodenetworks.com"
+						className="underline decoration-gray-300 transition-colors hover:text-black dark:hover:text-white"
+					>
+						info@nicodenetworks.com
+					</Link>
 				</div>
 			</div>
 		</footer>
