@@ -21,6 +21,8 @@ export default function SongInfo(props: ISongInfo) {
 	const utils = api.useUtils();
 	const { data: session } = authClient.useSession();
 
+	const role = session?.user.votingMemberships.find((i) => i.votingId === metadata.voting_id)?.role;
+
 	async function removeSong() {
 		if (!metadata.song_id) return;
 		deleteSong.mutate({ voting_id: metadata.voting_id, song_id: metadata.song_id });
@@ -41,7 +43,7 @@ export default function SongInfo(props: ISongInfo) {
 						<LinkIcon className="items-center text-black dark:text-white" />
 						<span className="font-montserrat text-2xl font-bold md:text-xl dark:text-white">Open Song</span>
 					</Link>
-					{metadata.added_by === session?.user?.id ? (
+					{metadata.added_by === session?.user?.id || role === "owner" || role === "moderator" ? (
 						<button
 							className="flex min-w-3/4 cursor-pointer items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
 							onClick={() => !deleteSong.isPending && removeSong()}
