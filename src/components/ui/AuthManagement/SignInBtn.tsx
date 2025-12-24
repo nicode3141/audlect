@@ -1,4 +1,5 @@
 import { useRouter, usePathname } from "next/navigation";
+import { Button } from "../../auth/ui/button";
 
 export const SignIn = () => {
 	const router = useRouter();
@@ -10,8 +11,8 @@ export const SignIn = () => {
 	};
 
 	return (
-		<button onClick={handleSignIn} type="submit" className="cursor-pointer">
+		<Button onClick={handleSignIn} type="submit" className="cursor-pointer">
 			Sign in
-		</button>
+		</Button>
 	);
 };

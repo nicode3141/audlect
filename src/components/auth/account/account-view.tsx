@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuIcon } from "lucide-react";
+import { Lock, MenuIcon, Undo2, User } from "lucide-react";
 import { useContext, useMemo } from "react";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "../ui/drawer";
 import { Label } from "../ui/label";
@@ -133,6 +133,8 @@ export function AccountView({
 											)}
 											variant="ghost"
 										>
+											{item.view === "SETTINGS" && <User />}
+											{item.view === "SECURITY" && <Lock />}
 											{item.label}
 										</Button>
 									</Link>
@@ -149,6 +151,7 @@ export function AccountView({
 											)}
 											variant="ghost"
 										>
+											<Undo2 />
 											Return to App
 										</Button>
 									</Link>
@@ -177,6 +180,8 @@ export function AccountView({
 									)}
 									variant="ghost"
 								>
+									{item.view === "SETTINGS" && <User />}
+									{item.view === "SECURITY" && <Lock />}
 									{item.label}
 								</Button>
 							</Link>
@@ -193,6 +198,7 @@ export function AccountView({
 									)}
 									variant="ghost"
 								>
+									<Undo2 />
 									Return to App
 								</Button>
 							</Link>
