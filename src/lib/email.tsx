@@ -20,7 +20,7 @@ export async function sendEmail({
 	try {
 		console.log("Sending email to:", to);
 
-		void resend.emails.send({
+		const { error } = await resend.emails.send({
 			from: "Audlect <accounting@nicodenetworks.com>",
 			to: to,
 			subject: subject,
@@ -40,6 +40,10 @@ export async function sendEmail({
 				baseUrl: "https://audlect.nicodenetworks.com",
 			}),
 		});
+
+		if (error) {
+			console.log(error);
+		}
 	} catch (error) {
 		console.log("Error sending email:", error);
 	}
