@@ -236,14 +236,7 @@ export const songsRouter = createTRPCRouter({
 					.from(voting_membershipsTable)
 					.where(eq(voting_membershipsTable.user_id, ctx.auth.session.userId));
 
-				if (!memberships) {
-					throw new TRPCError({
-						code: "BAD_REQUEST",
-						message: "You do not belong to this voting",
-					});
-				}
-
-				if (memberships.role !== "owner" && memberships.role !== "moderator") {
+				if ((memberships?.role !== "owner" && memberships?.role !== "moderator") || !memberships) {
 					const [result] = await ctx.db
 						.delete(songsTable)
 						.where(
