@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 "use client";
 
 import type { BetterFetchOption } from "@better-fetch/fetch";
@@ -25,9 +21,7 @@ import { Captcha } from "../captcha/captcha";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { PasswordInput } from "../password-input";
-import { ProviderButton } from "../provider-button";
-import { activeProviders, socialProviders, type SocialProviderType } from "~/lib/auth/social-providers";
-import { Separator } from "../ui/separator";
+import { activeProviders, type SocialProviderType } from "~/lib/auth/social-providers";
 import { FieldSeparator } from "../ui/field";
 
 export interface SignInFormProps {
@@ -106,7 +100,7 @@ export function SignInForm({
 
 	async function oauth(provider: SocialProviderType) {
 		setIsSubmitting?.(true);
-		await authClient.signIn.social({ provider: provider.provider });
+		await authClient.signIn.social({ provider: provider.provider, callbackURL: redirectTo });
 		setIsSubmitting?.(false);
 	}
 

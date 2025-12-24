@@ -32,7 +32,7 @@ import { useIsHydrated } from "~/hooks/use-hydrated";
 import type { AnyAuthClient } from "~/types/auth/any-auth-client";
 import type { User } from "~/types/auth/auth-client";
 import { cn } from "~/lib/utils";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { ArrowDown } from "../icons/Arrows";
 
 export interface UserButtonClassNames {
@@ -295,7 +295,9 @@ export function UserButton({
 				) : (
 					<>
 						{!disableDefaultLinks && accountOptions && (
-							<Link href={`${accountOptions.basePath}/${accountOptions.viewPaths?.SETTINGS}`}>
+							<Link
+								href={`${accountOptions.basePath}/${accountOptions.viewPaths?.SETTINGS}?redirectTo=${encodeURIComponent(location)}`}
+							>
 								<DropdownMenuItem className={classNames?.content?.menuItem}>
 									<SettingsIcon />
 

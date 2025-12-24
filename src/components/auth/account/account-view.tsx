@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 import { AccountSettingsCards } from "../settings/account-settings-cards";
 import { SecuritySettingsCards } from "../settings/security-settings-cards";
 import type { SettingsCardClassNames } from "../settings/shared/settings-card";
+import { useSearchParams } from "next/navigation";
 
 export interface AccountViewProps {
 	className?: string;
@@ -50,6 +51,9 @@ export function AccountView({
 		account: accountOptions,
 		Link,
 	} = useContext(AuthUIContext);
+
+	const searchParams = useSearchParams();
+	const redirect = searchParams.get("redirectTo") ?? undefined;
 
 	if (!accountOptions) {
 		return null;
@@ -116,7 +120,10 @@ export function AccountView({
 							</DrawerHeader>
 							<div className="flex flex-col px-4 pb-4">
 								{navItems.map((item) => (
-									<Link key={item.view} href={`${accountOptions?.basePath}/${accountOptions?.viewPaths[item.view]}`}>
+									<Link
+										key={item.view}
+										href={`${accountOptions?.basePath}/${accountOptions?.viewPaths[item.view]}${redirect ? `?redirectTo=${encodeURIComponent(redirect)}` : ""}`}
+									>
 										<Button
 											size="lg"
 											className={cn(
@@ -130,6 +137,22 @@ export function AccountView({
 										</Button>
 									</Link>
 								))}
+								{typeof window !== "undefined" && redirect && (
+									<Link href={`${redirect}`}>
+										<Button
+											size="lg"
+											onClick={() => console.log(redirect)}
+											className={cn(
+												"w-full justify-start px-4 transition-none",
+												classNames?.sidebar?.button,
+												"text-foreground/70",
+											)}
+											variant="ghost"
+										>
+											Return to App
+										</Button>
+									</Link>
+								)}
 							</div>
 						</DrawerContent>
 					</Drawer>
@@ -140,7 +163,10 @@ export function AccountView({
 				<div className="hidden md:block">
 					<div className={cn("flex w-48 flex-col gap-1 lg:w-60", classNames?.sidebar?.base)}>
 						{navItems.map((item) => (
-							<Link key={item.view} href={`${accountOptions?.basePath}/${accountOptions?.viewPaths[item.view]}`}>
+							<Link
+								key={item.view}
+								href={`${accountOptions?.basePath}/${accountOptions?.viewPaths[item.view]}${redirect ? `?redirectTo=${encodeURIComponent(redirect)}` : ""}`}
+							>
 								<Button
 									size="lg"
 									className={cn(
@@ -155,6 +181,22 @@ export function AccountView({
 								</Button>
 							</Link>
 						))}
+						{typeof window !== "undefined" && redirect && (
+							<Link href={`${redirect}`}>
+								<Button
+									size="lg"
+									onClick={() => console.log(redirect)}
+									className={cn(
+										"w-full justify-start px-4 transition-none",
+										classNames?.sidebar?.button,
+										"text-foreground/70",
+									)}
+									variant="ghost"
+								>
+									Return to App
+								</Button>
+							</Link>
+						)}
 					</div>
 				</div>
 			)}

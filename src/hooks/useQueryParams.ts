@@ -1,3 +1,5 @@
+"use client";
+
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
@@ -9,7 +11,8 @@ export function useQueryParams() {
 	const router = useRouter();
 
 	const currentPage = useMemo(() => {
-		return parseInt(searchParams.get("page") ?? "1");
+		const pageParam = searchParams.get("page");
+		return pageParam ? parseInt(pageParam) : 1;
 	}, [searchParams]);
 
 	const sortMethod = useMemo(() => {
