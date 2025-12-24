@@ -1,5 +1,5 @@
 import React from "react";
-import { SignIn } from "~/components/oldauth/sign-in";
+import { SignIn } from "~/components/ui/AuthManagement/SignInBtn";
 import { Button } from "~/components/ui/@shadcn/button";
 import {
 	Dialog,

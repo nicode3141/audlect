@@ -3,11 +3,10 @@
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import React from "react";
-import { SignIn } from "~/components/oldauth/sign-in";
+import { SignIn } from "~/components/ui/AuthManagement/SignInBtn";
 import { SignUp } from "~/components/oldauth/sign-up";
 import { ArrowDown, ArrowLeft } from "~/components/icons/Arrows";
 import { SingOut } from "~/components/oldauth/sign-out";
-import { nop } from "~/lib/utils";
 import { UserButton } from "~/components/auth/user-button";
 
 interface VotingHeaderProps {
@@ -25,15 +24,7 @@ export default function VotingHeader({ votingTitle }: VotingHeaderProps) {
 			</Link>
 			<div>
 				<div className="flex cursor-pointer items-center gap-3">
-					{session ? (
-						<>
-							<UserButton size={"icon"} />
-						</>
-					) : (
-						<>
-							<SignIn />
-						</>
-					)}
+					{session ? <UserButton size={"icon"} /> : <SignIn />}
 				</div>
 			</div>
 		</div>
