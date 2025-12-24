@@ -1,16 +1,20 @@
 "use client";
 
-import { SignedIn, SignedOut, SignInButton, useClerk, UserButton } from "@clerk/nextjs";
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import React from "react";
+import { SignIn } from "~/components/ui/AuthManagement/SignInBtn";
+import { SignUp } from "~/components/oldauth/sign-up";
 import { ArrowDown, ArrowLeft } from "~/components/icons/Arrows";
+import { SingOut } from "~/components/oldauth/sign-out";
+import { UserButton } from "~/components/auth/user-button";
 
 interface VotingHeaderProps {
 	votingTitle: string;
 }
 
 export default function VotingHeader({ votingTitle }: VotingHeaderProps) {
-	const { openUserProfile } = useClerk();
+	const { data: session, isPending, error, refetch } = authClient.useSession();
 
 	return (
 		<div className="inline-flex w-full items-center justify-between self-stretch px-3 py-2">
@@ -18,21 +22,11 @@ export default function VotingHeader({ votingTitle }: VotingHeaderProps) {
 				<ArrowLeft />
 				<div className="font-montserrat text-lg font-bold text-gray-500 dark:text-gray-200">{votingTitle}</div>
 			</Link>
-			<SignedIn>
+			<div>
 				<div className="flex cursor-pointer items-center gap-3">
-					<button onClick={() => openUserProfile()} aria-label="user-menu">
-						<ArrowDown />
-					</button>
-					<UserButton />
+					{session ? <UserButton size={"icon"} /> : <SignIn />}
 				</div>
-			</SignedIn>
-			<SignedOut>
-				<SignInButton>
-					<span className="font-montserrat cursor-pointer text-lg font-bold text-[#242424] underline select-none dark:text-white">
-						Sign In
-					</span>
-				</SignInButton>
-			</SignedOut>
+			</div>
 		</div>
 	);
 }

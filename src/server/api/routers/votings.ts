@@ -3,7 +3,8 @@ import { z } from "zod";
 import { nanoid } from "nanoid";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-import { votingsTable } from "~/server/db/schema";
+import { voting_membershipsTable, votingsTable } from "~/server/db/schema";
+import { TRPCError } from "@trpc/server";
 
 export const votingsRouter = createTRPCRouter({
 	/**
@@ -31,6 +32,32 @@ export const votingsRouter = createTRPCRouter({
 			return votings[0];
 		}),
 
+	joinVoting: protectedProcedure
+		.input(
+			z.object({
+				voting_id: z.string().uuid(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			try {
+				if (
+					ctx.auth.user.votingMemberships.find((membership) => membership.votingId === input.voting_id) === undefined
+				) {
+					const [membership] = await ctx.db
+						.insert(voting_membershipsTable)
+						.values({ voting_id: input.voting_id, user_id: ctx.auth.session.userId, role: "participant" })
+						.returning();
+
+					return membership;
+				}
+			} catch (err: unknown) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: err instanceof Error ? err.message : "couldn't fetch songs",
+				});
+			}
+		}),
+
 	createVoting: protectedProcedure
 		.input(
 			z.object({
@@ -40,17 +67,33 @@ export const votingsRouter = createTRPCRouter({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			const newVoting = await ctx.db
-				.insert(votingsTable)
-				.values({
-					name: input.name,
-					description: input.description,
-					public: input.public,
-					created_by: ctx.auth.userId,
-					active: true,
-					short_id: nanoid(10),
-				})
-				.returning();
-			return newVoting[0];
+			try {
+				const newVoting = await ctx.db
+					.insert(votingsTable)
+					.values({
+						name: input.name,
+						description: input.description,
+						public: input.public,
+						created_by: ctx.auth.session.userId,
+						active: true,
+						short_id: nanoid(10),
+					})
+					.returning();
+
+				if (newVoting.length !== 0 && newVoting[0]?.voting_id !== undefined) {
+					const newRole = await ctx.db.insert(voting_membershipsTable).values({
+						user_id: ctx.auth.session.userId,
+						voting_id: newVoting[0]?.voting_id,
+						role: "owner",
+					});
+				}
+
+				return newVoting[0];
+			} catch (err: unknown) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: err instanceof Error ? err.message : "couldn't fetch songs",
+				});
+			}
 		}),
 });

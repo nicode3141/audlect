@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { and, asc, count, desc, eq, exists, sql } from "drizzle-orm";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
-import { likesTable, songsTable } from "~/server/db/schema";
+import { likesTable, songsTable, voting_membershipsTable } from "~/server/db/schema";
 import type { DeezerTrack } from "~/types/songs";
 import { getTrack } from "~/server/utils/deezer";
 
@@ -65,12 +65,17 @@ export const songsRouter = createTRPCRouter({
 						added_by: songsTable.added_by,
 						created_at: songsTable.created_at,
 						likes_total: count(likesTable.song_id).as("likes_total"),
-						liked: ctx.auth?.userId
+						liked: ctx.auth?.session?.userId
 							? exists(
 									ctx.db
 										.select({ one: sql`1` })
 										.from(likesTable)
-										.where(and(eq(likesTable.song_id, songsTable.song_id), eq(likesTable.user_id, ctx.auth?.userId))),
+										.where(
+											and(
+												eq(likesTable.song_id, songsTable.song_id),
+												eq(likesTable.user_id, ctx.auth?.session?.userId),
+											),
+										),
 								).as("liked")
 							: sql`false`.as("liked"),
 					})
@@ -171,7 +176,7 @@ export const songsRouter = createTRPCRouter({
 							song_name: item.title,
 							song_artists: item.artist.name,
 							preview_url: null,
-							added_by: ctx.auth.userId,
+							added_by: ctx.auth?.session?.userId,
 						})
 						.returning();
 
@@ -226,15 +231,36 @@ export const songsRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
+				const [memberships] = await ctx.db
+					.select()
+					.from(voting_membershipsTable)
+					.where(eq(voting_membershipsTable.user_id, ctx.auth.session.userId));
+
+				if ((memberships?.role !== "owner" && memberships?.role !== "moderator") || !memberships) {
+					const [result] = await ctx.db
+						.delete(songsTable)
+						.where(
+							and(
+								eq(songsTable.song_id, input.song_id),
+								eq(songsTable.voting_id, input.voting_id),
+								eq(songsTable.added_by, ctx.auth.session.userId),
+							),
+						)
+						.returning({ song_id: songsTable.song_id });
+
+					if (result === undefined) {
+						throw new TRPCError({
+							code: "INTERNAL_SERVER_ERROR",
+							message: "Failed to delete song",
+						});
+					}
+
+					return result;
+				}
+
 				const [result] = await ctx.db
 					.delete(songsTable)
-					.where(
-						and(
-							eq(songsTable.song_id, input.song_id),
-							eq(songsTable.added_by, ctx.auth.userId),
-							eq(songsTable.voting_id, input.voting_id),
-						),
-					)
+					.where(and(eq(songsTable.song_id, input.song_id), eq(songsTable.voting_id, input.voting_id)))
 					.returning({ song_id: songsTable.song_id });
 
 				if (result === undefined) {

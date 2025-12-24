@@ -14,3 +14,9 @@ export function scrollSmoothToTop(delay: number) {
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	}, delay);
 }
+
+export function clampInt(value: unknown, fallback: number, min = 0, max = 1000) {
+	const n = Number(value);
+	if (!Number.isFinite(n) || Number.isNaN(n)) return fallback;
+	return Math.max(min, Math.min(max, Math.trunc(n)));
+}

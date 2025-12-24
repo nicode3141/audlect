@@ -9,6 +9,7 @@ import { VotingProvider } from "~/context/VotingContext";
 import { LoginWarnProvider } from "~/context/LoginWarningContext";
 import Footer from "~/components/layout/global/Footer";
 import { getVoting } from "~/lib/getVoting";
+import { Memberships } from "~/components/ui/AuthManagement/Memberships";
 
 export async function generateMetadata({ params }: PageParams) {
 	const votingId = (await params).votingId;

@@ -43,6 +43,48 @@
       "when": 1757074020106,
       "tag": "0005_friendly_doctor_faustus",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1761664728770,
+      "tag": "0006_ambiguous_katie_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1766393544674,
+      "tag": "0007_soft_epoch",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1766511332945,
+      "tag": "0008_green_tarantula",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1766511393896,
+      "tag": "0009_black_whistler",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1766511401590,
+      "tag": "0010_violet_toad",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1766580944544,
+      "tag": "0011_breezy_the_fury",
+      "breakpoints": true
     }
   ]
 }

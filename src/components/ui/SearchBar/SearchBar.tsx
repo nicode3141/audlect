@@ -23,7 +23,7 @@ export default function SearchBar(props: ISearchBarProps) {
 
 	useEffect(() => {
 		if (debouncedSearch === "") return;
-		requireLogin(() => {
+		void requireLogin(() => {
 			if (lastSearch === debouncedSearch) return;
 			onSubmit(debouncedSearch);
 		});

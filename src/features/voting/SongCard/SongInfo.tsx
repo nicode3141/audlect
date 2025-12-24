@@ -1,10 +1,10 @@
-import { useClerk } from "@clerk/nextjs";
 import { AnimatePresence } from "motion/react";
 import Link from "next/link";
 import React from "react";
 import { DeleteIcon, LinkIcon, ReportIcon } from "~/components/icons/Icons";
 import PlayIcon from "~/components/icons/PlayIcon";
 import PopupCard from "~/components/popups/PopupCard";
+import { authClient } from "~/lib/auth-client";
 import { api } from "~/trpc/react";
 import type { TSongMetadata } from "~/types/songs";
 
@@ -19,7 +19,9 @@ export default function SongInfo(props: ISongInfo) {
 	const { metadata, showPopup, ref, onRemove } = props;
 	const deleteSong = api.songs.deleteSong.useMutation();
 	const utils = api.useUtils();
-	const clerk = useClerk();
+	const { data: session } = authClient.useSession();
+
+	const role = session?.user.votingMemberships.find((i) => i.votingId === metadata.voting_id)?.role;
 
 	async function removeSong() {
 		if (!metadata.song_id) return;
@@ -41,7 +43,7 @@ export default function SongInfo(props: ISongInfo) {
 						<LinkIcon className="items-center text-black dark:text-white" />
 						<span className="font-montserrat text-2xl font-bold md:text-xl dark:text-white">Open Song</span>
 					</Link>
-					{metadata.added_by === clerk.user?.id ? (
+					{metadata.added_by === session?.user?.id || role === "owner" || role === "moderator" ? (
 						<button
 							className="flex min-w-3/4 cursor-pointer items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
 							onClick={() => !deleteSong.isPending && removeSong()}
