@@ -414,7 +414,7 @@ export const authLocalization = {
 	SIGN_IN_ACTION: "Login",
 
 	/** @default "Enter your email below to login to your account" */
-	SIGN_IN_DESCRIPTION: "Continue with",
+	SIGN_IN_DESCRIPTION: "Log in using social providers",
 
 	/** @default "Enter your username or email below to login to your account" */
 	SIGN_IN_USERNAME_DESCRIPTION: "Enter your username or email to login to your account",
