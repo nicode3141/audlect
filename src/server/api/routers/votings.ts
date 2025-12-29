@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 
@@ -7,6 +7,43 @@ import { voting_membershipsTable, votingsTable } from "~/server/db/schema";
 import { TRPCError } from "@trpc/server";
 
 export const votingsRouter = createTRPCRouter({
+	getPublicVotings: publicProcedure
+		.input(
+			z.object({
+				limit: z.number().default(10),
+				page: z.number().default(0),
+				sort_method: z.enum(["Date Added", "Users", "A-Z"]).default("Date Added"),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			let sortQuery;
+			switch (input.sort_method) {
+				default:
+					sortQuery = votingsTable.created_at;
+					break;
+				case "A-Z":
+					sortQuery = asc(votingsTable.name);
+					break;
+			}
+
+			try {
+				const votings = await ctx.db
+					.select()
+					.from(votingsTable)
+					.where(eq(votingsTable.public, true))
+					.orderBy(sortQuery)
+					.limit(input.limit)
+					.offset(input.page * input.limit);
+
+				return votings;
+			} catch (err: unknown) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: err instanceof Error ? err.message : "couldn't fetch songs",
+				});
+			}
+		}),
+
 	/**
 	 * GET votings by ID (UUID)
 	 *
@@ -25,9 +62,6 @@ export const votingsRouter = createTRPCRouter({
 				.from(votingsTable)
 				.where(eq(votingsTable.voting_id, input.voting_id))
 				.limit(1);
-			const name = votings[0]?.name;
-
-			console.log(name);
 
 			return votings[0];
 		}),
