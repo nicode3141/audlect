@@ -18,7 +18,7 @@ export default function VotingHeader({ votingTitle }: VotingHeaderProps) {
 
 	return (
 		<div className="inline-flex w-full items-center justify-between self-stretch px-3 py-2">
-			<Link className="flex items-center gap-4" href={"/"} onClick={() => history.back()}>
+			<Link className="flex items-center gap-4" href={"/voting"}>
 				<ArrowLeft />
 				<div className="font-montserrat text-lg font-bold text-gray-500 dark:text-gray-200">{votingTitle}</div>
 			</Link>
