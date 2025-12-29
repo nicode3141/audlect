@@ -3,7 +3,7 @@ import { z } from "zod";
 import { nanoid } from "nanoid";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-import { votingsTable } from "~/server/db/schema";
+import { songsTable, votingsTable } from "~/server/db/schema";
 import { TRPCError } from "@trpc/server";
 
 export const votingsRouter = createTRPCRouter({
@@ -27,9 +27,27 @@ export const votingsRouter = createTRPCRouter({
 			}
 
 			try {
+				const imageSubquery = ctx.db
+					.select({ preview_image: songsTable.cover_image, voting_id: songsTable.voting_id })
+					.from(songsTable)
+					.limit(1)
+					.as("imageSubquery");
+
 				const votings = await ctx.db
-					.select()
+					.select({
+						voting_id: votingsTable.voting_id,
+						short_id: votingsTable.short_id,
+						name: votingsTable.name,
+						description: votingsTable.description,
+						external_url_: votingsTable.external_url,
+						created_by: votingsTable.created_by,
+						public: votingsTable.public,
+						active: votingsTable.active,
+						created_at: votingsTable.created_at,
+						preview_image: imageSubquery.preview_image,
+					})
 					.from(votingsTable)
+					.leftJoin(imageSubquery, eq(votingsTable.voting_id, imageSubquery.voting_id))
 					.where(eq(votingsTable.public, true))
 					.orderBy(sortQuery)
 					.limit(input.limit)
