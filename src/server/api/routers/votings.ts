@@ -114,7 +114,7 @@ export const votingsRouter = createTRPCRouter({
 		.mutation(async ({ ctx, input }) => {
 			try {
 				if (
-					ctx.auth.user.votingMemberships.find((membership) => membership.votingId === input.voting_id) === undefined
+					ctx.auth.user.votingMemberships?.find((membership) => membership.votingId === input.voting_id) === undefined
 				) {
 					const [membership] = await ctx.db
 						.insert(voting_membershipsTable)
