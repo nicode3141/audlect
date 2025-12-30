@@ -1,8 +1,11 @@
-import { betterAuth } from "better-auth";
+import { betterAuth, type Session } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { admin, twoFactor, username } from "better-auth/plugins";
+import { admin, customSession, twoFactor, username } from "better-auth/plugins";
 import { db } from "~/server/db";
 import { sendEmail } from "./email";
+import { voting_membershipsTable } from "~/server/db/schema";
+import { eq } from "drizzle-orm";
+import { Memberships } from "~/components/ui/AuthManagement/Memberships";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, { provider: "pg" }),
@@ -36,5 +39,32 @@ export const auth = betterAuth({
 			clientSecret: process.env.GITHUB_CLIENT_SECRET!,
 		},
 	},
-	plugins: [admin(), twoFactor(), username()],
+	session: {
+		cookieCache: {
+			enabled: true,
+			maxAge: 5 * 60, // 5 minutes
+		},
+	},
+	plugins: [
+		admin(),
+		twoFactor(),
+		username(),
+		customSession(async ({ user, session }) => {
+			const memberships = await db
+				.select()
+				.from(voting_membershipsTable)
+				.where(eq(voting_membershipsTable.user_id, user.id));
+
+			return {
+				user: {
+					...user,
+					votingMemberships: memberships.map((i) => ({
+						votingId: i.voting_id,
+						role: i.role,
+					})),
+				},
+				session,
+			};
+		}),
+	],
 });

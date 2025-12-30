@@ -1,4 +1,7 @@
+import { clampInt } from "~/lib/utils";
 import type { DeezerSearchResult, DeezerTrack } from "../../types/songs";
+
+const DEEZER_URL = "https://api.deezer.com";
 
 /**
  * @brief Search for songs on deezer API
@@ -21,10 +24,15 @@ export async function searchTrack(
 		},
 	};
 	try {
-		const response = await fetch(
-			`https://api.deezer.com/search?q=${search_string}&limit=${limit}&index=${offset}`,
-			searchParams,
-		);
+		const safeLimit = clampInt(limit, 10, 1, 100);
+		const safeOffset = clampInt(offset, 0, 0, 100000);
+
+		const url = new URL("/search", DEEZER_URL);
+		url.searchParams.set("q", search_string);
+		url.searchParams.set("limit", String(safeLimit));
+		url.searchParams.set("index", String(safeOffset));
+
+		const response = await fetch(url.toString(), searchParams);
 		if (response.ok) {
 			const json = (await response.json()) as DeezerSearchResult;
 			return json;
@@ -51,7 +59,7 @@ export async function getTrack(track_id: string): Promise<DeezerTrack | undefine
 		},
 	};
 	try {
-		const response = await fetch(`https://api.deezer.com/track/${track_id}`, searchParams);
+		const response = await fetch(`https://api.deezer.com/track/${encodeURIComponent(track_id)}`, searchParams);
 
 		if (response.ok) {
 			const json = (await response.json()) as DeezerTrack;
