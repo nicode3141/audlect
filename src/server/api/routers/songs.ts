@@ -172,7 +172,7 @@ export const songsRouter = createTRPCRouter({
 							deezer_id: item.id,
 							isrc: item.isrc,
 							voting_id: input.voting_id,
-							cover_image: item.album.cover,
+							cover_image: item.album.cover_medium,
 							song_name: item.title,
 							song_artists: item.artist.name,
 							preview_url: null,

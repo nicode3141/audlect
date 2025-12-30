@@ -1,9 +1,9 @@
-import { asc, eq } from "drizzle-orm";
+import { asc, count, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-import { songsTable, votingsTable } from "~/server/db/schema";
+import { likesTable, songsTable, votingsTable } from "~/server/db/schema";
 import { TRPCError } from "@trpc/server";
 
 export const votingsRouter = createTRPCRouter({
@@ -30,6 +30,9 @@ export const votingsRouter = createTRPCRouter({
 				const imageSubquery = ctx.db
 					.select({ preview_image: songsTable.cover_image, voting_id: songsTable.voting_id })
 					.from(songsTable)
+					.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
+					.groupBy(songsTable.song_id)
+					.orderBy(desc(count(likesTable.song_id)))
 					.limit(1)
 					.as("imageSubquery");
 

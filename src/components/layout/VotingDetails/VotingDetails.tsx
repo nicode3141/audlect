@@ -3,7 +3,7 @@
 import { VotingSubitle, VotingTitle } from "~/components/ui/VotingTitle/VotingTitle";
 
 interface IVotingDetails {
-	votingId: string;
+	votingId: string | null;
 	name: string;
 	description: string;
 }
