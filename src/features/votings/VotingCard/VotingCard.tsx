@@ -30,10 +30,10 @@ export default function VotingCard({ votingId, shortId, title, description, cove
 					</div>
 				)}
 			</div>
-			<div className="px-1 pb-1">
+			<div className="max-w-[90vw] px-1 pb-1">
 				<div className="font-inter truncate dark:text-white">
-					<div className="text-[1.5rem] font-semibold">{title}</div>
-					<div className="text-sm font-normal text-gray-500 dark:text-gray-300">{description}</div>
+					<div className="truncate text-4xl font-semibold">{title}</div>
+					<div className="text-xl font-normal text-gray-500 dark:text-gray-300">{description}</div>
 				</div>
 				<Link
 					className="align-center mt-2 inline-block flex-row justify-center rounded-sm bg-gray-950 p-2 px-3 text-white hover:bg-gray-700 dark:bg-white dark:text-gray-700"

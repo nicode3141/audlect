@@ -3,7 +3,6 @@
 import React from "react";
 import { api } from "~/trpc/react";
 import VotingCard from "../VotingCard/VotingCard";
-import { VotingDetails } from "~/components/layout/VotingDetails/VotingDetails";
 
 export default function VotingItems() {
 	const publicVotings = api.votings.getPublicVotings.useQuery({
