@@ -12,7 +12,7 @@ interface VotingCardProps {
 	coverImageUrl: string | null | undefined;
 }
 
-export default function VotingCard({ votingId, shortId, title, description, coverImageUrl }: VotingCardProps) {
+export default function VotingCard({ shortId, title, description, coverImageUrl }: VotingCardProps) {
 	return (
 		<div className="flex flex-col gap-2 rounded-md border border-gray-300 p-2 shadow-sm hover:shadow-md md:place-self-auto dark:border-none dark:bg-[#252525] dark:drop-shadow-sm dark:drop-shadow-gray-600">
 			<div className="flex-[3]">
@@ -32,7 +32,7 @@ export default function VotingCard({ votingId, shortId, title, description, cove
 			</div>
 			<div className="max-w-[90vw] px-1 pb-1">
 				<div className="font-inter truncate dark:text-white">
-					<div className="truncate text-4xl font-semibold">{title}</div>
+					<div className="truncate text-3xl font-semibold">{title}</div>
 					<div className="text-xl font-normal text-gray-500 dark:text-gray-300">{description}</div>
 				</div>
 				<Link
