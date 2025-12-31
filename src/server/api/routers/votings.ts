@@ -1,12 +1,88 @@
-import { eq } from "drizzle-orm";
+import { and, asc, count, desc, eq, max, sql } from "drizzle-orm";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-import { voting_membershipsTable, votingsTable } from "~/server/db/schema";
+
+import { voting_membershipsTable, likesTable, songsTable, votingsTable } from "~/server/db/schema";
+
 import { TRPCError } from "@trpc/server";
 
 export const votingsRouter = createTRPCRouter({
+	getPublicVotings: publicProcedure
+		.input(
+			z.object({
+				limit: z.number().default(10),
+				page: z.number().default(0),
+				sort_method: z.enum(["Date Added", "Users", "A-Z"]).default("Date Added"),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			let sortQuery;
+			switch (input.sort_method) {
+				default:
+					sortQuery = votingsTable.created_at;
+					break;
+				case "A-Z":
+					sortQuery = asc(votingsTable.name);
+					break;
+			}
+
+			try {
+				const imageSubquery = ctx.db
+					.select({
+						preview_image: songsTable.cover_image,
+						voting_id: songsTable.voting_id,
+						like_count: count(likesTable.song_id).as("like_count"),
+					})
+					.from(songsTable)
+					.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
+					.groupBy(songsTable.song_id)
+					.orderBy(desc(count(likesTable.song_id)))
+					.as("imageSubquery");
+
+				const maxLikes = ctx.db
+					.select({
+						voting_id: imageSubquery.voting_id,
+						max_likes: max(imageSubquery.like_count).as("max_likes"),
+					})
+					.from(imageSubquery)
+					.groupBy(imageSubquery.voting_id)
+					.as("maxLikes");
+
+				const votings = await ctx.db
+					.selectDistinctOn([votingsTable.voting_id], {
+						voting_id: votingsTable.voting_id,
+						short_id: votingsTable.short_id,
+						name: votingsTable.name,
+						description: votingsTable.description,
+						external_url_: votingsTable.external_url,
+						created_by: votingsTable.created_by,
+						public: votingsTable.public,
+						active: votingsTable.active,
+						created_at: votingsTable.created_at,
+						preview_image: imageSubquery.preview_image,
+					})
+					.from(votingsTable)
+					.leftJoin(maxLikes, eq(votingsTable.voting_id, maxLikes.voting_id))
+					.leftJoin(
+						imageSubquery,
+						and(eq(votingsTable.voting_id, imageSubquery.voting_id), eq(imageSubquery.like_count, maxLikes.max_likes)),
+					)
+					.where(eq(votingsTable.public, true))
+					.orderBy(votingsTable.voting_id, desc(sortQuery))
+					.limit(input.limit)
+					.offset(input.page * input.limit);
+
+				return votings;
+			} catch (err: unknown) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: err instanceof Error ? err.message : "couldn't fetch songs",
+				});
+			}
+		}),
+
 	/**
 	 * GET votings by ID (UUID)
 	 *
@@ -25,9 +101,6 @@ export const votingsRouter = createTRPCRouter({
 				.from(votingsTable)
 				.where(eq(votingsTable.voting_id, input.voting_id))
 				.limit(1);
-			const name = votings[0]?.name;
-
-			console.log(name);
 
 			return votings[0];
 		}),
@@ -41,7 +114,7 @@ export const votingsRouter = createTRPCRouter({
 		.mutation(async ({ ctx, input }) => {
 			try {
 				if (
-					ctx.auth.user.votingMemberships.find((membership) => membership.votingId === input.voting_id) === undefined
+					ctx.auth.user.votingMemberships?.find((membership) => membership.votingId === input.voting_id) === undefined
 				) {
 					const [membership] = await ctx.db
 						.insert(voting_membershipsTable)

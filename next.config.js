@@ -13,6 +13,11 @@ const config = {
 				hostname: "api.deezer.com",
 				pathname: "/album/**",
 			},
+			{
+				protocol: "https",
+				hostname: "cdn-images.dzcdn.net",
+				pathname: "/images/cover/**",
+			},
 		],
 	},
 };
