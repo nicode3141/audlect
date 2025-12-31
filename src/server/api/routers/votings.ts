@@ -3,7 +3,7 @@ import { z } from "zod";
 import { nanoid } from "nanoid";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-import { likesTable, songsTable, votingsTable } from "~/server/db/schema";
+import { likesTable, songsTable, votingsTable, voting_membershipsTable } from "~/server/db/schema";
 import { TRPCError } from "@trpc/server";
 
 export const votingsRouter = createTRPCRouter({
