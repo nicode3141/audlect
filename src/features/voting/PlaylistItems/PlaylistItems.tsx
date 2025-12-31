@@ -39,7 +39,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 			{!isLoading && !error && songs?.length === 0 && (
 				<div className="font-inter flex min-h-[30vh] flex-col items-center justify-center pt-2 text-center font-semibold text-balance">
 					<span className="text-xl text-[#758BFD]">This voting has no songs yet</span>
-					<span className="max-w-[80vw] text-sm text-gray-700">Add songs via the Search to get started</span>
+					<span className="max-w-[80vw] text-sm text-gray-700">Add songs using the Search to get started</span>
 				</div>
 			)}
 			{!isLoading &&
