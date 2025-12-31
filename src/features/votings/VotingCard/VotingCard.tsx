@@ -22,7 +22,7 @@ export default function VotingCard({ shortId, title, description, coverImageUrl 
 						alt="Voting Preview"
 						width={400}
 						height={200}
-						className="aspect-8/4 w-[90vw] rounded-sm object-cover"
+						className="aspect-8/4 w-[85vw] rounded-sm object-cover"
 					/>
 				) : (
 					<div className="flex aspect-[8/4] items-center justify-center rounded-sm bg-gradient-to-br from-stone-50 to-slate-100 dark:from-stone-900 dark:to-stone-950">
@@ -30,7 +30,7 @@ export default function VotingCard({ shortId, title, description, coverImageUrl 
 					</div>
 				)}
 			</div>
-			<div className="max-w-[90vw] px-1 pb-1">
+			<div className="max-w-[85vw] px-1 pb-1">
 				<div className="font-inter truncate dark:text-white">
 					<div className="truncate text-3xl font-semibold">{title}</div>
 					<div className="text-xl font-normal text-gray-500 dark:text-gray-300">{description}</div>

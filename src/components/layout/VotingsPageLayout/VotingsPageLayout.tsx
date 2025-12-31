@@ -5,7 +5,7 @@ import VotingItems from "~/features/votings/VotingItems/VotingItems";
 export default function VotingsPageLayout() {
 	return (
 		<div>
-			<VotingDetails votingId={null} name={"Public Votings"} description={"active votings on Audlect"} />
+			<VotingDetails votingId={null} name={"Browse Votings"} description={"Active votings on Audlect"} />
 			<VotingItems />
 		</div>
 	);
