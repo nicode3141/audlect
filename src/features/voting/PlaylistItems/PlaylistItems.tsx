@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSongs } from "~/hooks/useSongs";
 import SkeletonSongCard from "../SongCard/SkeletonSongCard";
 import SongCardContainer from "../SongCard/SongCardContainer";
@@ -21,9 +21,12 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 	const { sortMethod } = useQueryParams();
 	const { activePreview, setPreviewUrl, offset, limit } = props;
 	const {
-		data: songs,
+		data: paginatedSongs,
 		isLoading,
 		error,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
 	} = useSongs({
 		limit,
 		offset,
@@ -31,8 +34,27 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 		voting_id: votingId,
 	});
 
+	const scrollRef = useRef<HTMLDivElement>(null);
+	const songs = paginatedSongs?.pages.flatMap((page) => page.items) ?? [];
+
+	useEffect(() => {
+		const handleScroll = () => {
+			if (!hasNextPage || isFetchingNextPage) return;
+
+			const scrollPosition = window.scrollY + window.innerHeight;
+			const bottomThreshold = document.body.offsetHeight - 1000; // trigger 200px before bottom
+
+			if (scrollPosition >= bottomThreshold) {
+				void fetchNextPage();
+			}
+		};
+
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
 	return (
-		<div className="flex flex-col items-center justify-center gap-3.5">
+		<div ref={scrollRef} className="flex flex-col items-center justify-center gap-3.5">
 			{isLoading && Array.from({ length: 10 }).map((_, i) => <SkeletonSongCard key={i} />)}
 
 			{error && <ErrorBanner />}

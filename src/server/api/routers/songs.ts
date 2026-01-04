@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { and, asc, count, desc, eq, exists, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, exists, gt, lt, sql } from "drizzle-orm";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
 import { likesTable, songsTable, voting_membershipsTable } from "~/server/db/schema";
@@ -22,6 +22,7 @@ export const songsRouter = createTRPCRouter({
 			z.object({
 				limit: z.number(),
 				offset: z.number(),
+				cursor: z.string().nullish(), //infiniteQuery param
 				sort_method: z.string(),
 				voting_id: z.string().uuid(),
 			}),
@@ -81,14 +82,26 @@ export const songsRouter = createTRPCRouter({
 					})
 					.from(songsTable)
 					.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
-					.where(eq(songsTable.voting_id, input.voting_id))
+					.where(
+						and(
+							eq(songsTable.voting_id, input.voting_id),
+							input.cursor ? gt(songsTable.song_id, input.cursor) : sql`TRUE`,
+						),
+					)
 					.groupBy(songsTable.song_id)
-					.orderBy(sortQuery)
-					.limit(input.limit)
-					.offset(input.offset);
+					.orderBy(songsTable.song_id)
+					.limit(input.limit + 1);
 
 				const songQuery = await query;
-				return songQuery;
+
+				let nextCursor: typeof input.cursor | undefined = undefined;
+
+				if (songQuery.length > input.limit) {
+					nextCursor = songQuery[input.limit]?.song_id;
+					songQuery.pop();
+				}
+
+				return { items: songQuery, nextCursor };
 			} catch (err: unknown) {
 				throw new TRPCError({
 					code: "INTERNAL_SERVER_ERROR",
@@ -165,7 +178,6 @@ export const songsRouter = createTRPCRouter({
 				}
 
 				try {
-					//BUG: same song but different voting_id gets rejected
 					const [result] = await ctx.db
 						.insert(songsTable)
 						.values({

@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<TRPCReactProvider>
-			<html lang="en" className="scroll-smooth">
+			<html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
 				<head>
 					<link rel="manifest" href="/manifest.json" />
 					<meta name="google-site-verification" content="yLjcVnpIMX5kpihar7L_mOImR_sVKCkDCK4uH0rV_hM" />
