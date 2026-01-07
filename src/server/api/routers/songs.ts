@@ -83,7 +83,7 @@ export const songsRouter = createTRPCRouter({
 					.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
 					.where(eq(songsTable.voting_id, input.voting_id))
 					.groupBy(songsTable.song_id)
-					.orderBy(sortQuery)
+					.orderBy(sortQuery, asc(songsTable.created_at))
 					.limit(input.limit)
 					.offset(input.offset);
 
