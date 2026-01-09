@@ -10,6 +10,8 @@ import { api } from "~/trpc/react";
 import { useVoting } from "~/context/VotingContext";
 import { useQueryParams } from "~/hooks/useQueryParams";
 import NotLoggedIn from "~/features/voting/Popups/NotLoggedIn";
+import PlaylistFilter from "~/components/ui/PlaylistFilter/PlaylistFilter";
+import type { SortMethodsType } from "~/types/global";
 
 export default function VotingLayout() {
 	const { votingId } = useVoting();
@@ -63,14 +65,21 @@ export default function VotingLayout() {
 					}}
 					placeholder="Search by Song, Artist"
 				/>
-				<SortMethods
-					className="w-[80vw] lg:w-[40rem]"
-					currentSort={sortMethod}
-					sortOptions={["A-Z", "Date Added", "Least Likes", "Likes", "Random"]}
-					onChange={(method) => {
-						setSortMethod(method);
-					}}
-				/>
+				<div className="flex w-[80vw] items-stretch gap-3 md:w-[70vw] lg:w-[40rem]">
+					<SortMethods
+						currentSort={sortMethod}
+						sortOptions={["A-Z", "Date Added", "Least Likes", "Likes", "Random"]}
+						onChange={(method) => {
+							setSortMethod(method);
+						}}
+					/>
+					<PlaylistFilter
+						className="h-full"
+						onChange={function (sortMethod: SortMethodsType): void {
+							throw new Error("Function not implemented.");
+						}}
+					/>
+				</div>
 			</div>
 			{showSearchResults ? (
 				<SearchResults
