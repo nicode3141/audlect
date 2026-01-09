@@ -65,6 +65,9 @@ export const songsRouter = createTRPCRouter({
 						added_by: songsTable.added_by,
 						created_at: songsTable.created_at,
 						likes_total: count(likesTable.song_id).as("likes_total"),
+						rank: sql<number>`RANK() OVER (ORDER BY COUNT(${likesTable.song_id}) DESC, ${songsTable.created_at})`.as(
+							"rank",
+						),
 						liked: ctx.auth?.session?.userId
 							? exists(
 									ctx.db
