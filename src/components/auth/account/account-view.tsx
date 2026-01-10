@@ -173,7 +173,7 @@ export function AccountView({
 								<Button
 									size="lg"
 									className={cn(
-										"w-full justify-start px-4 transition-none",
+										"w-full justify-start px-4 transition-none dark:text-white",
 										classNames?.sidebar?.button,
 										view === item.view ? "font-semibold" : "text-foreground/70",
 										view === item.view && classNames?.sidebar?.buttonActive,

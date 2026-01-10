@@ -66,6 +66,20 @@ export const voting_membershipsTable = pgTable(
 	(t) => [unique("voting_membership-unique").on(t.user_id, t.voting_id)],
 );
 
+export const linked_spotifyTable = pgTable(
+	"linked_spotify",
+	{
+		linked_id: uuid("linked_id").primaryKey().defaultRandom(),
+		user_id: text("user_id").references(() => user.id),
+		voting_id: uuid("voting_id")
+			.notNull()
+			.references(() => votingsTable.voting_id),
+		refresh_token: text("refresh_token"),
+		playlist_url: text("playlist_url").notNull(),
+	},
+	(t) => [unique("voting-user-unique").on(t.user_id, t.voting_id)],
+);
+
 export const user = pgTable("user", {
 	id: text("id").primaryKey(),
 	name: text("name").notNull(),

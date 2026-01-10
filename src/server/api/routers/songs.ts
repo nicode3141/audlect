@@ -89,8 +89,9 @@ export const songsRouter = createTRPCRouter({
 						),
 					)
 					.groupBy(songsTable.song_id)
-					.orderBy(songsTable.song_id)
-					.limit(input.limit + 1);
+					.orderBy(sortQuery, asc(songsTable.created_at))
+					.limit(input.limit)
+					.offset(input.offset);
 
 				const songQuery = await query;
 

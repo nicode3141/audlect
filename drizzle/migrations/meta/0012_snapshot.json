@@ -1,5 +1,5 @@
 {
-  "id": "8479cd3f-f6dc-46f5-a81b-daafd2035840",
+  "id": "39a58225-e983-468d-b6bf-5f57902e6aad",
   "prevId": "96aaf894-8c36-49b2-827b-8fa83b463903",
   "version": "7",
   "dialect": "postgresql",
@@ -190,6 +190,37 @@
           ]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.linked_spotify": {
+      "name": "linked_spotify",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "playlist_url": {
+          "name": "playlist_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -390,14 +421,6 @@
           "nullsNotDistinct": false,
           "columns": [
             "deezer_id",
-            "voting_id"
-          ]
-        },
-        "isrc_voting_id_unique": {
-          "name": "isrc_voting_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "isrc",
             "voting_id"
           ]
         }
