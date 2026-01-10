@@ -28,6 +28,26 @@ export const songsRouter = createTRPCRouter({
 			}),
 		)
 		.query(async ({ ctx, input }) => {
+			const subquery = ctx.db
+				.select({
+					song_id: songsTable.song_id,
+					deezer_id: songsTable.deezer_id,
+					isrc: songsTable.isrc,
+					voting_id: songsTable.voting_id,
+					song_name: songsTable.song_name,
+					song_artists: songsTable.song_artists,
+					cover_image: songsTable.cover_image,
+					preview_url: songsTable.preview_url,
+					added_by: songsTable.added_by,
+					created_at: sql<string>`to_char(${songsTable.created_at}, 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"')`.as("created_at"),
+					likes_total: count(likesTable.song_id).as("likes_total"),
+				})
+				.from(songsTable)
+				.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
+				.where(eq(songsTable.voting_id, input.voting_id))
+				.groupBy(songsTable.song_id)
+				.as("sub_songs");
+
 			const cursor: NextCursor | null = input.cursor
 				? (() => {
 						const parsed = JSON.parse(input.cursor) as NextCursor;
@@ -41,18 +61,23 @@ export const songsRouter = createTRPCRouter({
 			console.log(cursor);
 
 			let sortQuery;
-			let havingQuery: SQL<unknown> | undefined = undefined;
+			let whereQuery: SQL<unknown> | undefined = eq(subquery.voting_id, input.voting_id);
 			switch (input.sort_method) {
 				default:
 					sortQuery = desc(sql`likes_total`);
 					if (cursor?.likes_total !== undefined || cursor?.created_at !== undefined) {
-						havingQuery = or(
-							lt(count(likesTable.song_id), cursor.likes_total),
-							and(
-								eq(count(likesTable.song_id), cursor.likes_total),
-								or(
-									gt(songsTable.created_at, cursor.created_at),
-									and(eq(songsTable.created_at, cursor.created_at), gt(songsTable.song_id, cursor.song_id)),
+						whereQuery = and(
+							or(
+								lt(subquery.likes_total, cursor.likes_total),
+								and(
+									eq(subquery.likes_total, cursor.likes_total),
+									or(
+										gt(subquery.created_at, sql`${cursor.created_at.toISOString()}`),
+										and(
+											eq(subquery.created_at, sql`${cursor.created_at.toISOString()}`),
+											gt(subquery.deezer_id, cursor.deezer_id),
+										),
+									),
 								),
 							),
 						);
@@ -61,27 +86,42 @@ export const songsRouter = createTRPCRouter({
 				case "Least Likes":
 					sortQuery = asc(sql`likes_total`);
 					if (cursor?.likes_total !== undefined || cursor?.created_at !== undefined) {
-						havingQuery = and(lte(sql`likes_total`, cursor.likes_total), gte(songsTable.created_at, cursor.created_at));
+						whereQuery = or(
+							gt(subquery.likes_total, cursor.likes_total),
+							and(
+								eq(subquery.likes_total, cursor.likes_total),
+								or(
+									gt(subquery.created_at, sql`${cursor.created_at.toISOString()}`),
+									and(
+										eq(subquery.created_at, sql`${cursor.created_at.toISOString()}`),
+										gt(subquery.deezer_id, cursor.deezer_id),
+									),
+								),
+							),
+						);
 					}
 					break;
 				case "Date Added":
-					sortQuery = asc(songsTable.created_at);
+					sortQuery = asc(subquery.created_at);
 					if (cursor?.created_at !== undefined) {
-						havingQuery = gt(songsTable.created_at, cursor.created_at);
+						whereQuery = gt(subquery.created_at, sql`${cursor.created_at.toISOString()}`);
 					}
 					break;
 				case "Random":
-					sortQuery = asc(songsTable.song_id);
-					if (cursor?.song_id !== undefined) {
-						havingQuery = gte(songsTable.song_id, cursor.song_id);
+					sortQuery = asc(subquery.song_id);
+					if (cursor?.deezer_id !== undefined) {
+						whereQuery = gt(subquery.song_id, cursor.song_id);
 					}
 					break;
 				case "A-Z":
-					sortQuery = asc(songsTable.song_name);
+					sortQuery = asc(subquery.song_name);
 					if (cursor?.song_name !== undefined || cursor?.created_at !== undefined) {
-						havingQuery = and(
-							gte(songsTable.song_name, cursor.song_name),
-							gte(songsTable.created_at, cursor.created_at),
+						whereQuery = or(
+							gt(subquery.song_name, cursor.song_name),
+							and(
+								eq(subquery.song_name, cursor.song_name),
+								gt(subquery.created_at, sql`${cursor.created_at.toISOString()}`),
+							),
 						);
 					}
 					break;
@@ -95,39 +135,33 @@ export const songsRouter = createTRPCRouter({
 
 				const query = ctx.db
 					.select({
-						song_id: songsTable.song_id,
-						deezer_id: songsTable.deezer_id,
-						isrc: songsTable.isrc,
-						voting_id: songsTable.voting_id,
-						song_name: songsTable.song_name,
-						song_artists: songsTable.song_artists,
-						cover_image: songsTable.cover_image,
-						preview_url: songsTable.preview_url,
-						added_by: songsTable.added_by,
-						created_at: songsTable.created_at,
-						likes_total: count(likesTable.song_id).as("likes_total"),
+						song_id: subquery.song_id,
+						deezer_id: subquery.deezer_id,
+						isrc: subquery.isrc,
+						voting_id: subquery.voting_id,
+						song_name: subquery.song_name,
+						song_artists: subquery.song_artists,
+						cover_image: subquery.cover_image,
+						preview_url: subquery.preview_url,
+						added_by: subquery.added_by,
+						created_at: subquery.created_at,
+						likes_total: subquery.likes_total,
 						liked: ctx.auth?.session?.userId
 							? exists(
 									ctx.db
 										.select({ one: sql`1` })
 										.from(likesTable)
 										.where(
-											and(
-												eq(likesTable.song_id, songsTable.song_id),
-												eq(likesTable.user_id, ctx.auth?.session?.userId),
-											),
+											and(eq(likesTable.song_id, subquery.song_id), eq(likesTable.user_id, ctx.auth?.session?.userId)),
 										),
 								).as("liked")
 							: sql`false`.as("liked"),
 					})
-					.from(songsTable)
-					.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
-					.where(eq(songsTable.voting_id, input.voting_id))
-					.groupBy(songsTable.song_id)
-					.having(havingQuery ?? undefined)
-					.orderBy(sortQuery, asc(songsTable.created_at), asc(songsTable.song_id))
-					.limit(input.limit + 1)
-					.offset(input.offset);
+					.from(subquery)
+					.where(whereQuery)
+
+					.orderBy(sortQuery, asc(subquery.created_at), asc(subquery.deezer_id))
+					.limit(input.limit + 1);
 
 				const songQuery = await query;
 
@@ -135,6 +169,7 @@ export const songsRouter = createTRPCRouter({
 
 				if (songQuery.length > input.limit) {
 					nextCursor = JSON.stringify({
+						deezer_id: songQuery[input.limit]?.deezer_id,
 						song_id: songQuery[input.limit]?.song_id,
 						likes_total: songQuery[input.limit]?.likes_total,
 						created_at: songQuery[input.limit]?.created_at,

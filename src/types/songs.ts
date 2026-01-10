@@ -48,6 +48,7 @@ export type TSongMetadata = {
 };
 
 export type NextCursor = {
+	deezer_id: number;
 	song_id: string;
 	likes_total: number;
 	created_at: Date;
