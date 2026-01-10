@@ -86,6 +86,9 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 						setPreviewUrl={setPreviewUrl}
 					/>
 				))}
+			<button onClick={() => fetchNextPage()} className="cursor-pointer">
+				Fetch Next Page
+			</button>
 		</div>
 	);
 }

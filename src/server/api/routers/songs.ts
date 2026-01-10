@@ -1,9 +1,9 @@
 import { TRPCError } from "@trpc/server";
-import { and, asc, count, desc, eq, exists, gt, lt, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, exists, gt, gte, lt, lte, or, sql, type SQL } from "drizzle-orm";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
 import { likesTable, songsTable, voting_membershipsTable } from "~/server/db/schema";
-import type { DeezerTrack } from "~/types/songs";
+import type { DeezerTrack, NextCursor } from "~/types/songs";
 import { getTrack } from "~/server/utils/deezer";
 
 export const songsRouter = createTRPCRouter({
@@ -28,22 +28,62 @@ export const songsRouter = createTRPCRouter({
 			}),
 		)
 		.query(async ({ ctx, input }) => {
+			const cursor: NextCursor | null = input.cursor
+				? (() => {
+						const parsed = JSON.parse(input.cursor) as NextCursor;
+						return {
+							...parsed,
+							created_at: new Date(parsed.created_at),
+						};
+					})()
+				: null;
+
+			console.log(cursor);
+
 			let sortQuery;
+			let havingQuery: SQL<unknown> | undefined = undefined;
 			switch (input.sort_method) {
 				default:
 					sortQuery = desc(sql`likes_total`);
+					if (cursor?.likes_total !== undefined || cursor?.created_at !== undefined) {
+						havingQuery = or(
+							lt(count(likesTable.song_id), cursor.likes_total),
+							and(
+								eq(count(likesTable.song_id), cursor.likes_total),
+								or(
+									gt(songsTable.created_at, cursor.created_at),
+									and(eq(songsTable.created_at, cursor.created_at), gt(songsTable.song_id, cursor.song_id)),
+								),
+							),
+						);
+					}
 					break;
 				case "Least Likes":
 					sortQuery = asc(sql`likes_total`);
+					if (cursor?.likes_total !== undefined || cursor?.created_at !== undefined) {
+						havingQuery = and(lte(sql`likes_total`, cursor.likes_total), gte(songsTable.created_at, cursor.created_at));
+					}
 					break;
 				case "Date Added":
 					sortQuery = asc(songsTable.created_at);
+					if (cursor?.created_at !== undefined) {
+						havingQuery = gt(songsTable.created_at, cursor.created_at);
+					}
 					break;
 				case "Random":
-					sortQuery = asc(sql`RANDOM()`);
+					sortQuery = asc(songsTable.song_id);
+					if (cursor?.song_id !== undefined) {
+						havingQuery = gte(songsTable.song_id, cursor.song_id);
+					}
 					break;
 				case "A-Z":
 					sortQuery = asc(songsTable.song_name);
+					if (cursor?.song_name !== undefined || cursor?.created_at !== undefined) {
+						havingQuery = and(
+							gte(songsTable.song_name, cursor.song_name),
+							gte(songsTable.created_at, cursor.created_at),
+						);
+					}
 					break;
 			}
 			try {
@@ -82,15 +122,11 @@ export const songsRouter = createTRPCRouter({
 					})
 					.from(songsTable)
 					.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
-					.where(
-						and(
-							eq(songsTable.voting_id, input.voting_id),
-							input.cursor ? gt(songsTable.song_id, input.cursor) : sql`TRUE`,
-						),
-					)
+					.where(eq(songsTable.voting_id, input.voting_id))
 					.groupBy(songsTable.song_id)
-					.orderBy(sortQuery, asc(songsTable.created_at))
-					.limit(input.limit)
+					.having(havingQuery ?? undefined)
+					.orderBy(sortQuery, asc(songsTable.created_at), asc(songsTable.song_id))
+					.limit(input.limit + 1)
 					.offset(input.offset);
 
 				const songQuery = await query;
@@ -98,7 +134,12 @@ export const songsRouter = createTRPCRouter({
 				let nextCursor: typeof input.cursor | undefined = undefined;
 
 				if (songQuery.length > input.limit) {
-					nextCursor = songQuery[input.limit]?.song_id;
+					nextCursor = JSON.stringify({
+						song_id: songQuery[input.limit]?.song_id,
+						likes_total: songQuery[input.limit]?.likes_total,
+						created_at: songQuery[input.limit]?.created_at,
+						song_name: songQuery[input.limit]?.song_name,
+					});
 					songQuery.pop();
 				}
 
