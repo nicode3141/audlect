@@ -1,44 +1,45 @@
 {
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "target": "es2022",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-    "isolatedModules": true,
-    "verbatimModuleSyntax": false,
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"target": "es2022",
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"moduleDetection": "force",
+		"isolatedModules": true,
+		"verbatimModuleSyntax": false,
 
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"checkJs": true,
 
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "checkJs": true,
+		"lib": ["dom", "dom.iterable", "ES2022"],
+		"noEmit": true,
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"jsx": "preserve",
+		"plugins": [{ "name": "next" }],
+		"incremental": true,
 
-    "lib": ["dom", "dom.iterable", "ES2022"],
-    "noEmit": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "jsx": "preserve",
-    "plugins": [{ "name": "next" }],
-    "incremental": true,
-
-
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"],
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cjs",
-    "**/*.js",
-    ".next/types/**/*.ts",
-    ".storybook/**/*.ts",
-    ".storybook/**/*.tsx",
-    "test"
-, "src/server/api/routers/server", "src/server/api/routers/server"  ],
-  "exclude": ["node_modules"]
+		"baseUrl": ".",
+		"paths": {
+			"~/*": ["./src/*"],
+			"@/*": ["./src/*"],
+			"react": ["./node_modules/@types/react"]
+		}
+	},
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.cjs",
+		"**/*.js",
+		".next/types/**/*.ts",
+		".storybook/**/*.ts",
+		".storybook/**/*.tsx",
+		"test",
+		"src/server/api/routers/server",
+		"src/server/api/routers/server"
+	],
+	"exclude": ["node_modules"]
 }
