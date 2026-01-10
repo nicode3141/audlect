@@ -29,7 +29,10 @@ export const songsTable = pgTable(
 		added_by: varchar("added_by", { length: 255 }).notNull(), //clerk
 		created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
 	},
-	(t) => [unique("deezer_id_voting_id_unique").on(t.deezer_id, t.voting_id)],
+	(t) => [
+		unique("deezer_id_voting_id_unique").on(t.deezer_id, t.voting_id),
+		unique("isrc_voting_id_unique").on(t.isrc, t.voting_id),
+	],
 );
 
 export const likesTable = pgTable(
