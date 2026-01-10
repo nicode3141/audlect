@@ -36,7 +36,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 
 	const scrollRef = useRef<HTMLDivElement>(null);
 	const songs = paginatedSongs?.pages.flatMap((page) => page.items) ?? [];
-
+	/*
 	useEffect(() => {
 		const handleScroll = () => {
 			if (!hasNextPage || isFetchingNextPage) return;
@@ -51,7 +51,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 
 		window.addEventListener("scroll", handleScroll);
 		return () => window.removeEventListener("scroll", handleScroll);
-	}, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+	}, [fetchNextPage, hasNextPage, isFetchingNextPage]);*/
 
 	return (
 		<div ref={scrollRef} className="flex flex-col items-center justify-center gap-3.5">
