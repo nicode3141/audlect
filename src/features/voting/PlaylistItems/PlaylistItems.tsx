@@ -7,6 +7,8 @@ import SongCardContainer from "../SongCard/SongCardContainer";
 import { useVoting } from "~/context/VotingContext";
 import { useQueryParams } from "~/hooks/useQueryParams";
 import ErrorBanner from "~/components/ui/ErrorBanner/ErrorBanner";
+import { Spinner } from "~/components/ui/@shadcn/spinner";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 interface IPlaylistItemProps {
 	voting_id: string;
@@ -36,7 +38,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 
 	const scrollRef = useRef<HTMLDivElement>(null);
 	const songs = paginatedSongs?.pages.flatMap((page) => page.items) ?? [];
-	/*
+
 	useEffect(() => {
 		const handleScroll = () => {
 			if (!hasNextPage || isFetchingNextPage) return;
@@ -51,7 +53,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 
 		window.addEventListener("scroll", handleScroll);
 		return () => window.removeEventListener("scroll", handleScroll);
-	}, [fetchNextPage, hasNextPage, isFetchingNextPage]);*/
+	}, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
 	return (
 		<div ref={scrollRef} className="flex flex-col items-center justify-center gap-3.5">
@@ -86,9 +88,10 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 						setPreviewUrl={setPreviewUrl}
 					/>
 				))}
-			<button onClick={() => fetchNextPage()} className="cursor-pointer">
-				Fetch Next Page
-			</button>
+
+			{isFetchingNextPage && <Spinner />}
+
+			{!hasNextPage && <div className="font-inter pt-1 dark:text-gray-300">You have reached the end.</div>}
 		</div>
 	);
 }
