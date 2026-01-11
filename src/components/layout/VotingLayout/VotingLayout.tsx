@@ -19,7 +19,7 @@ export default function VotingLayout() {
 	const [searchString, setSearchString] = useState<string>("");
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-	const itemsPerPage = 50;
+	const itemsPerPage = 25;
 	const offset = (currentPage - 1) * itemsPerPage;
 
 	const {
