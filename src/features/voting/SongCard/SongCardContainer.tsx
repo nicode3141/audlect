@@ -140,7 +140,9 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 				onMore={handleMoreClick}
 				isLoadingLike={loadingLike}
 				isLoadingAdd={false}
-				playState={playingSongId === metadata.song_id ? "pause" : isLoadingPreview || query.isLoading ? "loading" : "play"}
+				playState={
+					playingSongId === metadata.song_id ? "pause" : isLoadingPreview || query.isLoading ? "loading" : "play"
+				}
 				onPlay={handlePlayClick}
 			/>
 			{showSongInfo && <SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} />}
