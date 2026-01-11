@@ -21,6 +21,41 @@ interface SongCardProps {
 	isLoadingAdd?: boolean;
 }
 
+// Custom comparison to prevent re-renders when only metadata reference changes
+function areSongCardPropsEqual(prevProps: SongCardProps, nextProps: SongCardProps): boolean {
+	// Compare all props except metadata (we'll do deep compare for that)
+	if (
+		prevProps.added !== nextProps.added ||
+		prevProps.addedSearchResult !== nextProps.addedSearchResult ||
+		prevProps.liked !== nextProps.liked ||
+		prevProps.onLike !== nextProps.onLike ||
+		prevProps.onMore !== nextProps.onMore ||
+		prevProps.onAdd !== nextProps.onAdd ||
+		prevProps.onPlay !== nextProps.onPlay ||
+		prevProps.playState !== nextProps.playState ||
+		prevProps.isLoadingLike !== nextProps.isLoadingLike ||
+		prevProps.isLoadingAdd !== nextProps.isLoadingAdd
+	) {
+		return false;
+	}
+
+	// Deep compare metadata
+	const prev = prevProps.metadata;
+	const next = nextProps.metadata;
+	return (
+		prev.song_id === next.song_id &&
+		prev.deezer_id === next.deezer_id &&
+		prev.isrc === next.isrc &&
+		prev.voting_id === next.voting_id &&
+		prev.song_name === next.song_name &&
+		prev.song_artists === next.song_artists &&
+		prev.cover_image === next.cover_image &&
+		prev.added_by === next.added_by &&
+		prev.likes_total === next.likes_total &&
+		prev.liked === next.liked
+	);
+}
+
 export default React.memo(function SongCard({
 	metadata,
 	added,
@@ -39,7 +74,6 @@ export default React.memo(function SongCard({
 			initial: { scaleX: 0.96, opacity: 0.5 },
 			whileInView: { scaleX: 1, opacity: 1 },
 			transition: { duration: 0.3, ease: easeOut },
-			viewport: { once: true },
 		}),
 		[],
 	);
@@ -106,4 +140,4 @@ export default React.memo(function SongCard({
 			</div>
 		</motion.div>
 	);
-});
+}, areSongCardPropsEqual);

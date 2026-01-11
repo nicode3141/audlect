@@ -37,27 +37,52 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 	});
 
 	const scrollRef = useRef<HTMLDivElement>(null);
+	const sentinelRef = useRef<HTMLDivElement>(null);
 	const songs = useMemo(() => paginatedSongs?.pages.flatMap((page) => page.items) ?? [], [paginatedSongs]);
 
-	useEffect(() => {
-		let timeout: NodeJS.Timeout | null = null;
+	// Memoize metadata objects to prevent unnecessary re-renders
+	const memoizedSongs = useMemo(() => {
+		return songs.map((items) => ({
+			metadata: {
+				song_id: items.song_id,
+				deezer_id: items.deezer_id,
+				isrc: items.isrc ?? undefined,
+				voting_id: votingId,
+				song_name: items.song_name ?? "Loading",
+				song_artists: items.song_artists ?? "Loading",
+				cover_image: items.cover_image ?? undefined,
+				added_by: items.added_by,
+				likes_total: items.likes_total,
+				liked: items.liked,
+			},
+			key: items.isrc,
+		}));
+	}, [songs, votingId]);
 
-		const handleScroll = () => {
-			if (timeout) return;
-			timeout = setTimeout(() => {
-				timeout = null;
-				if (!hasNextPage || isFetchingNextPage) return;
-				const scrollPosition = window.scrollY + window.innerHeight;
-				const bottomThreshold = document.body.offsetHeight - 600;
-				if (scrollPosition >= bottomThreshold) {
+	// Use IntersectionObserver instead of scroll events - much more performant
+	useEffect(() => {
+		if (!hasNextPage || isFetchingNextPage || !sentinelRef.current) return;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const [entry] = entries;
+				if (entry?.isIntersecting && hasNextPage && !isFetchingNextPage) {
 					void fetchNextPage();
 				}
-			}, 200);
-		};
+			},
+			{
+				root: null,
+				rootMargin: "600px", // Trigger 600px before the sentinel comes into view
+				threshold: 0,
+			},
+		);
 
-		window.addEventListener("scroll", handleScroll);
-		return () => window.removeEventListener("scroll", handleScroll);
-	}, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+		observer.observe(sentinelRef.current);
+
+		return () => {
+			observer.disconnect();
+		};
+	}, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
 	return (
 		<div ref={scrollRef} className="flex flex-col items-center justify-center gap-3.5">
@@ -72,26 +97,18 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 			)}
 			{!isLoading &&
 				!error &&
-				songs?.map((items) => (
+				memoizedSongs.map(({ metadata, key }) => (
 					<SongCardContainer
-						key={items.isrc}
-						metadata={{
-							song_id: items.song_id,
-							deezer_id: items.deezer_id,
-							isrc: items.isrc ?? undefined,
-							voting_id: votingId,
-							song_name: items.song_name ?? "Loading",
-							song_artists: items.song_artists ?? "Loading",
-							cover_image: items.cover_image ?? undefined,
-							added_by: items.added_by,
-							likes_total: items.likes_total,
-							liked: items.liked,
-						}}
+						key={key}
+						metadata={metadata}
 						variant="playlist"
 						activePreview={activePreview}
 						setPreviewUrl={setPreviewUrl}
 					/>
 				))}
+
+			{/* Sentinel element for IntersectionObserver */}
+			<div ref={sentinelRef} className="h-1" aria-hidden="true" />
 
 			{isFetchingNextPage && <Spinner />}
 

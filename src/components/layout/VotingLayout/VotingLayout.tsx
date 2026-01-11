@@ -19,6 +19,11 @@ export default function VotingLayout() {
 	const [searchString, setSearchString] = useState<string>("");
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+	// Stabilize setPreviewUrl to prevent callback recreation
+	const stableSetPreviewUrl = useCallback((url: string | null) => {
+		setPreviewUrl(url);
+	}, []);
+
 	const itemsPerPage = 25;
 	const offset = (currentPage - 1) * itemsPerPage;
 
@@ -78,13 +83,13 @@ export default function VotingLayout() {
 					isLoading={isLoading}
 					error={error}
 					activePreview={previewUrl}
-					setPreviewUrl={setPreviewUrl}
+					setPreviewUrl={stableSetPreviewUrl}
 				/>
 			) : (
 				<PlaylistItems
 					voting_id={votingId}
 					activePreview={previewUrl}
-					setPreviewUrl={setPreviewUrl}
+					setPreviewUrl={stableSetPreviewUrl}
 					offset={offset}
 					limit={itemsPerPage}
 				/>
@@ -106,7 +111,7 @@ export default function VotingLayout() {
 					</>
 				)}
 			</div>
-			<audio key={previewUrl} src={previewUrl ?? undefined} autoPlay hidden onEnded={() => setPreviewUrl(null)} />
+			<audio key={previewUrl} src={previewUrl ?? undefined} autoPlay hidden onEnded={() => stableSetPreviewUrl(null)} />
 			<NotLoggedIn />
 		</>
 	);
