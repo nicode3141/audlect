@@ -135,7 +135,9 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 				playState={activePreview === fetchedPreviewUrl ? "pause" : isLoadingPreview || query.isLoading ? "loading" : "play"}
 				onPlay={handlePlayClick}
 			/>
-			<SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} />
+			{showSongInfo && (
+				<SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} />
+			)}
 		</div>
 	);
 }, arePropsEqual);
