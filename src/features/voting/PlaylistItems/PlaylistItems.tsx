@@ -8,7 +8,6 @@ import { useVoting } from "~/context/VotingContext";
 import { useQueryParams } from "~/hooks/useQueryParams";
 import ErrorBanner from "~/components/ui/ErrorBanner/ErrorBanner";
 import { Spinner } from "~/components/ui/@shadcn/spinner";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 interface IPlaylistItemProps {
 	voting_id: string;
@@ -85,11 +84,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 			const observer = new IntersectionObserver(
 				(entries) => {
 					const [entry] = entries;
-					if (
-						entry?.isIntersecting &&
-						hasNextPageRef.current &&
-						!isFetchingNextPageRef.current
-					) {
+					if (entry?.isIntersecting && hasNextPageRef.current && !isFetchingNextPageRef.current) {
 						void fetchNextPageRef.current();
 					}
 				},
@@ -125,8 +120,6 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 				observerRef.current = null;
 			}
 		};
-		// Empty deps - we use refs to access latest values
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
