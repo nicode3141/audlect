@@ -84,8 +84,6 @@ export default function SearchResults(props: IPlaylistItemProps) {
 							setPreviewUrl={setPreviewUrl}
 							playingSongId={playingSongId}
 							setPlayingSongId={setPlayingSongId}
-							playingSongId={playingSongId}
-							setPlayingSongId={setPlayingSongId}
 						/>
 					))}
 				</div>
