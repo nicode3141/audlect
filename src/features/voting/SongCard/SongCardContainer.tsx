@@ -15,15 +15,9 @@ interface ISongCardContainerProps {
 }
 
 // Custom comparison function to prevent re-renders when metadata object reference changes but content is the same
-function arePropsEqual(
-	prevProps: ISongCardContainerProps,
-	nextProps: ISongCardContainerProps,
-): boolean {
+function arePropsEqual(prevProps: ISongCardContainerProps, nextProps: ISongCardContainerProps): boolean {
 	// Compare primitive props
-	if (
-		prevProps.variant !== nextProps.variant ||
-		prevProps.setPreviewUrl !== nextProps.setPreviewUrl
-	) {
+	if (prevProps.variant !== nextProps.variant || prevProps.setPreviewUrl !== nextProps.setPreviewUrl) {
 		return false;
 	}
 
@@ -71,7 +65,7 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 	const activePreviewRef = useRef(activePreview);
 	const fetchedPreviewUrlRef = useRef(fetchedPreviewUrl);
 	const setPreviewUrlRef = useRef(setPreviewUrl);
-	
+
 	// Keep refs in sync
 	activePreviewRef.current = activePreview;
 	fetchedPreviewUrlRef.current = fetchedPreviewUrl;
@@ -132,12 +126,12 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 				onMore={handleMoreClick}
 				isLoadingLike={loadingLike}
 				isLoadingAdd={false}
-				playState={activePreview === fetchedPreviewUrl ? "pause" : isLoadingPreview || query.isLoading ? "loading" : "play"}
+				playState={
+					activePreview === fetchedPreviewUrl ? "pause" : isLoadingPreview || query.isLoading ? "loading" : "play"
+				}
 				onPlay={handlePlayClick}
 			/>
-			{showSongInfo && (
-				<SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} />
-			)}
+			{showSongInfo && <SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} />}
 		</div>
 	);
 }, arePropsEqual);
