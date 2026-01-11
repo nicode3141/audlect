@@ -10,8 +10,9 @@ import { useLikeSong } from "~/hooks/useLikeSong";
 interface ISongCardContainerProps {
 	metadata: TSongMetadata;
 	variant: "playlist" | "search";
-	activePreview?: string | null;
 	setPreviewUrl: (url: string | null) => void;
+	playingSongId?: string | null;
+	setPlayingSongId?: (id: string | null) => void;
 }
 
 // Custom comparison function to prevent re-renders when metadata object reference changes but content is the same
@@ -21,16 +22,23 @@ function arePropsEqual(prevProps: ISongCardContainerProps, nextProps: ISongCardC
 		return false;
 	}
 
-	// Only re-render if activePreview change actually affects this component
-	// A component only cares if activePreview matches its own fetchedPreviewUrl
-	// We can't know fetchedPreviewUrl here, so we'll be conservative:
-	// Only skip re-render if activePreview is the same (null === null, or same URL)
-	// This means we'll still re-render when activePreview changes, but that's necessary
-	// to update playState correctly
-	if (prevProps.activePreview !== nextProps.activePreview) {
-		// activePreview changed - we need to re-render to update playState
-		return false;
+	// Only re-render when playingSongId change affects this component.
+	// If the playingSongId change does not match this song's id, we can skip re-render.
+	if (prevProps.playingSongId !== nextProps.playingSongId) {
+		const prevActiveForThis = prevProps.playingSongId === prevProps.metadata.song_id;
+		const nextActiveForThis = nextProps.playingSongId === nextProps.metadata.song_id;
+		if (!prevActiveForThis && !nextActiveForThis) {
+			// playingSongId changed but didn't affect this item
+			// continue with other comparisons
+		} else {
+			// This item was affected by playingSongId change -> re-render
+			return false;
+		}
 	}
+
+	// activePreview itself no longer forces a re-render for every item.
+	// We only consider playingSongId changes above to determine whether
+	// activePreview changes affect this particular item.
 
 	// Deep compare metadata object
 	const prev = prevProps.metadata;
@@ -50,7 +58,7 @@ function arePropsEqual(prevProps: ISongCardContainerProps, nextProps: ISongCardC
 }
 
 export default React.memo(function SongCardContainer(props: ISongCardContainerProps) {
-	const { metadata, variant, activePreview, setPreviewUrl } = props;
+	const { metadata, variant, setPreviewUrl, playingSongId, setPlayingSongId } = props;
 
 	const [fetchedPreviewUrl, setFetchedPreview] = useState<string | undefined>(undefined);
 	const [isLoadingPreview, setIsLoadingPreview] = useState<boolean>(false);
@@ -62,14 +70,16 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 	const mergedMetadata = React.useMemo(() => ({ ...metadata, likes_total: likes, liked }), [metadata, likes, liked]);
 
 	// Use refs to access latest values without recreating callbacks
-	const activePreviewRef = useRef(activePreview);
+	const playingSongIdRef = useRef(playingSongId);
 	const fetchedPreviewUrlRef = useRef(fetchedPreviewUrl);
 	const setPreviewUrlRef = useRef(setPreviewUrl);
+	const setPlayingSongIdRef = useRef(props.setPlayingSongId);
 
 	// Keep refs in sync
-	activePreviewRef.current = activePreview;
+	playingSongIdRef.current = playingSongId;
 	fetchedPreviewUrlRef.current = fetchedPreviewUrl;
 	setPreviewUrlRef.current = setPreviewUrl;
+	setPlayingSongIdRef.current = props.setPlayingSongId;
 
 	// Extract refetch to avoid depending on the entire query object
 	// Use ref to store refetch to avoid dependency issues
@@ -78,8 +88,10 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 
 	// Stable callback that uses refs to access latest values
 	const handlePlay = useCallback(async () => {
-		if (activePreviewRef.current === fetchedPreviewUrlRef.current) {
+		if (playingSongIdRef.current === metadata.song_id) {
+			// stop playback for this song
 			setPreviewUrlRef.current(null);
+			setPlayingSongIdRef.current?.(null);
 			setIsLoadingPreview(false);
 		} else {
 			setIsLoadingPreview(true);
@@ -88,12 +100,14 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 				if (result.data?.preview) {
 					setPreviewUrlRef.current(result.data.preview);
 					setFetchedPreview(result.data.preview);
+					// mark this song as currently playing
+					setPlayingSongIdRef.current?.(metadata.song_id ?? null);
 				}
 			} finally {
 				setIsLoadingPreview(false);
 			}
 		}
-	}, []);
+	}, [metadata.song_id]);
 
 	const handlePlayClick = useCallback(() => {
 		void handlePlay();
@@ -126,9 +140,7 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 				onMore={handleMoreClick}
 				isLoadingLike={loadingLike}
 				isLoadingAdd={false}
-				playState={
-					activePreview === fetchedPreviewUrl ? "pause" : isLoadingPreview || query.isLoading ? "loading" : "play"
-				}
+				playState={playingSongId === metadata.song_id ? "pause" : isLoadingPreview || query.isLoading ? "loading" : "play"}
 				onPlay={handlePlayClick}
 			/>
 			{showSongInfo && <SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} />}
