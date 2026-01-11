@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useSongs } from "~/hooks/useSongs";
 import SkeletonSongCard from "../SongCard/SkeletonSongCard";
 import SongCardContainer from "../SongCard/SongCardContainer";
@@ -37,7 +37,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 	});
 
 	const scrollRef = useRef<HTMLDivElement>(null);
-	const songs = paginatedSongs?.pages.flatMap((page) => page.items) ?? [];
+	const songs = useMemo(() => paginatedSongs?.pages.flatMap((page) => page.items) ?? [], [paginatedSongs]);
 
 	useEffect(() => {
 		const handleScroll = () => {

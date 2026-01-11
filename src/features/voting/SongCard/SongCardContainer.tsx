@@ -14,7 +14,7 @@ interface ISongCardContainerProps {
 	setPreviewUrl: (url: string | null) => void;
 }
 
-export default function SongCardContainer(props: ISongCardContainerProps) {
+export default React.memo(function SongCardContainer(props: ISongCardContainerProps) {
 	const { metadata, variant, activePreview, setPreviewUrl } = props;
 
 	const [fetchedPreviewUrl, setFetchedPreview] = useState<string | undefined>(undefined);
@@ -51,4 +51,4 @@ export default function SongCardContainer(props: ISongCardContainerProps) {
 			<SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} />
 		</div>
 	);
-}
+});
