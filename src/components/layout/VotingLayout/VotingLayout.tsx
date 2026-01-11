@@ -22,6 +22,7 @@ export default function VotingLayout() {
 	const [searchString, setSearchString] = useState<string>("");
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [playingSongId, setPlayingSongId] = useState<string | null>(null);
+	const [showRanking, setShowRanking] = useState<boolean>(false);
 
 	// Stabilize setters to prevent callback recreation
 	const stableSetPreviewUrl = useCallback((url: string | null) => {
@@ -83,12 +84,7 @@ export default function VotingLayout() {
 							setSortMethod(method);
 						}}
 					/>
-					<PlaylistFilter
-						className="h-full"
-						onChange={function (sortMethod: SortMethodsType): void {
-							throw new Error("Function not implemented.");
-						}}
-					/>
+					<PlaylistFilter className="h-full" onChange={() => setShowRanking(true)} />
 				</div>
 			</div>
 			{showSearchResults ? (
@@ -108,6 +104,7 @@ export default function VotingLayout() {
 					setPlayingSongId={stableSetPlayingSongId}
 					offset={offset}
 					limit={itemsPerPage}
+					showRanking={showRanking}
 				/>
 			)}
 			<div className="flex items-center justify-center p-10">

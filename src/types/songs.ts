@@ -43,6 +43,7 @@ export type TSongMetadata = {
 	preview_url?: string;
 	added_by?: string;
 	created_at?: Date;
+	rank?: number;
 	likes_total?: number;
 	liked?: unknown;
 };
