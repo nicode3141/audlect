@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import SongCard from "./SongCard";
 import type { TSongMetadata } from "~/types/songs";
 import { api } from "~/trpc/react";
@@ -23,7 +23,9 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 
 	const query = api.deezerSearch.getTrack.useQuery({ track_id: metadata.deezer_id }, { enabled: false });
 
-	async function handlePlay() {
+	const mergedMetadata = React.useMemo(() => ({ ...metadata, likes_total: likes, liked }), [metadata, likes, liked]);
+
+	const handlePlay = useCallback(async () => {
 		if (activePreview === fetchedPreviewUrl) {
 			setPreviewUrl(null);
 		} else {
@@ -31,22 +33,35 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 			if (result.data?.preview) setPreviewUrl(result.data.preview);
 			setFetchedPreview(result.data?.preview);
 		}
-	}
+	}, [activePreview, fetchedPreviewUrl, query, setPreviewUrl]);
+
+	const handlePlayClick = useCallback(() => {
+		void handlePlay();
+	}, [handlePlay]);
+
+	const handleLikeClick = useCallback(
+		() => handleLike({ song_id: metadata.song_id, voting_id: metadata.voting_id }),
+		[metadata.song_id, metadata.voting_id, handleLike],
+	);
+
+	const handleAddClick = useCallback(() => nop, []);
+
+	const handleMoreClick = useCallback(() => setShowSongInfo?.((prev) => !prev), [setShowSongInfo]);
 
 	return (
 		<div className="relative inline-block">
 			<SongCard
-				metadata={{ ...metadata, likes_total: likes, liked: liked }}
+				metadata={mergedMetadata}
 				liked={liked}
 				added={variant !== "search"}
 				addedSearchResult={false}
-				onLike={() => handleLike({ song_id: metadata.song_id, voting_id: metadata.voting_id })}
-				onAdd={() => nop()}
-				onMore={() => setShowSongInfo?.((prev) => !prev)}
+				onLike={handleLikeClick}
+				onAdd={handleAddClick}
+				onMore={handleMoreClick}
 				isLoadingLike={loadingLike}
 				isLoadingAdd={false}
 				playState={activePreview === fetchedPreviewUrl ? "pause" : query.isLoading ? "loading" : "play"}
-				onPlay={() => handlePlay()}
+				onPlay={handlePlayClick}
 			/>
 			<SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} />
 		</div>

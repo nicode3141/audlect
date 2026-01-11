@@ -15,7 +15,7 @@ interface ISongInfo {
 	onRemove?: () => void;
 }
 
-export default function SongInfo(props: ISongInfo) {
+export default React.memo(function SongInfo(props: ISongInfo) {
 	const { metadata, showPopup, ref, onRemove } = props;
 	const deleteSong = api.songs.deleteSong.useMutation();
 	const utils = api.useUtils();
@@ -68,4 +68,4 @@ export default function SongInfo(props: ISongInfo) {
 			</AnimatePresence>
 		)
 	);
-}
+});
