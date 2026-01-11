@@ -39,6 +39,9 @@ export const songsRouter = createTRPCRouter({
 					cover_image: songsTable.cover_image,
 					preview_url: songsTable.preview_url,
 					added_by: songsTable.added_by,
+					rank: sql<number>`RANK() OVER (ORDER BY COUNT(${likesTable.song_id}) DESC, ${songsTable.created_at})`.as(
+						"rank",
+					),
 					created_at: sql<string>`to_char(${songsTable.created_at}, 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"')`.as("created_at"),
 					likes_total: count(likesTable.song_id).as("likes_total"),
 				})
@@ -144,6 +147,7 @@ export const songsRouter = createTRPCRouter({
 						cover_image: subquery.cover_image,
 						preview_url: subquery.preview_url,
 						added_by: subquery.added_by,
+						rank: subquery.rank,
 						created_at: subquery.created_at,
 						likes_total: subquery.likes_total,
 						liked: ctx.auth?.session?.userId
