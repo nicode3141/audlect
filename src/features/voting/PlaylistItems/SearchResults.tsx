@@ -59,7 +59,6 @@ export default function SearchResults(props: IPlaylistItemProps) {
 								liked: items.liked,
 							}}
 							variant="playlist"
-                            
 							setPreviewUrl={setPreviewUrl}
 							playingSongId={playingSongId}
 							setPlayingSongId={setPlayingSongId}
