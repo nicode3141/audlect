@@ -40,15 +40,19 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 	const songs = useMemo(() => paginatedSongs?.pages.flatMap((page) => page.items) ?? [], [paginatedSongs]);
 
 	useEffect(() => {
+		let timeout: NodeJS.Timeout | null = null;
+
 		const handleScroll = () => {
-			if (!hasNextPage || isFetchingNextPage) return;
-
-			const scrollPosition = window.scrollY + window.innerHeight;
-			const bottomThreshold = document.body.offsetHeight - 1000; // trigger 200px before bottom
-
-			if (scrollPosition >= bottomThreshold) {
-				void fetchNextPage();
-			}
+			if (timeout) return;
+			timeout = setTimeout(() => {
+				timeout = null;
+				if (!hasNextPage || isFetchingNextPage) return;
+				const scrollPosition = window.scrollY + window.innerHeight;
+				const bottomThreshold = document.body.offsetHeight - 600;
+				if (scrollPosition >= bottomThreshold) {
+					void fetchNextPage();
+				}
+			}, 200);
 		};
 
 		window.addEventListener("scroll", handleScroll);
