@@ -60,29 +60,74 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 	}, [songs, votingId]);
 
 	// Use IntersectionObserver instead of scroll events - much more performant
+	// Use refs to avoid recreating observer when dependencies change
+	const hasNextPageRef = useRef(hasNextPage);
+	const isFetchingNextPageRef = useRef(isFetchingNextPage);
+	const fetchNextPageRef = useRef(fetchNextPage);
+	const observerRef = useRef<IntersectionObserver | null>(null);
+
+	// Keep refs in sync
+	hasNextPageRef.current = hasNextPage;
+	isFetchingNextPageRef.current = isFetchingNextPage;
+	fetchNextPageRef.current = fetchNextPage;
+
 	useEffect(() => {
-		if (!hasNextPage || isFetchingNextPage || !sentinelRef.current) return;
+		// Clean up existing observer if it exists
+		if (observerRef.current) {
+			observerRef.current.disconnect();
+			observerRef.current = null;
+		}
 
-		const observer = new IntersectionObserver(
-			(entries) => {
-				const [entry] = entries;
-				if (entry?.isIntersecting && hasNextPage && !isFetchingNextPage) {
-					void fetchNextPage();
+		// Wait for sentinel to be available
+		const setupObserver = () => {
+			if (!sentinelRef.current) return;
+
+			const observer = new IntersectionObserver(
+				(entries) => {
+					const [entry] = entries;
+					if (
+						entry?.isIntersecting &&
+						hasNextPageRef.current &&
+						!isFetchingNextPageRef.current
+					) {
+						void fetchNextPageRef.current();
+					}
+				},
+				{
+					root: null,
+					rootMargin: "600px", // Trigger 600px before the sentinel comes into view
+					threshold: 0,
+				},
+			);
+
+			observer.observe(sentinelRef.current);
+			observerRef.current = observer;
+		};
+
+		// Try to set up immediately
+		setupObserver();
+
+		// If sentinel isn't ready, try again after a short delay
+		if (!sentinelRef.current) {
+			const timeoutId = setTimeout(setupObserver, 0);
+			return () => {
+				clearTimeout(timeoutId);
+				if (observerRef.current) {
+					observerRef.current.disconnect();
+					observerRef.current = null;
 				}
-			},
-			{
-				root: null,
-				rootMargin: "600px", // Trigger 600px before the sentinel comes into view
-				threshold: 0,
-			},
-		);
-
-		observer.observe(sentinelRef.current);
+			};
+		}
 
 		return () => {
-			observer.disconnect();
+			if (observerRef.current) {
+				observerRef.current.disconnect();
+				observerRef.current = null;
+			}
 		};
-	}, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+		// Empty deps - we use refs to access latest values
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<div ref={scrollRef} className="flex flex-col items-center justify-center gap-3.5">
