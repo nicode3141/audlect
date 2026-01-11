@@ -10,12 +10,13 @@ import { useLikeSong } from "~/hooks/useLikeSong";
 interface ISearchCardProps {
 	metadata: TSongMetadata;
 	addedSong: boolean;
-	activePreview: string | null;
 	setPreviewUrl: (url: string | null) => void;
+	playingSongId?: string | null;
+	setPlayingSongId?: (id: string | null) => void;
 }
 
 export default function SearchCardContainer(props: ISearchCardProps) {
-	const { metadata, addedSong, activePreview, setPreviewUrl } = props;
+	const { metadata, addedSong, setPreviewUrl, setPlayingSongId, playingSongId } = props;
 
 	const [loadingAdd, setIsLoadingAdd] = useState<boolean>(false);
 	const [added, setAdded] = useState<boolean>(addedSong);
@@ -67,10 +68,12 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 	}
 
 	function handlePlay() {
-		if (activePreview === metadata.preview_url) {
+		if (playingSongId === metadata.song_id) {
 			setPreviewUrl(null);
+			setPlayingSongId?.(null);
 		} else {
 			setPreviewUrl(metadata.preview_url!);
+			setPlayingSongId?.(metadata.song_id ?? null);
 		}
 	}
 
@@ -96,7 +99,7 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 				}
 				onMore={() => setShowSongInfo(true)}
 				isLoadingAdd={loadingAdd}
-				playState={activePreview === metadata.preview_url ? "pause" : "play"}
+				playState={playingSongId === metadata.song_id ? "pause" : "play"}
 			/>
 			<SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} onRemove={handleRemove} />
 		</div>

@@ -11,8 +11,9 @@ import { Spinner } from "~/components/ui/@shadcn/spinner";
 
 interface IPlaylistItemProps {
 	voting_id: string;
-	activePreview: string | null;
 	setPreviewUrl: (url: string | null) => void;
+	playingSongId?: string | null;
+	setPlayingSongId?: (id: string | null) => void;
 	offset: number;
 	limit: number;
 }
@@ -20,7 +21,7 @@ interface IPlaylistItemProps {
 export default function PlaylistItems(props: IPlaylistItemProps) {
 	const { votingId } = useVoting();
 	const { sortMethod } = useQueryParams();
-	const { activePreview, setPreviewUrl, offset, limit } = props;
+	const { setPreviewUrl, playingSongId, setPlayingSongId, offset, limit } = props;
 	const {
 		data: paginatedSongs,
 		isLoading,
@@ -140,8 +141,9 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 						key={key}
 						metadata={metadata}
 						variant="playlist"
-						activePreview={activePreview}
 						setPreviewUrl={setPreviewUrl}
+						playingSongId={playingSongId}
+						setPlayingSongId={setPlayingSongId}
 					/>
 				))}
 

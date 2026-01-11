@@ -13,13 +13,14 @@ interface IPlaylistItemProps {
 	search_data?: RouterOutputs["search"]["fullSearch"];
 	isLoading: boolean;
 	error?: TRPCClientErrorLike<AppRouter> | null;
-	activePreview: string | null;
 	setPreviewUrl: (url: string | null) => void;
+	playingSongId?: string | null;
+	setPlayingSongId?: (id: string | null) => void;
 }
 
 export default function SearchResults(props: IPlaylistItemProps) {
 	const { votingId } = useVoting();
-	const { search_data, isLoading, error, activePreview, setPreviewUrl } = props;
+	const { search_data, isLoading, error, setPreviewUrl, playingSongId, setPlayingSongId } = props;
 
 	return (
 		<div className="flex flex-col items-center justify-center">
@@ -58,8 +59,10 @@ export default function SearchResults(props: IPlaylistItemProps) {
 								liked: items.liked,
 							}}
 							variant="playlist"
-							activePreview={activePreview}
+                            
 							setPreviewUrl={setPreviewUrl}
+							playingSongId={playingSongId}
+							setPlayingSongId={setPlayingSongId}
 						/>
 					</div>
 				))}
@@ -79,8 +82,11 @@ export default function SearchResults(props: IPlaylistItemProps) {
 								preview_url: items.preview_url,
 							}}
 							addedSong={false}
-							activePreview={activePreview}
 							setPreviewUrl={setPreviewUrl}
+							playingSongId={playingSongId}
+							setPlayingSongId={setPlayingSongId}
+							playingSongId={playingSongId}
+							setPlayingSongId={setPlayingSongId}
 						/>
 					))}
 				</div>

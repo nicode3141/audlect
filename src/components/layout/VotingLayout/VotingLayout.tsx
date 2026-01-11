@@ -21,10 +21,14 @@ export default function VotingLayout() {
 	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
 	const [searchString, setSearchString] = useState<string>("");
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+	const [playingSongId, setPlayingSongId] = useState<string | null>(null);
 
-	// Stabilize setPreviewUrl to prevent callback recreation
+	// Stabilize setters to prevent callback recreation
 	const stableSetPreviewUrl = useCallback((url: string | null) => {
 		setPreviewUrl(url);
+	}, []);
+	const stableSetPlayingSongId = useCallback((id: string | null) => {
+		setPlayingSongId(id);
 	}, []);
 
 	const itemsPerPage = 25;
@@ -92,14 +96,16 @@ export default function VotingLayout() {
 					search_data={search_data}
 					isLoading={isLoading}
 					error={error}
-					activePreview={previewUrl}
 					setPreviewUrl={stableSetPreviewUrl}
+					playingSongId={playingSongId}
+					setPlayingSongId={stableSetPlayingSongId}
 				/>
 			) : (
 				<MainContent
 					voting_id={votingId}
-					activePreview={previewUrl}
 					setPreviewUrl={stableSetPreviewUrl}
+					playingSongId={playingSongId}
+					setPlayingSongId={stableSetPlayingSongId}
 					offset={offset}
 					limit={itemsPerPage}
 				/>
@@ -121,7 +127,16 @@ export default function VotingLayout() {
 					</>
 				)}
 			</div>
-			<audio key={previewUrl} src={previewUrl ?? undefined} autoPlay hidden onEnded={() => stableSetPreviewUrl(null)} />
+			<audio
+				key={previewUrl}
+				src={previewUrl ?? undefined}
+				autoPlay
+				hidden
+				onEnded={() => {
+					stableSetPreviewUrl(null);
+					stableSetPlayingSongId(null);
+				}}
+			/>
 			<NotLoggedIn />
 		</>
 	);
