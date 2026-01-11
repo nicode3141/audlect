@@ -13,9 +13,10 @@ export default function PopupCard(props: IPopupCard) {
 	const { title, subtitle, children, ref } = props;
 	return (
 		<motion.div
-			className="fixed bottom-0 left-0 z-50 w-screen rounded-t-4xl bg-[#f1f1f16b] backdrop-blur-xl md:absolute md:top-20 md:right-0 md:left-auto md:w-60 md:bg-white md:backdrop-blur-none dark:bg-[#35353588]"
+			className="fixed bottom-0 left-0 z-50 w-screen rounded-t-4xl bg-[#f1f1f16b] backdrop-blur-sm md:absolute md:top-20 md:right-0 md:left-auto md:w-60 md:bg-white md:backdrop-blur-none dark:bg-[#35353588]"
 			key="modal"
 			ref={ref as React.RefObject<HTMLDivElement | null>}
+			style={{ willChange: "transform, opacity" }}
 			initial={{ height: 0, opacity: 0 }}
 			animate={{
 				height: "auto",
