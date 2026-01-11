@@ -83,12 +83,6 @@ export default function VotingLayout() {
 							setSortMethod(method);
 						}}
 					/>
-					<PlaylistFilter
-						className="h-full"
-						onChange={function (sortMethod: SortMethodsType): void {
-							throw new Error("Function not implemented.");
-						}}
-					/>
 				</div>
 			</div>
 			{showSearchResults ? (
