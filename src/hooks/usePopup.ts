@@ -32,6 +32,10 @@ export function usePopup(): [
 	const entryRef = useRef<PopupEntry | null>(null);
 	const [isActive, setIsActive] = useState<boolean>(false);
 
+	// Use ref to track isActive to avoid closure issues
+	const isActiveRef = useRef(isActive);
+	isActiveRef.current = isActive;
+
 	// Register/unregister popup when it becomes active/inactive
 	useEffect(() => {
 		if (!isActive) {
@@ -56,7 +60,7 @@ export function usePopup(): [
 				const entry: PopupEntry = {
 					ref: currentRef as HTMLElement,
 					close: closeDropdown,
-					isActive: () => isActive, // Return current isActive value
+					isActive: () => isActiveRef.current, // Use ref to get current value
 				};
 				entryRef.current = entry;
 				activePopups.add(entry);

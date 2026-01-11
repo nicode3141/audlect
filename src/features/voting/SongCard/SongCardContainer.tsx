@@ -78,7 +78,9 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 	setPreviewUrlRef.current = setPreviewUrl;
 
 	// Extract refetch to avoid depending on the entire query object
-	const refetchPreview = query.refetch;
+	// Use ref to store refetch to avoid dependency issues
+	const refetchPreviewRef = useRef(query.refetch);
+	refetchPreviewRef.current = query.refetch;
 
 	// Stable callback that uses refs to access latest values
 	const handlePlay = useCallback(async () => {
@@ -88,7 +90,7 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 		} else {
 			setIsLoadingPreview(true);
 			try {
-				const result = await refetchPreview();
+				const result = await refetchPreviewRef.current();
 				if (result.data?.preview) {
 					setPreviewUrlRef.current(result.data.preview);
 					setFetchedPreview(result.data.preview);
@@ -97,7 +99,7 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 				setIsLoadingPreview(false);
 			}
 		}
-	}, [refetchPreview]);
+	}, []);
 
 	const handlePlayClick = useCallback(() => {
 		void handlePlay();

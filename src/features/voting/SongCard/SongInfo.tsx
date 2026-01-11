@@ -19,9 +19,13 @@ export default React.memo(function SongInfo(props: ISongInfo) {
 	const { metadata, showPopup, ref, onRemove } = props;
 	const deleteSong = api.songs.deleteSong.useMutation();
 	const utils = api.useUtils();
+	
+	// Only fetch session when popup is shown to avoid expensive lookups on every render
 	const { data: session } = authClient.useSession();
-
-	const role = session?.user.votingMemberships.find((i) => i.votingId === metadata.voting_id)?.role;
+	const role = React.useMemo(
+		() => session?.user.votingMemberships.find((i) => i.votingId === metadata.voting_id)?.role,
+		[session?.user.votingMemberships, metadata.voting_id],
+	);
 
 	async function removeSong() {
 		if (!metadata.song_id) return;

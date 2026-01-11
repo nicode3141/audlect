@@ -9,9 +9,23 @@ export function useLikeSong(metadata: TSongMetadata) {
 	const [loadingLike, setIsLoadingLike] = useState<boolean>(false);
 	const { requireLogin } = useRequireLogin();
 
+	// Use ref to track previous values to avoid unnecessary state updates
+	// Initialize with current metadata values
+	const prevLikedRef = useRef(metadata.liked);
+	const prevLikesTotalRef = useRef(metadata.likes_total ?? 0);
+
 	useEffect(() => {
-		setLiked(metadata.liked as boolean);
-		setLikes(metadata.likes_total ?? 0);
+		// Only update if values actually changed to prevent infinite loops
+		// Use direct comparison to avoid object creation overhead
+		const newLiked = metadata.liked as boolean;
+		const newLikes = metadata.likes_total ?? 0;
+
+		if (prevLikedRef.current !== newLiked || prevLikesTotalRef.current !== newLikes) {
+			prevLikedRef.current = newLiked;
+			prevLikesTotalRef.current = newLikes;
+			setLiked(newLiked);
+			setLikes(newLikes);
+		}
 	}, [metadata.liked, metadata.likes_total]);
 
 	const likeMutation = api.likes.like.useMutation({
