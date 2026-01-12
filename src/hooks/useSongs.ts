@@ -11,10 +11,11 @@ interface ISongQueryProps {
 }
 
 export function useSongs({ limit, offset, sort_method, voting_id }: ISongQueryProps) {
-	return api.songs.songs.useQuery(
+	return api.songs.songs.useInfiniteQuery(
 		{ limit, offset, sort_method, voting_id },
 		{
 			staleTime: 1000,
+			getNextPageParam: (lastPage) => lastPage.nextCursor,
 		},
 	);
 }

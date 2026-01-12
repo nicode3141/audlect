@@ -10,6 +10,9 @@ import { api } from "~/trpc/react";
 import { useVoting } from "~/context/VotingContext";
 import { useQueryParams } from "~/hooks/useQueryParams";
 import NotLoggedIn from "~/features/voting/Popups/NotLoggedIn";
+import PlaylistFilter from "~/components/ui/PlaylistFilter/PlaylistFilter";
+import type { SortMethodsType } from "~/types/global";
+import MainContent from "~/features/voting/MainContent/MainContent";
 
 export default function VotingLayout() {
 	const { votingId } = useVoting();
@@ -18,8 +21,17 @@ export default function VotingLayout() {
 	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
 	const [searchString, setSearchString] = useState<string>("");
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+	const [playingSongId, setPlayingSongId] = useState<string | null>(null);
 
-	const itemsPerPage = 30;
+	// Stabilize setters to prevent callback recreation
+	const stableSetPreviewUrl = useCallback((url: string | null) => {
+		setPreviewUrl(url);
+	}, []);
+	const stableSetPlayingSongId = useCallback((id: string | null) => {
+		setPlayingSongId(id);
+	}, []);
+
+	const itemsPerPage = 25;
 	const offset = (currentPage - 1) * itemsPerPage;
 
 	const {
@@ -63,28 +75,31 @@ export default function VotingLayout() {
 					}}
 					placeholder="Search by Song, Artist"
 				/>
-				<SortMethods
-					className="w-[80vw] lg:w-[40rem]"
-					currentSort={sortMethod}
-					sortOptions={["A-Z", "Date Added", "Least Likes", "Likes", "Random"]}
-					onChange={(method) => {
-						setSortMethod(method);
-					}}
-				/>
+				<div className="flex w-[80vw] items-stretch gap-3 md:w-[70vw] lg:w-[40rem]">
+					<SortMethods
+						currentSort={sortMethod}
+						sortOptions={["A-Z", "Date Added", "Least Likes", "Likes", "Random"]}
+						onChange={(method) => {
+							setSortMethod(method);
+						}}
+					/>
+				</div>
 			</div>
 			{showSearchResults ? (
 				<SearchResults
 					search_data={search_data}
 					isLoading={isLoading}
 					error={error}
-					activePreview={previewUrl}
-					setPreviewUrl={setPreviewUrl}
+					setPreviewUrl={stableSetPreviewUrl}
+					playingSongId={playingSongId}
+					setPlayingSongId={stableSetPlayingSongId}
 				/>
 			) : (
-				<PlaylistItems
+				<MainContent
 					voting_id={votingId}
-					activePreview={previewUrl}
-					setPreviewUrl={setPreviewUrl}
+					setPreviewUrl={stableSetPreviewUrl}
+					playingSongId={playingSongId}
+					setPlayingSongId={stableSetPlayingSongId}
 					offset={offset}
 					limit={itemsPerPage}
 				/>
@@ -92,7 +107,7 @@ export default function VotingLayout() {
 			<div className="flex items-center justify-center p-10">
 				{entriesTotal && entriesTotal?.count > 0 && (
 					<>
-						{showSearchResults ? (
+						{showSearchResults && (
 							<Pagination
 								variant={"search_result"}
 								totalPages={4}
@@ -102,20 +117,20 @@ export default function VotingLayout() {
 									await refetchSearch();
 								}}
 							/>
-						) : (
-							<Pagination
-								variant={showSearchResults ? "search_result" : "default"}
-								totalPages={showSearchResults ? 4 : Math.ceil((entriesTotal?.count ?? 30) / itemsPerPage)}
-								currentPage={currentPage}
-								gotoPage={(page) => {
-									setPage(page);
-								}}
-							/>
 						)}
 					</>
 				)}
 			</div>
-			<audio key={previewUrl} src={previewUrl ?? undefined} autoPlay hidden onEnded={() => setPreviewUrl(null)} />
+			<audio
+				key={previewUrl}
+				src={previewUrl ?? undefined}
+				autoPlay
+				hidden
+				onEnded={() => {
+					stableSetPreviewUrl(null);
+					stableSetPlayingSongId(null);
+				}}
+			/>
 			<NotLoggedIn />
 		</>
 	);

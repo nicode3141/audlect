@@ -1,0 +1,2 @@
+ALTER TABLE "linked_spotify" ADD COLUMN "voting_id" uuid NOT NULL;--> statement-breakpoint
+ALTER TABLE "linked_spotify" ADD CONSTRAINT "linked_spotify_voting_id_votings_voting_id_fk" FOREIGN KEY ("voting_id") REFERENCES "public"."votings"("voting_id") ON DELETE no action ON UPDATE no action;

@@ -1,11 +1,11 @@
 import Image from "next/image";
-import React from "react";
+import React, { useMemo } from "react";
 import { AddSongButton, LikeButton } from "~/components/ui/SongButtons/SongButtons";
 import MoreIcon from "~/components/icons/MoreIcon";
 import { nop } from "~/lib/utils";
 import type { TSongMetadata } from "~/types/songs";
 import PlayIcon from "~/components/icons/PlayIcon";
-import { motion } from "motion/react";
+import { easeOut, motion, type useInView } from "motion/react";
 
 interface SongCardProps {
 	metadata: TSongMetadata;
@@ -21,7 +21,42 @@ interface SongCardProps {
 	isLoadingAdd?: boolean;
 }
 
-export default function SongCard({
+// Custom comparison to prevent re-renders when only metadata reference changes
+function areSongCardPropsEqual(prevProps: SongCardProps, nextProps: SongCardProps): boolean {
+	// Compare all props except metadata (we'll do deep compare for that)
+	if (
+		prevProps.added !== nextProps.added ||
+		prevProps.addedSearchResult !== nextProps.addedSearchResult ||
+		prevProps.liked !== nextProps.liked ||
+		prevProps.onLike !== nextProps.onLike ||
+		prevProps.onMore !== nextProps.onMore ||
+		prevProps.onAdd !== nextProps.onAdd ||
+		prevProps.onPlay !== nextProps.onPlay ||
+		prevProps.playState !== nextProps.playState ||
+		prevProps.isLoadingLike !== nextProps.isLoadingLike ||
+		prevProps.isLoadingAdd !== nextProps.isLoadingAdd
+	) {
+		return false;
+	}
+
+	// Deep compare metadata
+	const prev = prevProps.metadata;
+	const next = nextProps.metadata;
+	return (
+		prev.song_id === next.song_id &&
+		prev.deezer_id === next.deezer_id &&
+		prev.isrc === next.isrc &&
+		prev.voting_id === next.voting_id &&
+		prev.song_name === next.song_name &&
+		prev.song_artists === next.song_artists &&
+		prev.cover_image === next.cover_image &&
+		prev.added_by === next.added_by &&
+		prev.likes_total === next.likes_total &&
+		prev.liked === next.liked
+	);
+}
+
+export default React.memo(function SongCard({
 	metadata,
 	added,
 	addedSearchResult,
@@ -34,12 +69,19 @@ export default function SongCard({
 	isLoadingLike,
 	isLoadingAdd,
 }: SongCardProps) {
+	const motionProps = useMemo(
+		() => ({
+			initial: { scaleX: 0.96, opacity: 0.5 },
+			whileInView: { scaleX: 1, opacity: 1 },
+			transition: { duration: 0.3, ease: easeOut },
+		}),
+		[],
+	);
+
 	return (
 		<motion.div
 			className="flex w-[90vw] items-center justify-between gap-5 rounded-3xl bg-[#F0F0F0] p-2.5 md:w-2xl dark:bg-[#252525]"
-			initial={{ scaleX: 0.96, opacity: 0.5 }}
-			whileInView={{ scaleX: 1, opacity: 1 }}
-			transition={{ duration: 0.3, ease: "easeOut" }}
+			{...motionProps}
 		>
 			<div className="flex min-w-0 flex-1 items-center gap-2">
 				<div className="flex shrink-0 items-center justify-center">
@@ -55,6 +97,7 @@ export default function SongCard({
 						alt={metadata.song_name}
 						width={90}
 						height={90}
+						loading="lazy"
 						className="h-16 w-16 rounded-xl"
 						blurDataURL="ImagePlaceholder.png"
 						onError={(e) => (e.currentTarget.src = "/ImagePlaceholder.png")}
@@ -97,4 +140,4 @@ export default function SongCard({
 			</div>
 		</motion.div>
 	);
-}
+}, areSongCardPropsEqual);
