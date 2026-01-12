@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import SongCard from "./SongCard";
 import type { TSongMetadata } from "~/types/songs";
 import { nop } from "~/lib/utils";
@@ -67,21 +67,26 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 		setAdded(false);
 	}
 
-	function handlePlay() {
-		if (playingSongId === metadata.song_id) {
+	const handlePlay = useCallback(() => {
+		if (playingSongId === metadata.deezer_id.toString()) {
 			setPreviewUrl(null);
 			setPlayingSongId?.(null);
 		} else {
 			setPreviewUrl(metadata.preview_url!);
-			setPlayingSongId?.(metadata.song_id ?? null);
+			setPlayingSongId?.(metadata.deezer_id.toString() ?? null);
+			console.log(metadata.deezer_id.toString());
 		}
-	}
+	}, [metadata.preview_url, metadata.song_id, playingSongId, setPlayingSongId, setPreviewUrl]);
+
+	const handlePlayClick = useCallback(() => {
+		void handlePlay();
+	}, [handlePlay]);
 
 	return (
 		<div className="relative inline-block">
 			<SongCard
 				metadata={{ ...metadata, likes_total: likes, liked: liked }}
-				onPlay={() => handlePlay()}
+				onPlay={handlePlayClick}
 				added={successfullAdded}
 				addedSearchResult={added}
 				onAdd={() =>
@@ -99,7 +104,7 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 				}
 				onMore={() => setShowSongInfo(true)}
 				isLoadingAdd={loadingAdd}
-				playState={playingSongId === metadata.song_id ? "pause" : "play"}
+				playState={playingSongId === metadata.deezer_id.toString() ? "pause" : "play"}
 			/>
 			<SongInfo showPopup={showSongInfo} ref={SongRef} metadata={metadata} onRemove={handleRemove} />
 		</div>
