@@ -48,6 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 					<meta name="twitter:image:type" content="<generated>" />
 					<meta name="twitter:image:width" content="<generated>" />
 					<meta name="twitter:image:height" content="<generated>" />
+					<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 				</head>
 				<body
 					className={`${interFont.variable} ${montserratFont.variable} antialiase min-h-screen bg-white dark:bg-[#161616]`}
