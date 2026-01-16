@@ -3,6 +3,7 @@
  * for Docker builds.
  */
 import "./src/env.js";
+import { withSentryConfig } from "@sentry/nextjs";
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -22,4 +23,10 @@ const config = {
 	},
 };
 
-export default config;
+export default withSentryConfig(config, {
+	org: "nicodenetworks",
+	project: "javascript-nextjs",
+	silent: !process.env.CI,
+	widenClientFileUpload: true,
+	// tunnelRoute: "/monitoring",
+});
