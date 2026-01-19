@@ -7,7 +7,7 @@ export default function page() {
 		<LegalTemplate
 			title={"Terms and Conditions"}
 			website={"nicode networks - nicodenetworks.com"}
-			lastModified={"SEPTEMBER 10, 2025"}
+			lastModified={"JANUARY 19, 2026"}
 			sections={termsContent}
 		/>
 	);
