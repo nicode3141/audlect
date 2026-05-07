@@ -1,4 +1,4 @@
-import { and, asc, count, desc, eq, max, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, max } from "drizzle-orm";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 
@@ -135,7 +135,7 @@ export const votingsRouter = createTRPCRouter({
 		.input(
 			z.object({
 				name: z.string().min(3).max(100),
-				description: z.string().max(255),
+				description: z.string().max(255).nullable(),
 				public: z.boolean().default(false),
 			}),
 		)
@@ -145,7 +145,7 @@ export const votingsRouter = createTRPCRouter({
 					.insert(votingsTable)
 					.values({
 						name: input.name,
-						description: input.description,
+						description: input.description ?? "",
 						public: input.public,
 						created_by: ctx.auth.session.userId,
 						active: true,

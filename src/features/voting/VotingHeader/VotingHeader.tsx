@@ -4,9 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import React from "react";
 import { SignIn } from "~/components/ui/AuthManagement/SignInBtn";
-import { SignUp } from "~/components/oldauth/sign-up";
-import { ArrowDown, ArrowLeft } from "~/components/icons/Arrows";
-import { SingOut } from "~/components/oldauth/sign-out";
+import { ArrowLeft } from "~/components/icons/Arrows";
 import { UserButton } from "~/components/auth/user-button";
 
 interface VotingHeaderProps {
