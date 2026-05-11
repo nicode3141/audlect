@@ -4,11 +4,14 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import NotLoggedIn from "~/features/voting/Popups/NotLoggedIn";
+import { useRequireLogin } from "~/hooks/useRequireLogin";
 import { api } from "~/trpc/react";
 
 export default function CreateVoting() {
 	const router = useRouter();
 	const utils = api.useUtils();
+	const { requireLogin } = useRequireLogin();
 
 	const [votingName, setVotingName] = useState("");
 	const [votingDescription, setVotingDescription] = useState("");
@@ -23,10 +26,12 @@ export default function CreateVoting() {
 
 	function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
-		createVoting.mutate({
-			name: votingName,
-			description: votingDescription,
-			public: isPublic,
+		void requireLogin(() => {
+			createVoting.mutate({
+				name: votingName,
+				description: votingDescription,
+				public: isPublic,
+			});
 		});
 	}
 
@@ -68,6 +73,7 @@ export default function CreateVoting() {
 					</button>
 				</form>
 			</div>
+			<NotLoggedIn />
 		</div>
 	);
 }
