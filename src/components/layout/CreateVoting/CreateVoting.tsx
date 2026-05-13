@@ -13,6 +13,7 @@ import { useRequireLogin } from "~/hooks/useRequireLogin";
 import { api } from "~/trpc/react";
 import TimePicker from "../global/TimePicker";
 import PlayIcon from "~/components/icons/PlayIcon";
+import { toast } from "sonner";
 
 export default function CreateVoting() {
 	const router = useRouter();
@@ -30,17 +31,26 @@ export default function CreateVoting() {
 		onSuccess: async (data) => {
 			await utils.votings.invalidate();
 			router.push(`/voting/${data?.short_id}`);
+			toast.dismiss();
+			toast.success("Voting created successfully");
 		},
 	});
 
 	function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
 		void requireLogin(() => {
+			if (startTime && endTime && startTime >= endTime) {
+				toast.error("Start time must be before end time");
+				return;
+			}
+
 			createVoting.mutate({
 				name: votingName,
 				description: votingDescription,
-				public: isPrivate,
+				public: !isPrivate,
 			});
+
+			toast.info("Creating voting...");
 		});
 	}
 
