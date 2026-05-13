@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import { UserButton } from "~/components/auth/user-button";
@@ -22,8 +24,8 @@ export default function AudlectHeader({ headerTitle, redirectUrl }: AudlectHeade
 			</Link>
 			<div>
 				<div className="flex cursor-pointer items-center gap-3">
-					{session ? <UserButton size={"icon"} /> : <SignIn />}
-					{isPending && <PlayIcon type="loading" className="h-6 w-6" />}
+					{!isPending && (session ? <UserButton size={"icon"} /> : <SignIn />)}
+					{isPending && <PlayIcon type="loading" className="m-2 h-6 w-6" />}
 				</div>
 			</div>
 		</div>
