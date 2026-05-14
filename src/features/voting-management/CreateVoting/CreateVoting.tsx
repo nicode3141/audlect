@@ -1,6 +1,5 @@
 "use client";
 
-import { SelectSeparator } from "@radix-ui/react-select";
 import { Lock, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -8,10 +7,10 @@ import { Checkbox } from "~/components/ui/@shadcn/checkbox";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "~/components/ui/@shadcn/field";
 import { Input } from "~/components/ui/@shadcn/input";
 import { Separator } from "~/components/ui/@shadcn/separator";
-import NotLoggedIn from "~/features/voting/Popups/NotLoggedIn";
+import NotLoggedIn from "~/features/voting-site/Popups/NotLoggedIn";
 import { useRequireLogin } from "~/hooks/useRequireLogin";
 import { api } from "~/trpc/react";
-import TimePicker from "../global/TimePicker";
+import TimePicker from "../../../components/layout/global/TimePicker";
 import PlayIcon from "~/components/icons/PlayIcon";
 import { toast } from "sonner";
 
@@ -89,7 +88,7 @@ export default function CreateVoting() {
 						<label htmlFor="public" className="text-sm font-medium dark:text-white">
 							Private
 						</label>
-						<Checkbox checked={isPrivate} onCheckedChange={(e) => setIsPrivate(!isPrivate)} />
+						<Checkbox checked={isPrivate} onCheckedChange={() => setIsPrivate(!isPrivate)} />
 					</div>
 				</div>
 				<Separator />

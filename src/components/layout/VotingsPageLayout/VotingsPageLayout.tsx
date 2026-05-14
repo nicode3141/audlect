@@ -1,6 +1,6 @@
 import React from "react";
 import { VotingDetails } from "../VotingDetails/VotingDetails";
-import VotingItems from "~/features/votings/VotingItems/VotingItems";
+import VotingItems from "~/features/voting-management/VotingItems/VotingItems";
 import NewVotingButton from "~/components/ui/NewVotingButton/NewVotingButton";
 
 export default function VotingsPageLayout() {

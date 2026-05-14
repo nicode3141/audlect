@@ -3,16 +3,16 @@
 import React, { useCallback, useState } from "react";
 import SearchBar from "~/components/ui/SearchBar/SearchBar";
 import SortMethods from "~/components/ui/SortMethods/SortMethods";
-import PlaylistItems from "~/features/voting/PlaylistItems/PlaylistItems";
+import PlaylistItems from "~/features/voting-site/PlaylistItems/PlaylistItems";
 import Pagination from "~/components/ui/Pagination/Pagination";
-import SearchResults from "~/features/voting/PlaylistItems/SearchResults";
+import SearchResults from "~/features/voting-site/PlaylistItems/SearchResults";
 import { api } from "~/trpc/react";
 import { useVoting } from "~/context/VotingContext";
 import { useQueryParams } from "~/hooks/useQueryParams";
-import NotLoggedIn from "~/features/voting/Popups/NotLoggedIn";
+import NotLoggedIn from "~/features/voting-site/Popups/NotLoggedIn";
 import PlaylistFilter from "~/components/ui/PlaylistFilter/PlaylistFilter";
 import type { SortMethodsType } from "~/types/global";
-import MainContent from "~/features/voting/MainContent/MainContent";
+import MainContent from "~/features/voting-site/MainContent/MainContent";
 
 export default function VotingLayout() {
 	const { votingId } = useVoting();

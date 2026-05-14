@@ -1,5 +1,5 @@
 import React from "react";
-import CreateVoting from "~/components/layout/CreateVoting/CreateVoting";
+import CreateVoting from "~/features/voting-management/CreateVoting/CreateVoting";
 import AudlectHeader from "~/components/ui/AudlectHeader/AudlectHeader";
 import { LoginWarnProvider } from "~/context/LoginWarningContext";
 
