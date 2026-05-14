@@ -112,10 +112,10 @@ export default function CreateVoting() {
 					</div>
 					{endTime !== undefined && <TimePicker date={endTime} setDate={setEndTime} />}
 				</div>
-				<div className="fixed inset-x-0 bottom-0 mx-auto flex min-w-[100vw] justify-center bg-[linear-gradient(180deg,transparent_0%,rgba(255,255,255,0.7)_60%,var(--background-color)_100%)] pt-2 pb-15 backdrop-blur-[2px]">
+				<div className="fixed inset-x-0 bottom-0 mx-auto flex min-w-screen justify-center bg-[linear-gradient(180deg,transparent_0%,rgba(255,255,255,0.7)_60%,var(--background-color)_100%)] pt-2 pb-15 backdrop-blur-[2px]">
 					<button
 						type="submit"
-						className="flex w-[75vw] items-center justify-center gap-2 rounded-2xl bg-indigo-500 p-2 text-xl font-semibold dark:text-white"
+						className="flex w-[75vw] cursor-pointer items-center justify-center gap-2 rounded-2xl bg-indigo-500 p-2 text-xl font-semibold dark:text-white"
 						disabled={createVoting.isPending}
 						defaultChecked={true}
 					>

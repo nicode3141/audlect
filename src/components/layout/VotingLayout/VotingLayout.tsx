@@ -10,7 +10,6 @@ import { api } from "~/trpc/react";
 import { useVoting } from "~/context/VotingContext";
 import { useQueryParams } from "~/hooks/useQueryParams";
 import NotLoggedIn from "~/features/voting-site/Popups/NotLoggedIn";
-import PlaylistFilter from "~/components/ui/PlaylistFilter/PlaylistFilter";
 import type { SortMethodsType } from "~/types/global";
 import MainContent from "~/features/voting-site/MainContent/MainContent";
 
