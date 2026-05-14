@@ -85,7 +85,7 @@ export function ProviderButton({
 				}
 			} else {
 				const socialParams = {
-					provider: provider.provider as SocialProvider,
+					provider: provider.provider,
 					callbackURL: getCallbackURL(),
 					fetchOptions: { throw: true },
 				};
