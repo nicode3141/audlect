@@ -8,6 +8,7 @@ import { useVoting } from "~/context/VotingContext";
 import { useQueryParams } from "~/hooks/useQueryParams";
 import ErrorBanner from "~/components/ui/ErrorBanner/ErrorBanner";
 import { Spinner } from "~/components/ui/@shadcn/spinner";
+import type { SortMethodsType } from "~/types/global";
 
 interface IPlaylistItemProps {
 	voting_id: string;
@@ -32,7 +33,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 	} = useSongs({
 		limit,
 		offset,
-		sort_method: sortMethod,
+		sort_method: sortMethod as SortMethodsType,
 		voting_id: votingId,
 	});
 
