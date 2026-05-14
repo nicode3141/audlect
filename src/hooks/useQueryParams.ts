@@ -24,10 +24,10 @@ export function useQueryParams() {
 			value === "A-Z" ||
 			value === "Date Added"
 		) {
-			return value as SortMethodsType;
+			return value;
 		}
 
-		return "Likes" as SortMethodsType;
+		return "Likes";
 	}, [searchParams]);
 
 	const setPage = useCallback(
