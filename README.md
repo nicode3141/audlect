@@ -16,6 +16,26 @@ Vote Management: Users have the ability to delete their votes, particularly thos
 
 Vote Report: If a user considers that a vote does not align with the event or violates guidelines, there's an option to formally report it for review -> info@nicodenetworks.com
 
+### Project Structure — Where things go
+
+| Path | Put here |
+|---|---|
+| `src/app/` | Routes & pages (Next.js file-based routing) |
+| `src/features/<name>/` | Everything for one business domain (components, hooks, etc.) |
+| `src/components/ui/` | Reusable UI primitives (Button, Input, Card, etc.) |
+| `src/components/layout/` | Layout shell (nav, sidebar, footer) |
+| `src/server/db/` | Database schema & client (Drizzle) |
+| `src/server/api/` | tRPC routers (API endpoints) |
+| `src/lib/` | Shared pure utilities, config, auth helpers |
+| `src/hooks/` | Generic reusable hooks (used in 2+ features) |
+| `src/context/` | Global React context providers |
+| `src/types/` | Shared TypeScript types |
+| `src/styles/` | Global CSS only |
+| `src/localization/` | Error codes & string messages |
+| `public/` | Static assets served at `/` |
+
+**Rule of thumb:** Shared across features → `src/components/` or `src/hooks/`. Specific to one feature → `src/features/<name>/`.
+
 ### Dev Status
 currently in early development
 
