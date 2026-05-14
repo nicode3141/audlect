@@ -327,7 +327,12 @@ export const songsRouter = createTRPCRouter({
 				const [memberships] = await ctx.db
 					.select()
 					.from(voting_membershipsTable)
-					.where(eq(voting_membershipsTable.user_id, ctx.auth.session.userId));
+					.where(
+						and(
+							eq(voting_membershipsTable.user_id, ctx.auth.session.userId),
+							eq(voting_membershipsTable.voting_id, input.voting_id),
+						),
+					);
 
 				if ((memberships?.role !== "owner" && memberships?.role !== "moderator") || !memberships) {
 					const [result] = await ctx.db
