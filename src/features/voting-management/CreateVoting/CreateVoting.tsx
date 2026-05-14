@@ -33,6 +33,10 @@ export default function CreateVoting() {
 			toast.dismiss();
 			toast.success("Voting created successfully");
 		},
+		onError: (error) => {
+			toast.dismiss();
+			toast.error(`Failed to create voting: ${error.message}`);
+		},
 	});
 
 	function handleSubmit(e: React.FormEvent) {
