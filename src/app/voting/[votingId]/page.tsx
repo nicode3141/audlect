@@ -1,5 +1,5 @@
 import { type Metadata } from "next";
-import VotingHeader from "~/features/voting/VotingHeader/VotingHeader";
+import VotingHeader from "~/features/voting-site/VotingHeader/VotingHeader";
 import VotingLayout from "~/components/layout/VotingLayout/VotingLayout";
 import { VotingDetails } from "~/components/layout/VotingDetails/VotingDetails";
 import { db } from "~/server/db";
