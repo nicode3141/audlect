@@ -77,7 +77,7 @@ export default function VotingLayout() {
 				/>
 				<div className="flex w-[80vw] items-stretch gap-3 md:w-[70vw] lg:w-[40rem]">
 					<SortMethods
-						currentSort={sortMethod}
+						currentSort={sortMethod as SortMethodsType}
 						sortOptions={["A-Z", "Date Added", "Least Likes", "Likes", "Random"]}
 						onChange={(method) => {
 							setSortMethod(method);
