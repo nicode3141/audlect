@@ -58,9 +58,12 @@ export default function CreateVoting() {
 	}
 
 	return (
-		<div>
+		<div
+			className="md:relative md:mx-auto md:max-w-3xl md:rounded-lg md:bg-white md:p-5 md:shadow-md md:dark:bg-stone-900
+				md:top-10"
+		>
 			<form onSubmit={handleSubmit} className="flex flex-col gap-5 px-2 dark:text-white">
-				<div className="font-montserrat font-semibold">Voting Information</div>
+				<div className="font-montserrat font-semibold md:text-2xl">Voting Information</div>
 				<div className="flex flex-col gap-4 px-2">
 					<FieldGroup>
 						<Field className="">
@@ -106,7 +109,7 @@ export default function CreateVoting() {
 					</div>
 					{startTime !== undefined && <TimePicker date={startTime} setDate={setStartTime} />}
 				</div>
-				<div className="flex flex-col gap-4 pb-50">
+				<div className="flex flex-col gap-4 pb-50 md:pb-5">
 					<div className="font-montserrat flex items-center gap-4 font-semibold">
 						End Time
 						<Checkbox
@@ -116,10 +119,16 @@ export default function CreateVoting() {
 					</div>
 					{endTime !== undefined && <TimePicker date={endTime} setDate={setEndTime} />}
 				</div>
-				<div className="fixed inset-x-0 bottom-0 mx-auto flex min-w-screen justify-center bg-[linear-gradient(180deg,transparent_0%,rgba(255,255,255,0.7)_60%,var(--background-color)_100%)] pt-2 pb-15 backdrop-blur-[2px]">
+				<div
+					className="md:color-white fixed inset-x-0 bottom-0 mx-auto flex w-screen justify-center
+						bg-[linear-gradient(180deg,transparent_0%,rgba(255,255,255,0.7)_60%,var(--background-color)_100%)] pt-2
+						pb-15 backdrop-blur-[2px] md:static md:max-w-2xl md:p-0 md:block"
+				>
 					<button
 						type="submit"
-						className="flex w-[75vw] cursor-pointer items-center justify-center gap-2 rounded-2xl bg-indigo-500 p-2 text-xl font-semibold dark:text-white"
+						className="flex w-[75vw] cursor-pointer items-center justify-center gap-2 rounded-2xl bg-indigo-500 p-2
+							text-xl font-semibold md:w-2xl dark:text-white hover:bg-indigo-400 disabled:cursor-not-allowed
+							transition-all duration-200 ease-in-out disabled:bg-gray-400 hover:text-white"
 						disabled={createVoting.isPending}
 						defaultChecked={true}
 					>
