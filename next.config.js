@@ -3,10 +3,12 @@
  * for Docker builds.
  */
 import "./src/env.js";
+import path from "node:path";
 import { withSentryConfig } from "@sentry/nextjs";
 
 /** @type {import("next").NextConfig} */
 const config = {
+	outputFileTracingRoot: path.join(import.meta.dirname),
 	images: {
 		remotePatterns: [
 			{
