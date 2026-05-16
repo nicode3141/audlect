@@ -11,6 +11,8 @@ export const votingsTable = pgTable("votings", {
 	public: boolean("public").notNull(),
 	active: boolean("active").notNull(),
 	created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
+	starts_at: timestamp("starts_at", { withTimezone: true }),
+	ends_at: timestamp("ends_at", { withTimezone: true }),
 });
 
 export const songsTable = pgTable(
