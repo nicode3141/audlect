@@ -137,10 +137,19 @@ export const votingsRouter = createTRPCRouter({
 				name: z.string().min(3).max(100),
 				description: z.string().max(255).nullable(),
 				public: z.boolean().default(false),
+				starts_at: z.date().nullable(),
+				ends_at: z.date().nullable(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
+				if (input.starts_at && input.ends_at && input.starts_at >= input.ends_at) {
+					throw new TRPCError({
+						code: "BAD_REQUEST",
+						message: "Start time must be before end time",
+					});
+				}
+
 				const newVoting = await ctx.db
 					.insert(votingsTable)
 					.values({
@@ -150,15 +159,27 @@ export const votingsRouter = createTRPCRouter({
 						created_by: ctx.auth.session.userId,
 						active: true,
 						short_id: nanoid(10),
+						starts_at: input.starts_at ?? null,
+						ends_at: input.ends_at ?? null,
 					})
 					.returning();
 
 				if (newVoting.length !== 0 && newVoting[0]?.voting_id !== undefined) {
-					const newRole = await ctx.db.insert(voting_membershipsTable).values({
-						user_id: ctx.auth.session.userId,
-						voting_id: newVoting[0]?.voting_id,
-						role: "owner",
-					});
+					const newRole = await ctx.db
+						.insert(voting_membershipsTable)
+						.values({
+							user_id: ctx.auth.session.userId,
+							voting_id: newVoting[0]?.voting_id,
+							role: "owner",
+						})
+						.returning();
+
+					if (newRole.length === 0) {
+						throw new TRPCError({
+							code: "INTERNAL_SERVER_ERROR",
+							message: "Failed to assign role to voting creator",
+						});
+					}
 				}
 
 				return newVoting[0];
