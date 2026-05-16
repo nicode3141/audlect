@@ -1,7 +1,6 @@
 "use client";
 
 import { Lock, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Checkbox } from "~/components/ui/@shadcn/checkbox";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "~/components/ui/@shadcn/field";
@@ -13,9 +12,9 @@ import { api } from "~/trpc/react";
 import TimePicker from "../../../components/layout/global/TimePicker";
 import PlayIcon from "~/components/icons/PlayIcon";
 import { toast } from "sonner";
+import ShareVotingDialog from "./ShareVotingDialog";
 
 export default function CreateVoting() {
-	const router = useRouter();
 	const utils = api.useUtils();
 	const { requireLogin } = useRequireLogin();
 
@@ -26,10 +25,13 @@ export default function CreateVoting() {
 	const [startTime, setStartTime] = useState<Date | undefined>(undefined);
 	const [endTime, setEndTime] = useState<Date | undefined>(undefined);
 
+	const [showShareDialog, setShowShareDialog] = useState<string | undefined>(undefined);
+
 	const createVoting = api.votings.createVoting.useMutation({
 		onSuccess: async (data) => {
 			await utils.votings.invalidate();
-			router.push(`/voting/${data?.short_id}`);
+			setShowShareDialog(data?.short_id);
+
 			toast.dismiss();
 			toast.success("Voting created successfully");
 		},
@@ -140,6 +142,7 @@ export default function CreateVoting() {
 				</div>
 			</form>
 			<NotLoggedIn />
+			{showShareDialog !== undefined && <ShareVotingDialog shortId={showShareDialog} />}
 		</div>
 	);
 }
