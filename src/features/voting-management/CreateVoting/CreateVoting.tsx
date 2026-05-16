@@ -51,6 +51,8 @@ export default function CreateVoting() {
 				name: votingName,
 				description: votingDescription,
 				public: !isPrivate,
+				starts_at: startTime ?? null,
+				ends_at: endTime ?? null,
 			});
 
 			toast.info("Creating voting...");
