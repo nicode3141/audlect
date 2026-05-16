@@ -55,7 +55,7 @@ export function getMockAuthSession() {
 			twoFactorEnabled: false,
 			username: "testuser",
 			displayUsername: "Test User",
-			votingMemberships: [] as Array<{ votingId: string; role: string }>,
+			votingMemberships: [] as Array<{ votingId: string; role: "owner" | "moderator" | "participant" }>,
 		},
 	};
 }

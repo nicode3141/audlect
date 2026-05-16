@@ -3,7 +3,7 @@ import { jest } from "@jest/globals";
 jest.mock("~/lib/auth", () => ({
 	auth: {
 		api: {
-			getSession: jest.fn<() => Promise<typeof import("~/lib/auth").Session | null>>().mockResolvedValue({
+			getSession: jest.fn<() => Promise<unknown>>().mockResolvedValue({
 				session: {
 					userId: "test-user-id",
 					id: "test-session-id",
@@ -23,7 +23,7 @@ jest.mock("~/lib/auth", () => ({
 					twoFactorEnabled: false,
 					username: "testuser",
 					displayUsername: "Test User",
-					votingMemberships: [],
+					votingMemberships: [] as Array<{ votingId: string; role: "owner" | "moderator" | "participant" }>,
 				},
 			}),
 		},

@@ -5,12 +5,15 @@ import { appRouter } from "~/server/api/root";
 import { createMockDb } from "./utils";
 
 jest.mock("~/server/utils/deezer", () => ({
-	searchTrack: jest
-		.fn<() => Promise<unknown>>()
-		.mockResolvedValue({ data: [{ id: 1, title: "Waterfalls", artist: { name: "Test" }, album: { cover: "x.jpg" }, preview: null }] }),
-	getTrack: jest
-		.fn<() => Promise<unknown>>()
-		.mockResolvedValue({ id: 3487048191, title: "Test Track", artist: { name: "James Hype" }, album: { cover_medium: "x.jpg" } }),
+	searchTrack: jest.fn<() => Promise<unknown>>().mockResolvedValue({
+		data: [{ id: 1, title: "Waterfalls", artist: { name: "Test" }, album: { cover: "x.jpg" }, preview: null }],
+	}),
+	getTrack: jest.fn<() => Promise<unknown>>().mockResolvedValue({
+		id: 3487048191,
+		title: "Test Track",
+		artist: { name: "James Hype" },
+		album: { cover_medium: "x.jpg" },
+	}),
 }));
 
 test("search-test", async () => {
