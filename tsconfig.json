@@ -41,5 +41,5 @@
 		"src/server/api/routers/server",
 		"src/app/legal/cookies"
 	],
-	"exclude": ["node_modules", "jest.setup.ts", "**/*.test.ts", "**/test/**"]
+	"exclude": ["node_modules"]
 }

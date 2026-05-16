@@ -6,7 +6,8 @@ function chainResult(result: unknown) {
 		{
 			get(_target, prop) {
 				if (prop === "then") {
-					return (resolve: (v: unknown) => void) => resolve(typeof result === "function" ? result() : result);
+					return (resolve: (v: unknown) => void) =>
+						resolve(typeof result === "function" ? (result as () => unknown)() : result);
 				}
 				if (prop === "catch") return undefined;
 				return () => chainResult(result);
@@ -16,10 +17,10 @@ function chainResult(result: unknown) {
 }
 
 export function createMockDb(results?: {
-	selectResult?: unknown | (() => unknown);
-	insertResult?: unknown | (() => unknown);
-	deleteResult?: unknown | (() => unknown);
-	updateResult?: unknown | (() => unknown);
+	selectResult?: unknown;
+	insertResult?: unknown;
+	deleteResult?: unknown;
+	updateResult?: unknown;
 }) {
 	const selectResult = results?.selectResult ?? [];
 	const insertResult = results?.insertResult ?? [];
