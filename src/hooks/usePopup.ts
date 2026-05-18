@@ -58,7 +58,7 @@ export function usePopup(): [
 			const currentRef = ref.current;
 			if (currentRef && !entryRef.current) {
 				const entry: PopupEntry = {
-					ref: currentRef as HTMLElement,
+					ref: currentRef,
 					close: closeDropdown,
 					isActive: () => isActiveRef.current, // Use ref to get current value
 				};

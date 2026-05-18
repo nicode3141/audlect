@@ -1,10 +1,9 @@
 ---
 name: Feature addition
 about: New Features for this project
-title: 'Feat: '
+title: "Feat: "
 labels: feature
 assignees: nicode3141
-
 ---
 
 **Is your feature request related to a problem? Please describe.**

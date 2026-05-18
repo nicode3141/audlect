@@ -1,6 +1,3 @@
- 
- 
- 
 import type { Organization } from "better-auth/plugins/organization";
 import { useContext, useMemo } from "react";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";

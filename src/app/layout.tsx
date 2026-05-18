@@ -51,7 +51,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 					<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 				</head>
 				<body
-					className={`${interFont.variable} ${montserratFont.variable} antialiase min-h-screen bg-white dark:bg-[#161616]`}
+					className={`${interFont.variable} ${montserratFont.variable} antialiase min-h-screen bg-white
+						dark:bg-[#161616]`}
 				>
 					<Toaster position="top-center" richColors expand />
 					<AuthProvider>{children}</AuthProvider>

@@ -1,21 +1,17 @@
-export default {
+const config = {
 	clearMocks: true,
 	coverageProvider: "v8",
 	preset: "ts-jest/presets/js-with-ts",
-	setupFiles: ["dotenv/config"],
+	setupFiles: ["dotenv/config", "<rootDir>/jest.setup.ts"],
 	transform: {
 		"^.+\\.mjs$": "ts-jest",
-		"^.+\\.[tj]s$": [
-			"ts-jest",
-			{
-				isolatedModules: true,
-			},
-		],
+		"^.+\\.[tj]s$": ["ts-jest"],
 	},
 	transformIgnorePatterns: ["node_modules\\(?!(superjson)\\)"],
 	moduleNameMapper: {
 		"~/(.*)": ["<rootDir>/src/$1"],
 	},
-	// Force Jest to exit after tests complete
 	forceExit: true,
 };
+
+export default config;

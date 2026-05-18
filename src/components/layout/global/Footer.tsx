@@ -5,7 +5,10 @@ import { LikeIcon } from "~/components/icons/Song";
 
 export default function Footer() {
 	return (
-		<footer className="font-montserrat mt-auto w-full bg-[#717171] px-6 py-4 text-sm text-white dark:bg-transparent dark:text-gray-300">
+		<footer
+			className="font-montserrat mt-auto w-full bg-[#717171] px-6 py-4 text-sm text-white dark:bg-transparent
+				dark:text-gray-300"
+		>
 			<div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 md:flex-row md:gap-0">
 				{/* Left section */}
 				<div className="flex flex-col items-center gap-1 text-center md:items-start md:text-left">

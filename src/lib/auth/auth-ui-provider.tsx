@@ -506,11 +506,6 @@ export const AuthUIProvider = ({
 
 	const defaultMutators = useMemo(() => {
 		return {
-			deleteApiKey: (params) =>
-				authClient.apiKey.delete({
-					...params,
-					fetchOptions: { throw: true },
-				}),
 			deletePasskey: (params) =>
 				authClient.passkey.deletePasskey({
 					...params,
@@ -579,11 +574,6 @@ export const AuthUIProvider = ({
 					cacheKey: "listSessions",
 				}),
 			useListPasskeys: authClient.useListPasskeys,
-			useListApiKeys: () =>
-				useAuthData({
-					queryFn: authClient.apiKey.list,
-					cacheKey: "listApiKeys",
-				}),
 			useActiveOrganization: authClient.useActiveOrganization,
 			useListOrganizations: authClient.useListOrganizations,
 			useHasPermission: (params) =>

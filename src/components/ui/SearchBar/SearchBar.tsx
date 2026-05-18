@@ -46,12 +46,14 @@ export default function SearchBar(props: ISearchBarProps) {
 
 	return (
 		<form
-			className="flex w-[90vw] shrink-0 items-center gap-2 rounded-[25px] bg-[#E1E1E1] px-4 py-2 focus-within:outline-2 focus-within:outline-gray-400 md:w-2xl dark:bg-[#363636]"
+			className="flex w-[90vw] shrink-0 items-center gap-2 rounded-[25px] bg-[#E1E1E1] px-4 py-2 focus-within:outline-2
+				focus-within:outline-gray-400 md:w-2xl dark:bg-[#363636]"
 			onSubmit={(e) => e.preventDefault()}
 		>
 			<SearchIcon className="h-6 w-6 shrink-0 text-gray-600 dark:text-gray-100" />
 			<input
-				className="min-w-0 flex-1 p-1 text-xl font-medium outline-0 placeholder:text-xl placeholder:font-normal dark:text-white dark:placeholder:text-gray-100"
+				className="min-w-0 flex-1 p-1 text-xl font-medium outline-0 placeholder:text-xl placeholder:font-normal
+					dark:text-white dark:placeholder:text-gray-100"
 				type="text"
 				placeholder={placeholder}
 				value={value}

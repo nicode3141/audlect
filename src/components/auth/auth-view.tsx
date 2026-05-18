@@ -131,7 +131,7 @@ export function AuthView({
 			</CardHeader>
 
 			<CardContent className={cn("grid gap-6", classNames?.content)}>
-				{oneTap && ["SIGN_IN", "SIGN_UP", "MAGIC_LINK", "EMAIL_OTP"].includes(view as string) && (
+				{oneTap && ["SIGN_IN", "SIGN_UP", "MAGIC_LINK", "EMAIL_OTP"].includes(view) && (
 					<OneTap localization={localization} redirectTo={redirectTo} />
 				)}
 
@@ -149,8 +149,7 @@ export function AuthView({
 						/>
 
 						{magicLink &&
-							((credentials &&
-								["FORGOT_PASSWORD", "SIGN_UP", "SIGN_IN", "MAGIC_LINK", "EMAIL_OTP"].includes(view as string)) ??
+							((credentials && ["FORGOT_PASSWORD", "SIGN_UP", "SIGN_IN", "MAGIC_LINK", "EMAIL_OTP"].includes(view)) ??
 								(emailOTP && view === "EMAIL_OTP")) && (
 								<MagicLinkButton
 									classNames={classNames}
@@ -161,9 +160,8 @@ export function AuthView({
 							)}
 
 						{emailOTP &&
-							((credentials &&
-								["FORGOT_PASSWORD", "SIGN_UP", "SIGN_IN", "MAGIC_LINK", "EMAIL_OTP"].includes(view as string)) ??
-								(magicLink && ["SIGN_IN", "MAGIC_LINK"].includes(view as string))) && (
+							((credentials && ["FORGOT_PASSWORD", "SIGN_UP", "SIGN_IN", "MAGIC_LINK", "EMAIL_OTP"].includes(view)) ??
+								(magicLink && ["SIGN_IN", "MAGIC_LINK"].includes(view))) && (
 								<EmailOTPButton
 									classNames={classNames}
 									localization={localization}
@@ -233,7 +231,7 @@ export function AuthView({
 
 								{passkey &&
 									["SIGN_IN", "MAGIC_LINK", "EMAIL_OTP", "RECOVER_ACCOUNT", "TWO_FACTOR", "FORGOT_PASSWORD"].includes(
-										view as string,
+										view,
 									) && (
 										<PasskeyButton
 											classNames={classNames}

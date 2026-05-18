@@ -26,9 +26,7 @@ export const Default: Story = {
 			<SortMethods
 				{...args}
 				currentSort={storyArgs.currentSort as SortMethodsType}
-				onChange={(newSort: SortMethodsType) =>
-					updateArgs({ currentSort: newSort })
-				}
+				onChange={(newSort: SortMethodsType) => updateArgs({ currentSort: newSort })}
 			/>
 		);
 	},

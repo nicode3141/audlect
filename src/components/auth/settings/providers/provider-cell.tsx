@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 "use client";
 
 import type { Account } from "better-auth";
@@ -61,13 +57,13 @@ export function ProviderCell({
 		try {
 			if (other) {
 				await authClient.oauth2.link({
-					providerId: provider.provider as SocialProvider,
+					providerId: provider.provider,
 					callbackURL,
 					fetchOptions: { throw: true },
 				});
 			} else {
 				await authClient.linkSocial({
-					provider: provider.provider as SocialProvider,
+					provider: provider.provider,
 					callbackURL,
 					fetchOptions: { throw: true },
 				});

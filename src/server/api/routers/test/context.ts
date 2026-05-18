@@ -1,13 +1,11 @@
-//mock context for tRPC
-
-import { db } from "~/server/db";
+import { db as realDb } from "~/server/db";
 
 type CreateContextOptions = object;
 
-export async function createContextInner(_opts: CreateContextOptions) {
+export async function createContextInner(_opts: CreateContextOptions, overrides?: { db?: Record<string, unknown> }) {
 	return {
 		headers: new Headers(),
 		auth: null,
-		db: db,
+		db: overrides?.db ?? realDb,
 	};
 }
