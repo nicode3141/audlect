@@ -1,7 +1,7 @@
-import type { ComponentType } from "react"
+import type { ComponentType } from "react";
 
 export type Image = ComponentType<{
-    src: string
-    alt: string
-    className?: string
-}>
+	src: string;
+	alt: string;
+	className?: string;
+}>;

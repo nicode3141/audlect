@@ -6,11 +6,7 @@ interface UsePaginationProps {
 	siblings?: number;
 }
 
-export const usePagination = ({
-	currentPage,
-	totalPages,
-	siblings = 1,
-}: UsePaginationProps) => {
+export const usePagination = ({ currentPage, totalPages, siblings = 1 }: UsePaginationProps) => {
 	return useMemo(() => {
 		const totalNumbers = siblings * 2 + 5; // FIRST ... SIB1 CURRENT SIB2 ... LAST
 

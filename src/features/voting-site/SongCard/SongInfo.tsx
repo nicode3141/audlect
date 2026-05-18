@@ -19,7 +19,7 @@ export default React.memo(function SongInfo(props: ISongInfo) {
 	const { metadata, showPopup, ref, onRemove } = props;
 	const deleteSong = api.songs.deleteSong.useMutation();
 	const utils = api.useUtils();
-	
+
 	// Only fetch session when popup is shown to avoid expensive lookups on every render
 	const { data: session } = authClient.useSession();
 	const role = React.useMemo(
@@ -41,7 +41,8 @@ export default React.memo(function SongInfo(props: ISongInfo) {
 			<AnimatePresence>
 				<PopupCard title="SONG" subtitle={metadata.song_name} ref={ref}>
 					<Link
-						className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
+						className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5
+							text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
 						href={`https://www.deezer.com/de/track/${metadata.deezer_id}`}
 					>
 						<LinkIcon className="items-center text-black dark:text-white" />
@@ -49,7 +50,9 @@ export default React.memo(function SongInfo(props: ISongInfo) {
 					</Link>
 					{metadata.added_by === session?.user?.id || role === "owner" || role === "moderator" ? (
 						<button
-							className="flex min-w-3/4 cursor-pointer items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
+							className="flex min-w-3/4 cursor-pointer items-center justify-center gap-2 truncate rounded-xl bg-gray-300
+								p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2
+								dark:bg-[#010101]"
 							onClick={() => !deleteSong.isPending && removeSong()}
 						>
 							{!deleteSong.isPending ? (
@@ -61,7 +64,8 @@ export default React.memo(function SongInfo(props: ISongInfo) {
 						</button>
 					) : (
 						<Link
-							className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
+							className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5
+								text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
 							href={`mailto:info@nicodenetworks.com?subject=[${metadata.voting_id}] Item Report (${metadata.song_name})`}
 						>
 							<ReportIcon className="tems-center text-black dark:text-white" />

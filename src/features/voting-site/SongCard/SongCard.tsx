@@ -80,7 +80,8 @@ export default React.memo(function SongCard({
 
 	return (
 		<motion.div
-			className="flex w-[90vw] items-center justify-between gap-5 rounded-3xl bg-[#F0F0F0] p-2.5 md:w-2xl dark:bg-[#252525]"
+			className="flex w-[90vw] items-center justify-between gap-5 rounded-3xl bg-[#F0F0F0] p-2.5 md:w-2xl
+				dark:bg-[#252525]"
 			{...motionProps}
 		>
 			<div className="flex min-w-0 flex-1 items-center gap-2">

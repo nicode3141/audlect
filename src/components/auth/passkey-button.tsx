@@ -1,6 +1,3 @@
- 
- 
- 
 import { FingerprintIcon } from "lucide-react";
 import { useContext } from "react";
 

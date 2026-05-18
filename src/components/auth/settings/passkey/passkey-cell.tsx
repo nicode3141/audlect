@@ -1,6 +1,3 @@
- 
- 
- 
 "use client";
 
 import { FingerprintIcon, Loader2 } from "lucide-react";

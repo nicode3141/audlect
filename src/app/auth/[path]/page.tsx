@@ -20,7 +20,9 @@ export default async function AuthPage({
 	const redirectTo = redirect?.redirectTo ?? `/`;
 
 	return (
-		<main className="container flex h-screen min-w-screen grow flex-col items-center justify-center self-center p-4 md:p-6">
+		<main
+			className="container flex h-screen min-w-screen grow flex-col items-center justify-center self-center p-4 md:p-6"
+		>
 			<AuthView path={path} redirectTo={redirectTo} socialLayout={"grid"} otpSeparators={1} />
 		</main>
 	);

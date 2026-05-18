@@ -1,7 +1,3 @@
- 
- 
- 
-
 import { useContext, useEffect, useMemo, useRef } from "react";
 
 import type { AuthLocalization } from "../../localization/auth-localization";

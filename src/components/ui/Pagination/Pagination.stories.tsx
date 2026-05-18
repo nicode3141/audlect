@@ -33,13 +33,7 @@ export const Default: Story = {
 			updateArgs({ currentPage: page });
 		};
 
-		return (
-			<Pagination
-				{...args}
-				currentPage={storyArgs.currentPage as number}
-				gotoPage={handleGotoPage}
-			/>
-		);
+		return <Pagination {...args} currentPage={storyArgs.currentPage as number} gotoPage={handleGotoPage} />;
 	},
 };
 
@@ -58,12 +52,6 @@ export const SearchResult: Story = {
 			updateArgs({ currentPage: page });
 		};
 
-		return (
-			<Pagination
-				{...args}
-				currentPage={storyArgs.currentPage as number}
-				gotoPage={handleGotoPage}
-			/>
-		);
+		return <Pagination {...args} currentPage={storyArgs.currentPage as number} gotoPage={handleGotoPage} />;
 	},
 };

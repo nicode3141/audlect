@@ -13,7 +13,7 @@ export async function VotingDetails(props: IVotingDetails) {
 
 	return (
 		<>
-			<div className={`VotingDetails font-inter pt-7 lg:mt-24`}>
+			<div className={"VotingDetails font-inter pt-7 lg:mt-24"}>
 				<VotingTitle>{name}</VotingTitle>
 				<VotingSubitle>{description}</VotingSubitle>
 			</div>

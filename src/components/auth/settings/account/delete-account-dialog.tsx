@@ -1,6 +1,3 @@
- 
- 
- 
 /* eslint-disable @typescript-eslint/unbound-method */
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Account } from "better-auth";
