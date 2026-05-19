@@ -7,6 +7,7 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/
 import { voting_membershipsTable, likesTable, songsTable, votingsTable } from "~/server/db/schema";
 
 import { TRPCError } from "@trpc/server";
+import { db } from "~/server/db";
 
 export const votingsRouter = createTRPCRouter({
 	getPublicVotings: publicProcedure
@@ -71,6 +72,31 @@ export const votingsRouter = createTRPCRouter({
 					)
 					.where(eq(votingsTable.public, true))
 					.orderBy(votingsTable.voting_id, desc(sortQuery))
+					.limit(input.limit)
+					.offset(input.page * input.limit);
+
+				return votings;
+			} catch (err: unknown) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: err instanceof Error ? err.message : "couldn't fetch songs",
+				});
+			}
+		}),
+
+	getOwnVotings: protectedProcedure
+		.input(
+			z.object({
+				limit: z.number().default(10),
+				page: z.number().default(0),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			try {
+				const votings = ctx.db
+					.select()
+					.from(votingsTable)
+					.where(eq(votingsTable.created_by, ctx.auth.session.userId))
 					.limit(input.limit)
 					.offset(input.page * input.limit);
 
