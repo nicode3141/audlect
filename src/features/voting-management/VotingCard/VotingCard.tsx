@@ -18,7 +18,7 @@ export default function VotingCard({ shortId, title, description, coverImageUrl 
 			className="flex flex-col gap-2 rounded-md border border-gray-300 p-2 shadow-sm hover:shadow-md md:place-self-auto
 				dark:border-none dark:bg-[#252525] dark:drop-shadow-sm dark:drop-shadow-gray-600"
 		>
-			<div className="flex-[3]">
+			<div className="flex-3">
 				{coverImageUrl ? (
 					<Link href={`/voting/${shortId}`}>
 						<Image
@@ -31,7 +31,7 @@ export default function VotingCard({ shortId, title, description, coverImageUrl 
 					</Link>
 				) : (
 					<div
-						className="flex aspect-[8/4] items-center justify-center rounded-sm bg-gradient-to-br from-stone-50
+						className="flex aspect-8/4 items-center justify-center rounded-sm bg-linear-to-br from-stone-50
 							to-slate-100 dark:from-stone-900 dark:to-stone-950"
 					>
 						<Disc3 strokeWidth={1.5} className="h-10 w-10 text-gray-400" />
