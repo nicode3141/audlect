@@ -7,7 +7,6 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/
 import { voting_membershipsTable, likesTable, songsTable, votingsTable } from "~/server/db/schema";
 
 import { TRPCError } from "@trpc/server";
-import { db } from "~/server/db";
 
 export const votingsRouter = createTRPCRouter({
 	getPublicVotings: publicProcedure
