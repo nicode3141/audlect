@@ -30,14 +30,22 @@ export default function VotingElement({
 						{votingDesc || "Audlect Voting"}
 					</div>
 				</div>
-				<div className="font-inter text-gray-500 dark:text-gray-400 text-xs flex-wrap">
+				<div className="font-inter text-gray-500 dark:text-gray-400 text-xs flex-wrap flex-1 text-center">
 					{formatRelativeDate(votingDate ?? "unknown date")}
 				</div>
 				<div className="flex gap-2 justify-end">
-					<Link href={`/dashboard/${shortId}`} className="p-2 bg-gray-200 rounded-lg">
-						<Cog className="text-black" size={20} />
+					<Link
+						href={`/dashboard/${shortId}`}
+						className="group p-2 bg-gray-200 rounded-lg hover:bg-gray-700 dark:bg-white dark:text-gray-700
+							hover:text-white transition-all transition-duration-200"
+					>
+						<Cog className="text-black group-hover:text-white transition-all transition-duration-200" size={20} />
 					</Link>
-					<Link href={`/voting/${shortId}`} className="p-2 bg- rounded-lg bg-company">
+					<Link
+						href={`/voting/${shortId}`}
+						className="p-2 bg- rounded-lg bg-company hover:bg-gray-700 dark:text-gray-700 transition-all
+							transition-duration-200"
+					>
 						<ExternalLink size={20} className="text-white" />
 					</Link>
 				</div>
