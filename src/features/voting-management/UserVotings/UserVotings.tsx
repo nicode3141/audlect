@@ -1,11 +1,11 @@
 "use client";
 
-import { Cog, ExternalLink } from "lucide-react";
-import Link from "next/link";
+import { AlertTriangle } from "lucide-react";
 import React from "react";
-import { Separator } from "~/components/ui/@shadcn/separator";
 import { api } from "~/trpc/react";
-import { formatRelativeDate } from "~/lib/utils";
+import VotingElement from "./VotingElement";
+import VotingElementSkeleton from "./VotingElementSkeleton";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/@shadcn/alert";
 
 export default function UserVotings() {
 	const { data: ownVotings, isLoading, error } = api.votings.getOwnVotings.useQuery({ limit: 30, page: 0 });
@@ -17,30 +17,27 @@ export default function UserVotings() {
 				<div className="font-montserrat text-gray-500 dark:text-gray-400">manage Votings</div>
 			</div>
 			<div className="flex flex-col gap-4 py-6 px-2">
-				{ownVotings?.map((voting, index) => (
-					<section key={voting.short_id}>
-						<div className="flex justify-evenly items-center p-2 gap-4 py-2">
-							<div className="flex-1 min-w-0">
-								<div className="font-montserrat font-semibold truncate">{voting.name}</div>
-								<div className="font-montserrat text-gray-500 dark:text-gray-400 text-xs truncate">
-									{voting.description || "Audlect Voting"}
-								</div>
-							</div>
-							<div className="font-inter text-gray-500 dark:text-gray-400 text-xs flex-wrap">
-								{formatRelativeDate(voting.created_at ?? "unknown date")}
-							</div>
-							<div className="flex gap-2 justify-end">
-								<Link href={`/dashboard/${voting.short_id}`} className="p-2 bg-gray-200 rounded-lg">
-									<Cog className="text-black" size={20} />
-								</Link>
-								<Link href={`/voting/${voting.short_id}`} className="p-2 bg- rounded-lg bg-company">
-									<ExternalLink size={20} className="text-white" />
-								</Link>
-							</div>
-						</div>
-						{index < ownVotings.length - 1 && <Separator className="mt-4" />}
-					</section>
-				))}
+				{isLoading && Array.from({ length: 10 }).map((_, i) => <VotingElementSkeleton key={i} />)}
+				{error && (
+					<Alert>
+						<AlertTriangle />
+						<AlertTitle>Couldn&apos;t fetch your votings</AlertTitle>
+						<AlertDescription>Please try again</AlertDescription>
+					</Alert>
+				)}
+				{!isLoading &&
+					!error &&
+					ownVotings?.map((voting, index) => (
+						<VotingElement
+							key={voting.short_id}
+							shortId={voting.short_id}
+							votingName={voting.name}
+							votingDesc={voting.description}
+							votingDate={voting.created_at}
+							length={ownVotings?.length ?? 99}
+							index={index}
+						/>
+					))}
 			</div>
 		</>
 	);
