@@ -11,7 +11,10 @@ export default function UserVotings() {
 	const { data: ownVotings, isLoading, error } = api.votings.getOwnVotings.useQuery({ limit: 30, page: 0 });
 
 	return (
-		<>
+		<div
+			className="md:relative md:mx-auto md:max-w-3xl md:rounded-lg md:bg-white md:p-5 md:shadow-md md:dark:bg-stone-900
+				md:top-10"
+		>
 			<div className="pt-4 pl-4">
 				<div className="font-montserrat font-semibold text-2xl">Your Votings</div>
 				<div className="font-montserrat text-gray-500 dark:text-gray-400">manage Votings</div>
@@ -39,6 +42,6 @@ export default function UserVotings() {
 						/>
 					))}
 			</div>
-		</>
+		</div>
 	);
 }
