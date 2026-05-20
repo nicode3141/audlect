@@ -97,6 +97,7 @@ export const votingsRouter = createTRPCRouter({
 					.select()
 					.from(votingsTable)
 					.where(eq(votingsTable.created_by, ctx.auth.session.userId))
+					.orderBy(desc(votingsTable.created_at))
 					.limit(input.limit)
 					.offset(input.page * input.limit);
 
