@@ -4,6 +4,7 @@ import { searchDeezerRouter } from "./routers/search/deezerSearch";
 import { likesRouter } from "./routers/likes";
 import { songsRouter } from "./routers/songs";
 import { searchRouter } from "./routers/search/search";
+import { dashboardRouter } from "./routers/dashboard";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
 	deezerSearch: searchDeezerRouter,
 	likes: likesRouter,
 	songs: songsRouter,
+	dashboard: dashboardRouter,
 });
 
 // export type definition of API
