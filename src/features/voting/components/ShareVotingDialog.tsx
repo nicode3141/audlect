@@ -7,9 +7,7 @@ import { toast } from "sonner";
 import { Button } from "~/shared/ui/button";
 import {
 	DialogContent,
-	DialogClose,
 	DialogDescription,
-	DialogTrigger,
 	DialogHeader,
 	DialogTitle,
 	DialogFooter,
@@ -38,7 +36,7 @@ export default function ShareVotingDialog({ shortId }: IShareVotingDialogProps) 
 			setCopiedLink(true);
 			toast.success("Saved link to clipboard!");
 			redirect();
-		} catch (err) {
+		} catch {
 			toast.error("Couldn't save link to clipboard!");
 			return;
 		}
@@ -48,7 +46,7 @@ export default function ShareVotingDialog({ shortId }: IShareVotingDialogProps) 
 		setRedirecting(true);
 		try {
 			router.push(`/voting/${shortId}`);
-		} catch (err) {
+		} catch {
 			toast.error("Couldn't redirect to voting");
 			setRedirecting(false);
 		}

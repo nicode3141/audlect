@@ -20,7 +20,7 @@ interface ISmoothLabelSpan {
 	className: string;
 }
 
-const SmoothLabelSpan = ({ char, index, duration = 0.25, delay = 0.25, className }: ISmoothLabelSpan) => {
+const SmoothLabelSpan = ({ char, index, duration = 0.25, delay: _delay = 0.25, className }: ISmoothLabelSpan) => {
 	return (
 		<motion.span
 			className={`inline-block ${className}`}

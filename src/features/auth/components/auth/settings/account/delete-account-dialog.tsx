@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 import { type ComponentProps, useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Button } from "../~/shared/ui/button";
+import { Button } from "~/shared/ui/button";
 import { Card } from "~/shared/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "~/shared/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/shared/ui/form";
