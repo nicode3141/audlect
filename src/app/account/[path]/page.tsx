@@ -1,4 +1,4 @@
-import { AccountView } from "~/components/auth/account/account-view";
+import { AccountView } from "~/features/auth/components/auth/account/account-view";
 import { accountViewPaths } from "~/lib/auth/view-paths";
 
 export const dynamicParams = false;

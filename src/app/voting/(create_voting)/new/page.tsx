@@ -1,7 +1,7 @@
 import React from "react";
-import CreateVoting from "~/features/voting-management/CreateVoting/CreateVoting";
-import AudlectHeader from "~/components/ui/AudlectHeader/AudlectHeader";
-import { LoginWarnProvider } from "~/context/LoginWarningContext";
+import CreateVoting from "~/features/voting/components/CreateVoting";
+import AudlectHeader from "~/shared/components/AudlectHeader";
+import { LoginWarnProvider } from "~/shared/components/LoginWarningContext";
 
 export default function page() {
 	return (

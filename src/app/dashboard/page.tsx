@@ -1,6 +1,6 @@
 import React from "react";
-import AudlectHeader from "~/components/ui/AudlectHeader/AudlectHeader";
-import UserVotings from "~/features/voting-management/UserVotings/UserVotings";
+import AudlectHeader from "~/shared/components/AudlectHeader";
+import UserVotings from "~/features/voting/components/UserVotings/UserVotings";
 
 export default function page() {
 	return (
