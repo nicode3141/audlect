@@ -22,7 +22,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "~/shared/ui/dropdown-menu";
 import { UserAvatar, type UserAvatarClassNames } from "./user-avatar";
 import { UserView, type UserViewClassNames } from "./user-view";
 import type { AuthLocalization } from "~/localization/auth-localization";

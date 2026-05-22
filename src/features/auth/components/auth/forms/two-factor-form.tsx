@@ -17,15 +17,15 @@ import { useIsHydrated } from "~/shared/hooks/useHydrated";
 import { getSearchParam, getLocalizedError } from "~/lib/auth/utils";
 import { cn } from "~/shared/utils/utils";
 import { Button } from "~/shared/ui/button";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "../ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "~/shared/ui/form";
 import type { AuthLocalization } from "~/localization/auth-localization";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import type { AuthFormClassNames } from "../auth-form";
 import { OTPInputGroup } from "../otp-input-group";
 import { useOnSuccessTransition } from "~/features/auth/hooks/auth/useSuccessTransition";
-import { Checkbox } from "../ui/checkbox";
-import { InputOTP } from "../ui/input-otp";
-import { Label } from "../ui/label";
+import { Checkbox } from "~/shared/ui/checkbox";
+import { InputOTP } from "~/shared/ui/input-otp";
+import { Label } from "~/shared/ui/label";
 import type { User } from "~/types/auth/auth-client";
 
 export interface TwoFactorFormProps {

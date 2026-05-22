@@ -14,10 +14,10 @@ import { getSearchParam, getLocalizedError } from "~/lib/auth/utils";
 import { cn } from "~/shared/utils/utils";
 import { Captcha } from "../captcha/captcha";
 import { Button } from "~/shared/ui/button";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "../ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "~/shared/ui/form";
 import type { AuthLocalization } from "~/localization/auth-localization";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
-import { Input } from "../ui/input";
+import { Input } from "~/shared/ui/input";
 
 export interface MagicLinkFormProps {
 	className?: string;

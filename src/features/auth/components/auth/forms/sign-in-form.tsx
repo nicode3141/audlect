@@ -14,15 +14,15 @@ import { useCaptcha } from "~/features/auth/hooks/auth/useCaptcha";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import { useOnSuccessTransition } from "~/features/auth/hooks/auth/useSuccessTransition";
 import { getLocalizedError, getPasswordSchema, isValidEmail } from "~/lib/auth/utils";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/shared/ui/form";
+import { Input } from "~/shared/ui/input";
 import { cn } from "~/shared/utils/utils";
 import { Captcha } from "../captcha/captcha";
 import { Button } from "~/shared/ui/button";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "~/shared/ui/checkbox";
 import { PasswordInput } from "../password-input";
 import { activeProviders, type SocialProviderType } from "~/lib/auth/social-providers";
-import { FieldSeparator } from "../ui/field";
+import { FieldSeparator } from "~/shared/ui/field";
 
 export interface SignInFormProps {
 	className?: string;

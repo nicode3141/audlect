@@ -7,12 +7,12 @@ import { type ReactNode, useContext, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { CardContent } from "../../ui/card";
-import { Checkbox } from "../../ui/checkbox";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form";
-import { Input } from "../../ui/input";
-import { Skeleton } from "../../ui/skeleton";
-import { Textarea } from "../../ui/textarea";
+import { CardContent } from "~/shared/ui/card";
+import { Checkbox } from "~/shared/ui/checkbox";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/shared/ui/form";
+import { Input } from "~/shared/ui/input";
+import { Skeleton } from "~/shared/ui/skeleton";
+import { Textarea } from "~/shared/ui/textarea";
 import { SettingsCard, type SettingsCardClassNames } from "../shared/settings-card";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import { getLocalizedError } from "~/lib/auth/utils";

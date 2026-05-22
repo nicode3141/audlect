@@ -3,8 +3,8 @@
 
 import type { ReactNode } from "react";
 
-import { CardDescription, CardFooter } from "../../ui/card";
-import { Skeleton } from "../../ui/skeleton";
+import { CardDescription, CardFooter } from "~/shared/ui/card";
+import { Skeleton } from "~/shared/ui/skeleton";
 import { SettingsActionButton } from "./settings-action-button";
 import type { SettingsCardClassNames } from "./settings-card";
 import { cn } from "~/shared/utils/utils";

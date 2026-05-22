@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, useMemo } from "react";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "~/shared/ui/skeleton";
 import { UserAvatar, type UserAvatarClassNames } from "./user-avatar";
 import type { AuthLocalization } from "~/localization/auth-localization";
 import type { Profile } from "~/types/auth/profile";
