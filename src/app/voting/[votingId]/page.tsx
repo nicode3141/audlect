@@ -1,4 +1,3 @@
-import { type Metadata } from "next";
 import VotingHeader from "~/features/voting/components/VotingHeader";
 import VotingLayout from "~/features/voting/components/VotingLayout";
 import { VotingDetails } from "~/features/voting/components/VotingDetails";
@@ -9,7 +8,6 @@ import { VotingProvider } from "~/features/voting/context/VotingContext";
 import { LoginWarnProvider } from "~/shared/components/LoginWarningContext";
 import Footer from "~/shared/components/AppFooter";
 import { getVoting } from "~/lib/getVoting";
-import { Memberships } from "~/features/auth/components/Memberships";
 
 export async function generateMetadata({ params }: PageParams) {
 	const votingId = (await params).votingId;

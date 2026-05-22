@@ -10,7 +10,7 @@ interface SortMethodProps {
 	onChange: (sortMethod: SortMethodsType) => void;
 }
 
-export default function PlaylistFilter({ className, onChange }: SortMethodProps) {
+export default function PlaylistFilter({ className, onChange: _onChange }: SortMethodProps) {
 	return (
 		<div className={`relative inline-block ${className}`}>
 			<button

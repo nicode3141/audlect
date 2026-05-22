@@ -5,7 +5,7 @@ import MoreIcon from "~/shared/icons/MoreIcon";
 import { nop } from "~/shared/utils/utils";
 import type { TSongMetadata } from "~/types/songs";
 import PlayIcon from "~/shared/icons/PlayIcon";
-import { easeOut, motion, type useInView } from "motion/react";
+import { easeOut, motion } from "motion/react";
 
 interface SongCardProps {
 	metadata: TSongMetadata;

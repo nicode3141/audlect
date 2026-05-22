@@ -12,7 +12,7 @@ interface VotingHeaderProps {
 }
 
 export default function VotingHeader({ votingTitle }: VotingHeaderProps) {
-	const { data: session, isPending, error, refetch } = authClient.useSession();
+	const { data: session } = authClient.useSession();
 
 	return (
 		<div className="inline-flex w-full items-center justify-between self-stretch px-3 py-2">

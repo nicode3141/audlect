@@ -26,7 +26,6 @@ export function SecuritySettingsCards({
 }) {
 	const {
 		credentials,
-		deleteUser,
 		hooks,
 		localization: contextLocalization,
 		passkey,

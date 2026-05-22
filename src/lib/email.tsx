@@ -1,4 +1,3 @@
-import type { User } from "~/types/auth/auth-client";
 import { Resend } from "resend";
 import { EmailTemplate } from "~/features/auth/components/auth/email/email-template";
 import type { ReactNode } from "react";

@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { useFormState } from "react-hook-form";
 
-import { Button } from "../~/shared/ui/button";
+import { Button } from "~/shared/ui/button";
 import type { SettingsCardClassNames } from "./settings-card";
 import { cn } from "~/shared/utils/utils";
 
