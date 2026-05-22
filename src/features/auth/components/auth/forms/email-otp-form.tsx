@@ -15,13 +15,13 @@ import { OTPInputGroup } from "../otp-input-group";
 import { useCaptcha } from "~/features/auth/hooks/auth/useCaptcha";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import { useOnSuccessTransition } from "~/features/auth/hooks/auth/useSuccessTransition";
-import { Input } from "../ui/input";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Input } from "~/shared/ui/input";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/shared/ui/form";
 import { getLocalizedError } from "~/lib/auth/utils";
 import { cn } from "~/shared/utils/utils";
 import { Captcha } from "../captcha/captcha";
 import { Button } from "~/shared/ui/button";
-import { InputOTP } from "../ui/input-otp";
+import { InputOTP } from "~/shared/ui/input-otp";
 
 export interface EmailOTPFormProps {
 	className?: string;

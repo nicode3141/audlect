@@ -17,20 +17,20 @@ import { getSearchParam, getLocalizedError, getPasswordSchema } from "~/lib/auth
 import { cn } from "~/shared/utils/utils";
 import { Captcha } from "../captcha/captcha";
 import { Button } from "~/shared/ui/button";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "../ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "~/shared/ui/form";
 import type { AuthLocalization } from "~/localization/auth-localization";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
-import { Input } from "../ui/input";
+import { Input } from "~/shared/ui/input";
 import { useOnSuccessTransition } from "~/features/auth/hooks/auth/useSuccessTransition";
 import { resizeAndCropImage, fileToBase64 } from "~/lib/auth/image-utils";
 import type { PasswordValidation } from "~/types/auth/password-validation";
-import { Checkbox } from "../ui/checkbox";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
-import { Textarea } from "../ui/textarea";
+import { Checkbox } from "~/shared/ui/checkbox";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "~/shared/ui/dropdown-menu";
+import { Textarea } from "~/shared/ui/textarea";
 import { UserAvatar } from "../user-avatar";
 import { PasswordInput } from "../password-input";
 import { activeProviders, type SocialProviderType } from "~/lib/auth/social-providers";
-import { FieldSeparator } from "../ui/field";
+import { FieldSeparator } from "~/shared/ui/field";
 export interface SignUpFormProps {
 	className?: string;
 	classNames?: AuthFormClassNames;

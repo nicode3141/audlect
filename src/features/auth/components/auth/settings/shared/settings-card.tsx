@@ -3,7 +3,7 @@
 
 import type { ComponentProps, ReactNode } from "react";
 
-import { Card } from "../../ui/card";
+import { Card } from "~/shared/ui/card";
 import type { UserAvatarClassNames } from "../../user-avatar";
 import { SettingsCardFooter } from "./settings-card-footer";
 import { SettingsCardHeader } from "./settings-card-header";

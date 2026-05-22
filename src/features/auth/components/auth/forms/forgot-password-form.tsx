@@ -14,9 +14,9 @@ import { getLocalizedError } from "~/lib/auth/utils";
 import { cn } from "~/shared/utils/utils";
 import { Captcha } from "../captcha/captcha";
 import { Button } from "~/shared/ui/button";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/shared/ui/form";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
-import { Input } from "../ui/input";
+import { Input } from "~/shared/ui/input";
 
 export interface ForgotPasswordFormProps {
 	className?: string;

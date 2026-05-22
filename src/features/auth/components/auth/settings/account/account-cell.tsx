@@ -4,9 +4,9 @@ import type { Session, User } from "better-auth";
 import { EllipsisIcon, Loader2, LogOutIcon, RepeatIcon, UserX2Icon } from "lucide-react";
 import { useContext, useState } from "react";
 
-import { Button } from "../~/shared/ui/button";
-import { Card } from "../../ui/card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../ui/dropdown-menu";
+import { Button } from "~/shared/ui/button";
+import { Card } from "~/shared/ui/card";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/shared/ui/dropdown-menu";
 import { UserView } from "../../user-view";
 import type { SettingsCardClassNames } from "../shared/settings-card";
 import { getLocalizedError } from "~/lib/auth/utils";

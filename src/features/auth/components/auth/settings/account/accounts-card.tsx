@@ -7,7 +7,7 @@ import { AccountCell } from "./account-cell";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import { cn } from "~/shared/utils/utils";
 import type { AuthLocalization } from "~/localization/auth-localization";
-import { CardContent } from "../../ui/card";
+import { CardContent } from "~/shared/ui/card";
 
 export interface AccountsCardProps {
 	className?: string;

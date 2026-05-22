@@ -7,10 +7,10 @@ import * as z from "zod";
 
 import { cn } from "~/shared/utils/utils";
 import { Button } from "~/shared/ui/button";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "../ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "~/shared/ui/form";
 import type { AuthLocalization } from "~/localization/auth-localization";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
-import { Input } from "../ui/input";
+import { Input } from "~/shared/ui/input";
 import type { AuthFormClassNames } from "../auth-form";
 import { getLocalizedError } from "~/lib/auth/utils";
 import { useOnSuccessTransition } from "~/features/auth/hooks/auth/useSuccessTransition";

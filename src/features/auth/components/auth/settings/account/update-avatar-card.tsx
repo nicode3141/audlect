@@ -5,9 +5,9 @@
 import { Trash2Icon, UploadCloudIcon } from "lucide-react";
 import { type ComponentProps, useContext, useRef, useState } from "react";
 
-import { Button } from "../~/shared/ui/button";
-import { Card } from "../../ui/card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../ui/dropdown-menu";
+import { Button } from "~/shared/ui/button";
+import { Card } from "~/shared/ui/card";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/shared/ui/dropdown-menu";
 import { UserAvatar } from "../../user-avatar";
 import type { SettingsCardClassNames } from "../shared/settings-card";
 import { SettingsCardFooter } from "../shared/settings-card-footer";

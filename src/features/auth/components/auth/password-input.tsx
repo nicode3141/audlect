@@ -4,7 +4,7 @@ import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { type ComponentProps, useState } from "react";
 
 import { Button } from "~/shared/ui/button";
-import { Input } from "./ui/input";
+import { Input } from "~/shared/ui/input";
 import { cn } from "~/shared/utils/utils";
 
 export function PasswordInput({
