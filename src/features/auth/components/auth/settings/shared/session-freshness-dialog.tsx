@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { type ComponentProps, useContext } from "react";
 import { Button } from "../~/shared/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "~/shared/ui/dialog";
 import type { SettingsCardClassNames } from "./settings-card";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import { cn } from "~/shared/utils/utils";

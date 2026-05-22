@@ -2,8 +2,8 @@
 
 import { Lock, MenuIcon, Undo2, User } from "lucide-react";
 import { useContext, useMemo } from "react";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "../ui/drawer";
-import { Label } from "../ui/label";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "~/shared/ui/drawer";
+import { Label } from "~/shared/ui/label";
 import type { AuthLocalization } from "~/localization/auth-localization";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import { useAuthenticate } from "~/features/auth/hooks/auth/useAuthenticate";

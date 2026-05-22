@@ -4,7 +4,7 @@ import { UserRoundIcon } from "lucide-react";
 import { type ComponentProps, useContext } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/shared/ui/avatar";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "~/shared/ui/skeleton";
 import type { Profile } from "~/types/auth/profile";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import type { AuthLocalization } from "~/localization/auth-localization";

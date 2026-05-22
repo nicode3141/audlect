@@ -5,7 +5,7 @@ import { LaptopIcon, Loader2, SmartphoneIcon } from "lucide-react";
 import { useContext, useState } from "react";
 import { UAParser } from "ua-parser-js";
 import { Button } from "../~/shared/ui/button";
-import { Card } from "../../ui/card";
+import { Card } from "~/shared/ui/card";
 import type { SettingsCardClassNames } from "../shared/settings-card";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import { getLocalizedError } from "~/lib/auth/utils";

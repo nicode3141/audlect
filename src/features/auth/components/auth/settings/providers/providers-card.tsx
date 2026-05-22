@@ -3,7 +3,7 @@
 
 import { type Account } from "better-auth";
 import { useContext } from "react";
-import { CardContent } from "../../ui/card";
+import { CardContent } from "~/shared/ui/card";
 import type { SettingsCardClassNames } from "../shared/settings-card";
 import { SettingsCard } from "../shared/settings-card";
 import { SettingsCellSkeleton } from "../skeletons/settings-cell-skeleton";

@@ -5,7 +5,7 @@ import { CheckIcon, CopyIcon } from "lucide-react";
 import { type ComponentProps, useContext, useState } from "react";
 
 import { Button } from "../~/shared/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "~/shared/ui/dialog";
 import type { SettingsCardClassNames } from "../shared/settings-card";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";
 import { cn } from "~/shared/utils/utils";

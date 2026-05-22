@@ -3,8 +3,8 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { CardContent } from "../../ui/card";
-import { Form } from "../../ui/form";
+import { CardContent } from "~/shared/ui/card";
+import { Form } from "~/shared/ui/form";
 import { SessionFreshnessDialog } from "../shared/session-freshness-dialog";
 import type { SettingsCardClassNames } from "../shared/settings-card";
 import { SettingsCard } from "../shared/settings-card";

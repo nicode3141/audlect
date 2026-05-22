@@ -4,7 +4,7 @@ import { FingerprintIcon, Loader2 } from "lucide-react";
 import { useContext, useState } from "react";
 
 import { Button } from "../~/shared/ui/button";
-import { Card } from "../../ui/card";
+import { Card } from "~/shared/ui/card";
 import { SessionFreshnessDialog } from "../shared/session-freshness-dialog";
 import type { SettingsCardClassNames } from "../shared/settings-card";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";

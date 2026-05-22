@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "~/shared/utils/utils";
-import { Card } from "../../ui/card";
-import { Skeleton } from "../../ui/skeleton";
+import { Card } from "~/shared/ui/card";
+import { Skeleton } from "~/shared/ui/skeleton";
 import type { SettingsCardClassNames } from "../shared/settings-card";
 
 export function SettingsCellSkeleton({ classNames }: { classNames?: SettingsCardClassNames }) {

@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { PasswordInput } from "../../password-input";
-import { CardContent } from "../../ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form";
+import { CardContent } from "~/shared/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/shared/ui/form";
 import { SettingsCard, type SettingsCardClassNames } from "../shared/settings-card";
 import { InputFieldSkeleton } from "../skeletons/input-field-skeleton";
 import { AuthUIContext } from "~/lib/auth/auth-ui-provider";

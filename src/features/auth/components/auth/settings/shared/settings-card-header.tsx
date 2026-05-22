@@ -2,8 +2,8 @@
 
 import type { ReactNode } from "react";
 
-import { CardDescription, CardHeader, CardTitle } from "../../ui/card";
-import { Skeleton } from "../../ui/skeleton";
+import { CardDescription, CardHeader, CardTitle } from "~/shared/ui/card";
+import { Skeleton } from "~/shared/ui/skeleton";
 import type { SettingsCardClassNames } from "./settings-card";
 import { cn } from "~/shared/utils/utils";
 
