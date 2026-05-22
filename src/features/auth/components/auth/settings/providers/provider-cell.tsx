@@ -1,10 +1,9 @@
 "use client";
 
 import type { Account } from "better-auth";
-import type { SocialProvider } from "better-auth/social-providers";
 import { Loader2 } from "lucide-react";
 import { useContext, useState } from "react";
-import { Button } from "../~/shared/ui/button";
+import { Button } from "~/shared/ui/button";
 import { Card } from "~/shared/ui/card";
 import { Skeleton } from "~/shared/ui/skeleton";
 import type { SettingsCardClassNames } from "../shared/settings-card";
@@ -148,3 +147,4 @@ function AccountInfo({ account }: { account: { accountId: string } }) {
 
 	return <div className="text-muted-foreground text-xs">{accountInfo?.user.email}</div>;
 }
+

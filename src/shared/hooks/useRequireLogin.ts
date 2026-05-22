@@ -3,7 +3,7 @@ import { useLoginWarning } from "~/shared/components/LoginWarningContext";
 import { useSession } from "~/lib/auth-client";
 
 export function useRequireLogin() {
-	const { data: isSignedIn, refetch } = useSession();
+	const { data: isSignedIn } = useSession();
 	const { triggerLoginWarning } = useLoginWarning();
 
 	const requireLogin = useCallback(

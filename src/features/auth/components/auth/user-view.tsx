@@ -60,7 +60,7 @@ export function UserView({
 				className={cn(size !== "sm" && "my-0.5")}
 				classNames={classNames?.avatar}
 				isPending={isPending}
-				size={size}
+				size={size ?? undefined}
 				user={user}
 				localization={localization}
 			/>
@@ -111,3 +111,4 @@ export function UserView({
 		</div>
 	);
 }
+

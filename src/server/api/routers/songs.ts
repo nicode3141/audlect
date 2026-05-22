@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { and, asc, count, desc, eq, exists, gt, gte, lt, lte, or, sql, type SQL } from "drizzle-orm";
+import { and, asc, count, desc, eq, exists, gt, lt, or, sql, type SQL } from "drizzle-orm";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
 import { likesTable, songsTable, voting_membershipsTable } from "~/server/db/schema";

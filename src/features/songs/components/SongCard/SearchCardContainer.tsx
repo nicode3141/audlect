@@ -76,7 +76,7 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 			setPlayingSongId?.(metadata.deezer_id.toString() ?? null);
 			console.log(metadata.deezer_id.toString());
 		}
-	}, [metadata.preview_url, metadata.song_id, playingSongId, setPlayingSongId, setPreviewUrl]);
+	}, [metadata.preview_url, metadata.deezer_id, playingSongId, setPlayingSongId, setPreviewUrl]);
 
 	const handlePlayClick = useCallback(() => {
 		void handlePlay();

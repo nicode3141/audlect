@@ -1,4 +1,3 @@
-import type { SocialProvider } from "better-auth/social-providers";
 import { useCallback, useContext } from "react";
 
 import type { AuthViewClassNames } from "./auth-view";

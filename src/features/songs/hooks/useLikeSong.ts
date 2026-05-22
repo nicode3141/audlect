@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "~/trpc/react";
 import type { TSongMetadata } from "~/types/songs";
 import { useRequireLogin } from "../../../shared/hooks/useRequireLogin";

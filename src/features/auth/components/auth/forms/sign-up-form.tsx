@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { BetterFetchOption } from "better-auth/react";
 import { Loader2, Trash2Icon, UploadCloudIcon } from "lucide-react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { Form, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 
 import type { AuthFormClassNames } from "../auth-form";

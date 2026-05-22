@@ -58,7 +58,7 @@ function arePropsEqual(prevProps: ISongCardContainerProps, nextProps: ISongCardC
 }
 
 export default React.memo(function SongCardContainer(props: ISongCardContainerProps) {
-	const { metadata, variant, setPreviewUrl, playingSongId, setPlayingSongId } = props;
+	const { metadata, variant, setPreviewUrl, playingSongId } = props;
 
 	const [fetchedPreviewUrl, setFetchedPreview] = useState<string | undefined>(undefined);
 	const [isLoadingPreview, setIsLoadingPreview] = useState<boolean>(false);

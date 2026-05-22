@@ -1,11 +1,10 @@
-import { betterAuth, type Session } from "better-auth";
+import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin, customSession, twoFactor, username } from "better-auth/plugins";
 import { db } from "~/server/db";
 import { sendEmail } from "./email";
 import { voting_membershipsTable } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
-import { Memberships } from "~/features/auth/components/Memberships";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, { provider: "pg" }),
@@ -17,7 +16,7 @@ export const auth = betterAuth({
 	},
 	emailAndPassword: {
 		enabled: true,
-		sendResetPassword: async ({ user, url, token }, request) => {
+		sendResetPassword: async ({ user, url, token: _token }, _request) => {
 			void sendEmail({
 				to: user.email,
 				subject: "Reset your password",
@@ -25,7 +24,7 @@ export const auth = betterAuth({
 				username: user?.name,
 			});
 		},
-		onPasswordReset: async ({ user }, request) => {
+		onPasswordReset: async ({ user }, _request) => {
 			// your logic here
 			console.log(`Password for user ${user.email} has been reset.`);
 		},

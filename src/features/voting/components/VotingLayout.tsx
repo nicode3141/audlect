@@ -3,7 +3,6 @@
 import React, { useCallback, useState } from "react";
 import SearchBar from "~/shared/components/SearchBar";
 import SortMethods from "~/features/songs/components/SortMethods";
-import PlaylistItems from "~/features/songs/components/PlaylistItems";
 import Pagination from "~/shared/components/Pagination";
 import SearchResults from "~/features/songs/components/SearchResults";
 import { api } from "~/trpc/react";
