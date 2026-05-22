@@ -1,4 +1,4 @@
-import { AuthView } from "~/components/auth/auth-view";
+import { AuthView } from "~/features/auth/components/auth/auth-view";
 import { authViewPaths } from "~/lib/auth/view-paths";
 
 export const dynamicParams = false;

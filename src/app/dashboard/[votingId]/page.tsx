@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { SidebarProvider, SidebarTrigger, SidebarInset } from "~/components/ui/@shadcn/sidebar";
-import AppSidebar from "~/features/voting-management/Dashboard/AppSidebar";
-import SiteHeader from "~/features/voting-management/Dashboard/SiteHeader";
+import { SidebarProvider, SidebarTrigger, SidebarInset } from "~/shared/ui/sidebar";
+import AppSidebar from "~/features/dashboard/components/AppSidebar";
+import SiteHeader from "~/features/dashboard/components/SiteHeader";
 
 export default function page() {
 	return (

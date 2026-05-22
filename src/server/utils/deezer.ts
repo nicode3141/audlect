@@ -1,4 +1,4 @@
-import { clampInt } from "~/lib/utils";
+import { clampInt } from "~/shared/utils/utils";
 import type { DeezerSearchResult, DeezerTrack } from "../../types/songs";
 
 const DEEZER_URL = "https://api.deezer.com";

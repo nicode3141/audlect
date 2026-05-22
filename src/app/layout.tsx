@@ -4,7 +4,7 @@ import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "react-loading-skeleton/dist/skeleton.css";
-import { AuthProvider } from "~/context/AuthProvider";
+import { AuthProvider } from "~/features/auth/AuthProvider";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
