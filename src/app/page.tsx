@@ -1,4 +1,4 @@
-import HomeButton from "~/components/ui/HomeButton/HomeButton";
+import HomeButton from "~/shared/components/HomeButton";
 export default async function Home() {
 	return (
 		<div className={"flex h-screen flex-col items-center justify-center gap-10 px-5 text-left"}>

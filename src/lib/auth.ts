@@ -5,7 +5,7 @@ import { db } from "~/server/db";
 import { sendEmail } from "./email";
 import { voting_membershipsTable } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
-import { Memberships } from "~/components/ui/AuthManagement/Memberships";
+import { Memberships } from "~/features/auth/components/Memberships";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, { provider: "pg" }),

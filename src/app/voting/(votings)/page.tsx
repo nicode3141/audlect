@@ -1,5 +1,5 @@
 import React from "react";
-import VotingsPageLayout from "~/components/layout/VotingsPageLayout/VotingsPageLayout";
+import VotingsPageLayout from "~/features/voting/components/VotingsPageLayout";
 
 export default function page() {
 	return <VotingsPageLayout />;

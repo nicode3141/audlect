@@ -23,7 +23,7 @@ import {
 	VKIcon,
 	XIcon,
 	ZoomIcon,
-} from "~/components/auth/provider-icons";
+} from "~/features/auth/components/auth/provider-icons";
 
 export type SocialProviderType = {
 	provider: string;

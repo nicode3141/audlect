@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from "~/components/layout/global/Footer";
+import Footer from "~/shared/components/AppFooter";
 
 interface ILegalSection {
 	heading: string;

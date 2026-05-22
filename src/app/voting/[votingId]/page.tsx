@@ -1,15 +1,15 @@
 import { type Metadata } from "next";
-import VotingHeader from "~/features/voting-site/VotingHeader/VotingHeader";
-import VotingLayout from "~/components/layout/VotingLayout/VotingLayout";
-import { VotingDetails } from "~/components/layout/VotingDetails/VotingDetails";
+import VotingHeader from "~/features/voting/components/VotingHeader";
+import VotingLayout from "~/features/voting/components/VotingLayout";
+import { VotingDetails } from "~/features/voting/components/VotingDetails";
 import { db } from "~/server/db";
 import { votingsTable } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
-import { VotingProvider } from "~/context/VotingContext";
-import { LoginWarnProvider } from "~/context/LoginWarningContext";
-import Footer from "~/components/layout/global/Footer";
+import { VotingProvider } from "~/features/voting/context/VotingContext";
+import { LoginWarnProvider } from "~/shared/components/LoginWarningContext";
+import Footer from "~/shared/components/AppFooter";
 import { getVoting } from "~/lib/getVoting";
-import { Memberships } from "~/components/ui/AuthManagement/Memberships";
+import { Memberships } from "~/features/auth/components/Memberships";
 
 export async function generateMetadata({ params }: PageParams) {
 	const votingId = (await params).votingId;

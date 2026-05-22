@@ -1,0 +1,55 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useCallback, useMemo } from "react";
+import { scrollSmoothToTop } from "~/shared/utils/utils";
+import type { SortMethodsType } from "~/types/global";
+
+export function useQueryParams() {
+	const searchParams = useSearchParams();
+	const router = useRouter();
+
+	const currentPage = useMemo(() => {
+		const pageParam = searchParams.get("page");
+		return pageParam ? parseInt(pageParam) : 1;
+	}, [searchParams]);
+
+	const sortMethod = useMemo(() => {
+		const value = searchParams.get("sort") ?? "Likes";
+		if (
+			value === "Likes" ||
+			value === "Least Likes" ||
+			value === "Random" ||
+			value === "A-Z" ||
+			value === "Date Added"
+		) {
+			return value;
+		}
+
+		return "Likes";
+	}, [searchParams]);
+
+	const setPage = useCallback(
+		(page: number) => {
+			const params = new URLSearchParams(searchParams.toString());
+			params.set("page", page.toString());
+			router.push(`?${params.toString()}`);
+			scrollSmoothToTop(0);
+		},
+		[searchParams, router],
+	);
+
+	const setSortMethod = useCallback(
+		(method: SortMethodsType) => {
+			const params = new URLSearchParams(searchParams.toString());
+			params.set("sort", method);
+			params.set("page", "1");
+			router.push(`?${params.toString()}`);
+			scrollSmoothToTop(0);
+		},
+		[searchParams, router],
+	);
+
+	return { currentPage, sortMethod, setPage, setSortMethod };
+}

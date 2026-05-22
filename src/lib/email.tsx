@@ -1,6 +1,6 @@
 import type { User } from "~/types/auth/auth-client";
 import { Resend } from "resend";
-import { EmailTemplate } from "~/components/auth/email/email-template";
+import { EmailTemplate } from "~/features/auth/components/auth/email/email-template";
 import type { ReactNode } from "react";
 
 const resend = new Resend(process.env.RESEND_API_KEY);

@@ -22,9 +22,9 @@ import type { TeamOptions, TeamOptionsContext } from "~/types/auth/team-options"
 import type { RenderToast } from "~/types/global";
 import { accountViewPaths, authViewPaths, organizationViewPaths, type AuthViewPaths } from "./view-paths";
 import type { AnyAuthClient } from "~/types/auth/any-auth-client";
-import { useAuthData } from "~/hooks/auth/use-auth-data";
+import { useAuthData } from "~/features/auth/hooks/auth/useAuthData";
 import { OrganizationRefetcher } from "./organization-refetcher";
-import { RecaptchaV3 } from "~/components/auth/captcha/recaptcha-v3";
+import { RecaptchaV3 } from "~/features/auth/components/auth/captcha/recaptcha-v3";
 
 const DefaultLink: Link = ({ href, className, children }) => (
 	<a className={className} href={href}>
