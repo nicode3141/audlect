@@ -5,7 +5,7 @@ import { nop } from "~/shared/utils/utils";
 import { api } from "~/trpc/react";
 import { usePopup } from "~/shared/hooks/usePopup";
 import SongInfo from "./SongInfo";
-import { useLikeSong } from "~/features/songs/hooks/useLikeSong";
+import { useLikeSong } from "~/features/voting/hooks/useLikeSong";
 
 interface ISearchCardProps {
 	metadata: TSongMetadata;

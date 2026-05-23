@@ -1,10 +1,10 @@
-import VotingHeader from "~/features/voting/components/VotingHeader";
+import VotingHeader from "~/features/votings/components/VotingHeader";
 import VotingLayout from "~/features/voting/components/VotingLayout";
-import { VotingDetails } from "~/features/voting/components/VotingDetails";
+import { VotingDetails } from "~/features/votings/components/VotingDetails";
 import { db } from "~/server/db";
 import { votingsTable } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
-import { VotingProvider } from "~/features/voting/context/VotingContext";
+import { VotingProvider } from "~/features/votings/context/VotingContext";
 import { LoginWarnProvider } from "~/shared/components/LoginWarningContext";
 import Footer from "~/shared/components/AppFooter";
 import { getVoting } from "~/lib/getVoting";

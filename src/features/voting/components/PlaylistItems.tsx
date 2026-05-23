@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef } from "react";
-import { useSongs } from "~/features/songs/hooks/useSongs";
+import { useSongs } from "~/features/voting/hooks/useSongs";
 import SkeletonSongCard from "./SongCard/SkeletonSongCard";
 import SongCardContainer from "./SongCard/SongCardContainer";
-import { useVoting } from "~/features/voting/context/VotingContext";
+import { useVoting } from "~/features/votings/context/VotingContext";
 import { useQueryParams } from "~/shared/hooks/useQueryParams";
 import ErrorBanner from "~/shared/components/ErrorBanner";
 import { Spinner } from "~/shared/ui/spinner";

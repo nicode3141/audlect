@@ -7,7 +7,7 @@ import type { RouterOutputs } from "~/trpc/react";
 import type { TRPCClientErrorLike } from "@trpc/client";
 import type { AppRouter } from "~/server/api/root";
 import SearchCardContainer from "./SongCard/SearchCardContainer";
-import { useVoting } from "~/features/voting/context/VotingContext";
+import { useVoting } from "~/features/votings/context/VotingContext";
 
 interface IPlaylistItemProps {
 	search_data?: RouterOutputs["search"]["fullSearch"];

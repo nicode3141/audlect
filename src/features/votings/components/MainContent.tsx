@@ -1,5 +1,5 @@
 import React from "react";
-import PlaylistItems from "../../songs/components/PlaylistItems";
+import PlaylistItems from "../../voting/components/PlaylistItems";
 
 interface IMainContentProps {
 	voting_id: string;
