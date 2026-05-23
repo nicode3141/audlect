@@ -1,6 +1,6 @@
-import { VotingDetails } from "~/features/voting/components/VotingDetails";
-import SkeletonSongCard from "~/features/songs/components/SongCard/SkeletonSongCard";
-import VotingHeader from "~/features/voting/components/VotingHeader";
+import { VotingDetails } from "~/features/votings/components/VotingDetails";
+import SkeletonSongCard from "~/features/voting/components/SongCard/SkeletonSongCard";
+import VotingHeader from "~/features/votings/components/VotingHeader";
 
 export default function Loading() {
 	return (

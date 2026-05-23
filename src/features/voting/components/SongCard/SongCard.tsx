@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useMemo } from "react";
-import { AddSongButton, LikeButton } from "~/features/songs/components/SongButtons";
+import { AddSongButton, LikeButton } from "~/features/voting/components/SongButtons";
 import MoreIcon from "~/shared/icons/MoreIcon";
 import { nop } from "~/shared/utils/utils";
 import type { TSongMetadata } from "~/types/songs";

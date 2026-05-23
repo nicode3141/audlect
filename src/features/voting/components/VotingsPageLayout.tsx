@@ -1,7 +1,7 @@
 import React from "react";
-import { VotingDetails } from "./VotingDetails";
-import VotingItems from "~/features/voting/components/VotingItems";
-import NewVotingButton from "~/features/voting/components/NewVotingButton";
+import { VotingDetails } from "../../votings/components/VotingDetails";
+import VotingItems from "~/features/votings/components/VotingItems";
+import NewVotingButton from "~/features/votings/components/NewVotingButton";
 
 export default function VotingsPageLayout() {
 	return (
