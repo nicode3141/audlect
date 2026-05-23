@@ -101,7 +101,11 @@ export const dashboardRouter = createTRPCRouter({
 				.where(eq(likesTable.voting_id, input.voting_id))
 				.limit(1);
 
-			return { totalSongs, totalLikes, participants };
+			return {
+				totalSongs: totalSongs[0]?.count ?? 0,
+				totalLikes: totalLikes[0]?.count ?? 0,
+				participants: participants[0]?.count ?? 0,
+			};
 		} catch (err: unknown) {
 			throw new TRPCError({
 				code: "INTERNAL_SERVER_ERROR",
