@@ -6,7 +6,7 @@ import { Checkbox } from "~/shared/ui/checkbox";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "~/shared/ui/field";
 import { Input } from "~/shared/ui/input";
 import { Separator } from "~/shared/ui/separator";
-import NotLoggedIn from "~/features/voting/components/NotLoggedIn";
+import NotLoggedIn from "~/features/votings/components/NotLoggedIn";
 import { useRequireLogin } from "~/shared/hooks/useRequireLogin";
 import { api } from "~/trpc/react";
 import TimePicker from "~/shared/components/TimePicker";
