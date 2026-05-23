@@ -9,6 +9,7 @@
 		var(--font-montserrat), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
 		"Segoe UI Symbol", "Noto Color Emoji";
 	--color-primaryGreen: #54b886;
+	--color-bgBlack: #161616;
 }
 
 .cl-avatarBox {
