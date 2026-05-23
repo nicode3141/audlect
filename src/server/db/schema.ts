@@ -13,6 +13,10 @@ export const votingsTable = pgTable("votings", {
 	created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
 	starts_at: timestamp("starts_at", { withTimezone: true }),
 	ends_at: timestamp("ends_at", { withTimezone: true }),
+	max_votes_user: integer("max_votes_user"),
+	max_songs_user: integer("max_songs_user"),
+	max_votes_del: integer("max_votes_del"),
+	filter_inappropiate: boolean("filter_inappropiate").notNull().default(false),
 });
 
 export const songsTable = pgTable(
@@ -68,8 +72,8 @@ export const voting_membershipsTable = pgTable(
 	(t) => [unique("voting_membership-unique").on(t.user_id, t.voting_id)],
 );
 
-export const linked_spotifyTable = pgTable(
-	"linked_spotify",
+export const linked_streamingServicesTable = pgTable(
+	"linked_streaming_services",
 	{
 		linked_id: uuid("linked_id").primaryKey().defaultRandom(),
 		user_id: text("user_id").references(() => user.id),
