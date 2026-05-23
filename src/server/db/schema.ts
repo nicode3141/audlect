@@ -16,7 +16,8 @@ export const votingsTable = pgTable("votings", {
 	max_votes_user: integer("max_votes_user"),
 	max_songs_user: integer("max_songs_user"),
 	max_votes_del: integer("max_votes_del"),
-	filter_inappropiate: boolean("filter_inappropiate").notNull().default(false),
+	song_approval: boolean("song_approval").notNull().default(false),
+	filter_inappropriate: boolean("filter_inappropriate").notNull().default(false),
 });
 
 export const songsTable = pgTable(
