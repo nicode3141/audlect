@@ -117,7 +117,7 @@ export const votingsRouter = createTRPCRouter({
 	votings: publicProcedure
 		.input(
 			z.object({
-				voting_id: z.string().uuid(),
+				voting_id: z.uuid(),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
@@ -134,7 +134,7 @@ export const votingsRouter = createTRPCRouter({
 	joinVoting: protectedProcedure
 		.input(
 			z.object({
-				voting_id: z.string().uuid(),
+				voting_id: z.uuid(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
