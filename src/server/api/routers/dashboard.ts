@@ -4,15 +4,24 @@ import { TRPCError } from "@trpc/server";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { votingsTable, voting_membershipsTable, songsTable, likesTable } from "~/server/db/schema";
+import type { db } from "~/server/db";
+
+type Database = typeof db;
+
+async function resolveVotingId(database: Database, shortId: string) {
+	const voting = await database
+		.select({ voting_id: votingsTable.voting_id })
+		.from(votingsTable)
+		.where(eq(votingsTable.short_id, shortId))
+		.limit(1);
+
+	return voting[0]?.voting_id;
+}
 
 export const dashboardRouter = createTRPCRouter({
-	getSettings: protectedProcedure.input(z.object({ voting_id: z.uuid() })).query(async ({ ctx, input }) => {
+	getSettings: protectedProcedure.input(z.object({ short_id: z.string().max(16) })).query(async ({ ctx, input }) => {
 		try {
-			const voting = await ctx.db
-				.select()
-				.from(votingsTable)
-				.where(eq(votingsTable.voting_id, input.voting_id))
-				.limit(1);
+			const voting = await ctx.db.select().from(votingsTable).where(eq(votingsTable.short_id, input.short_id)).limit(1);
 
 			return voting[0] ?? null;
 		} catch (err: unknown) {
@@ -26,7 +35,7 @@ export const dashboardRouter = createTRPCRouter({
 	updateSettings: protectedProcedure
 		.input(
 			z.object({
-				voting_id: z.uuid(),
+				short_id: z.string().max(16),
 				name: z.string().min(3).max(100).optional(),
 				description: z.string().max(255).optional(),
 				public: z.boolean().optional(),
@@ -41,7 +50,12 @@ export const dashboardRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
-				const { voting_id, ...settings } = input;
+				const voting_id = await resolveVotingId(ctx.db, input.short_id);
+				if (!voting_id) {
+					throw new TRPCError({ code: "NOT_FOUND", message: "Voting not found" });
+				}
+
+				const { short_id, ...settings } = input;
 				const cleanedSettings = Object.fromEntries(
 					Object.entries(settings).filter(([_, v]) => v !== undefined),
 				) as typeof settings;
@@ -81,24 +95,29 @@ export const dashboardRouter = createTRPCRouter({
 			}
 		}),
 
-	getAnalytics: protectedProcedure.input(z.object({ voting_id: z.uuid() })).query(async ({ ctx, input }) => {
+	getAnalytics: protectedProcedure.input(z.object({ short_id: z.string().max(16) })).query(async ({ ctx, input }) => {
 		try {
+			const voting_id = await resolveVotingId(ctx.db, input.short_id);
+			if (!voting_id) {
+				throw new TRPCError({ code: "NOT_FOUND", message: "Voting not found" });
+			}
+
 			const totalSongs = await ctx.db
 				.select({ count: count() })
 				.from(songsTable)
-				.where(eq(songsTable.voting_id, input.voting_id))
+				.where(eq(songsTable.voting_id, voting_id))
 				.limit(1);
 
 			const totalLikes = await ctx.db
 				.select({ count: count() })
 				.from(likesTable)
-				.where(eq(likesTable.voting_id, input.voting_id))
+				.where(eq(likesTable.voting_id, voting_id))
 				.limit(1);
 
 			const participants = await ctx.db
 				.select({ count: countDistinct(likesTable.user_id) })
 				.from(likesTable)
-				.where(eq(likesTable.voting_id, input.voting_id))
+				.where(eq(likesTable.voting_id, voting_id))
 				.limit(1);
 
 			return {
@@ -109,7 +128,7 @@ export const dashboardRouter = createTRPCRouter({
 		} catch (err: unknown) {
 			throw new TRPCError({
 				code: "INTERNAL_SERVER_ERROR",
-				message: err instanceof Error ? err.message : "couldn't fetch songs",
+				message: err instanceof Error ? err.message : "Failed to fetch analytics",
 			});
 		}
 	}),
