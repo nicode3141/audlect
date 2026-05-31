@@ -11,7 +11,7 @@ export const auth = betterAuth({
 	trustedOrigins: [
 		"http://localhost:3000",
 		"http://192.168.1.*:3000",
-		"https://audlect-git-*-nicode3141s-projects.vercel.app",
+		"https://audlect-*-nicode3141s-projects.vercel.app",
 	],
 	user: {
 		deleteUser: {
