@@ -33,7 +33,11 @@ export default function CampaignProgress({
 					Voting Timeline
 				</div>
 				<div className="font-semibold">
-					{daysRemaining !== null ? `${daysRemaining} days remaining` : `online for ${daysOnline} days`}
+					{daysRemaining !== null && daysRemaining < 1
+						? "voting ended"
+						: daysRemaining !== null
+							? `${daysRemaining} days remaining`
+							: `online for ${daysOnline} days`}
 				</div>
 			</div>
 			<Progress value={Math.min(progress, 100)} />
