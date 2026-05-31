@@ -8,7 +8,11 @@ import { eq } from "drizzle-orm";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, { provider: "pg" }),
-	trustedOrigins: ["http://localhost:3000", "http://192.168.1.240:3000"],
+	trustedOrigins: [
+		"http://localhost:3000",
+		"http://192.168.1.*:3000",
+		"https://audlect-git-*-nicode3141s-projects.vercel.app",
+	],
 	user: {
 		deleteUser: {
 			enabled: true,
