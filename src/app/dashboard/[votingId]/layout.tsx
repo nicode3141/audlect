@@ -11,7 +11,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
 	return (
 		<SidebarProvider>
-			<AppSidebar></AppSidebar>
+			<AppSidebar className="dark:bg-bgBlack"></AppSidebar>
 			<SidebarInset>
 				<SiteHeader />
 				{children}
