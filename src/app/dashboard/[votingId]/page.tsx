@@ -39,41 +39,35 @@ export default function Page() {
 						<CardDescription>
 							<span className="font-montserrat">{settings?.description}</span>
 						</CardDescription>
-						<CardContent>
-							<div className="flex flex-col gap-5">
-								<div className="flex font-inter text-sm gap-2.5">
-									<Link
-										href={`/dashboard/${votingId}/settings`}
-										className="px-2 py-1 border rounded-lg flex gap-2 items-center"
-									>
-										<Cog size={20} />
-										Settings
-									</Link>
-									<Link
-										href={`/voting/${votingId}`}
-										className="px-2 rounded-lg flex gap-2 items-center truncate bg-company"
-									>
-										<ExternalLink size={20} />
-										Open Live
-									</Link>
-								</div>
-								<LinkCard shortId={votingId} />
-								<Separator />
-								<CampaignProgress
-									startsAt={settings?.starts_at}
-									endsAt={settings?.ends_at}
-									createdAt={settings?.created_at}
-								/>
-								<Separator />
-								<div className="flex flex-col pt-10 gap-5">
-									<StatsCard label="Songs" value={stats?.totalSongs ?? 0} icon={<VoteIcon />} />
-									<StatsCard
-										label="Total Votes"
-										value={stats?.totalLikes ?? 0}
-										icon={<ChartNoAxesColumnIncreasing />}
-									/>
-									<StatsCard label="Participants" value={stats?.participants ?? 0} icon={<Globe />} />
-								</div>
+						<CardContent className="flex flex-col gap-5">
+							<div className="flex font-inter text-sm gap-2.5">
+								<Link
+									href={`/dashboard/${votingId}/settings`}
+									className="px-2 py-1 border rounded-lg flex gap-2 items-center"
+								>
+									<Cog size={20} />
+									Settings
+								</Link>
+								<Link
+									href={`/voting/${votingId}`}
+									className="px-2 rounded-lg flex gap-2 items-center truncate bg-company"
+								>
+									<ExternalLink size={20} />
+									Open Live
+								</Link>
+							</div>
+							<LinkCard shortId={votingId} />
+							<Separator />
+							<CampaignProgress
+								startsAt={settings?.starts_at}
+								endsAt={settings?.ends_at}
+								createdAt={settings?.created_at}
+							/>
+							<Separator />
+							<div className="flex flex-col pt-10 gap-5">
+								<StatsCard label="Songs" value={stats?.totalSongs ?? 0} icon={<VoteIcon />} />
+								<StatsCard label="Total Votes" value={stats?.totalLikes ?? 0} icon={<ChartNoAxesColumnIncreasing />} />
+								<StatsCard label="Participants" value={stats?.participants ?? 0} icon={<Globe />} />
 							</div>
 						</CardContent>
 					</CardHeader>

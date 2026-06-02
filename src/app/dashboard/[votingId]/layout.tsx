@@ -10,8 +10,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 	useAuthenticate();
 
 	return (
-		<SidebarProvider>
-			<AppSidebar className="dark:bg-bgBlack"></AppSidebar>
+		<SidebarProvider className="">
+			<AppSidebar className="dark:bg-neutral-700"></AppSidebar>
 			<SidebarInset>
 				<SiteHeader />
 				{children}

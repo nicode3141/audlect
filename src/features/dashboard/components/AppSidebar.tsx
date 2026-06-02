@@ -1,11 +1,32 @@
-import { Disc, Home, Users } from "lucide-react";
+"use client";
+
+import { Cog, Disc, HelpCircle, Home, QrCode, Users } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
 import React from "react";
 import { AccountsCard } from "~/features/auth/components/auth/settings/account/accounts-card";
+import { NavUser } from "~/shared/components/NavUser";
 import { Separator } from "~/shared/ui/separator";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu } from "~/shared/ui/sidebar";
+import { cn } from "~/shared/utils/utils";
 
 export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+	const pathname = usePathname();
+	const params = useParams();
+	const votingId = params.votingId as string;
+
+	const links1 = [
+		{ href: `/dashboard/${votingId}`, label: "Dashboard", icon: Home },
+		{ href: `/dashboard/${votingId}/participants`, label: "Participants", icon: Users },
+		{ href: `/dashboard/${votingId}/songs`, label: "Songs", icon: Disc },
+	];
+
+	const links2 = [
+		{ href: `/dashboard/${votingId}/settings`, label: "Settings", icon: Cog },
+		{ href: `/dashboard/${votingId}/share`, label: "Share", icon: QrCode },
+	];
+
 	return (
 		<Sidebar collapsible="offcanvas" className="" {...props}>
 			<SidebarHeader>
@@ -18,22 +39,46 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
 					</div>
 				</SidebarMenu>
 			</SidebarHeader>
-			<SidebarContent>
+			<SidebarContent className="flex gap-5 py-2 px-2">
 				<SidebarGroup className="flex gap-5">
-					<SidebarMenu className="flex items-center flex-row gap-3 font-semibold">
-						<Home /> Dashboard
-					</SidebarMenu>
-					<SidebarMenu className="flex items-center flex-row gap-3 font-semibold">
-						<Users /> Participants
-					</SidebarMenu>
-					<SidebarMenu className="flex items-center flex-row gap-3 font-semibold">
-						<Disc /> Songs
-					</SidebarMenu>
+					{links1.map(({ href, label, icon: Icon }) => {
+						const active = pathname === href;
+						return (
+							<Link
+								key={href}
+								className={cn("flex items-center flex-row gap-3 font-semibold", active && "underline")}
+								href={href}
+							>
+								<Icon /> {label}
+							</Link>
+						);
+					})}
 				</SidebarGroup>
-				<Separator />
-				<SidebarGroup />
+				<div className="flex px-5">
+					<Separator className="" decorative />
+				</div>
+				<SidebarGroup className="flex gap-5">
+					{links2.map(({ href, label, icon: Icon }) => {
+						const active = pathname === href;
+						return (
+							<Link
+								key={href}
+								className={cn("flex items-center flex-row gap-3 font-semibold", active && "underline")}
+								href={href}
+							>
+								<Icon /> {label}
+							</Link>
+						);
+					})}
+				</SidebarGroup>
 			</SidebarContent>
-			<SidebarFooter></SidebarFooter>
+			<SidebarFooter className="p-2">
+				<Link className="flex flex-row gap-3 text-sm text-gray-300 font-inter font-medium px-3" href={""}>
+					{/* TODO: Help Link */}
+					<HelpCircle size={20} /> Get Help
+				</Link>
+				<NavUser />
+			</SidebarFooter>
 		</Sidebar>
 	);
 }
