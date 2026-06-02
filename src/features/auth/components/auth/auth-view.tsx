@@ -114,8 +114,8 @@ export function AuthView({
 			: localization[`${view}_DESCRIPTION` as keyof typeof localization];
 
 	return (
-		<Card className={cn("w-full max-w-sm", className, classNames?.base)}>
-			<CardHeader className={classNames?.header}>
+		<Card className={cn("w-full max-w-sm py-6 dark:bg-white px-6", className, classNames?.base)}>
+			<CardHeader className={classNames?.header + " dark:text-black"}>
 				{cardHeader ?? (
 					<>
 						<CardTitle className={cn("text-lg md:text-xl", classNames?.title)}>

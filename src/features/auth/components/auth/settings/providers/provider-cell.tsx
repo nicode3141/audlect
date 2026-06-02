@@ -106,7 +106,7 @@ export function ProviderCell({
 	};
 
 	return (
-		<Card className={cn("flex-row items-center gap-3 px-4 py-3", className, classNames?.cell)}>
+		<Card className={cn("flex-row items-center gap-3 px-4 py-3 dark:bg-white min-w-0", className, classNames?.cell)}>
 			{provider.icon && <provider.icon className={cn("size-4", classNames?.icon)} />}
 
 			<div className="flex-col">
@@ -147,4 +147,3 @@ function AccountInfo({ account }: { account: { accountId: string } }) {
 
 	return <div className="text-muted-foreground text-xs">{accountInfo?.user.email}</div>;
 }
-

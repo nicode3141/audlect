@@ -74,7 +74,7 @@ export function SettingsCard({
 	return (
 		<Card
 			className={cn(
-				"w-full pb-0 text-start",
+				"w-full pb-0 text-start py-3 px-3 dark:bg-white",
 				variant === "destructive" && "border-destructive/40",
 				className,
 				classNames?.base,
