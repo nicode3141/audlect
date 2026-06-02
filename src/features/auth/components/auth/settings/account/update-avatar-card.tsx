@@ -117,7 +117,7 @@ export function UpdateAvatarCard({ className, classNames, localization, ...props
 	const openFileDialog = () => fileInputRef.current?.click();
 
 	return (
-		<Card className={cn("w-full pb-0 text-start", className, classNames?.base)} {...props}>
+		<Card className={cn("w-full pb-0 text-start ", className, classNames?.base)} {...props}>
 			<input
 				ref={fileInputRef}
 				accept="image/*"

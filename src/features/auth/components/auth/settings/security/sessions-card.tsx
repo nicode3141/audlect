@@ -34,7 +34,7 @@ export function SessionsCard({ className, classNames, localization }: SessionsCa
 			isPending={isPending}
 			title={localization.SESSIONS}
 		>
-			<CardContent className={cn("grid gap-4", classNames?.content)}>
+			<CardContent className={cn("grid gap-4 ", classNames?.content)}>
 				{isPending ? (
 					<SettingsCellSkeleton key="skeleton" classNames={classNames} />
 				) : (

@@ -26,7 +26,7 @@ export function SettingsCardHeader({ className, classNames, description, isPendi
 				</>
 			) : (
 				<>
-					<CardTitle className={cn("text-lg md:text-xl", classNames?.title)}>{title}</CardTitle>
+					<CardTitle className={cn("text-lg md:text-xl dark:text-black", classNames?.title)}>{title}</CardTitle>
 
 					{description && (
 						<CardDescription className={cn("text-xs md:text-sm", classNames?.description)}>

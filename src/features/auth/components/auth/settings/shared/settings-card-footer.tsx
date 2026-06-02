@@ -37,7 +37,7 @@ export function SettingsCardFooter({
 		<CardFooter
 			className={cn(
 				"flex flex-col justify-between gap-4 rounded-b-xl md:flex-row",
-				(actionLabel ?? instructions) && "border-t !py-4",
+				(actionLabel ?? instructions) && "border-t py-4!",
 				variant === "destructive" ? "border-destructive/30 bg-destructive/15" : "bg-sidebar",
 				className,
 				classNames?.footer,
