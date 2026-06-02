@@ -129,12 +129,13 @@ export function AccountView({
 											className={cn(
 												"w-full justify-start px-4 transition-none",
 												classNames?.drawer?.menuItem,
-												view === item.view ? "font-semibold" : "text-foreground/70",
+												view === item.view ? "font-semibold dark:text-neutral-900" : "text-foreground/70",
 											)}
 											variant="ghost"
 										>
 											{item.view === "SETTINGS" && <User />}
 											{item.view === "SECURITY" && <Lock />}
+
 											{item.label}
 										</Button>
 									</Link>

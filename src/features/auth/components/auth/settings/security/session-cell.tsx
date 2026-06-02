@@ -69,19 +69,19 @@ export function SessionCell({ className, classNames, localization, session, refe
 	const isMobile = parser.device.type === "mobile";
 
 	return (
-		<Card className={cn("flex-row items-center gap-3 px-4 py-3", className, classNames?.cell)}>
+		<Card className={cn("flex-row items-center gap-3 px-4 py-3 dark:bg-white truncate", className, classNames?.cell)}>
 			{isMobile ? (
-				<SmartphoneIcon className={cn("size-4", classNames?.icon)} />
+				<SmartphoneIcon className={cn("size-4 shrink-0", classNames?.icon)} />
 			) : (
-				<LaptopIcon className={cn("size-4", classNames?.icon)} />
+				<LaptopIcon className={cn("size-4 shrink-0", classNames?.icon)} />
 			)}
 
-			<div className="flex flex-col">
-				<span className="text-sm font-semibold">
+			<div className="flex flex-col flex-1 min-w-0">
+				<span className="text-sm font-semibold truncate">
 					{isCurrentSession ? localization.CURRENT_SESSION : session?.ipAddress}
 				</span>
 
-				<span className="text-muted-foreground text-xs">
+				<span className="text-muted-foreground text-xs truncate">
 					{session.userAgent?.includes("tauri-plugin-http")
 						? localization.APP
 						: parser.os.name && parser.browser.name
