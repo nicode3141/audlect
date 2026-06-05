@@ -13,6 +13,7 @@ import TimePicker from "~/shared/components/TimePicker";
 import PlayIcon from "~/shared/icons/PlayIcon";
 import { toast } from "sonner";
 import ShareVotingDialog from "./ShareVotingDialog";
+import OptionalTime from "~/shared/components/OptionalTime";
 
 export default function CreateVoting() {
 	const utils = api.useUtils();
@@ -103,26 +104,8 @@ export default function CreateVoting() {
 					</div>
 				</div>
 				<Separator />
-				<div className="flex flex-col gap-4">
-					<div className="font-montserrat flex items-center gap-4 font-semibold">
-						Start Time
-						<Checkbox
-							checked={startTime !== undefined}
-							onCheckedChange={() => (startTime !== undefined ? setStartTime(undefined) : setStartTime(new Date()))}
-						/>
-					</div>
-					{startTime !== undefined && <TimePicker date={startTime} setDate={setStartTime} />}
-				</div>
-				<div className="flex flex-col gap-4 pb-50 md:pb-5">
-					<div className="font-montserrat flex items-center gap-4 font-semibold">
-						End Time
-						<Checkbox
-							checked={endTime !== undefined}
-							onCheckedChange={() => (endTime !== undefined ? setEndTime(undefined) : setEndTime(new Date()))}
-						/>
-					</div>
-					{endTime !== undefined && <TimePicker date={endTime} setDate={setEndTime} />}
-				</div>
+				<OptionalTime date={startTime} setDate={setStartTime} title={"Start Time"} />
+				<OptionalTime date={endTime} setDate={setEndTime} title={"End Time"} className="pb-50 md:pb-5" />
 				<div
 					className="md:color-white fixed inset-x-0 bottom-0 mx-auto flex w-screen justify-center
 						bg-[linear-gradient(180deg,transparent_0%,rgba(255,255,255,0.7)_60%,var(--background-color)_100%)] pt-2
