@@ -2,26 +2,17 @@
 
 import { useParams } from "next/navigation";
 import React from "react";
-import InputSettings from "~/features/dashboard/components/InputSettings";
 import AdditionalSettings from "~/features/dashboard/components/settings/AdditionalSettings";
 import ComboSettings from "~/features/dashboard/components/settings/ComboSettings";
 import DateSettings from "~/features/dashboard/components/settings/DateSettings";
 import TitleSettings from "~/features/dashboard/components/settings/TitleSettings";
 import { useAnalytics, useSettings } from "~/features/dashboard/hooks/useDashboard";
-import OptionalTime from "~/shared/components/OptionalTime";
-import { Button } from "~/shared/ui/button";
 import { Card, CardContent } from "~/shared/ui/card";
 import { Checkbox } from "~/shared/ui/checkbox";
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "~/shared/ui/dialog";
-import { Field } from "~/shared/ui/field";
-import { Input } from "~/shared/ui/input";
-import { Label } from "~/shared/ui/label";
 import { Separator } from "~/shared/ui/separator";
 
 export default function Page() {
 	const { votingId } = useParams<{ votingId: string }>();
-	const { data: settings } = useSettings(votingId);
-	const { data: stats } = useAnalytics(votingId);
 
 	return (
 		<div className="px-4">
