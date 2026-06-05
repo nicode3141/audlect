@@ -3,7 +3,12 @@
 import { useParams } from "next/navigation";
 import React from "react";
 import InputSettings from "~/features/dashboard/components/InputSettings";
+import AdditionalSettings from "~/features/dashboard/components/settings/AdditionalSettings";
+import ComboSettings from "~/features/dashboard/components/settings/ComboSettings";
+import DateSettings from "~/features/dashboard/components/settings/DateSettings";
+import TitleSettings from "~/features/dashboard/components/settings/TitleSettings";
 import { useAnalytics, useSettings } from "~/features/dashboard/hooks/useDashboard";
+import OptionalTime from "~/shared/components/OptionalTime";
 import { Button } from "~/shared/ui/button";
 import { Card, CardContent } from "~/shared/ui/card";
 import { Checkbox } from "~/shared/ui/checkbox";
@@ -11,6 +16,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } 
 import { Field } from "~/shared/ui/field";
 import { Input } from "~/shared/ui/input";
 import { Label } from "~/shared/ui/label";
+import { Separator } from "~/shared/ui/separator";
 
 export default function Page() {
 	const { votingId } = useParams<{ votingId: string }>();
@@ -18,41 +24,24 @@ export default function Page() {
 	const { data: stats } = useAnalytics(votingId);
 
 	return (
-		<div>
+		<div className="px-4">
 			<div className="px-6 py-4 pb-10">
 				<span className="font-montserrat font-semibold text-xl">Settings</span>
 				<div className="font-montserrat text-sm">Customize your own voting to fit your needs.</div>
 			</div>
 			<Card>
-				<CardContent className="flex flex-col gap-2 p-3 px-4">
-					<div className="dark:text-white">
-						<div className="font-semibold">Voting Title</div>
-						<InputSettings
-							currentValue={"Audlect Top Songs"}
-							action={"Change Title"}
-							actionDesc={"Customize the name of your voting!"}
-							onChange={function (): void {
-								throw new Error("Function not implemented.");
-							}}
-							loading={false}
-						/>
-					</div>
-					<div className="dark:text-white">
-						<div className="font-semibold">Voting Description</div>
-						<InputSettings
-							currentValue={"Best songs from this month"}
-							action={"Change Description"}
-							actionDesc={"Customize the description of your voting!"}
-							onChange={function (): void {
-								throw new Error("Function not implemented.");
-							}}
-							loading={false}
-						/>
-					</div>
+				<CardContent className="flex flex-col gap-3 p-3 px-4">
+					<TitleSettings />
 					<div className="flex items-center gap-4 dark:text-white">
 						Private
 						<Checkbox checked={true} />
 					</div>
+					<Separator decorative />
+					<DateSettings />
+					<Separator decorative />
+					<ComboSettings />
+					<Separator decorative />
+					<AdditionalSettings />
 				</CardContent>
 			</Card>
 		</div>

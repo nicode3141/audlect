@@ -22,6 +22,9 @@ export default async function Home() {
 					<HomeButton variant="secondary" href="/voting/tEN2ZlbH52xZeOvI">
 						View Example
 					</HomeButton>
+					<HomeButton variant="secondary" href="/dashboard/">
+						Dashboard
+					</HomeButton>
 				</div>
 			</div>
 		</div>
