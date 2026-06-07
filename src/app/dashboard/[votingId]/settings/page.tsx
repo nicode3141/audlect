@@ -1,21 +1,17 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import React from "react";
 import AdditionalSettings from "~/features/dashboard/components/settings/AdditionalSettings";
 import ComboSettings from "~/features/dashboard/components/settings/SelectSettings";
 import DateSettings from "~/features/dashboard/components/settings/DateSettings";
 import TitleSettings from "~/features/dashboard/components/settings/TitleSettings";
-import { useAnalytics, useSettings } from "~/features/dashboard/hooks/useDashboard";
 import { Card, CardContent } from "~/shared/ui/card";
 import { Checkbox } from "~/shared/ui/checkbox";
 import { Separator } from "~/shared/ui/separator";
 
 export default function Page() {
-	const { votingId } = useParams<{ votingId: string }>();
-
 	return (
-		<div className="px-4">
+		<div className="px-4 pb-6">
 			<div className="px-6 py-4 pb-10">
 				<span className="font-montserrat font-semibold text-xl">Settings</span>
 				<div className="font-montserrat text-sm">Customize your own voting to fit your needs.</div>
