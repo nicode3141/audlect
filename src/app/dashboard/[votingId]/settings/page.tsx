@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import React from "react";
 import AdditionalSettings from "~/features/dashboard/components/settings/AdditionalSettings";
-import ComboSettings from "~/features/dashboard/components/settings/ComboSettings";
+import ComboSettings from "~/features/dashboard/components/settings/SelectSettings";
 import DateSettings from "~/features/dashboard/components/settings/DateSettings";
 import TitleSettings from "~/features/dashboard/components/settings/TitleSettings";
 import { useAnalytics, useSettings } from "~/features/dashboard/hooks/useDashboard";
