@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { api } from "~/trpc/react";
 
 export function useSettings(shortId: string) {
@@ -7,7 +8,11 @@ export function useSettings(shortId: string) {
 }
 
 export function useUpdateSettings() {
-	return api.dashboard.updateSettings.useMutation();
+	return api.dashboard.updateSettings.useMutation({
+		onError: () => {
+			toast.error("Something went wrong.");
+		},
+	});
 }
 
 export function useAnalytics(shortId: string) {

@@ -35,7 +35,7 @@ export const dashboardRouter = createTRPCRouter({
 	updateSettings: protectedProcedure
 		.input(
 			z.object({
-				short_id: z.string().max(16),
+				voting_id: z.uuid(),
 				name: z.string().min(3).max(100).optional(),
 				description: z.string().max(255).optional(),
 				public: z.boolean().optional(),
@@ -45,17 +45,12 @@ export const dashboardRouter = createTRPCRouter({
 				max_songs_user: z.number().int().min(1).nullable().optional(),
 				max_votes_del: z.number().int().min(0).nullable().optional(),
 				song_approval: z.boolean().optional(),
-				filter_inappropiate: z.boolean().optional(),
+				filter_inappropriate: z.boolean().optional(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
-				const voting_id = await resolveVotingId(ctx.db, input.short_id);
-				if (!voting_id) {
-					throw new TRPCError({ code: "NOT_FOUND", message: "Voting not found" });
-				}
-
-				const { short_id, ...settings } = input;
+				const { voting_id, ...settings } = input;
 				const cleanedSettings = Object.fromEntries(
 					Object.entries(settings).filter(([_, v]) => v !== undefined),
 				) as typeof settings;
@@ -73,6 +68,10 @@ export const dashboardRouter = createTRPCRouter({
 
 				if (!membership[0] || membership[0].role === "participant") {
 					throw new TRPCError({ code: "FORBIDDEN", message: "Only owners and moderators can update settings" });
+				}
+
+				if (Object.keys(cleanedSettings).length === 0) {
+					return await ctx.db.select().from(votingsTable).where(eq(votingsTable.voting_id, voting_id)).limit(1).then(r => r[0] ?? null);
 				}
 
 				const [updated] = await ctx.db

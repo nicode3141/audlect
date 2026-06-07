@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useParams } from "next/navigation";
-import { useSettings } from "../../hooks/useDashboard";
+import { useSettings, useUpdateSettings } from "../../hooks/useDashboard";
 import {
 	Select,
 	SelectContent,
@@ -18,11 +18,7 @@ import { toast } from "sonner";
 export default function ComboSettings() {
 	const { votingId } = useParams<{ votingId: string }>();
 	const { data: settings } = useSettings(votingId);
-	const setting = api.dashboard.updateSettings.useMutation({
-		onError: () => {
-			toast.error("Something went wrong.");
-		},
-	});
+	const setting = useUpdateSettings();
 
 	const [songsPerUser, setSongsPerUser] = useState<number>(0);
 	const [likesPerUser, setLikesPerUser] = useState<number>(0);
@@ -35,17 +31,29 @@ export default function ComboSettings() {
 	}, [settings?.max_songs_user, settings?.max_votes_user, settings?.max_votes_del]);
 
 	function changeMaxSongs(limit: number) {
-		setting.mutate({ short_id: votingId, max_songs_user: limit });
+		if (settings?.voting_id === undefined) {
+			toast.error("Something went wrong");
+			return;
+		}
+		setting.mutate({ voting_id: settings?.voting_id, max_songs_user: limit });
 		setSongsPerUser(limit);
 	}
 
 	function changeMaxLikes(limit: number) {
-		setting.mutate({ short_id: votingId, max_votes_user: limit });
+		if (settings?.voting_id === undefined) {
+			toast.error("Something went wrong");
+			return;
+		}
+		setting.mutate({ voting_id: settings?.voting_id, max_votes_user: limit });
 		setLikesPerUser(limit);
 	}
 
 	function changeDelLikes(limit: number) {
-		setting.mutate({ short_id: votingId, max_votes_del: limit });
+		if (settings?.voting_id === undefined) {
+			toast.error("Something went wrong");
+			return;
+		}
+		setting.mutate({ voting_id: settings?.voting_id, max_votes_del: limit });
 		setMaxVotesDel(limit);
 	}
 
