@@ -1,0 +1,99 @@
+import React, { useEffect, useState } from "react";
+
+import { useParams } from "next/navigation";
+import { useSettings } from "../../hooks/useDashboard";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "~/shared/ui/select";
+import { Separator } from "~/shared/ui/separator";
+import { api } from "~/trpc/react";
+import { toast } from "sonner";
+
+export default function ComboSettings() {
+	const { votingId } = useParams<{ votingId: string }>();
+	const { data: settings } = useSettings(votingId);
+	const setting = api.dashboard.updateSettings.useMutation({
+		onError: () => {
+			toast.error("Something went wrong.");
+		},
+	});
+
+	const [songsPerUser, setSongsPerUser] = useState<number>(0);
+	const [likesPerUser, setLikesPerUser] = useState<number>(0);
+	const [maxVotesDel, setMaxVotesDel] = useState<number>(0);
+
+	useEffect(() => {
+		setSongsPerUser(3);
+		setLikesPerUser(settings?.max_votes_user ?? 0);
+		setMaxVotesDel(settings?.max_votes_del ?? 0);
+	}, [settings?.max_songs_user, settings?.max_votes_user, settings?.max_votes_del]);
+
+	function changeMaxSongs(limit: number) {
+		setting.mutate({ short_id: votingId, max_songs_user: limit });
+		setSongsPerUser(limit);
+	}
+
+	function changeMaxLikes(limit: number) {
+		setting.mutate({ short_id: votingId, max_votes_user: limit });
+		setLikesPerUser(limit);
+	}
+
+	function changeDelLikes(limit: number) {
+		setting.mutate({ short_id: votingId, max_votes_del: limit });
+		setMaxVotesDel(limit);
+	}
+
+	return (
+		<div className="flex gap-4 flex-col">
+			<ComboItem
+				name={"Songs per participant"}
+				value={songsPerUser}
+				onChange={(value) => changeMaxSongs(parseInt(value))}
+			/>
+			<ComboItem
+				name={"Likes per participant"}
+				value={likesPerUser}
+				onChange={(value) => changeMaxLikes(parseInt(value))}
+			/>
+			<ComboItem
+				name={"Prevent deletion after"}
+				value={maxVotesDel}
+				onChange={(value) => changeDelLikes(parseInt(value))}
+			/>
+		</div>
+	);
+}
+
+function ComboItem({ name, value, onChange }: { name: string; value: number; onChange: (input: string) => void }) {
+	return (
+		<div className="flex items-center gap-4 dark:text-white!">
+			<div className="w-auto">{name}</div>
+			<Select onValueChange={(value) => onChange(value)} value={value.toString()}>
+				<SelectTrigger>
+					<SelectValue />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectGroup>
+						<SelectItem value={"0"}>off</SelectItem>
+					</SelectGroup>
+					<SelectGroup>
+						<SelectLabel>
+							<Separator />
+						</SelectLabel>
+						{Array.from({ length: 9 }).map((_, i) => (
+							<SelectItem value={(i + 1).toString()} key={i}>
+								{i + 1}
+							</SelectItem>
+						))}
+					</SelectGroup>
+				</SelectContent>
+			</Select>
+		</div>
+	);
+}
