@@ -41,9 +41,9 @@ export const dashboardRouter = createTRPCRouter({
 				public: z.boolean().optional(),
 				starts_at: z.date().nullable().optional(),
 				ends_at: z.date().nullable().optional(),
-				max_votes_user: z.number().int().min(1).nullable().optional(),
-				max_songs_user: z.number().int().min(1).nullable().optional(),
-				max_votes_del: z.number().int().min(0).nullable().optional(),
+				max_votes_user: z.number().int().nullable().optional(), //default: 0 -> off
+				max_songs_user: z.number().int().nullable().optional(), //default: 0 -> off
+				max_votes_del: z.number().int().nullable().optional(), //default: 0 -> off
 				song_approval: z.boolean().optional(),
 				filter_inappropriate: z.boolean().optional(),
 			}),
@@ -71,7 +71,12 @@ export const dashboardRouter = createTRPCRouter({
 				}
 
 				if (Object.keys(cleanedSettings).length === 0) {
-					return await ctx.db.select().from(votingsTable).where(eq(votingsTable.voting_id, voting_id)).limit(1).then(r => r[0] ?? null);
+					return await ctx.db
+						.select()
+						.from(votingsTable)
+						.where(eq(votingsTable.voting_id, voting_id))
+						.limit(1)
+						.then((r) => r[0] ?? null);
 				}
 
 				const [updated] = await ctx.db
