@@ -8,6 +8,7 @@ import TitleSettings from "~/features/dashboard/components/settings/TitleSetting
 import { Card, CardContent } from "~/shared/ui/card";
 import { Checkbox } from "~/shared/ui/checkbox";
 import { Separator } from "~/shared/ui/separator";
+import PrivacySettings from "~/features/dashboard/components/settings/PrivacySettings";
 
 export default function Page() {
 	return (
@@ -19,10 +20,7 @@ export default function Page() {
 			<Card>
 				<CardContent className="flex flex-col gap-3 p-3 px-4">
 					<TitleSettings />
-					<div className="flex items-center gap-4 dark:text-white">
-						Private
-						<Checkbox checked={true} />
-					</div>
+					<PrivacySettings />
 					<Separator decorative />
 					<DateSettings />
 					<Separator decorative />
