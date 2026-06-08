@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, type FormEvent } from "react";
 import { Button } from "~/shared/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "~/shared/ui/dialog";
 import { Field } from "~/shared/ui/field";
@@ -10,11 +10,17 @@ interface ISettingsProps {
 	currentValue: string;
 	action: string;
 	actionDesc: string;
-	onChange: () => void;
+	onChange: (title: string) => void;
 	loading: boolean;
 }
 
 export default function InputSettings({ currentValue, action, actionDesc, onChange, loading }: ISettingsProps) {
+	const [value, setValue] = useState<string>(currentValue);
+
+	const handleSubmit = () => {
+		onChange(value);
+	};
+
 	return (
 		<div className="flex gap-5 items-center px-1 py-1">
 			{currentValue}
@@ -22,17 +28,20 @@ export default function InputSettings({ currentValue, action, actionDesc, onChan
 				<DialogTrigger asChild>
 					<Button className="p-1.5 bg-neutral-300 dark:bg-neutral-700 rounded-lg font-medium px-4">Edit</Button>
 				</DialogTrigger>
+
 				<DialogContent className="sm:max-w-sm">
 					<DialogTitle>{action}</DialogTitle>
 					<DialogDescription className="dark:text-neutral-200 font-montserrat">{actionDesc}</DialogDescription>
 					<Field>
 						<Label>Title</Label>
-						<Input defaultValue={currentValue} />
+						<Input defaultValue={currentValue} onChange={(e) => setValue(e.target.value)} />
 					</Field>
 					{!loading ? (
-						<Button type="submit">Save</Button>
+						<Button type="submit" onClick={handleSubmit} disabled={currentValue === value ? true : false}>
+							Save
+						</Button>
 					) : (
-						<Button type="submit" disabled>
+						<Button type="submit">
 							<Spinner />
 						</Button>
 					)}
