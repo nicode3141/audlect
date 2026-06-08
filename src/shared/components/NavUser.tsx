@@ -49,7 +49,7 @@ export function NavUser() {
 								data-[state=open]:text-sidebar-accent-foreground dark:data-[state=open]:text-neutral-200"
 						>
 							<Avatar className="h-8 w-8 rounded-lg grayscale">
-								<AvatarImage src={user?.image ?? "/placeholder"} alt={user?.name} />
+								<AvatarImage src={user?.image ?? "/ImagePlaceholder"} alt={user?.name} />
 								<AvatarFallback className="rounded-lg">CN</AvatarFallback>
 							</Avatar>
 							<div className="grid flex-1 text-left text-sm leading-tight">

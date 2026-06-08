@@ -12,7 +12,6 @@ import {
 	SelectValue,
 } from "~/shared/ui/select";
 import { Separator } from "~/shared/ui/separator";
-import { api } from "~/trpc/react";
 import { toast } from "sonner";
 
 export default function ComboSettings() {
@@ -25,7 +24,7 @@ export default function ComboSettings() {
 	const [maxVotesDel, setMaxVotesDel] = useState<number>(0);
 
 	useEffect(() => {
-		setSongsPerUser(3);
+		setSongsPerUser(settings?.max_votes_user ?? 0);
 		setLikesPerUser(settings?.max_votes_user ?? 0);
 		setMaxVotesDel(settings?.max_votes_del ?? 0);
 	}, [settings?.max_songs_user, settings?.max_votes_user, settings?.max_votes_del]);
