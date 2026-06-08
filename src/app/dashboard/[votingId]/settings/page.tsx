@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdditionalSettings from "~/features/dashboard/components/settings/AdditionalSettings";
 import ComboSettings from "~/features/dashboard/components/settings/SelectSettings";
 import DateSettings from "~/features/dashboard/components/settings/DateSettings";
@@ -9,6 +9,8 @@ import { Card, CardContent } from "~/shared/ui/card";
 import { Checkbox } from "~/shared/ui/checkbox";
 import { Separator } from "~/shared/ui/separator";
 import PrivacySettings from "~/features/dashboard/components/settings/PrivacySettings";
+import { useParams } from "next/navigation";
+import { useSettings, useUpdateSettings } from "~/features/dashboard/hooks/useDashboard";
 
 export default function Page() {
 	return (
