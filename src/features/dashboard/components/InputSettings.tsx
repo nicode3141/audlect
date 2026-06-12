@@ -1,4 +1,4 @@
-import React, { useState, type FormEvent } from "react";
+import React, { useState } from "react";
 import { Button } from "~/shared/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "~/shared/ui/dialog";
 import { Field } from "~/shared/ui/field";
@@ -26,15 +26,24 @@ export default function InputSettings({ currentValue, action, actionDesc, onChan
 			{currentValue}
 			<Dialog>
 				<DialogTrigger asChild>
-					<Button className="p-1.5 bg-neutral-300 dark:bg-neutral-700 rounded-lg font-medium px-4">Edit</Button>
+					<Button className="p-1.5 bg-neutral-300 dark:bg-neutral-700 rounded-lg font-medium px-4">
+						{currentValue === "" ? "Add" : "Edit"}
+					</Button>
 				</DialogTrigger>
-
 				<DialogContent className="sm:max-w-sm">
 					<DialogTitle>{action}</DialogTitle>
 					<DialogDescription className="dark:text-neutral-200 font-montserrat">{actionDesc}</DialogDescription>
 					<Field>
 						<Label>Title</Label>
-						<Input defaultValue={currentValue} onChange={(e) => setValue(e.target.value)} />
+						<Input
+							defaultValue={currentValue}
+							onChange={(e) => setValue(e.target.value)}
+							onKeyDown={(e) => {
+								if (e.key === "Enter" && currentValue !== value) {
+									handleSubmit();
+								}
+							}}
+						/>
 					</Field>
 					{!loading ? (
 						<Button type="submit" onClick={handleSubmit} disabled={currentValue === value ? true : false}>
