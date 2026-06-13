@@ -1,7 +1,10 @@
 "use client";
 
+import { error } from "node:console";
 import { toast } from "sonner";
-import { api } from "~/trpc/react";
+import { api, type RouterOutputs } from "~/trpc/react";
+
+export type SettingsData = RouterOutputs["dashboard"]["getSettings"] | undefined;
 
 export function useSettings(shortId: string) {
 	return api.dashboard.getSettings.useQuery({ short_id: shortId });
@@ -9,8 +12,8 @@ export function useSettings(shortId: string) {
 
 export function useUpdateSettings() {
 	return api.dashboard.updateSettings.useMutation({
-		onError: () => {
-			toast.error("Something went wrong.");
+		onError: (error) => {
+			toast.error("Something went wrong: " + error.message);
 		},
 	});
 }

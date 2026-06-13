@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
 import InputSettings from "../InputSettings";
-import { useParams } from "next/navigation";
-import { useSettings, useUpdateSettings } from "~/features/dashboard/hooks/useDashboard";
+import { useUpdateSettings } from "~/features/dashboard/hooks/useDashboard";
+import type { SettingsData } from "~/features/dashboard/hooks/useDashboard";
 import { toast } from "sonner";
 
-export default function TitleSettings() {
-	const { votingId } = useParams<{ votingId: string }>();
-	const { data: settings } = useSettings(votingId);
+interface TitleSettingsProps {
+	settings: SettingsData;
+}
+
+export default function TitleSettings({ settings }: TitleSettingsProps) {
 	const setting = useUpdateSettings();
 
-	const [votingTitle, setVotingTitle] = useState<string>("Loading");
-	const [votingDesc, setVotingDesc] = useState<string>("Loading");
+	const [votingTitle, setVotingTitle] = useState<string>("Couldn't get Title");
+	const [votingDesc, setVotingDesc] = useState<string>("Couldn't get Description");
 
 	useEffect(() => {
-		setVotingTitle(settings?.name ?? "Couldn't get Title");
-		setVotingDesc(settings?.description ?? "Couldn't get Description");
-	}, [settings?.description, settings?.name]);
+		if (!settings) return;
+		setVotingTitle(settings.name);
+		setVotingDesc(settings.description);
+	}, [settings]);
 
 	function updateTitle(title: string) {
 		if (settings?.voting_id === undefined) {
@@ -26,7 +29,7 @@ export default function TitleSettings() {
 			toast.error("Invalid title");
 			return;
 		}
-		setting.mutate({ voting_id: settings?.voting_id, name: title });
+		setting.mutate({ voting_id: settings.voting_id, name: title });
 		setVotingTitle(title);
 	}
 
@@ -39,7 +42,7 @@ export default function TitleSettings() {
 			toast.error("Invalid description");
 			return;
 		}
-		setting.mutate({ voting_id: settings?.voting_id, description: desc });
+		setting.mutate({ voting_id: settings.voting_id, description: desc });
 		setVotingDesc(desc);
 	}
 
@@ -52,7 +55,7 @@ export default function TitleSettings() {
 					action={"Change Title"}
 					actionDesc={"Customize the name of your voting!"}
 					onChange={updateTitle}
-					loading={false}
+					loading={setting.isPending}
 				/>
 			</div>
 			<div className="dark:text-white">
@@ -62,7 +65,7 @@ export default function TitleSettings() {
 					action={"Change Description"}
 					actionDesc={"Customize the description of your voting!"}
 					onChange={updateDesc}
-					loading={false}
+					loading={setting.isPending}
 				/>
 			</div>
 		</>

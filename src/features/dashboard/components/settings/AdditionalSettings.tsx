@@ -1,13 +1,15 @@
 import { HelpCircle } from "lucide-react";
-import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Checkbox } from "~/shared/ui/checkbox";
-import { useSettings, useUpdateSettings } from "~/features/dashboard/hooks/useDashboard";
+import { useUpdateSettings } from "~/features/dashboard/hooks/useDashboard";
+import type { SettingsData } from "~/features/dashboard/hooks/useDashboard";
 import { toast } from "sonner";
 
-export default function AdditionalSettings() {
-	const { votingId } = useParams<{ votingId: string }>();
-	const { data: settings } = useSettings(votingId);
+interface AdditionalSettingsProps {
+	settings: SettingsData;
+}
+
+export default function AdditionalSettings({ settings }: AdditionalSettingsProps) {
 	const setting = useUpdateSettings();
 
 	const [hasSongApproval, setHasSongApproval] = useState<boolean>(false);
@@ -23,7 +25,7 @@ export default function AdditionalSettings() {
 			toast.error("Please slow down.");
 			return;
 		}
-		setting.mutate({ voting_id: settings?.voting_id, song_approval: state });
+		setting.mutate({ voting_id: settings.voting_id, song_approval: state });
 		setHasSongApproval(state);
 	}
 
@@ -33,7 +35,7 @@ export default function AdditionalSettings() {
 			return;
 		}
 		console.log(state);
-		setting.mutate({ voting_id: settings?.voting_id, filter_inappropriate: state });
+		setting.mutate({ voting_id: settings.voting_id, filter_inappropriate: state });
 		setHasFilter(state);
 	}
 
