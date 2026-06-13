@@ -16,7 +16,7 @@ export default function TimePicker({ date, setDate }: TimePickerProps) {
 	const [open, setOpen] = useState(false);
 
 	return (
-		<FieldGroup className="mx-auto max-w-xs flex-row">
+		<FieldGroup className="mx-auto max-w-xs flex-row sm:mx-10">
 			<Field>
 				<FieldLabel htmlFor="date-picker-optional">Date</FieldLabel>
 				<Popover open={open} onOpenChange={setOpen}>
