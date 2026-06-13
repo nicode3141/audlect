@@ -8,13 +8,22 @@ import React from "react";
 import { AccountsCard } from "~/features/auth/components/auth/settings/account/accounts-card";
 import { NavUser } from "~/shared/components/NavUser";
 import { Separator } from "~/shared/ui/separator";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu } from "~/shared/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, useSidebar } from "~/shared/ui/sidebar";
 import { cn } from "~/shared/utils/utils";
 
 export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const pathname = usePathname();
 	const params = useParams();
 	const votingId = params.votingId as string;
+	const { setOpen, setOpenMobile, isMobile } = useSidebar();
+
+	const handleNavClick = React.useCallback(() => {
+		if (isMobile) {
+			setOpenMobile(false);
+		} else {
+			setOpen(false);
+		}
+	}, [isMobile, setOpen, setOpenMobile]);
 
 	const links1 = [
 		{ href: `/dashboard/${votingId}`, label: "Dashboard", icon: Home },
@@ -48,6 +57,7 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
 								key={href}
 								className={cn("flex items-center flex-row gap-3 font-semibold", active && "underline")}
 								href={href}
+								onClick={handleNavClick}
 							>
 								<Icon /> {label}
 							</Link>
@@ -65,6 +75,7 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
 								key={href}
 								className={cn("flex items-center flex-row gap-3 font-semibold", active && "underline")}
 								href={href}
+								onClick={handleNavClick}
 							>
 								<Icon /> {label}
 							</Link>
