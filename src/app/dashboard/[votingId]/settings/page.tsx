@@ -10,13 +10,11 @@ import { Separator } from "~/shared/ui/separator";
 import PrivacySettings from "~/features/dashboard/components/settings/PrivacySettings";
 import { useParams } from "next/navigation";
 import { useSettings } from "~/features/dashboard/hooks/useDashboard";
-import SettingsSkeleton from "~/features/dashboard/components/settings/SettingsSkeleton";
 
 export default function Page() {
 	const { votingId } = useParams<{ votingId: string }>();
-	const { data: settings, isLoading } = useSettings(votingId);
+	const { data: settings } = useSettings(votingId);
 
-	if (isLoading) return <SettingsSkeleton />;
 	if (!settings) return null;
 
 	return (
