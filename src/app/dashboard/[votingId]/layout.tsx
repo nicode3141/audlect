@@ -7,7 +7,6 @@ import SiteHeader from "~/features/dashboard/components/SiteHeader";
 import { useAuthenticate } from "~/features/auth/hooks/auth/useAuthenticate";
 import { useParams } from "next/navigation";
 import { useSettings } from "~/features/dashboard/hooks/useDashboard";
-import { Skeleton } from "~/shared/ui/skeleton";
 import LoadingSpinner from "~/features/voting/components/LoadingSpinner";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
