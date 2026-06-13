@@ -1,26 +1,29 @@
-import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Checkbox } from "~/shared/ui/checkbox";
-import { useSettings, useUpdateSettings } from "../../hooks/useDashboard";
+import { useUpdateSettings } from "../../hooks/useDashboard";
+import type { SettingsData } from "~/features/dashboard/hooks/useDashboard";
 import { toast } from "sonner";
 
-export default function PrivacySettings() {
-	const { votingId } = useParams<{ votingId: string }>();
-	const { data: settings } = useSettings(votingId);
+interface PrivacySettingsProps {
+	settings: SettingsData;
+}
+
+export default function PrivacySettings({ settings }: PrivacySettingsProps) {
 	const setting = useUpdateSettings();
 
 	const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
 	useEffect(() => {
-		setIsPrivate(!settings?.public);
-	}, [settings?.public]);
+		if (!settings) return;
+		setIsPrivate(!settings.public);
+	}, [settings]);
 
 	function changeIsPrivate(state: boolean) {
 		if (settings?.voting_id === undefined) {
 			toast.error("Please slow down.");
 			return;
 		}
-		setting.mutate({ voting_id: settings?.voting_id, public: !state });
+		setting.mutate({ voting_id: settings.voting_id, public: !state });
 		setIsPrivate(state);
 	}
 	return (

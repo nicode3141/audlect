@@ -17,7 +17,8 @@ interface ISettingsProps {
 export default function InputSettings({ currentValue, action, actionDesc, onChange, loading }: ISettingsProps) {
 	const [value, setValue] = useState<string>(currentValue);
 
-	const handleSubmit = () => {
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
 		onChange(value);
 	};
 
@@ -33,27 +34,21 @@ export default function InputSettings({ currentValue, action, actionDesc, onChan
 				<DialogContent className="sm:max-w-sm">
 					<DialogTitle>{action}</DialogTitle>
 					<DialogDescription className="dark:text-neutral-200 font-montserrat">{actionDesc}</DialogDescription>
-					<Field>
-						<Label>Title</Label>
-						<Input
-							defaultValue={currentValue}
-							onChange={(e) => setValue(e.target.value)}
-							onKeyDown={(e) => {
-								if (e.key === "Enter" && currentValue !== value) {
-									handleSubmit();
-								}
-							}}
-						/>
-					</Field>
-					{!loading ? (
-						<Button type="submit" onClick={handleSubmit} disabled={currentValue === value ? true : false}>
-							Save
-						</Button>
-					) : (
-						<Button type="submit">
-							<Spinner />
-						</Button>
-					)}
+					<form onSubmit={handleSubmit}>
+						<Field>
+							<Label>Title</Label>
+							<Input defaultValue={currentValue} onChange={(e) => setValue(e.target.value)} />
+						</Field>
+						{!loading ? (
+							<Button type="submit" disabled={currentValue === value ? true : false}>
+								Save
+							</Button>
+						) : (
+							<Button type="submit">
+								<Spinner />
+							</Button>
+						)}
+					</form>
 				</DialogContent>
 			</Dialog>
 		</div>
