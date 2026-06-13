@@ -6,6 +6,11 @@ import { useParams } from "next/navigation";
 import React from "react";
 import CampaignProgress from "~/features/dashboard/components/CampaignProgress";
 import LinkCard from "~/features/dashboard/components/LinkCard";
+import AdditionalSettings from "~/features/dashboard/components/settings/AdditionalSettings";
+import DateSettings from "~/features/dashboard/components/settings/DateSettings";
+import PrivacySettings from "~/features/dashboard/components/settings/PrivacySettings";
+import ComboSettings from "~/features/dashboard/components/settings/SelectSettings";
+import TitleSettings from "~/features/dashboard/components/settings/TitleSettings";
 import StatsCard from "~/features/dashboard/components/StatsCard";
 import { useAnalytics, useSettings } from "~/features/dashboard/hooks/useDashboard";
 import { Badge } from "~/shared/ui/badge";
@@ -69,6 +74,20 @@ export default function Page() {
 								<StatsCard label="Total Votes" value={stats?.totalLikes ?? 0} icon={<ChartNoAxesColumnIncreasing />} />
 								<StatsCard label="Participants" value={stats?.participants ?? 0} icon={<Globe />} />
 							</div>
+							<Separator />
+							<div className="px-6 py-4 pb-10">
+								<span className="font-montserrat font-semibold text-xl">Settings</span>
+								<div className="font-montserrat text-sm">Customize your own voting to fit your needs.</div>
+							</div>
+
+							<TitleSettings settings={settings} />
+							<PrivacySettings settings={settings} />
+							<Separator decorative />
+							<DateSettings settings={settings} />
+							<Separator decorative />
+							<ComboSettings settings={settings} />
+							<Separator decorative />
+							<AdditionalSettings settings={settings} />
 						</CardContent>
 					</CardHeader>
 				</div>
