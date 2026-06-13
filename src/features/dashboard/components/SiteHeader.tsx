@@ -22,9 +22,6 @@ export default function SiteHeader() {
 					<Badge className="bg-success/15 text-success hover:bg-success/20 border-0">active</Badge>
 				</div>
 			</div>
-			<Link href={"/dashboard/settings"}>
-				<Cog />
-			</Link>
 		</header>
 	);
 }
