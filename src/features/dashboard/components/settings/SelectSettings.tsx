@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import { useParams } from "next/navigation";
-import { useSettings, useUpdateSettings } from "../../hooks/useDashboard";
+import { useUpdateSettings } from "../../hooks/useDashboard";
+import type { SettingsData } from "~/features/dashboard/hooks/useDashboard";
 import {
 	Select,
 	SelectContent,
@@ -14,9 +14,11 @@ import {
 import { Separator } from "~/shared/ui/separator";
 import { toast } from "sonner";
 
-export default function ComboSettings() {
-	const { votingId } = useParams<{ votingId: string }>();
-	const { data: settings } = useSettings(votingId);
+interface ComboSettingsProps {
+	settings: SettingsData;
+}
+
+export default function ComboSettings({ settings }: ComboSettingsProps) {
 	const setting = useUpdateSettings();
 
 	const [songsPerUser, setSongsPerUser] = useState<number>(0);
@@ -34,7 +36,7 @@ export default function ComboSettings() {
 			toast.error("Something went wrong");
 			return;
 		}
-		setting.mutate({ voting_id: settings?.voting_id, max_songs_user: limit });
+		setting.mutate({ voting_id: settings.voting_id, max_songs_user: limit });
 		setSongsPerUser(limit);
 	}
 
@@ -43,7 +45,7 @@ export default function ComboSettings() {
 			toast.error("Something went wrong");
 			return;
 		}
-		setting.mutate({ voting_id: settings?.voting_id, max_votes_user: limit });
+		setting.mutate({ voting_id: settings.voting_id, max_votes_user: limit });
 		setLikesPerUser(limit);
 	}
 
@@ -52,7 +54,7 @@ export default function ComboSettings() {
 			toast.error("Something went wrong");
 			return;
 		}
-		setting.mutate({ voting_id: settings?.voting_id, max_votes_del: limit });
+		setting.mutate({ voting_id: settings.voting_id, max_votes_del: limit });
 		setMaxVotesDel(limit);
 	}
 
