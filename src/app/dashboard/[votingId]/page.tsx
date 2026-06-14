@@ -24,7 +24,7 @@ export default function Page() {
 
 	return (
 		<div className="p-2.5">
-			<Card className="">
+			<Card className="dark:text-white">
 				<div className="flex flex-col p-2">
 					<CardHeader>
 						<CardTitle>
