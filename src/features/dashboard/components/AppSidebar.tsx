@@ -8,7 +8,15 @@ import React from "react";
 import { AccountsCard } from "~/features/auth/components/auth/settings/account/accounts-card";
 import { NavUser } from "~/shared/components/NavUser";
 import { Separator } from "~/shared/ui/separator";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, useSidebar } from "~/shared/ui/sidebar";
+import {
+	Sidebar,
+	SidebarContent,
+	SidebarFooter,
+	SidebarGroup,
+	SidebarHeader,
+	SidebarMenu,
+	useSidebar,
+} from "~/shared/ui/sidebar";
 import { cn } from "~/shared/utils/utils";
 
 export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -21,9 +29,8 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
 		if (isMobile) {
 			setOpenMobile(false);
 		} else {
-			setOpen(false);
 		}
-	}, [isMobile, setOpen, setOpenMobile]);
+	}, [isMobile, setOpenMobile]);
 
 	const links1 = [
 		{ href: `/dashboard/${votingId}`, label: "Dashboard", icon: Home },
@@ -59,7 +66,16 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
 								href={href}
 								onClick={handleNavClick}
 							>
-								<Icon /> {label}
+								<span className="hover:font-bold transition-all duration-100 contents">
+									<Icon />{" "}
+									<span
+										className="relative before:absolute before:bottom-0 before:left-0 before:h-0.5 before:w-full
+											before:rounded-full before:bg-current before:origin-left before:scale-x-0
+											before:transition-transform before:duration-300 hover:before:scale-x-100"
+									>
+										{label}
+									</span>
+								</span>
 							</Link>
 						);
 					})}
@@ -73,11 +89,20 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
 						return (
 							<Link
 								key={href}
-								className={cn("flex items-center flex-row gap-3 font-semibold", active && "underline")}
+								className={cn("flex items-center flex-row gap-3 font-semibold ", active && "underline")}
 								href={href}
 								onClick={handleNavClick}
 							>
-								<Icon /> {label}
+								<span className="hover:font-bold transition-all duration-100 contents">
+									<Icon />{" "}
+									<span
+										className="relative before:absolute before:bottom-0 before:left-0 before:h-0.5 before:w-full
+											before:rounded-full before:bg-current before:origin-left before:scale-x-0
+											before:transition-transform before:duration-300 hover:before:scale-x-100"
+									>
+										{label}
+									</span>
+								</span>
 							</Link>
 						);
 					})}
