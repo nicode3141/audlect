@@ -26,9 +26,10 @@ export default function QRCodeCard({ settings }: QRCodeProps) {
 		container.innerHTML = "";
 
 		const qr = new QRCodeStyling({
-			width: 200,
-			height: 200,
+			width: 600,
+			height: 600,
 			data: url,
+			type: "svg",
 			dotsOptions: {
 				color: "#000000",
 				type: "rounded",
@@ -43,7 +44,7 @@ export default function QRCodeCard({ settings }: QRCodeProps) {
 	}, [url]);
 
 	const handleDownload = async () => {
-		await qrRef.current?.download({ name: "qr-code", extension: "png" });
+		await qrRef.current?.download({ name: "audlect-code", extension: "png" });
 	};
 
 	return (
@@ -54,9 +55,9 @@ export default function QRCodeCard({ settings }: QRCodeProps) {
 			<div className="flex flex-col items-center justify-center gap-5 pt-5">
 				<div
 					className="relative flex size-50 items-center justify-center rounded-lg border-2 border-neutral-300 p-1
-						shadow-xs"
+						dark:bg-white shadow-xs"
 				>
-					<div ref={ref} className="flex items-center justify-center size-full" />
+					<div ref={ref} className="flex items-center justify-center size-full [&_svg]:max-w-full [&_svg]:max-h-full" />
 					{!isReady && (
 						<div className="absolute inset-0 flex items-center justify-center bg-white/80">
 							<Loader2 className="size-8 animate-spin text-neutral-400" />
