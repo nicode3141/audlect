@@ -3,7 +3,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { votingsTable, voting_membershipsTable, songsTable, likesTable } from "~/server/db/schema";
+import { votingsTable, voting_membershipsTable, songsTable, likesTable, user } from "~/server/db/schema";
 import type { db } from "~/server/db";
 
 type Database = typeof db;
@@ -136,4 +136,49 @@ export const dashboardRouter = createTRPCRouter({
 			});
 		}
 	}),
+
+	getParticipants: protectedProcedure
+		.input(z.object({ short_id: z.string().max(16) }))
+		.query(async ({ ctx, input }) => {
+			try {
+				const voting_id = await resolveVotingId(ctx.db, input.short_id);
+				if (!voting_id) {
+					throw new TRPCError({ code: "NOT_FOUND", message: "Voting not found" });
+				}
+
+				const membership = await ctx.db
+					.select()
+					.from(voting_membershipsTable)
+					.where(
+						and(
+							eq(voting_membershipsTable.voting_id, voting_id),
+							eq(voting_membershipsTable.user_id, ctx.auth.session.userId),
+						),
+					)
+					.limit(1);
+
+				if (!membership[0] || membership[0].role === "participant") {
+					throw new TRPCError({ code: "FORBIDDEN", message: "Only owners and moderators can update settings" });
+				}
+
+				const participants = await ctx.db
+					.selectDistinctOn([likesTable.user_id], {
+						user_id: user.id,
+						name: user.name,
+						image: user.image,
+						role: user.role,
+					})
+					.from(likesTable)
+					.innerJoin(user, eq(likesTable.user_id, user.id))
+					.where(eq(likesTable.voting_id, voting_id))
+					.limit(100);
+
+				return participants;
+			} catch (err: unknown) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: err instanceof Error ? err.message : "Failed to fetch analytics",
+				});
+			}
+		}),
 });
