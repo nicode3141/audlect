@@ -21,3 +21,7 @@ export function useUpdateSettings() {
 export function useAnalytics(shortId: string) {
 	return api.dashboard.getAnalytics.useQuery({ short_id: shortId });
 }
+
+export function useParticipants(shortId: string) {
+	return api.dashboard.getParticipants.useQuery({ short_id: shortId });
+}
