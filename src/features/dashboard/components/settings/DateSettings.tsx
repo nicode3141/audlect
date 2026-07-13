@@ -16,9 +16,9 @@ export default function DateSettings({ settings }: DateSettingsProps) {
 	}, [settings?.starts_at, settings?.ends_at]);
 
 	return (
-		<>
+		<div className="flex flex-col gap-3">
 			<OptionalTime date={startTime} setDate={setStartTime} title={"Start Time"} />
 			<OptionalTime date={endTime} setDate={setEndTime} title={"End Time"} className="pb-5" />
-		</>
+		</div>
 	);
 }
