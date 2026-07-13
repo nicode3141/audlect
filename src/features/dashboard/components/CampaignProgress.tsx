@@ -26,9 +26,9 @@ export default function CampaignProgress({
 		: null;
 
 	return (
-		<div className="flex flex-col gap-3">
+		<div className="flex flex-col gap-3 md:p-6 md:bg-neutral-50 md:rounded-2xl">
 			<div className="font-inter flex text-sm">
-				<div className="flex flex-1 gap-2 text-neutral-300 items-center">
+				<div className="flex flex-1 gap-2 dark:text-neutral-300 items-center md:text-lg md:font-medium">
 					<Calendar1 size={17} />
 					Voting Timeline
 				</div>
@@ -41,8 +41,9 @@ export default function CampaignProgress({
 				</div>
 			</div>
 			<Progress value={Math.min(progress, 100)} />
-			<div className="font-inter flex text-xs">
-				<div className="flex flex-1 gap-2 text-neutral-300 items-center">
+			<div className="font-inter flex text-xs md:text-base">
+				<div className="flex flex-1 gap-2 dark:text-neutral-300 items-center">
+					<div className="hidden md:block font-medium text-neutral-600">started:</div>
 					{start?.toLocaleDateString("en-US", {
 						month: "long",
 						day: "numeric",

@@ -5,12 +5,12 @@ import { Button } from "~/shared/ui/button";
 
 export default function LinkCard({ shortId }: { shortId: string }) {
 	return (
-		<div className="flex flex-col gap-3 py-2">
+		<div className="flex flex-col gap-3 py-2 md:flex-row md:items-center md:gap-5">
 			<div className="flex gap-5 items-center">
 				<Globe />
 				<div className="flex flex-col">
-					<div className="text-xs text-neutral-200 font-inter">Public Link</div>
-					<div className="flex-wrap text-sm font-mono text-neutral-300 break-all">
+					<div className="text-xs md:text-md text-neutral-600 dark:text-neutral-200 font-inter">Public Link</div>
+					<div className="flex-wrap text-sm md:text-base font-mono text-neutral-900 dark:text-neutral-300 break-all">
 						{`https://audlect.nicodenetworks.com/voting/${shortId}`}
 					</div>
 				</div>

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function StatsCard({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) {
 	return (
-		<div className="border flex p-4 rounded-2xl items-center gap-5 border-neutral-300 px-5 shadow-sm shadow-neutral-600">
+		<div className="border flex p-4 rounded-2xl items-center gap-5 border-neutral-300 px-5 shadow-sm shadow-neutral-60">
 			<div className="p-2 bg-company rounded-lg">{icon}</div>
 			<div className="flex flex-col">
 				<div className="text-3xl font-semibold">{value.toLocaleString()}</div>
