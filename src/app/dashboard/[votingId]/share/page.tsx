@@ -15,7 +15,6 @@ import { Separator } from "~/shared/ui/separator";
 export default function Page() {
 	const { votingId } = useParams<{ votingId: string }>();
 	const { data: settings } = useSettings(votingId);
-	const { data: stats } = useAnalytics(votingId);
 
 	if (!settings) return null;
 
@@ -25,12 +24,12 @@ export default function Page() {
 				<span className="font-montserrat font-semibold text-xl">Share</span>
 				<div className="font-montserrat text-sm">Invite your friends to the next party.</div>
 			</div>
-			<Card>
+			<Card className="md:w-[75%] md:mx-auto md:p-4">
 				<div className="flex flex-col p-2 dark:text-white">
-					<CardHeader>
+					<CardHeader className="gap-0">
 						<CardTitle>
 							<div className="flex gap-2">
-								<div className="font-montserrat text-xl">{settings?.name ?? "Loading..."}</div>
+								<div className="font-montserrat text-xl md:text-2xl">{settings?.name ?? "Loading..."}</div>
 								{settings?.active ? (
 									<Badge className="bg-success/15 text-success hover:bg-success/20 border-0 font-montserrat">
 										active
@@ -43,10 +42,10 @@ export default function Page() {
 							</div>
 						</CardTitle>
 						<CardDescription>
-							<span className="font-montserrat">{settings?.description}</span>
+							<span className="font-montserrat md:text-lg">{settings?.description}</span>
 						</CardDescription>
 					</CardHeader>
-					<CardContent className="flex flex-col gap-5">
+					<CardContent className="flex flex-col gap-5 pt-2">
 						<LinkCard shortId={votingId} />
 						<Separator />
 						<QRCodeCard settings={settings} />
