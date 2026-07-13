@@ -24,14 +24,17 @@ export default function Page() {
 
 	return (
 		<div className="p-2.5">
-			<Card className="dark:text-white">
-				<div className="flex flex-col p-2">
+			<Card className="dark:text-white md:bg-none md:border-0 md:shadow-none">
+				<div className="flex flex-col p-2 md:p-5">
 					<CardHeader>
 						<CardTitle>
 							<div className="flex gap-2">
-								<div className="font-montserrat text-xl">{settings?.name ?? "Loading..."}</div>
+								<div className="font-montserrat text-xl md:text-4xl">{settings?.name ?? "Loading..."}</div>
 								{settings?.active ? (
-									<Badge className="bg-success/15 text-success hover:bg-success/20 border-0 font-montserrat">
+									<Badge
+										className="bg-success/15 text-success hover:bg-success/20 border-0 font-montserrat md:px-4
+											md:rounded-4xl md:py-2"
+									>
 										active
 									</Badge>
 								) : (
@@ -42,10 +45,10 @@ export default function Page() {
 							</div>
 						</CardTitle>
 						<CardDescription>
-							<span className="font-montserrat">{settings?.description}</span>
+							<span className="font-montserrat md:text-xl">{settings?.description}</span>
 						</CardDescription>
 					</CardHeader>
-					<CardContent className="flex flex-col gap-5">
+					<CardContent className="flex flex-col gap-5 md:pt-3">
 						<div className="flex font-inter text-sm gap-2.5">
 							<Link
 								href={`/dashboard/${votingId}/settings`}
@@ -63,19 +66,19 @@ export default function Page() {
 							</Link>
 						</div>
 						<LinkCard shortId={votingId} />
-						<Separator />
+						<Separator className="md:hidden" />
 						<CampaignProgress
 							startsAt={settings?.starts_at}
 							endsAt={settings?.ends_at}
 							createdAt={settings?.created_at}
 						/>
-						<Separator />
-						<div className="flex flex-col pt-10 gap-5">
+						<Separator className="md:hidden" />
+						<div className="flex flex-col pt-10 gap-5 md:flex-row md:w-fit">
 							<StatsCard label="Songs" value={stats?.totalSongs ?? 0} icon={<VoteIcon />} />
 							<StatsCard label="Total Votes" value={stats?.totalLikes ?? 0} icon={<ChartNoAxesColumnIncreasing />} />
 							<StatsCard label="Participants" value={stats?.participants ?? 0} icon={<Globe />} />
 						</div>
-						<Separator />
+						<Separator className="md:hidden" />
 						<div className="px-6 py-4 pb-10">
 							<span className="font-montserrat font-semibold text-xl">Settings</span>
 							<div className="font-montserrat text-sm">Customize your own voting to fit your needs.</div>
