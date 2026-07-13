@@ -24,7 +24,7 @@ export default function Page() {
 
 	return (
 		<div className="p-2.5">
-			<Card className="dark:text-white md:bg-none md:border-0 md:shadow-none">
+			<Card className="dark:text-white md:bg-none md:border-0 md:shadow-none md:max-w-300">
 				<div className="flex flex-col p-2 md:p-5">
 					<CardHeader>
 						<CardTitle>
@@ -45,7 +45,7 @@ export default function Page() {
 							</div>
 						</CardTitle>
 						<CardDescription>
-							<span className="font-montserrat md:text-xl">{settings?.description}</span>
+							<span className="font-montserrat md:text-xl md:font-medium">{settings?.description}</span>
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="flex flex-col gap-5 md:pt-3">
@@ -79,18 +79,19 @@ export default function Page() {
 							<StatsCard label="Participants" value={stats?.participants ?? 0} icon={<Globe />} />
 						</div>
 						<Separator className="md:hidden" />
-						<div className="px-6 py-4 pb-10">
-							<span className="font-montserrat font-semibold text-xl">Settings</span>
-							<div className="font-montserrat text-sm">Customize your own voting to fit your needs.</div>
+						<div className="px-6 py-4 pb-10 md:px-0">
+							<span className="font-montserrat font-semibold text-xl md:text-3xl">Settings</span>
+							<div className="font-montserrat text-sm md:text-lg md:font-medium">
+								Customize your own voting to fit your needs.
+							</div>
 						</div>
-
 						<TitleSettings settings={settings} />
 						<PrivacySettings settings={settings} />
-						<Separator decorative />
+						<Separator decorative className="md:hidden" />
 						<DateSettings settings={settings} />
-						<Separator decorative />
+						<Separator decorative className="md:hidden" />
 						<ComboSettings settings={settings} />
-						<Separator decorative />
+						<Separator decorative className="md:hidden" />
 						<AdditionalSettings settings={settings} />
 					</CardContent>
 				</div>
