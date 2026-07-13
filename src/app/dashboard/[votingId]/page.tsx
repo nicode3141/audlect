@@ -48,18 +48,20 @@ export default function Page() {
 							<span className="font-montserrat md:text-xl md:font-medium">{settings?.description}</span>
 						</CardDescription>
 					</CardHeader>
-					<CardContent className="flex flex-col gap-5 md:pt-3">
+					<CardContent className="flex flex-col gap-5 pt-3">
 						<div className="flex font-inter text-sm gap-2.5">
 							<Link
 								href={`/dashboard/${votingId}/settings`}
-								className="px-2 py-1 border rounded-lg flex gap-2 items-center"
+								className="px-2 py-1 border rounded-lg flex gap-2 items-center transition-colors duration-200
+									hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black md:py-2 md:px-3"
 							>
 								<Cog size={20} />
 								Settings
 							</Link>
 							<Link
 								href={`/voting/${votingId}`}
-								className="px-2 rounded-lg flex gap-2 items-center truncate bg-company"
+								className="px-2 rounded-lg flex gap-2 items-center truncate bg-company transition-colors duration-200
+									hover:bg-black hover:text-white"
 							>
 								<ExternalLink size={20} />
 								Open Live
