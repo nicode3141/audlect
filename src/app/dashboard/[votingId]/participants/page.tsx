@@ -20,7 +20,7 @@ export default function Page() {
 				<span className="font-montserrat font-semibold text-xl">Participants</span>
 				<div className="font-montserrat text-sm">Manage access to your voting.</div>
 			</div>
-			<div className="flex flex-col gap-5">
+			<div className="flex flex-col gap-5 md:px-10">
 				{users?.length === 0 && <div>No Users</div>}
 				{users?.map((user, i) => (
 					<div className="flex items-center" key={i}>
@@ -39,7 +39,7 @@ export default function Page() {
 								/>
 							) : (
 								<div
-									className="h-12 w-12 rounded-xl bg-neutral-400 dark:bg-neutral-500 flex items-center justify-center"
+									className="h-12 w-12 rounded-xl bg-neutral-200 dark:bg-neutral-500 flex items-center justify-center"
 								>
 									<User className="dark:text-black" size={28} />
 								</div>
