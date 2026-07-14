@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useAudio } from "../context/AudioContext";
+import PlayIcon from "~/shared/icons/PlayIcon";
 
 function formatTime(seconds: number): string {
 	const m = Math.floor(seconds / 60);
@@ -103,26 +104,35 @@ export default function AudioProgressBar() {
 	const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
 	return (
-		<div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center">
+		<div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center md:bottom-5">
 			<div
-				className="w-screen border-t border-neutral-200 bg-white/95 p-2 backdrop-blur dark:border-neutral-700
-					dark:bg-[#1a1a1a]/95 pb-3"
+				className="w-screen border-t border-neutral-200 bg-white/70 p-2 backdrop-blur dark:border-neutral-700/10
+					dark:bg-[#1a1a1a]/60 pb-3 px-2 md:w-180 md:rounded-3xl md:shadow md:border-0 md:p-3 md:pb-0"
 			>
 				<div className="mx-auto flex max-w-3xl items-center gap-3">
-					<Image
-						src={currentSong.cover ?? "/ImagePlaceholder.png"}
-						alt={currentSong.title}
-						width={48}
-						height={48}
-						className="h-12 w-12 rounded-lg"
-						onError={(e) => (e.currentTarget.src = "/ImagePlaceholder.png")}
-						unoptimized
-					/>
+					<div className="flex shrink-0 items-center justify-center">
+						<button
+							className="absolute z-10 flex cursor-pointer items-center justify-center"
+							onClick={togglePlayback}
+							aria-label="play-button"
+						>
+							<PlayIcon type={isPlaying ? "pause" : "play"} className="h-10 w-10 opacity-70" />
+						</button>
+						<Image
+							src={currentSong.cover ?? "/ImagePlaceholder.png"}
+							alt={currentSong.title}
+							width={48}
+							height={48}
+							className="h-14 w-14 rounded-lg"
+							onError={(e) => (e.currentTarget.src = "/ImagePlaceholder.png")}
+							unoptimized
+						/>
+					</div>
 
 					<div className="flex min-w-0 flex-1 flex-col gap-1">
 						<div className="flex min-w-0 items-center gap-2">
 							<div className="min-w-0 flex-1">
-								<div className="font-montserrat truncate text-sm font-semibold dark:text-white">
+								<div className="font-montserrat truncate text-md font-semibold dark:text-white">
 									{currentSong.title}
 								</div>
 								<div className="font-montserrat truncate text-xs text-gray-500 dark:text-gray-400">
@@ -130,74 +140,30 @@ export default function AudioProgressBar() {
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
+				<div className="flex items-center gap-2 p-2">
+					<span className="w-8 text-right text-[10px] tabular-nums text-gray-500 dark:text-gray-400">
+						{formatTime(currentTime)}
+					</span>
 
-						<div className="flex items-center gap-2">
-							<span className="w-8 text-right text-[10px] tabular-nums text-gray-500 dark:text-gray-400">
-								{formatTime(currentTime)}
-							</span>
-
-							<div
-								ref={progressRef}
-								className="group relative h-1.5 flex-1 cursor-pointer rounded-full bg-gray-200 dark:bg-neutral-700"
-								onPointerDown={handlePointerDown}
-							>
-								<div
-									className="absolute top-0 left-0 h-full rounded-full bg-[#758BFD] transition-[width] duration-75"
-									style={{ width: `${progress}%` }}
-								/>
-								<div
-									className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#758BFD]
-										opacity-0 transition-opacity group-hover:opacity-100"
-									style={{ left: `${progress}%` }}
-								/>
-							</div>
-
-							<span className="w-8 text-[10px] tabular-nums text-gray-500 dark:text-gray-400">
-								{formatTime(duration)}
-							</span>
-						</div>
+					<div
+						ref={progressRef}
+						className="group relative h-1.5 flex-1 cursor-pointer rounded-full bg-gray-200 dark:bg-neutral-700"
+						onPointerDown={handlePointerDown}
+					>
+						<div
+							className="absolute top-0 left-0 h-full rounded-full bg-[#758BFD] transition-[width] duration-75"
+							style={{ width: `${progress}%` }}
+						/>
+						<div
+							className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#758BFD] opacity-0
+								transition-opacity group-hover:opacity-100"
+							style={{ left: `${progress}%` }}
+						/>
 					</div>
 
-					<div className="flex items-center gap-1">
-						<button
-							onClick={togglePlayback}
-							className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-gray-100
-								dark:hover:bg-neutral-700"
-							aria-label={isPlaying ? "Pause" : "Play"}
-						>
-							{isPlaying ? (
-								<svg width="14" height="16" viewBox="0 0 14 16" fill="none">
-									<rect width="4" height="16" rx="1" fill="currentColor" className="text-gray-800 dark:text-white" />
-									<rect
-										x="10"
-										width="4"
-										height="16"
-										rx="1"
-										fill="currentColor"
-										className="text-gray-800 dark:text-white"
-									/>
-								</svg>
-							) : (
-								<svg width="14" height="16" viewBox="0 0 14 16" fill="none">
-									<path
-										d="M13 7.134a1 1 0 0 1 0 1.732l-11.5 6.64A1 1 0 0 1 0 14.64V1.36A1 1 0 0 1 1.5.494L13 7.134Z"
-										fill="currentColor"
-										className="text-gray-800 dark:text-white"
-									/>
-								</svg>
-							)}
-						</button>
-						<button
-							onClick={stop}
-							className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-gray-100
-								dark:hover:bg-neutral-700"
-							aria-label="Stop"
-						>
-							<svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-								<rect width="12" height="12" rx="2" fill="currentColor" className="text-gray-800 dark:text-white" />
-							</svg>
-						</button>
-					</div>
+					<span className="w-8 text-[10px] tabular-nums text-gray-500 dark:text-gray-400">{formatTime(duration)}</span>
 				</div>
 			</div>
 		</div>
