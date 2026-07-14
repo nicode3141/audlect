@@ -1,23 +1,24 @@
 import React from "react";
 import PlaylistItems from "../../voting/components/PlaylistItems";
+import type { AudioContent } from "~/features/voting/context/AudioContext";
 
 interface IMainContentProps {
 	voting_id: string;
-	setPreviewUrl: (url: string | null) => void;
 	playingSongId?: string | null;
-	setPlayingSongId?: (id: string | null) => void;
+	onPlaySong: (song: AudioContent) => void;
+	onStop: () => void;
 	offset: number;
 	limit: number;
 }
 
 export default function MainContent(props: IMainContentProps) {
-	const { voting_id, setPreviewUrl, playingSongId, setPlayingSongId, offset, limit } = props;
+	const { voting_id, playingSongId, onPlaySong, onStop, offset, limit } = props;
 	return (
 		<PlaylistItems
 			voting_id={voting_id}
-			setPreviewUrl={setPreviewUrl}
 			playingSongId={playingSongId}
-			setPlayingSongId={setPlayingSongId}
+			onPlaySong={onPlaySong}
+			onStop={onStop}
 			offset={offset}
 			limit={limit}
 		/>

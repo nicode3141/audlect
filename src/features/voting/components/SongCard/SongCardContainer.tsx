@@ -6,39 +6,31 @@ import { nop } from "~/shared/utils/utils";
 import SongInfo from "./SongInfo";
 import { usePopup } from "~/shared/hooks/usePopup";
 import { useLikeSong } from "~/features/voting/hooks/useLikeSong";
+import type { AudioContent } from "~/features/voting/context/AudioContext";
 
 interface ISongCardContainerProps {
 	metadata: TSongMetadata;
 	variant: "playlist" | "search";
-	setPreviewUrl: (url: string | null) => void;
 	playingSongId?: string | null;
-	setPlayingSongId?: (id: string | null) => void;
+	onPlaySong: (song: AudioContent) => void;
+	onStop: () => void;
 }
 
 // Custom comparison function to prevent re-renders when metadata object reference changes but content is the same
 function arePropsEqual(prevProps: ISongCardContainerProps, nextProps: ISongCardContainerProps): boolean {
 	// Compare primitive props
-	if (prevProps.variant !== nextProps.variant || prevProps.setPreviewUrl !== nextProps.setPreviewUrl) {
+	if (prevProps.variant !== nextProps.variant) {
 		return false;
 	}
 
 	// Only re-render when playingSongId change affects this component.
-	// If the playingSongId change does not match this song's id, we can skip re-render.
 	if (prevProps.playingSongId !== nextProps.playingSongId) {
 		const prevActiveForThis = prevProps.playingSongId === prevProps.metadata.song_id;
 		const nextActiveForThis = nextProps.playingSongId === nextProps.metadata.song_id;
-		if (!prevActiveForThis && !nextActiveForThis) {
-			// playingSongId changed but didn't affect this item
-			// continue with other comparisons
-		} else {
-			// This item was affected by playingSongId change -> re-render
+		if (prevActiveForThis || nextActiveForThis) {
 			return false;
 		}
 	}
-
-	// activePreview itself no longer forces a re-render for every item.
-	// We only consider playingSongId changes above to determine whether
-	// activePreview changes affect this particular item.
 
 	// Deep compare metadata object
 	const prev = prevProps.metadata;
@@ -58,9 +50,8 @@ function arePropsEqual(prevProps: ISongCardContainerProps, nextProps: ISongCardC
 }
 
 export default React.memo(function SongCardContainer(props: ISongCardContainerProps) {
-	const { metadata, variant, setPreviewUrl, playingSongId } = props;
+	const { metadata, variant, playingSongId, onPlaySong, onStop } = props;
 
-	const [fetchedPreviewUrl, setFetchedPreview] = useState<string | undefined>(undefined);
 	const [isLoadingPreview, setIsLoadingPreview] = useState<boolean>(false);
 	const [showSongInfo, setShowSongInfo, SongRef] = usePopup();
 	const { liked, likes, loadingLike, handleLike } = useLikeSong(metadata);
@@ -69,45 +60,40 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 
 	const mergedMetadata = React.useMemo(() => ({ ...metadata, likes_total: likes, liked }), [metadata, likes, liked]);
 
-	// Use refs to access latest values without recreating callbacks
 	const playingSongIdRef = useRef(playingSongId);
-	const fetchedPreviewUrlRef = useRef(fetchedPreviewUrl);
-	const setPreviewUrlRef = useRef(setPreviewUrl);
-	const setPlayingSongIdRef = useRef(props.setPlayingSongId);
-
-	// Keep refs in sync
 	playingSongIdRef.current = playingSongId;
-	fetchedPreviewUrlRef.current = fetchedPreviewUrl;
-	setPreviewUrlRef.current = setPreviewUrl;
-	setPlayingSongIdRef.current = props.setPlayingSongId;
 
-	// Extract refetch to avoid depending on the entire query object
-	// Use ref to store refetch to avoid dependency issues
 	const refetchPreviewRef = useRef(query.refetch);
 	refetchPreviewRef.current = query.refetch;
 
-	// Stable callback that uses refs to access latest values
+	const onPlaySongRef = useRef(onPlaySong);
+	onPlaySongRef.current = onPlaySong;
+
+	const onStopRef = useRef(onStop);
+	onStopRef.current = onStop;
+
 	const handlePlay = useCallback(async () => {
 		if (playingSongIdRef.current === metadata.song_id) {
-			// stop playback for this song
-			setPreviewUrlRef.current(null);
-			setPlayingSongIdRef.current?.(null);
+			onStopRef.current();
 			setIsLoadingPreview(false);
 		} else {
 			setIsLoadingPreview(true);
 			try {
 				const result = await refetchPreviewRef.current();
 				if (result.data?.preview) {
-					setPreviewUrlRef.current(result.data.preview);
-					setFetchedPreview(result.data.preview);
-					// mark this song as currently playing
-					setPlayingSongIdRef.current?.(metadata.song_id ?? null);
+					onPlaySongRef.current({
+						songId: metadata.song_id ?? metadata.deezer_id.toString(),
+						title: metadata.song_name,
+						artists: metadata.song_artists,
+						cover: metadata.cover_image,
+						previewUrl: result.data.preview,
+					});
 				}
 			} finally {
 				setIsLoadingPreview(false);
 			}
 		}
-	}, [metadata.song_id]);
+	}, [metadata.song_id, metadata.deezer_id, metadata.song_name, metadata.song_artists, metadata.cover_image]);
 
 	const handlePlayClick = useCallback(() => {
 		void handlePlay();

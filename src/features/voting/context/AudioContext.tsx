@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 export interface AudioContent {
 	songId: string;
@@ -12,8 +12,8 @@ export interface AudioContent {
 
 interface IAudioContext {
 	currentSong: AudioContent | null;
+	currentSongId: string | null;
 	isPlaying: boolean;
-	currentTime: number;
 	playSong: (song: AudioContent) => void;
 	togglePlayback: () => void;
 	pause: () => void;
@@ -35,7 +35,6 @@ export const AudioProvider = (props: IAudioProvider) => {
 
 	const [currentSong, setCurrentSong] = useState<AudioContent | null>(null);
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
-	const [currentTime, setCurrentTime] = useState<number>(0);
 
 	const playSong = useCallback((song: AudioContent) => {
 		setCurrentSong(song);
@@ -53,7 +52,6 @@ export const AudioProvider = (props: IAudioProvider) => {
 		}
 
 		setCurrentSong(null);
-		setCurrentTime(0);
 		setIsPlaying(false);
 	}, []);
 
@@ -73,7 +71,6 @@ export const AudioProvider = (props: IAudioProvider) => {
 		if (!audioRef.current) return;
 
 		audioRef.current.currentTime = time;
-		setCurrentTime(time);
 	}, []);
 
 	useEffect(() => {
@@ -86,27 +83,29 @@ export const AudioProvider = (props: IAudioProvider) => {
 		void audio.play();
 	}, [currentSong]);
 
+	const value = useMemo<IAudioContext>(
+		() => ({
+			currentSong,
+			currentSongId: currentSong?.songId ?? null,
+			isPlaying,
+			playSong,
+			togglePlayback,
+			pause,
+			stop,
+			seek,
+			audioRef,
+		}),
+		[currentSong, isPlaying, playSong, togglePlayback, pause, stop, seek],
+	);
+
 	return (
-		<AudioContext.Provider
-			value={{
-				currentSong,
-				isPlaying,
-				currentTime,
-				playSong,
-				togglePlayback,
-				pause,
-				stop,
-				seek,
-				audioRef,
-			}}
-		>
+		<AudioContext.Provider value={value}>
 			{children}
 			<audio
 				ref={audioRef}
 				onPlay={() => setIsPlaying(true)}
 				onPause={() => setIsPlaying(false)}
 				onEnded={stop}
-				onTimeUpdate={() => setCurrentTime(audioRef.current?.currentTime ?? 0)}
 				hidden
 			/>
 		</AudioContext.Provider>
