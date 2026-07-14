@@ -104,7 +104,7 @@ export default function AudioProgressBar() {
 	const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
 	return (
-		<div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center md:bottom-5">
+		<div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center md:bottom-5">
 			<div
 				className="w-screen border-t border-neutral-200 bg-white/70 p-2 backdrop-blur dark:border-neutral-700/10
 					dark:bg-[#1a1a1a]/60 pb-3 px-2 md:w-180 md:rounded-3xl md:shadow md:border-0 md:p-3 md:pb-0"
