@@ -30,7 +30,7 @@ export default function SortMethods({ className, currentSort, sortOptions, onCha
 	return (
 		<div className={`relative inline-block ${className}`}>
 			<button
-				className="flex cursor-pointer items-center gap-1 rounded-[0.5rem] bg-[#dfdfdf] p-2 dark:bg-[#272727]"
+				className="flex cursor-pointer items-center gap-1 rounded-xl bg-[#dfdfdf] p-2 dark:bg-[#272727]"
 				onClick={() => setDropdownActive((prev) => !prev)}
 			>
 				<SortIcon />
@@ -49,7 +49,7 @@ export default function SortMethods({ className, currentSort, sortOptions, onCha
 								collapsed: { opacity: 0, height: 0 },
 							}}
 							transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
-							className="absolute left-0 z-50 w-40 overflow-hidden rounded-lg bg-gray-100 shadow-lg"
+							className="absolute left-0 z-50 w-40 overflow-hidden rounded-lg bg-gray-100 dark:bg-[#272727] shadow-lg"
 						>
 							{sortOptions
 								.filter((sort) => sort !== currentSort)
