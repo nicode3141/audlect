@@ -73,7 +73,7 @@ export default function VotingLayout() {
 					}}
 					placeholder="Search by Song, Artist"
 				/>
-				<div className="flex w-[80vw] items-stretch gap-3 md:w-[70vw] lg:w-[40rem]">
+				<div className="flex w-[80vw] items-stretch gap-3 md:w-[70vw] lg:w-160">
 					<SortMethods
 						currentSort={sortMethod as SortMethodsType}
 						sortOptions={["A-Z", "Date Added", "Least Likes", "Likes", "Random"]}
@@ -119,16 +119,6 @@ export default function VotingLayout() {
 					</>
 				)}
 			</div>
-			<audio
-				key={previewUrl}
-				src={previewUrl ?? undefined}
-				autoPlay
-				hidden
-				onEnded={() => {
-					stableSetPreviewUrl(null);
-					stableSetPlayingSongId(null);
-				}}
-			/>
 			<NotLoggedIn />
 		</>
 	);
