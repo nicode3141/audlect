@@ -17,10 +17,10 @@ export default function Page() {
 	if (!settings) return null;
 
 	return (
-		<div className="px-4 pb-6 md:max-w-3xl md:mx-auto md:pt-20">
+		<div className="px-4 pb-6 lg:max-w-3xl md:mx-auto md:pt-20">
 			<div
 				className="md:border md:rounded-xl md:overflow-hidden md:divide-y md:dark:divide-neutral-400
-					md:border-neutral-300 md:shadow md:w-[40vw]"
+					md:border-neutral-300 md:shadow lg:w-[40vw]"
 			>
 				<div className="px-6 py-4 md:bg-neutral-50 md:dark:bg-neutral-800/20">
 					<span className="font-montserrat font-semibold text-xl md:text-2xl">Settings</span>
