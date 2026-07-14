@@ -9,12 +9,13 @@ import { useQueryParams } from "~/shared/hooks/useQueryParams";
 import ErrorBanner from "~/shared/components/ErrorBanner";
 import { Spinner } from "~/shared/ui/spinner";
 import type { SortMethodsType } from "~/types/global";
+import type { AudioContent } from "~/features/voting/context/AudioContext";
 
 interface IPlaylistItemProps {
 	voting_id: string;
-	setPreviewUrl: (url: string | null) => void;
 	playingSongId?: string | null;
-	setPlayingSongId?: (id: string | null) => void;
+	onPlaySong: (song: AudioContent) => void;
+	onStop: () => void;
 	offset: number;
 	limit: number;
 }
@@ -22,7 +23,7 @@ interface IPlaylistItemProps {
 export default function PlaylistItems(props: IPlaylistItemProps) {
 	const { votingId } = useVoting();
 	const { sortMethod } = useQueryParams();
-	const { setPreviewUrl, playingSongId, setPlayingSongId, offset, limit } = props;
+	const { playingSongId, onPlaySong, onStop, offset, limit } = props;
 	const {
 		data: paginatedSongs,
 		isLoading,
@@ -145,9 +146,9 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 						key={key}
 						metadata={metadata}
 						variant="playlist"
-						setPreviewUrl={setPreviewUrl}
 						playingSongId={playingSongId}
-						setPlayingSongId={setPlayingSongId}
+						onPlaySong={onPlaySong}
+						onStop={onStop}
 					/>
 				))}
 

@@ -8,19 +8,20 @@ import type { TRPCClientErrorLike } from "@trpc/client";
 import type { AppRouter } from "~/server/api/root";
 import SearchCardContainer from "./SongCard/SearchCardContainer";
 import { useVoting } from "~/features/votings/context/VotingContext";
+import type { AudioContent } from "~/features/voting/context/AudioContext";
 
 interface IPlaylistItemProps {
 	search_data?: RouterOutputs["search"]["fullSearch"];
 	isLoading: boolean;
 	error?: TRPCClientErrorLike<AppRouter> | null;
-	setPreviewUrl: (url: string | null) => void;
 	playingSongId?: string | null;
-	setPlayingSongId?: (id: string | null) => void;
+	onPlaySong: (song: AudioContent) => void;
+	onStop: () => void;
 }
 
 export default function SearchResults(props: IPlaylistItemProps) {
 	const { votingId } = useVoting();
-	const { search_data, isLoading, error, setPreviewUrl, playingSongId, setPlayingSongId } = props;
+	const { search_data, isLoading, error, playingSongId, onPlaySong, onStop } = props;
 
 	return (
 		<div className="flex flex-col items-center justify-center">
@@ -59,9 +60,9 @@ export default function SearchResults(props: IPlaylistItemProps) {
 								liked: items.liked,
 							}}
 							variant="playlist"
-							setPreviewUrl={setPreviewUrl}
 							playingSongId={playingSongId}
-							setPlayingSongId={setPlayingSongId}
+							onPlaySong={onPlaySong}
+							onStop={onStop}
 						/>
 					</div>
 				))}
@@ -81,9 +82,9 @@ export default function SearchResults(props: IPlaylistItemProps) {
 								preview_url: items.preview_url,
 							}}
 							addedSong={false}
-							setPreviewUrl={setPreviewUrl}
 							playingSongId={playingSongId}
-							setPlayingSongId={setPlayingSongId}
+							onPlaySong={onPlaySong}
+							onStop={onStop}
 						/>
 					))}
 				</div>
