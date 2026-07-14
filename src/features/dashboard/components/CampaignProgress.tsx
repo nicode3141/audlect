@@ -26,7 +26,7 @@ export default function CampaignProgress({
 		: null;
 
 	return (
-		<div className="flex flex-col gap-3 md:p-6 md:bg-neutral-50 md:rounded-2xl">
+		<div className="flex flex-col gap-3 md:p-6 md:bg-neutral-50 md:dark:bg-neutral-900 md:rounded-2xl">
 			<div className="font-inter flex text-sm">
 				<div className="flex flex-1 gap-2 dark:text-neutral-300 items-center md:text-lg md:font-medium">
 					<Calendar1 size={17} />
