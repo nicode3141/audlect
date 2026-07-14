@@ -11,23 +11,15 @@ import { useQueryParams } from "~/shared/hooks/useQueryParams";
 import NotLoggedIn from "~/features/votings/components/NotLoggedIn";
 import type { SortMethodsType } from "~/types/global";
 import MainContent from "~/features/votings/components/MainContent";
+import { useAudio } from "~/features/voting/context/AudioContext";
 
 export default function VotingLayout() {
 	const { votingId } = useVoting();
 	const { currentPage, sortMethod, setPage, setSortMethod } = useQueryParams();
+	const { currentSongId, playSong, stop } = useAudio();
 
 	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
 	const [searchString, setSearchString] = useState<string>("");
-	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-	const [playingSongId, setPlayingSongId] = useState<string | null>(null);
-
-	// Stabilize setters to prevent callback recreation
-	const stableSetPreviewUrl = useCallback((url: string | null) => {
-		setPreviewUrl(url);
-	}, []);
-	const stableSetPlayingSongId = useCallback((id: string | null) => {
-		setPlayingSongId(id);
-	}, []);
 
 	const itemsPerPage = 25;
 	const offset = (currentPage - 1) * itemsPerPage;
@@ -88,16 +80,16 @@ export default function VotingLayout() {
 					search_data={search_data}
 					isLoading={isLoading}
 					error={error}
-					setPreviewUrl={stableSetPreviewUrl}
-					playingSongId={playingSongId}
-					setPlayingSongId={stableSetPlayingSongId}
+					playingSongId={currentSongId}
+					onPlaySong={playSong}
+					onStop={stop}
 				/>
 			) : (
 				<MainContent
 					voting_id={votingId}
-					setPreviewUrl={stableSetPreviewUrl}
-					playingSongId={playingSongId}
-					setPlayingSongId={stableSetPlayingSongId}
+					playingSongId={currentSongId}
+					onPlaySong={playSong}
+					onStop={stop}
 					offset={offset}
 					limit={itemsPerPage}
 				/>

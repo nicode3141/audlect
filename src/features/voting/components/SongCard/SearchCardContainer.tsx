@@ -6,17 +6,18 @@ import { api } from "~/trpc/react";
 import { usePopup } from "~/shared/hooks/usePopup";
 import SongInfo from "./SongInfo";
 import { useLikeSong } from "~/features/voting/hooks/useLikeSong";
+import type { AudioContent } from "~/features/voting/context/AudioContext";
 
 interface ISearchCardProps {
 	metadata: TSongMetadata;
 	addedSong: boolean;
-	setPreviewUrl: (url: string | null) => void;
 	playingSongId?: string | null;
-	setPlayingSongId?: (id: string | null) => void;
+	onPlaySong: (song: AudioContent) => void;
+	onStop: () => void;
 }
 
 export default function SearchCardContainer(props: ISearchCardProps) {
-	const { metadata, addedSong, setPreviewUrl, setPlayingSongId, playingSongId } = props;
+	const { metadata, addedSong, onPlaySong, onStop, playingSongId } = props;
 
 	const [loadingAdd, setIsLoadingAdd] = useState<boolean>(false);
 	const [added, setAdded] = useState<boolean>(addedSong);
@@ -69,14 +70,17 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 
 	const handlePlay = useCallback(() => {
 		if (playingSongId === metadata.deezer_id.toString()) {
-			setPreviewUrl(null);
-			setPlayingSongId?.(null);
+			onStop();
 		} else {
-			setPreviewUrl(metadata.preview_url!);
-			setPlayingSongId?.(metadata.deezer_id.toString() ?? null);
-			console.log(metadata.deezer_id.toString());
+			onPlaySong({
+				songId: metadata.deezer_id.toString(),
+				title: metadata.song_name,
+				artists: metadata.song_artists,
+				cover: metadata.cover_image,
+				previewUrl: metadata.preview_url!,
+			});
 		}
-	}, [metadata.preview_url, metadata.deezer_id, playingSongId, setPlayingSongId, setPreviewUrl]);
+	}, [metadata.preview_url, metadata.deezer_id, metadata.song_name, metadata.song_artists, metadata.cover_image, playingSongId, onPlaySong, onStop]);
 
 	const handlePlayClick = useCallback(() => {
 		void handlePlay();
