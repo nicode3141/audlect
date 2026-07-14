@@ -8,6 +8,8 @@ import { VotingProvider } from "~/features/votings/context/VotingContext";
 import { LoginWarnProvider } from "~/shared/components/LoginWarningContext";
 import Footer from "~/shared/components/AppFooter";
 import { getVoting } from "~/lib/getVoting";
+import { AudioProvider } from "~/features/voting/context/AudioContext";
+import AudioProgressBar from "~/features/voting/components/AudioProgressBar";
 
 export async function generateMetadata({ params }: PageParams) {
 	const votingId = (await params).votingId;
@@ -36,7 +38,10 @@ export default async function Page({ params }: PageParams) {
 				<VotingHeader votingTitle={voting.name} />
 				<VotingDetails votingId={voting.voting_id} name={voting.name} description={voting.description} />
 				<LoginWarnProvider>
-					<VotingLayout />
+					<AudioProvider>
+						<VotingLayout />
+						<AudioProgressBar />
+					</AudioProvider>
 				</LoginWarnProvider>
 				<Footer />
 			</div>
