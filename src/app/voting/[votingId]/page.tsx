@@ -10,6 +10,7 @@ import Footer from "~/shared/components/AppFooter";
 import { getVoting } from "~/lib/getVoting";
 import { AudioProvider } from "~/features/voting/context/AudioContext";
 import AudioProgressBar from "~/features/voting/components/AudioProgressBar";
+import VotingInfoBar from "~/features/votings/components/VotingInfoBar";
 
 export async function generateMetadata({ params }: PageParams) {
 	const votingId = (await params).votingId;
@@ -33,9 +34,16 @@ export default async function Page({ params }: PageParams) {
 	}
 
 	return (
-		<VotingProvider votingId={voting.voting_id} votingShortId={voting.short_id}>
+		<VotingProvider
+			votingId={voting.voting_id}
+			votingShortId={voting.short_id}
+			startsAt={voting.starts_at}
+			endsAt={voting.ends_at}
+		>
 			<div className="flex min-h-screen flex-col">
+				<VotingInfoBar />
 				<VotingHeader votingTitle={voting.name} />
+
 				<VotingDetails votingId={voting.voting_id} name={voting.name} description={voting.description} />
 				<LoginWarnProvider>
 					<AudioProvider>

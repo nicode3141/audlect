@@ -12,7 +12,7 @@ export default function VotingItems() {
 		isLoading,
 		error,
 	} = api.votings.getPublicVotings.useQuery({
-		limit: 10,
+		limit: 100,
 		page: 0,
 		sort_method: "Date Added",
 	});
