@@ -11,6 +11,24 @@ function formatTime(seconds: number): string {
 	return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
+const CoverImage = React.memo(({ cover, title }: { cover: string | null; title: string }) => (
+	<Image
+		src={cover ?? "/ImagePlaceholder.png"}
+		alt={title}
+		width={48}
+		height={48}
+		className="h-14 w-14 rounded-lg"
+		onError={(e) => (e.currentTarget.src = "/ImagePlaceholder.png")}
+		unoptimized
+	/>
+));
+
+CoverImage.displayName = "CoverImage";
+
+const MemoPlayIcon = React.memo(function MemoPlayIcon({ isPlaying }: { isPlaying: boolean }) {
+	return <PlayIcon type={isPlaying ? "pause" : "play"} className="h-10 w-10 opacity-70" />;
+});
+
 export default function AudioProgressBar() {
 	const { currentSong, isPlaying, togglePlayback, stop, seek, audioRef } = useAudio();
 
@@ -116,17 +134,9 @@ export default function AudioProgressBar() {
 							onClick={togglePlayback}
 							aria-label="play-button"
 						>
-							<PlayIcon type={isPlaying ? "pause" : "play"} className="h-10 w-10 opacity-70" />
+							<MemoPlayIcon isPlaying={isPlaying} />
 						</button>
-						<Image
-							src={currentSong.cover ?? "/ImagePlaceholder.png"}
-							alt={currentSong.title}
-							width={48}
-							height={48}
-							className="h-14 w-14 rounded-lg"
-							onError={(e) => (e.currentTarget.src = "/ImagePlaceholder.png")}
-							unoptimized
-						/>
+						<CoverImage cover={currentSong.cover ?? "/ImagePlaceholder.png"} title={currentSong.title} />
 					</div>
 
 					<div className="flex min-w-0 flex-1 flex-col gap-1">
