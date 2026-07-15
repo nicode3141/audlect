@@ -9,17 +9,22 @@ const oneDay = 24 * 60 * 60 * 1000;
 const oneHour = 60 * 60 * 1000;
 
 export default function DeadlineCountdown({ startsAt, endsAt }: { startsAt: Date | null; endsAt: Date | null }) {
+	const [, setTick] = useState(0);
+
+	useEffect(() => {
+		const interval = setInterval(() => setTick((t) => t + 1), 1000);
+		return () => clearInterval(interval);
+	}, []);
+
 	const timeToStart = startsAt ? startsAt.getTime() - Date.now() : null;
 	const timeToEnd = endsAt ? endsAt.getTime() - Date.now() : null;
 
 	const isBeforeStart = startsAt && timeToStart && timeToStart > 0;
-	const isFarFromEnd = timeToEnd === null || timeToEnd > oneDay;
-
-	console.log(startsAt);
+	const isEndSoon = timeToEnd !== null && timeToEnd > 0 && timeToEnd <= oneDay;
 
 	if (isBeforeStart) {
 		return <CountdownStart startsAt={startsAt} />;
-	} else if (!isFarFromEnd && endsAt && timeToEnd && timeToEnd > 0) {
+	} else if (isEndSoon && endsAt) {
 		return <CountdownEnd endsAt={endsAt} />;
 	}
 	return <></>;
