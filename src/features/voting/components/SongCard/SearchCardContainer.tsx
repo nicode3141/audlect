@@ -7,6 +7,7 @@ import { usePopup } from "~/shared/hooks/usePopup";
 import SongInfo from "./SongInfo";
 import { useLikeSong } from "~/features/voting/hooks/useLikeSong";
 import type { AudioContent } from "~/features/voting/context/AudioContext";
+import { toast } from "sonner";
 
 interface ISearchCardProps {
 	metadata: TSongMetadata;
@@ -30,10 +31,12 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 			setAdded(true);
 			setIsLoadingAdd(true);
 		},
-		onError: () => {
+		onError: (err) => {
 			//display error message
 			setAdded(false);
 			setIsLoadingAdd(false);
+
+			if (err.message) toast.error(err.message);
 		},
 		onSuccess: (data) => {
 			setAdded(true);
@@ -80,7 +83,16 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 				previewUrl: metadata.preview_url!,
 			});
 		}
-	}, [metadata.preview_url, metadata.deezer_id, metadata.song_name, metadata.song_artists, metadata.cover_image, playingSongId, onPlaySong, onStop]);
+	}, [
+		metadata.preview_url,
+		metadata.deezer_id,
+		metadata.song_name,
+		metadata.song_artists,
+		metadata.cover_image,
+		playingSongId,
+		onPlaySong,
+		onStop,
+	]);
 
 	const handlePlayClick = useCallback(() => {
 		void handlePlay();
