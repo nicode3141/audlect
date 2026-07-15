@@ -5,6 +5,26 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { likesTable, songsTable, votingsTable } from "~/server/db/schema";
 
+async function assertVotingActive(db: typeof import("~/server/db").db, votingId: string) {
+	const [voting] = await db
+		.select({ starts_at: votingsTable.starts_at, ends_at: votingsTable.ends_at })
+		.from(votingsTable)
+		.where(eq(votingsTable.voting_id, votingId))
+		.limit(1);
+
+	if (!voting) {
+		throw new TRPCError({ code: "NOT_FOUND", message: "Voting not found" });
+	}
+
+	const now = new Date();
+	if (voting.starts_at && now < voting.starts_at) {
+		throw new TRPCError({ code: "FORBIDDEN", message: "Voting has not started yet" });
+	}
+	if (voting.ends_at && now > voting.ends_at) {
+		throw new TRPCError({ code: "FORBIDDEN", message: "Voting has ended" });
+	}
+}
+
 export const likesRouter = createTRPCRouter({
 	/**
 	 * POST like (AUTH)
@@ -23,6 +43,8 @@ export const likesRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
+				await assertVotingActive(ctx.db, input.voting_id);
+
 				const [settings] = await ctx.db
 					.select({
 						likeLimit: votingsTable.max_votes_user,
@@ -120,6 +142,8 @@ export const likesRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
+				await assertVotingActive(ctx.db, input.voting_id);
+
 				const result = await ctx.db
 					.delete(likesTable)
 					.where(
