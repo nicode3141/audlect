@@ -7,6 +7,7 @@ import PopupCard from "~/shared/components/PopupCard";
 import { authClient } from "~/lib/auth-client";
 import { api } from "~/trpc/react";
 import type { TSongMetadata } from "~/types/songs";
+import { toast } from "sonner";
 
 interface ISongInfo {
 	metadata: TSongMetadata;
@@ -17,7 +18,11 @@ interface ISongInfo {
 
 export default React.memo(function SongInfo(props: ISongInfo) {
 	const { metadata, showPopup, ref, onRemove } = props;
-	const deleteSong = api.songs.deleteSong.useMutation();
+	const deleteSong = api.songs.deleteSong.useMutation({
+		onError: (err) => {
+			if (err.message) toast.error(err.message);
+		},
+	});
 	const utils = api.useUtils();
 
 	// Only fetch session when popup is shown to avoid expensive lookups on every render
