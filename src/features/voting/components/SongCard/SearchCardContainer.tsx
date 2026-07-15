@@ -6,6 +6,7 @@ import { api } from "~/trpc/react";
 import { usePopup } from "~/shared/hooks/usePopup";
 import SongInfo from "./SongInfo";
 import { useLikeSong } from "~/features/voting/hooks/useLikeSong";
+import { useVoting } from "~/features/votings/context/VotingContext";
 import type { AudioContent } from "~/features/voting/context/AudioContext";
 import { toast } from "sonner";
 
@@ -25,6 +26,7 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 	const [successfullAdded, setSuccessfulAdded] = useState<boolean>(false);
 	const [showSongInfo, setShowSongInfo, SongRef] = usePopup();
 	const { liked, likes, loadingLike, handleLike, setLiked, setLikes } = useLikeSong(metadata);
+	const { isActive } = useVoting();
 
 	const addMutation = api.songs.addSongID.useMutation({
 		onMutate: () => {
@@ -113,6 +115,7 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 				}
 				liked={liked}
 				isLoadingLike={loadingLike}
+				disabled={!isActive}
 				onLike={() =>
 					successfullAdded &&
 					metadata.song_id &&

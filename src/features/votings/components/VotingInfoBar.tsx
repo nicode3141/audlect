@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useVoting } from "../context/VotingContext";
-import type { TimeLeft } from "~/types/global";
-import { getTimeLeft } from "~/shared/utils/utils";
 import DeadlineCountdown from "./DeadlineCountdown";
 
 export default function VotingInfoBar() {

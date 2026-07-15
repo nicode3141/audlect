@@ -6,6 +6,26 @@ import { likesTable, songsTable, voting_membershipsTable, votingsTable } from "~
 import type { DeezerTrack, NextCursor } from "~/types/songs";
 import { getTrack } from "~/server/utils/deezer";
 
+async function assertVotingActive(db: typeof import("~/server/db").db, votingId: string) {
+	const [voting] = await db
+		.select({ starts_at: votingsTable.starts_at, ends_at: votingsTable.ends_at })
+		.from(votingsTable)
+		.where(eq(votingsTable.voting_id, votingId))
+		.limit(1);
+
+	if (!voting) {
+		throw new TRPCError({ code: "NOT_FOUND", message: "Voting not found" });
+	}
+
+	const now = new Date();
+	if (voting.starts_at && now < voting.starts_at) {
+		throw new TRPCError({ code: "FORBIDDEN", message: "Voting has not started yet" });
+	}
+	if (voting.ends_at && now > voting.ends_at) {
+		throw new TRPCError({ code: "FORBIDDEN", message: "Voting has ended" });
+	}
+}
+
 export const songsRouter = createTRPCRouter({
 	/**
 	 * GET all songs
@@ -247,6 +267,8 @@ export const songsRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
+				await assertVotingActive(ctx.db, input.voting_id);
+
 				//deezer API fetch metadata
 				const item: DeezerTrack | undefined = await getTrack(input.id.toString());
 
@@ -349,6 +371,8 @@ export const songsRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
+				await assertVotingActive(ctx.db, input.voting_id);
+
 				const [settings] = await ctx.db
 					.select({
 						delLimit: votingsTable.max_votes_del,

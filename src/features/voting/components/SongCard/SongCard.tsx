@@ -19,6 +19,7 @@ interface SongCardProps {
 	playState?: "play" | "pause" | "loading";
 	isLoadingLike?: boolean;
 	isLoadingAdd?: boolean;
+	disabled?: boolean;
 }
 
 // Custom comparison to prevent re-renders when only metadata reference changes
@@ -34,7 +35,8 @@ function areSongCardPropsEqual(prevProps: SongCardProps, nextProps: SongCardProp
 		prevProps.onPlay !== nextProps.onPlay ||
 		prevProps.playState !== nextProps.playState ||
 		prevProps.isLoadingLike !== nextProps.isLoadingLike ||
-		prevProps.isLoadingAdd !== nextProps.isLoadingAdd
+		prevProps.isLoadingAdd !== nextProps.isLoadingAdd ||
+		prevProps.disabled !== nextProps.disabled
 	) {
 		return false;
 	}
@@ -68,6 +70,7 @@ export default React.memo(function SongCard({
 	playState,
 	isLoadingLike,
 	isLoadingAdd,
+	disabled,
 }: SongCardProps) {
 	const motionProps = useMemo(
 		() => ({
@@ -118,11 +121,12 @@ export default React.memo(function SongCard({
 				{added ? (
 					<>
 						<div className="flex flex-col gap-1">
-							<LikeButton
-								liked={liked ?? false}
-								isLoadingLike={isLoadingLike ?? false}
-								handleLike={onLike ?? nop}
-							></LikeButton>
+					<LikeButton
+							liked={liked ?? false}
+							isLoadingLike={isLoadingLike ?? false}
+							handleLike={onLike ?? nop}
+							disabled={disabled}
+						></LikeButton>
 							<div className="text-center text-sm text-gray-700 select-none dark:text-gray-200">
 								{metadata.likes_total}
 							</div>
@@ -136,6 +140,7 @@ export default React.memo(function SongCard({
 						added={addedSearchResult ?? false}
 						isLoadingAdd={isLoadingAdd ?? false}
 						handleAdd={onAdd ?? nop}
+						disabled={disabled}
 					></AddSongButton>
 				)}
 			</div>
