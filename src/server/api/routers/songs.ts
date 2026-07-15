@@ -266,15 +266,15 @@ export const songsRouter = createTRPCRouter({
 						.from(votingsTable)
 						.where(eq(votingsTable.voting_id, input.voting_id));
 
-					if (settings?.songLimit !== null || settings?.songLimit !== undefined) {
-						//check how many songs tzhe user already added
+					if (settings?.songLimit !== null && settings?.songLimit !== undefined && settings?.songLimit !== 0) {
+						//check how many songs the user already added
 						const [songs] = await ctx.db
 							.select({ songsAdded: count().as("count") })
 							.from(songsTable)
-							.where(eq(songsTable.voting_id, input.voting_id));
+							.where(and(eq(songsTable.voting_id, input.voting_id), eq(songsTable.added_by, ctx.auth.session.userId)));
 
 						const songsAdded = songs?.songsAdded ?? 0;
-						const songLimit = settings?.songLimit ?? 99;
+						const songLimit = settings?.songLimit ?? 0;
 
 						if (songsAdded >= songLimit) {
 							throw new TRPCError({
