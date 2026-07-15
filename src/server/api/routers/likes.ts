@@ -3,7 +3,7 @@ import { and, count, eq, exists, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { likesTable, songsTable } from "~/server/db/schema";
+import { likesTable, songsTable, votingsTable } from "~/server/db/schema";
 
 export const likesRouter = createTRPCRouter({
 	/**
@@ -23,6 +23,30 @@ export const likesRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
+				const [settings] = await ctx.db
+					.select({
+						likeLimit: votingsTable.max_votes_user,
+					})
+					.from(votingsTable)
+					.where(eq(votingsTable.voting_id, input.voting_id));
+
+				const likeLimit = settings?.likeLimit ?? 0;
+
+				if (likeLimit !== null && likeLimit !== undefined && likeLimit !== 0) {
+					const [likes] = await ctx.db
+						.select({ likesTotal: count().as("count") })
+						.from(likesTable)
+						.where(and(eq(likesTable.voting_id, input.voting_id), eq(likesTable.user_id, ctx.auth.session.userId)));
+
+					const likesTotal = likes?.likesTotal ?? 0;
+
+					if (likesTotal >= likeLimit) {
+						throw new TRPCError({
+							code: "FORBIDDEN",
+							message: `Your like limit has been reached! (max ${likeLimit} likes per participant)`,
+						});
+					}
+				}
 				const result = await ctx.db
 					.insert(likesTable)
 					.values({
