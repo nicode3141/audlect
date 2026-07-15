@@ -26,7 +26,7 @@ export default function ComboSettings({ settings }: ComboSettingsProps) {
 	const [maxVotesDel, setMaxVotesDel] = useState<number>(0);
 
 	useEffect(() => {
-		setSongsPerUser(settings?.max_votes_user ?? 0);
+		setSongsPerUser(settings?.max_songs_user ?? 0);
 		setLikesPerUser(settings?.max_votes_user ?? 0);
 		setMaxVotesDel(settings?.max_votes_del ?? 0);
 	}, [settings?.max_songs_user, settings?.max_votes_user, settings?.max_votes_del]);
