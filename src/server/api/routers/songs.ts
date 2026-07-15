@@ -349,6 +349,32 @@ export const songsRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			try {
+				const [settings] = await ctx.db
+					.select({
+						delLimit: votingsTable.max_votes_del,
+					})
+					.from(votingsTable)
+					.where(eq(votingsTable.voting_id, input.voting_id));
+
+				const delLimit = settings?.delLimit;
+
+				if (delLimit !== null && delLimit !== undefined && delLimit !== 0) {
+					//check how many songs the user already added
+					const [likes] = await ctx.db
+						.select({ likesTotal: count().as("count") })
+						.from(likesTable)
+						.where(and(eq(likesTable.voting_id, input.voting_id), eq(likesTable.song_id, input.song_id)));
+
+					const likesTotal = likes?.likesTotal ?? 0;
+
+					if (likesTotal >= delLimit) {
+						throw new TRPCError({
+							code: "FORBIDDEN",
+							message: `Song has more than ${delLimit} likes, can't delete it!`,
+						});
+					}
+				}
+
 				const [memberships] = await ctx.db
 					.select()
 					.from(voting_membershipsTable)
