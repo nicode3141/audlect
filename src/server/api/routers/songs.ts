@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { and, asc, count, desc, eq, exists, gt, lt, or, sql, type SQL } from "drizzle-orm";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
-import { likesTable, songsTable, voting_membershipsTable } from "~/server/db/schema";
+import { likesTable, songsTable, voting_membershipsTable, votingsTable } from "~/server/db/schema";
 import type { DeezerTrack, NextCursor } from "~/types/songs";
 import { getTrack } from "~/server/utils/deezer";
 
@@ -259,6 +259,31 @@ export const songsRouter = createTRPCRouter({
 				}
 
 				try {
+					const [settings] = await ctx.db
+						.select({
+							songLimit: votingsTable.max_songs_user,
+						})
+						.from(votingsTable)
+						.where(eq(votingsTable.voting_id, input.voting_id));
+
+					if (settings?.songLimit !== null || settings?.songLimit !== undefined) {
+						//check how many songs tzhe user already added
+						const [songs] = await ctx.db
+							.select({ songsAdded: count().as("count") })
+							.from(songsTable)
+							.where(eq(songsTable.voting_id, input.voting_id));
+
+						const songsAdded = songs?.songsAdded ?? 0;
+						const songLimit = settings?.songLimit ?? 99;
+
+						if (songsAdded >= songLimit) {
+							throw new TRPCError({
+								code: "FORBIDDEN",
+								message: `Song limit reached (max ${settings?.songLimit} per participant)`,
+							});
+						}
+					}
+
 					const [result] = await ctx.db
 						.insert(songsTable)
 						.values({
