@@ -1,15 +1,23 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 interface IVotingContext {
 	votingId: string;
 	votingShortId: string;
 	startsAt: Date | null;
 	endsAt: Date | null;
+	isActive: boolean;
 }
 
 const VotingContext = createContext<IVotingContext | undefined>(undefined);
+
+function computeIsActive(startsAt: Date | null, endsAt: Date | null): boolean {
+	const now = Date.now();
+	if (startsAt && now < startsAt.getTime()) return false;
+	if (endsAt && now > endsAt.getTime()) return false;
+	return true;
+}
 
 interface IVotingProvider {
 	votingId: string;
@@ -22,13 +30,35 @@ interface IVotingProvider {
 export const VotingProvider = (props: IVotingProvider) => {
 	const { votingId, votingShortId, startsAt, endsAt, children } = props;
 
-	return (
-		<VotingContext.Provider
-			value={{ votingId: votingId, votingShortId: votingShortId, startsAt: startsAt, endsAt: endsAt }}
-		>
-			{children}
-		</VotingContext.Provider>
+	const [isActive, setIsActive] = useState(() => computeIsActive(startsAt, endsAt));
+
+	const startsAtRef = useRef(startsAt);
+	const endsAtRef = useRef(endsAt);
+	startsAtRef.current = startsAt;
+	endsAtRef.current = endsAt;
+
+	useEffect(() => {
+		setIsActive(computeIsActive(startsAt, endsAt));
+
+		const interval = setInterval(() => {
+			setIsActive(computeIsActive(startsAtRef.current, endsAtRef.current));
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, [startsAt, endsAt]);
+
+	const value = useMemo(
+		() => ({
+			votingId,
+			votingShortId,
+			startsAt,
+			endsAt,
+			isActive,
+		}),
+		[votingId, votingShortId, startsAt, endsAt, isActive],
 	);
+
+	return <VotingContext.Provider value={value}>{children}</VotingContext.Provider>;
 };
 
 export const useVoting = () => {

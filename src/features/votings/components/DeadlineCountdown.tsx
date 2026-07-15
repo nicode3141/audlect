@@ -11,16 +11,18 @@ const oneHour = 60 * 60 * 1000;
 export default function DeadlineCountdown({ startsAt, endsAt }: { startsAt: Date | null; endsAt: Date | null }) {
 	const [, setTick] = useState(0);
 
-	useEffect(() => {
-		const interval = setInterval(() => setTick((t) => t + 1), 1000);
-		return () => clearInterval(interval);
-	}, []);
-
 	const timeToStart = startsAt ? startsAt.getTime() - Date.now() : null;
 	const timeToEnd = endsAt ? endsAt.getTime() - Date.now() : null;
 
 	const isBeforeStart = startsAt && timeToStart && timeToStart > 0;
-	const isEndSoon = timeToEnd !== null && timeToEnd > 0 && timeToEnd <= oneDay;
+	const isEndSoon = timeToEnd !== null && timeToEnd <= oneDay;
+	const needsTick = isBeforeStart ?? isEndSoon;
+
+	useEffect(() => {
+		if (!needsTick) return;
+		const interval = setInterval(() => setTick((t) => t + 1), 1000);
+		return () => clearInterval(interval);
+	}, [needsTick]);
 
 	if (isBeforeStart) {
 		return <CountdownStart startsAt={startsAt} />;
@@ -62,14 +64,17 @@ function CountdownEnd({ endsAt }: { endsAt: Date }): React.JSX.Element {
 	const [timeTillEnd, setTimeTillEnd] = useState<TimeLeft>(() => getTimeLeft(endsAt));
 
 	useEffect(() => {
+		if (timeTillEnd.total <= 0) return;
 		const interval = setInterval(() => {
-			setTimeTillEnd(getTimeLeft(endsAt));
+			const left = getTimeLeft(endsAt);
+			setTimeTillEnd(left);
+			if (left.total <= 0) clearInterval(interval);
 		}, 1000);
 
 		return () => clearInterval(interval);
-	}, [endsAt]);
+	}, [endsAt, timeTillEnd.total]);
 
-	if (timeTillEnd.total < 0)
+	if (timeTillEnd.total <= 0)
 		return (
 			<div className="flex w-full items-center justify-center bg-company/20 py-2">
 				<div className="font-montserrat font-semibold">Voting Deadline has been reached!</div>

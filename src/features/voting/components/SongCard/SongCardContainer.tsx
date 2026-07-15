@@ -6,6 +6,7 @@ import { nop } from "~/shared/utils/utils";
 import SongInfo from "./SongInfo";
 import { usePopup } from "~/shared/hooks/usePopup";
 import { useLikeSong } from "~/features/voting/hooks/useLikeSong";
+import { useVoting } from "~/features/votings/context/VotingContext";
 import type { AudioContent } from "~/features/voting/context/AudioContext";
 
 interface ISongCardContainerProps {
@@ -55,6 +56,7 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 	const [isLoadingPreview, setIsLoadingPreview] = useState<boolean>(false);
 	const [showSongInfo, setShowSongInfo, SongRef] = usePopup();
 	const { liked, likes, loadingLike, handleLike } = useLikeSong(metadata);
+	const { isActive } = useVoting();
 
 	const query = api.deezerSearch.getTrack.useQuery({ track_id: metadata.deezer_id }, { enabled: false });
 
@@ -126,6 +128,7 @@ export default React.memo(function SongCardContainer(props: ISongCardContainerPr
 				onMore={handleMoreClick}
 				isLoadingLike={loadingLike}
 				isLoadingAdd={false}
+				disabled={!isActive}
 				playState={
 					playingSongId === metadata.song_id ? "pause" : isLoadingPreview || query.isLoading ? "loading" : "play"
 				}
