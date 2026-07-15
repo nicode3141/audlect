@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "~/trpc/react";
 import type { TSongMetadata } from "~/types/songs";
 import { useRequireLogin } from "../../../shared/hooks/useRequireLogin";
+import { toast } from "sonner";
 
 export function useLikeSong(metadata: TSongMetadata) {
 	const [likes, setLikes] = useState<number>(metadata.likes_total!);
@@ -34,10 +35,12 @@ export function useLikeSong(metadata: TSongMetadata) {
 			setLikes((prev) => prev + 1);
 			setIsLoadingLike(true);
 		},
-		onError: () => {
+		onError: (err) => {
 			setLiked(false);
 			setLikes((prev) => prev - 1);
 			setIsLoadingLike(false);
+
+			if (err.message) toast.error(err.message);
 		},
 		onSettled: (data) => {
 			if (data?.likes_total === undefined || data?.liked === undefined) {
