@@ -135,16 +135,12 @@ export function TimeField({
 						aria-label={aria["aria-label"] ?? "Time"}
 						className="pr-9"
 					/>
-					<Button
-						type="button"
-						variant="ghost"
-						size="icon"
-						disabled={disabled}
-						className="absolute right-0 top-0 h-full w-9 text-muted-foreground hover:text-foreground"
-						aria-label="Open time picker"
-					>
-						<Clock className="h-4 w-4" />
-					</Button>
+				<span
+					className="absolute right-0 top-0 flex h-full w-9 items-center justify-center text-muted-foreground hover:text-foreground"
+					aria-label="Open time picker"
+				>
+					<Clock className="h-4 w-4" />
+				</span>
 				</PopoverTrigger>
 			</div>
 
