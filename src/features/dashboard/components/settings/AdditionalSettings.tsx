@@ -34,7 +34,6 @@ export default function AdditionalSettings({ settings }: AdditionalSettingsProps
 			toast.error("Please slow down.");
 			return;
 		}
-		console.log(state);
 		setting.mutate({ voting_id: settings.voting_id, filter_inappropriate: state });
 		setHasFilter(state);
 	}
