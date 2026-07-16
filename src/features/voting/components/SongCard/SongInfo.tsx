@@ -52,7 +52,9 @@ export default React.memo(function SongInfo(props: ISongInfo) {
 						<LinkIcon className="items-center text-black dark:text-white" />
 						<span className="font-montserrat text-2xl font-bold md:text-xl dark:text-white">Open Song</span>
 					</Link>
-					{metadata.added_by === session?.user?.id || membership?.role === "owner" || membership?.role === "moderator" ? (
+					{metadata.added_by === session?.user?.id ||
+					membership?.role === "owner" ||
+					membership?.role === "moderator" ? (
 						<button
 							className="flex min-w-3/4 cursor-pointer items-center justify-center gap-2 truncate rounded-xl bg-gray-300
 								p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2
