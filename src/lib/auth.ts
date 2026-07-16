@@ -3,8 +3,6 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin, customSession, twoFactor, username } from "better-auth/plugins";
 import { db } from "~/server/db";
 import { sendEmail } from "./email";
-import { voting_membershipsTable } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, { provider: "pg" }),
@@ -54,19 +52,8 @@ export const auth = betterAuth({
 		twoFactor(),
 		username(),
 		customSession(async ({ user, session }) => {
-			const memberships = await db
-				.select()
-				.from(voting_membershipsTable)
-				.where(eq(voting_membershipsTable.user_id, user.id));
-
 			return {
-				user: {
-					...user,
-					votingMemberships: memberships.map((i) => ({
-						votingId: i.voting_id,
-						role: i.role,
-					})),
-				},
+				user,
 				session,
 			};
 		}),

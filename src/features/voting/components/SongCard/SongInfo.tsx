@@ -25,11 +25,10 @@ export default React.memo(function SongInfo(props: ISongInfo) {
 	});
 	const utils = api.useUtils();
 
-	// Only fetch session when popup is shown to avoid expensive lookups on every render
 	const { data: session } = authClient.useSession();
-	const role = React.useMemo(
-		() => session?.user.votingMemberships.find((i) => i.votingId === metadata.voting_id)?.role,
-		[session?.user.votingMemberships, metadata.voting_id],
+	const { data: membership } = api.votings.getMyMembership.useQuery(
+		{ voting_id: metadata.voting_id },
+		{ enabled: showPopup },
 	);
 
 	async function removeSong() {
@@ -53,7 +52,7 @@ export default React.memo(function SongInfo(props: ISongInfo) {
 						<LinkIcon className="items-center text-black dark:text-white" />
 						<span className="font-montserrat text-2xl font-bold md:text-xl dark:text-white">Open Song</span>
 					</Link>
-					{metadata.added_by === session?.user?.id || role === "owner" || role === "moderator" ? (
+					{metadata.added_by === session?.user?.id || membership?.role === "owner" || membership?.role === "moderator" ? (
 						<button
 							className="flex min-w-3/4 cursor-pointer items-center justify-center gap-2 truncate rounded-xl bg-gray-300
 								p-3 px-3.5 text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2
