@@ -21,7 +21,6 @@ type MockAuthSession = {
 		twoFactorEnabled: boolean;
 		username: string | null;
 		displayUsername: string | null;
-		votingMemberships: Array<{ votingId: string; role: "owner" | "moderator" | "participant" }>;
 	};
 };
 
