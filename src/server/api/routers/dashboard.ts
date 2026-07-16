@@ -79,6 +79,17 @@ export const dashboardRouter = createTRPCRouter({
 						.then((r) => r[0] ?? null);
 				}
 
+				if (
+					cleanedSettings.starts_at &&
+					cleanedSettings.ends_at &&
+					cleanedSettings.starts_at >= cleanedSettings.ends_at
+				) {
+					throw new TRPCError({
+						code: "BAD_REQUEST",
+						message: "Start time must be before end time",
+					});
+				}
+
 				const [updated] = await ctx.db
 					.update(votingsTable)
 					.set(cleanedSettings)
