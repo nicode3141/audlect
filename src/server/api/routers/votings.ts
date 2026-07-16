@@ -131,30 +131,34 @@ export const votingsRouter = createTRPCRouter({
 			return votings[0];
 		}),
 
-	joinVoting: protectedProcedure
-		.input(
-			z.object({
-				voting_id: z.uuid(),
-			}),
-		)
-		.mutation(async ({ ctx, input }) => {
-			try {
-				if (
-					ctx.auth.user.votingMemberships?.find((membership) => membership.votingId === input.voting_id) === undefined
-				) {
-					const [membership] = await ctx.db
-						.insert(voting_membershipsTable)
-						.values({ voting_id: input.voting_id, user_id: ctx.auth.session.userId, role: "participant" })
-						.returning();
+	getMyMembership: protectedProcedure
+		.input(z.object({ voting_id: z.uuid() }))
+		.query(async ({ ctx, input }) => {
+			const [membership] = await ctx.db
+				.select({ role: voting_membershipsTable.role })
+				.from(voting_membershipsTable)
+				.where(
+					and(
+						eq(voting_membershipsTable.user_id, ctx.auth.session.userId),
+						eq(voting_membershipsTable.voting_id, input.voting_id),
+					),
+				);
+			return membership ?? null;
+		}),
 
-					return membership;
-				}
-			} catch (err: unknown) {
-				throw new TRPCError({
-					code: "INTERNAL_SERVER_ERROR",
-					message: err instanceof Error ? err.message : "couldn't fetch songs",
-				});
-			}
+	joinVoting: protectedProcedure
+		.input(z.object({ voting_id: z.uuid() }))
+		.mutation(async ({ ctx, input }) => {
+			const [membership] = await ctx.db
+				.insert(voting_membershipsTable)
+				.values({
+					voting_id: input.voting_id,
+					user_id: ctx.auth.session.userId,
+					role: "participant",
+				})
+				.onConflictDoNothing()
+				.returning();
+			return membership ?? null;
 		}),
 
 	createVoting: protectedProcedure
