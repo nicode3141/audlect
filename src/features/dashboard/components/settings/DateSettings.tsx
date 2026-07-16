@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import OptionalTime from "~/shared/components/OptionalTime";
-import type { SettingsData } from "~/features/dashboard/hooks/useDashboard";
+import { useUpdateSettings, type SettingsData } from "~/features/dashboard/hooks/useDashboard";
+import { toast } from "sonner";
 
 interface DateSettingsProps {
 	settings: SettingsData;
 }
 
 export default function DateSettings({ settings }: DateSettingsProps) {
+	const setting = useUpdateSettings();
+
 	const [startTime, setStartTime] = useState<Date | undefined>(undefined);
 	const [endTime, setEndTime] = useState<Date | undefined>(undefined);
 
@@ -15,10 +18,65 @@ export default function DateSettings({ settings }: DateSettingsProps) {
 		setEndTime(settings?.ends_at ?? undefined);
 	}, [settings?.starts_at, settings?.ends_at]);
 
+	function resetSettings() {
+		setStartTime(settings?.starts_at ?? undefined);
+		setEndTime(settings?.ends_at ?? undefined);
+	}
+
+	function startsAfterEnds(startDate: Date, endDate: Date) {
+		if (startDate >= endDate) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function updateStartDate(date: Date | undefined) {
+		if (settings?.voting_id === undefined) {
+			toast.error("Please slow down.");
+			return;
+		}
+		if (date === null) {
+			toast.error("Invalid date");
+			return;
+		}
+
+		if (date && endTime && startsAfterEnds(date, endTime)) {
+			toast.error("Start time must be before end time");
+			resetSettings();
+			return;
+		}
+
+		setting.mutate({ voting_id: settings.voting_id, starts_at: date });
+		setStartTime(date);
+		toast.success(`Start date has been set to ${date?.toISOString()}`);
+	}
+
+	function updateEndDate(date: Date | undefined) {
+		if (settings?.voting_id === undefined) {
+			toast.error("Please slow down.");
+			return;
+		}
+		if (date === null) {
+			toast.error("Invalid date");
+			return;
+		}
+
+		if (date && startTime && startsAfterEnds(startTime, date)) {
+			toast.error("Start time must be before end time");
+			resetSettings();
+			return;
+		}
+
+		setting.mutate({ voting_id: settings.voting_id, ends_at: date });
+		setEndTime(date);
+		toast.success(`End date has been set to ${date?.toISOString()}`);
+	}
+
 	return (
 		<div className="flex flex-col gap-3">
-			<OptionalTime date={startTime} setDate={setStartTime} title={"Start Time"} />
-			<OptionalTime date={endTime} setDate={setEndTime} title={"End Time"} className="pb-5" />
+			<OptionalTime date={startTime} setDate={updateStartDate} title={"Start Time"} />
+			<OptionalTime date={endTime} setDate={updateEndDate} title={"End Time"} className="pb-5" />
 		</div>
 	);
 }
