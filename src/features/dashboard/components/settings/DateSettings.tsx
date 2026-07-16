@@ -24,7 +24,7 @@ export default function DateSettings({ settings }: DateSettingsProps) {
 	}
 
 	function startsAfterEnds(startDate: Date, endDate: Date) {
-		if (startDate >= endDate) {
+		if (startDate.getTime() >= endDate.getTime()) {
 			return true;
 		} else {
 			return false;
@@ -48,8 +48,18 @@ export default function DateSettings({ settings }: DateSettingsProps) {
 		}
 
 		setting.mutate({ voting_id: settings.voting_id, starts_at: date });
+
 		setStartTime(date);
-		toast.success(`Start date has been set to ${date?.toISOString()}`);
+		if (!date) return;
+		toast.success(
+			`Start date has been set to ${date?.toLocaleDateString("en-US", {
+				year: "numeric",
+				month: "short",
+				day: "numeric",
+				hour: "numeric",
+				minute: "2-digit",
+			})}`,
+		);
 	}
 
 	function updateEndDate(date: Date | undefined) {
@@ -69,8 +79,18 @@ export default function DateSettings({ settings }: DateSettingsProps) {
 		}
 
 		setting.mutate({ voting_id: settings.voting_id, ends_at: date });
+
 		setEndTime(date);
-		toast.success(`End date has been set to ${date?.toISOString()}`);
+		if (!date) return;
+		toast.success(
+			`End date has been set to ${date?.toLocaleDateString("en-US", {
+				year: "numeric",
+				month: "short",
+				day: "numeric",
+				hour: "numeric",
+				minute: "2-digit",
+			})}`,
+		);
 	}
 
 	return (

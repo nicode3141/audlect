@@ -7,6 +7,9 @@ import { Field, FieldGroup, FieldLabel } from "~/shared/ui/field";
 import { Input } from "~/shared/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "~/shared/ui/popover";
 import { TimeField } from "./TimeField";
+import { isValidTime } from "../utils/time-utils";
+import { toast } from "sonner";
+import { min } from "drizzle-orm";
 
 interface TimePickerProps {
 	date: Date | undefined;
@@ -54,8 +57,23 @@ export default function TimePicker({ date, setDate }: TimePickerProps) {
 				<FieldLabel htmlFor="time-picker-optional">Time</FieldLabel>
 				<TimeField
 					value="10:30"
-					onChange={(e) => {
-						console.log(e);
+					onChange={(input) => {
+						console.log(input);
+						if (!isValidTime(input)) {
+							toast.error("Invalid time!");
+							return;
+						}
+
+						const [hours, minutes] = input.split(":").map(Number);
+						if (!date || !hours) {
+							toast.error("Something went wrong!");
+							return;
+						}
+						const newDate = new Date(date);
+						newDate.setHours(hours ?? 0, minutes ?? 0, 0, 0);
+
+						if (newDate.getTime() === date.getTime()) return;
+						setDate(newDate);
 					}}
 					format="24h"
 					minuteStep={15}
