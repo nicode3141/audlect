@@ -81,8 +81,6 @@ export const songsRouter = createTRPCRouter({
 					})()
 				: null;
 
-			console.log(cursor);
-
 			let sortQuery;
 			let whereQuery: SQL<unknown> | undefined = eq(subquery.voting_id, input.voting_id);
 			switch (input.sort_method) {

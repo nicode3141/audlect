@@ -40,11 +40,23 @@ export const VotingProvider = (props: IVotingProvider) => {
 	useEffect(() => {
 		setIsActive(computeIsActive(startsAt, endsAt));
 
-		const interval = setInterval(() => {
-			setIsActive(computeIsActive(startsAtRef.current, endsAtRef.current));
-		}, 1000);
+		const timers: NodeJS.Timeout[] = [];
 
-		return () => clearInterval(interval);
+		//only track time when startsAt Deadline is set and hasn't been reached
+		if (startsAt) {
+			const ms = startsAt.getTime() - Date.now();
+
+			if (ms > 0) timers.push(setTimeout(() => setIsActive(true), ms));
+		}
+
+		//only track time when endsAt Deadline is set and hasn't been reached
+		if (endsAt) {
+			const ms = endsAt.getTime() - Date.now();
+
+			if (ms > 0) timers.push(setTimeout(() => setIsActive(false), ms));
+		}
+
+		return () => timers.forEach(clearTimeout);
 	}, [startsAt, endsAt]);
 
 	const value = useMemo(
