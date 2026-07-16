@@ -72,3 +72,15 @@ export function formatTime(h: number, m: number, format: TimeFormat): string {
 	const { hour12, period } = to12(h);
 	return `${pad(hour12)}:${pad(m)} ${period}`;
 }
+
+export function isValidTime(input: string, format = "24h") {
+	const value = input.trim();
+
+	if (format === "24h") {
+		// HH:mm, 00-23 : 00-59
+		return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+	}
+
+	// 12h: hh:mm AM/PM, 01-12 : 00-59
+	return /^(0?[1-9]|1[0-2]):([0-5]\d)\s?(AM|PM)$/i.test(value);
+}
