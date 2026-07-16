@@ -67,6 +67,7 @@ describe("songs router", () => {
 describe("song post and delete", () => {
 	test("add Song test", async () => {
 		const mockDb = createMockDb({
+			selectResult: [{ starts_at: null, ends_at: null }],
 			insertResult: [
 				{
 					song_id: "new-song-id",
@@ -106,6 +107,7 @@ describe("song post and delete", () => {
 describe("errors while adding songs", () => {
 	test("add song", async () => {
 		const mockDb = createMockDb({
+			selectResult: [{ starts_at: null, ends_at: null }],
 			insertResult: [{ song_id: "song-1", deezer_id: 1645426722, voting_id: audlectVotingId }],
 		});
 		const context = await createAuthContextInner({}, { db: mockDb });
@@ -123,6 +125,7 @@ describe("add - delete duplicate handling", () => {
 	test("two same songs same voting throws CONFLICT", async () => {
 		let callCount = 0;
 		const mockDb = createMockDb({
+			selectResult: [{ starts_at: null, ends_at: null }],
 			insertResult: () => {
 				callCount++;
 				if (callCount > 1) throw new Error("duplicate key value violates unique constraint");
