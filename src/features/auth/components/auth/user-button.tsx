@@ -2,7 +2,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
-import { ChevronsUpDown, LogInIcon, LogOutIcon, PlusCircleIcon, SettingsIcon, UserRoundPlus } from "lucide-react";
+import {
+	ChevronsUpDown,
+	LogInIcon,
+	LogOutIcon,
+	PlusCircleIcon,
+	SettingsIcon,
+	UserRoundPlus,
+	Wrench,
+} from "lucide-react";
 import {
 	type ComponentProps,
 	Fragment,
@@ -34,6 +42,7 @@ import type { User } from "~/types/auth/auth-client";
 import { cn } from "~/shared/utils/utils";
 import { usePathname } from "next/navigation";
 import { ArrowDown } from "../../../../shared/icons/Arrows";
+import { api } from "~/trpc/react";
 
 export interface UserButtonClassNames {
 	base?: string;
@@ -305,6 +314,13 @@ export function UserButton({
 								</DropdownMenuItem>
 							</Link>
 						)}
+
+						<Link href={`/${viewPaths.DASHBOARD}`}>
+							<DropdownMenuItem className={classNames?.content?.menuItem}>
+								<Wrench />
+								Dashboard
+							</DropdownMenuItem>
+						</Link>
 
 						<Link href={`${basePath}/${viewPaths.SIGN_OUT}?redirectTo=${encodeURIComponent(location)}`}>
 							<DropdownMenuItem className={classNames?.content?.menuItem}>

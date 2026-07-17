@@ -16,6 +16,8 @@ export const authViewPaths = {
 	/** @default "sign-out" */
 	SIGN_OUT: "sign-out",
 	/** @default "sign-up" */
+	DASHBOARD: "dashboard",
+	/** @default "dashboard" */
 	SIGN_UP: "sign-up",
 	/** @default "two-factor" */
 	TWO_FACTOR: "two-factor",
