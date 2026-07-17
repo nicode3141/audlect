@@ -144,7 +144,6 @@ export function AccountView({
 									<Link href={`${redirect}`}>
 										<Button
 											size="lg"
-											onClick={() => console.log(redirect)}
 											className={cn(
 												"w-full justify-start px-4 transition-none",
 												classNames?.sidebar?.button,
