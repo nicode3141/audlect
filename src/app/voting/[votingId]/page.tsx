@@ -42,7 +42,7 @@ export default async function Page({ params }: PageParams) {
 		>
 			<div className="flex min-h-screen flex-col">
 				<VotingInfoBar />
-				<VotingHeader votingTitle={voting.name} />
+				<VotingHeader votingTitle={voting.name} votingId={voting.voting_id} votingShortId={voting.short_id} />
 
 				<VotingDetails votingId={voting.voting_id} name={voting.name} description={voting.description} />
 				<LoginWarnProvider>
