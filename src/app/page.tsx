@@ -16,14 +16,11 @@ export default async function Home() {
 					</div>
 				</div>
 				<div className="Buttons align-self flex flex-col gap-10 self-start md:flex-row">
-					<HomeButton variant="primary" href="/voting">
-						Browse Votings
-					</HomeButton>
-					<HomeButton variant="secondary" href="/voting/tEN2ZlbH52xZeOvI">
+					<HomeButton variant="primary" href="/voting/tEN2ZlbH52xZeOvI">
 						View Example
 					</HomeButton>
-					<HomeButton variant="secondary" href="/dashboard/">
-						Dashboard
+					<HomeButton variant="secondary" href="/voting">
+						Browse Votings
 					</HomeButton>
 				</div>
 			</div>
