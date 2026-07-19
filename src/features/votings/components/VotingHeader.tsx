@@ -18,7 +18,9 @@ interface VotingHeaderProps {
 export default function VotingHeader({ votingTitle, votingId, votingShortId }: VotingHeaderProps) {
 	const { data: session } = authClient.useSession();
 
-	const { data: membership } = api.votings.getMyMembership.useQuery({ voting_id: votingId });
+	const isLoading = votingId === "";
+
+	const { data: membership } = api.votings.getMyMembership.useQuery({ voting_id: votingId }, { enabled: !isLoading });
 
 	return (
 		<div className="inline-flex w-full items-center justify-between self-stretch px-3 py-2">
