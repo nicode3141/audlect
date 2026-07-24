@@ -1,4 +1,4 @@
-import { Inter, Montserrat } from "next/font/google";
+import { Inter, Montserrat, Nunito } from "next/font/google";
 
 export const interFont = Inter({
 	subsets: ["latin"],
@@ -8,4 +8,9 @@ export const interFont = Inter({
 export const montserratFont = Montserrat({
 	subsets: ["latin"],
 	variable: "--font-montserrat",
+});
+
+export const nunitoFont = Nunito({
+	subsets: ["latin"],
+	variable: "--font-nunito",
 });

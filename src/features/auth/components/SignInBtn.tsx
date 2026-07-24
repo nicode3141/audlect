@@ -1,7 +1,14 @@
+"use client";
+
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "~/shared/ui/button";
+import { cn } from "~/shared/utils/utils";
 
-export const SignIn = () => {
+interface SignInProps {
+	className?: string | undefined;
+}
+
+export function SignIn({ className }: SignInProps) {
 	const router = useRouter();
 
 	const location = usePathname();
@@ -11,8 +18,8 @@ export const SignIn = () => {
 	};
 
 	return (
-		<Button onClick={handleSignIn} type="submit" className="cursor-pointer">
+		<Button onClick={handleSignIn} type="submit" className={cn("cursor-pointer", className)}>
 			Sign in
 		</Button>
 	);
-};
+}

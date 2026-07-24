@@ -1,5 +1,5 @@
 import "~/styles/globals.css";
-import { interFont, montserratFont } from "~/app/styles/fonts/font";
+import { interFont, montserratFont, nunitoFont } from "~/app/styles/fonts/font";
 import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 
@@ -51,8 +51,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 					<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 				</head>
 				<body
-					className={`${interFont.variable} ${montserratFont.variable} antialiase min-h-screen bg-white font-inter
-						dark:bg-[#161616]`}
+					className={`${interFont.variable} ${montserratFont.variable} ${nunitoFont.variable} antialiase min-h-screen
+						bg-white font-inter dark:bg-[#161616]`}
 				>
 					<Toaster position="top-center" richColors expand />
 					<AuthProvider>{children}</AuthProvider>
