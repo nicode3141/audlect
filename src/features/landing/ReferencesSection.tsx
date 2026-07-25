@@ -3,7 +3,7 @@ import React from "react";
 
 export default function ReferencesSection() {
 	return (
-		<section className="flex flex-col items-center gap-10 p-5 pt-15">
+		<section className="flex flex-col items-center gap-10 p-5 pt-20 pb-20">
 			<div className="flex flex-col gap-1">
 				<div className="font-inter font-bold text-black text-4xl">References</div>
 				<p className="text-neutral-500 text-2xl font-bold font-inter">
