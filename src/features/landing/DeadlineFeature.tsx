@@ -5,7 +5,7 @@ export default function DeadlineFeature() {
 	return (
 		<section
 			className="flex flex-col items-center gap-10 p-5 bg-[url('/images/backgrounds/mesh-background-3.avif')] bg-cover
-				bg-center py-10 w-full"
+				bg-center py-10 w-full pb-20"
 		>
 			<div className="flex flex-col gap-1">
 				<div className="font-inter font-bold text-black text-4xl">Set Deadlines for Votings </div>

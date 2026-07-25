@@ -5,7 +5,7 @@ import { cn } from "~/shared/utils/utils";
 
 export default function CreateVotingSection() {
 	return (
-		<section className="flex flex-col items-center gap-10 p-5 pt-15 pb-15">
+		<section className="flex flex-col items-center gap-10 p-5 pt-20 pb-20">
 			<div className="flex flex-col gap-1 text-center">
 				<div className="font-inter font-bold text-black text-4xl">
 					Create <b>your</b> <span className="text-company">Voting today!</span>
