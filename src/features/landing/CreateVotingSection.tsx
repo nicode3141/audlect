@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import React, { useState } from "react";
 import { cn } from "~/shared/utils/utils";
 
@@ -47,17 +48,30 @@ export default function CreateVotingSection() {
 				>
 					{votingName.length > 0 ? votingName : "Your next event..."}
 				</div>
-				<button
-					className={cn(
-						`py-3 rounded-[10px] font-inter text-lg font-bold cursor-pointer transition-all duration-200 ease-in-out
-						whitespace-nowrap flex items-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-neutral-800 text-white
-						hover:text-gray-500 px-10 gap-2 justify-center`,
-						votingName.length === 0 && "bg-neutral-400",
-					)}
-					disabled={votingName.length === 0}
-				>
-					Create <ArrowRight strokeWidth={3} />
-				</button>
+				{votingName.length === 0 ? (
+					<span
+						className={cn(
+							`py-3 rounded-[10px] font-inter text-lg font-bold cursor-pointer transition-all duration-200 ease-in-out
+								whitespace-nowrap flex items-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-neutral-800 text-white
+								hover:text-gray-500 px-10 gap-2 justify-center`,
+							votingName.length === 0 && "bg-neutral-400 pointer-event-none",
+						)}
+					>
+						Create <ArrowRight strokeWidth={3} />
+					</span>
+				) : (
+					<Link
+						className={cn(
+							`py-3 rounded-[10px] font-inter text-lg font-bold cursor-pointer transition-all duration-200 ease-in-out
+								whitespace-nowrap flex items-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-neutral-800 text-white
+								hover:text-gray-500 px-10 gap-2 justify-center`,
+							votingName.length === 0 && "bg-neutral-400 pointer-event-none",
+						)}
+						href={`/voting/new?name=${encodeURIComponent(votingName)}`}
+					>
+						Create <ArrowRight strokeWidth={3} />
+					</Link>
+				)}
 			</div>
 		</section>
 	);
