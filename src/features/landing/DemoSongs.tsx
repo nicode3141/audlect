@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DemoSongCard from "./DemoSongCard";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -20,8 +20,7 @@ const songs = [
 		added_by: "cgyi0egyDxtYctog4sTOM2HDhaBnUapC",
 		rank: "1",
 		created_at: "2026-07-26T12:53:54.981948Z",
-		likes_total: 0,
-		liked: false,
+		initialLikes: 23,
 	},
 	{
 		song_id: "fc95239b-dce1-4cbc-89cf-907c48025ef3",
@@ -35,8 +34,7 @@ const songs = [
 		added_by: "cgyi0egyDxtYctog4sTOM2HDhaBnUapC",
 		rank: "2",
 		created_at: "2026-07-26T12:55:11.245085Z",
-		likes_total: 0,
-		liked: false,
+		initialLikes: 47,
 	},
 	{
 		song_id: "bb842708-17f2-404f-a7b6-5fb337236aff",
@@ -50,13 +48,27 @@ const songs = [
 		added_by: "cgyi0egyDxtYctog4sTOM2HDhaBnUapC",
 		rank: "3",
 		created_at: "2026-07-26T12:55:19.120132Z",
-		likes_total: 0,
-		liked: false,
+		initialLikes: 31,
 	},
 ];
 
 export default function DemoSongs() {
 	const [likedSong, setLikedSong] = useState<string | undefined>(undefined);
+	const [likeCounts, setLikeCounts] = useState(() => songs.map((s) => s.initialLikes));
+
+	useEffect(() => {
+		function tick() {
+			const idx = Math.floor(Math.random() * songs.length);
+			setLikeCounts((prev) => {
+				const next = [...prev];
+				next[idx] = (next[idx] ?? 0) + 1;
+				return next;
+			});
+		}
+
+		const interval = setInterval(tick, 3000 + Math.random() * 5000);
+		return () => clearInterval(interval);
+	}, []);
 
 	function likeSong(songId: string) {
 		if (likedSong === songId) {
@@ -86,7 +98,7 @@ export default function DemoSongs() {
 							preview_url: item.preview_url,
 							added_by: item.added_by,
 							created_at: new Date(item.created_at),
-							likes_total: likedSong === item.song_id ? item.likes_total + 1 : item.likes_total,
+							likes_total: (likeCounts[i] ?? 0) + (likedSong === item.song_id ? 1 : 0),
 							liked: undefined,
 						}}
 					/>
