@@ -15,11 +15,11 @@ import { toast } from "sonner";
 import ShareVotingDialog from "./ShareVotingDialog";
 import OptionalTime from "~/shared/components/OptionalTime";
 
-export default function CreateVoting() {
+export default function CreateVoting({ initialName }: { initialName?: string }) {
 	const utils = api.useUtils();
 	const { requireLogin } = useRequireLogin();
 
-	const [votingName, setVotingName] = useState("");
+	const [votingName, setVotingName] = useState(initialName ?? "");
 	const [votingDescription, setVotingDescription] = useState("");
 	const [isPrivate, setIsPrivate] = useState(false);
 
@@ -73,13 +73,14 @@ export default function CreateVoting() {
 					<FieldGroup>
 						<Field className="">
 							<FieldLabel htmlFor="input-field-username">Title</FieldLabel>
-							<Input
-								id="input-field-username"
-								type="text"
-								placeholder="Olivia’s Birthday"
-								onChange={(e) => setVotingName(e.target.value)}
-								required
-							/>
+						<Input
+							id="input-field-username"
+							type="text"
+							placeholder="Olivia's Birthday"
+							defaultValue={initialName ?? ""}
+							onChange={(e) => setVotingName(e.target.value)}
+							required
+						/>
 							<FieldDescription>*required</FieldDescription>
 						</Field>
 						<Field className="">
