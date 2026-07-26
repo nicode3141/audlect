@@ -1,5 +1,7 @@
 import React from "react";
 import DemoSongs from "./DemoSongs";
+import { AudioProvider } from "~/features/voting/context/AudioContext";
+import AudioProgressBar from "~/features/voting/components/AudioProgressBar";
 
 export default function DemoSection() {
 	return (
@@ -11,7 +13,10 @@ export default function DemoSection() {
 				<div className="font-inter font-bold text-black text-4xl">Your turn!</div>
 				<p className="text-neutral-500 text-2xl font-medium font-montserrat">Which song is best?</p>
 			</div>
-			<DemoSongs />
+			<AudioProvider>
+				<DemoSongs />
+				<AudioProgressBar />
+			</AudioProvider>
 		</section>
 	);
 }
