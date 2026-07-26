@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import SongCard from "../voting/components/SongCard/SongCard";
+import DemoSongCard from "./DemoSongCard";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const demoVotingID = "cea6a17e-fce5-4a8f-9a64-4fed40d9a1b9s";
 
@@ -58,7 +59,11 @@ export default function DemoSongs() {
 	const [likedSong, setLikedSong] = useState<string | undefined>(undefined);
 
 	function likeSong(songId: string) {
-		setLikedSong(songId);
+		if (likedSong === songId) {
+			setLikedSong(undefined);
+		} else {
+			setLikedSong(songId);
+		}
 		return undefined;
 	}
 
@@ -66,8 +71,7 @@ export default function DemoSongs() {
 		<>
 			<div className="flex flex-col items-center justify-center gap-3.5">
 				{songs.map((item, i) => (
-					<SongCard
-						added={true}
+					<DemoSongCard
 						key={i}
 						liked={likedSong === item.song_id}
 						onLike={() => likeSong(item.song_id)}
@@ -89,10 +93,14 @@ export default function DemoSongs() {
 				))}
 			</div>
 			{likedSong && (
-				<button className="flex items-center text-white bg-company px-5 py-3 rounded-2xl text-2xl font-bold gap-1">
-					<>Submit your Vote</>
+				<Link
+					className="flex items-center text-white bg-company px-5 py-3 rounded-2xl text-xl font-bold gap-1 shadow-xl
+						shadow-company/10"
+					href={"/voting/new"}
+				>
+					<>Now let your guests decide</>
 					<ArrowRight className="text-white" strokeWidth={3} />
-				</button>
+				</Link>
 			)}
 		</>
 	);
