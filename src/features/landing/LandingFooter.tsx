@@ -6,7 +6,7 @@ const footerLinks = [
 		title: "Product",
 		links: [
 			{ label: "Create your voting", href: "/voting/new" },
-			{ label: "Browse events", href: "/votings/" },
+			{ label: "Browse events", href: "/voting/" },
 			{ label: "Pricing", href: "/pricing" },
 			{ label: "Feedback", href: "https://forms.gle/um6yszPE2oirzFg47" },
 		],

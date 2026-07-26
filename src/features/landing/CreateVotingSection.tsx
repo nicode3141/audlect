@@ -30,7 +30,7 @@ export default function CreateVotingSection() {
 				/>
 				<div
 					className="bg-linear-to-r from-yellow-300 to-orange-400 text-3xl font-extrabold font-montserrat p-5 py-15
-						rounded-xl text-shadow-2xs"
+						text-white rounded-xl text-shadow-2xs"
 				>
 					Your next event...
 				</div>
