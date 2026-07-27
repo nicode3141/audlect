@@ -52,7 +52,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 				</head>
 				<body
 					className={`${interFont.variable} ${montserratFont.variable} ${nunitoFont.variable} antialiase min-h-screen
-						bg-white font-inter dark:bg-[#161616]`}
+						bg-white font-inter dark:bg-[#161616] selection:bg-company selection:text-white`}
 				>
 					<Toaster position="top-center" richColors expand />
 					<AuthProvider>{children}</AuthProvider>
