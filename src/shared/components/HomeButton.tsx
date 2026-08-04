@@ -7,6 +7,7 @@ type ButtonVariant = "primary" | "secondary" | "black" | "blackTransparent";
 interface HomeButtonProps {
 	variant: ButtonVariant;
 	href: string;
+	className?: string;
 	children?: React.ReactNode;
 }
 
@@ -27,10 +28,10 @@ const homeButtonVariants = cva(
 	},
 );
 
-export default function HomeButton({ variant, href, children }: HomeButtonProps) {
+export default function HomeButton({ variant, href, className, children }: HomeButtonProps) {
 	return (
 		<div>
-			<Link href={href} className={cn(homeButtonVariants({ variant }))}>
+			<Link href={href} className={cn(homeButtonVariants({ variant }), className)}>
 				{children}
 			</Link>
 		</div>
