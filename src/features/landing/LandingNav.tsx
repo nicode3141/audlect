@@ -31,14 +31,14 @@ export default function LandingNav() {
 				className="flex p-5 bg-black/10 z-30 absolute w-full backdrop-blur-xs text-white md:bg-neutral-50 md:rounded-xl
 					md:border-black/5 md:border md:max-w-[90vw] md:shadow-md"
 			>
-				<div className="flex items-center gap-2 flex-1">
+				<Link href={"/"} className="flex items-center gap-2 flex-1">
 					<img src={"/app-logo.svg"} alt="Audlect Logo" width={30}></img>
 					<span
 						className="font-nunito text-white md:text-company text-2xl font-extrabold md:text-[26px] text-shadow-2xs"
 					>
 						Audlect
 					</span>
-				</div>
+				</Link>
 				<div className="hidden md:flex flex-1 items-center justify-center font-semibold md:text-neutral-700 text-xl">
 					<div className="flex space-x-4 items-center justify-center">
 						<Link
@@ -72,12 +72,9 @@ export default function LandingNav() {
 					</div>
 				</div>
 				<div className="flex items-center gap-2 font-semibold flex-1 justify-end md:text-black md:font-bold md:text-xl">
-					<div className="flex items-center gap-3">
+					<div className="flex items-center gap-4">
 						<Link href={"/auth/sign-in"} className="flex gap-1 underline">
 							Sign in
-							<div className="hidden md:block">
-								<User strokeWidth={2.5} />
-							</div>
 						</Link>
 						<NavBarHamburger
 							className="md:hidden"
@@ -97,6 +94,11 @@ export default function LandingNav() {
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1, transition: { duration: 0.2 } }}
 						exit={{ opacity: 0, transition: { duration: 0.15 } }}
+						onClick={(e) => {
+							if (e.target instanceof Element && !e.target.closest("a, button")) {
+								toggleNavBar(false);
+							}
+						}}
 						className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-black/40 backdrop-blur-xs"
 					>
 						<div className="flex items-center justify-end p-5">
