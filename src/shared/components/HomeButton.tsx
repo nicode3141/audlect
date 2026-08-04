@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cva } from "class-variance-authority";
 import { cn } from "~/shared/utils/utils";
 
-type ButtonVariant = "primary" | "secondary" | "black";
+type ButtonVariant = "primary" | "secondary" | "black" | "blackTransparent";
 
 interface HomeButtonProps {
 	variant: ButtonVariant;
@@ -18,6 +18,7 @@ const homeButtonVariants = cva(
 				primary: `bg-indigo-400 text-white hover:text-black px-5`,
 				secondary: `bg-gray-300 text-black hover:text-white px-10`,
 				black: `bg-black text-white hover:text-gray-500 px-5`,
+				blackTransparent: `bg-black/50 text-white hover:text-gray-500 px-5`,
 			},
 		},
 		defaultVariants: {
