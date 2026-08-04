@@ -6,7 +6,7 @@ export default function HeroSection() {
 	return (
 		<main className="h-[180vw]">
 			<Image src={"/images/landing/hero.avif"} alt={"hero"} width={1000} height={20} unoptimized />
-			<div className="relative bottom-[38vw] w-full flex justify-center flex-col">
+			<div className="relative bottom-[38vw] w-full flex justify-center flex-col md:static">
 				<div className="text-left w-full pl-3">
 					<div className="text-white text-[12vw] font-extrabold text-shadow-lg leading-[1.2]">
 						Music everyone <br></br>

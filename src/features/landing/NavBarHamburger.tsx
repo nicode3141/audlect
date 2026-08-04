@@ -2,17 +2,19 @@
 
 import React from "react";
 import { motion } from "motion/react";
+import { cn } from "~/shared/utils/utils";
 
 interface NavBarHamburgerProps {
 	isOpen: boolean;
 	onToggle: () => void;
+	className?: string;
 }
 
-export default function NavBarHamburger({ isOpen, onToggle }: NavBarHamburgerProps) {
+export default function NavBarHamburger({ isOpen, onToggle, className }: NavBarHamburgerProps) {
 	const animate = isOpen ? "open" : "closed";
 
 	return (
-		<button className="NavBarHamburgerTrigger" onClick={onToggle}>
+		<button className={cn("NavBarHamburgerTrigger", className)} onClick={onToggle}>
 			<svg width="25" height="25" viewBox="0 0 30 30">
 				<motion.path
 					fill="transparent"
