@@ -11,7 +11,7 @@ import ShareFeature from "~/features/landing/ShareFeature";
 import LandingFooter from "~/features/landing/LandingFooter";
 export default async function Home() {
 	return (
-		<div className="bg-white overflow-hidden flex flex-col items-center w-full">
+		<div className="bg-white overflow-hidden flex flex-col items-center w-full md:pt-4">
 			<LandingNav />
 			<HeroSection />
 			<ProductSection />
