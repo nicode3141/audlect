@@ -5,7 +5,10 @@ import { Gray } from "~/shared/utils/generics";
 export default function HeroSection() {
 	return (
 		<main className="h-[180vw]">
-			<Image src={"/images/landing/hero.avif"} alt={"hero"} width={1000} height={20} unoptimized />
+			<video autoPlay muted loop playsInline preload="metadata" className="object-cover w-full h-[60vh]">
+				<source src="/videos/hero-video.webm" type="video/webm" />
+				<source src="/videos/hero-video.mp4" type="video/mp4" />
+			</video>
 			<div className="relative bottom-[38vw] w-full flex justify-center flex-col md:static">
 				<div className="text-left w-full pl-3">
 					<div className="text-white text-[12vw] font-extrabold text-shadow-lg leading-[1.2]">
