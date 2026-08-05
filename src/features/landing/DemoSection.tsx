@@ -7,7 +7,7 @@ export default function DemoSection() {
 	return (
 		<section
 			className="demoSectionLanding flex flex-col items-center gap-10 p-5 py-15 w-full
-				bg-[url('/images/backgrounds/mesh-background2.avif')] bg-cover bg-center"
+				bg-[url('/images/backgrounds/mesh-background2.avif')] bg-cover bg-center md:flex-row md:gap-30"
 		>
 			<div className="flex flex-col gap-1 items-center text-center">
 				<div className="font-inter font-bold text-black text-4xl">Your turn!</div>
