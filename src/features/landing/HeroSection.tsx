@@ -1,5 +1,6 @@
 import HomeButton from "~/shared/components/HomeButton";
 import { Gray } from "~/shared/utils/generics";
+import HeroVideo from "./HeroVideo";
 
 export default function HeroSection() {
 	return (
@@ -9,11 +10,8 @@ export default function HeroSection() {
 					Music everyone
 				</div>
 			</div>
-			<div className="relative h-[60vh] w-full md:h-auto md:aspect-video xl:aspect-5/2">
-				<video autoPlay muted loop playsInline preload="metadata" className="object-cover w-full h-full">
-					{/** 	<source src="/videos/hero-video.webm" type="video/webm" />*/}
-					<source src="/videos/hero-video.mp4" type="video/mp4" />
-				</video>
+			<div className="relative h-[65vh] w-full md:h-auto md:aspect-video xl:aspect-5/2">
+				<HeroVideo />
 				<div
 					className="pointer-events-none absolute inset-x-0 bottom-0 h-[25%] bg-linear-to-t from-white via-white
 						to-transparent md:bg-none md:hidden"
