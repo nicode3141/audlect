@@ -84,7 +84,7 @@ export default React.memo(function SongCard({
 	return (
 		<motion.div
 			className="flex w-[90vw] items-center justify-between gap-5 rounded-3xl bg-[#F0F0F0] p-2.5 md:w-2xl
-				dark:bg-[#252525]"
+				dark:bg-[#252525] [.demoSectionLanding_&]:bg-[#F0F0F0]"
 			{...motionProps}
 		>
 			<div className="flex min-w-0 flex-1 items-center gap-2">
@@ -109,10 +109,16 @@ export default React.memo(function SongCard({
 					/>
 				</div>
 				<div className="flex min-w-0 flex-col leading-tight">
-					<div className="font-montserrat truncate text-[1.15rem] font-semibold dark:text-white">
+					<div
+						className="font-montserrat truncate text-[1.15rem] font-semibold dark:text-white
+							[.demoSectionLanding_&]:text-black"
+					>
 						{metadata.song_name}
 					</div>
-					<div className="font-montserrat truncate text-sm text-gray-600 dark:text-gray-200">
+					<div
+						className="font-montserrat truncate text-sm text-gray-600 dark:text-gray-200
+							[.demoSectionLanding_&]:text-gray-600"
+					>
 						{metadata.song_artists}
 					</div>
 				</div>
@@ -121,13 +127,16 @@ export default React.memo(function SongCard({
 				{added ? (
 					<>
 						<div className="flex flex-col gap-1">
-					<LikeButton
-							liked={liked ?? false}
-							isLoadingLike={isLoadingLike ?? false}
-							handleLike={onLike ?? nop}
-							disabled={disabled}
-						></LikeButton>
-							<div className="text-center text-sm text-gray-700 select-none dark:text-gray-200">
+							<LikeButton
+								liked={liked ?? false}
+								isLoadingLike={isLoadingLike ?? false}
+								handleLike={onLike ?? nop}
+								disabled={disabled}
+							></LikeButton>
+							<div
+								className="text-center text-sm text-gray-700 select-none dark:text-gray-200
+									[.demoSectionLanding_&]:text-gray-700"
+							>
 								{metadata.likes_total}
 							</div>
 						</div>
