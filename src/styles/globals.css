@@ -21,6 +21,19 @@
 	border-radius: 10px;
 }
 
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 999px;
+}
+
 @layer base {
 	:root {
 		--team-1: oklch(0.646 0.222 41.116);
