@@ -4,10 +4,12 @@ import React from "react";
 export default function ReferencesSection() {
 	return (
 		<section className="flex flex-col items-center gap-10 p-5 pt-20 pb-20">
-			<div className="flex flex-col gap-1">
-				<div className="font-inter font-bold text-black text-4xl">References</div>
-				<p className="text-neutral-500 text-2xl font-bold font-inter">
-					Already used by <b className="text-black">200+ guests</b> at live events
+			<div className="flex flex-col gap-1 md:w-[40vw] md:items-center">
+				<div className="font-inter font-bold text-black text-4xl md:text-center md:text-5xl xl:text-6xl">
+					Trusted by real<br></br> events!
+				</div>
+				<p className="text-neutral-400 text-2xl font-semibold font-inter md:text-center md:w-[35vw]">
+					Already used by <span className="text-black">200+ guests</span> at <br></br> live events
 				</p>
 			</div>
 			<Image

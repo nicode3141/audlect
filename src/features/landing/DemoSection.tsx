@@ -6,7 +6,7 @@ import AudioProgressBar from "~/features/voting/components/AudioProgressBar";
 export default function DemoSection() {
 	return (
 		<section
-			className="flex flex-col items-center gap-10 p-5 py-15 w-full
+			className="demoSectionLanding flex flex-col items-center gap-10 p-5 py-15 w-full
 				bg-[url('/images/backgrounds/mesh-background2.avif')] bg-cover bg-center"
 		>
 			<div className="flex flex-col gap-1 items-center text-center">
