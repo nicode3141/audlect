@@ -4,7 +4,7 @@ import HeroVideo from "./HeroVideo";
 
 export default function HeroSection() {
 	return (
-		<main className="h-[180vw] w-full md:h-auto">
+		<main className="h-[85vh] w-full md:h-auto">
 			<div className="hidden md:block w-full pl-3 py-4 pt-30 text-center">
 				<div className="text-company text-[6vw] font-extrabold leading-[1.2] text-shadow-2xs text-shadow-white/50">
 					Music everyone
