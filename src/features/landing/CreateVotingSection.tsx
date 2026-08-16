@@ -11,10 +11,10 @@ export default function CreateVotingSection() {
 	return (
 		<section className="flex flex-col items-center gap-10 p-5 pt-20 pb-20">
 			<div className="flex flex-col gap-1 text-center">
-				<div className="font-inter font-bold text-black text-4xl">
-					Create <b>your</b> <span className="text-company">Voting today!</span>
+				<div className="font-inter font-bold text-black text-4xl md:text-6xl md:max-w-100">
+					Create <u>your</u> <span className="text-company">Voting today!</span>
 				</div>
-				<p className="text-neutral-400 text-lg font-medium font-inter">takes less than 2 mins. </p>
+				<p className="text-neutral-400 text-lg font-medium font-inter md:text-xl">takes less than 2 mins. </p>
 			</div>
 			<div className="flex flex-col gap-5">
 				<input
@@ -27,7 +27,7 @@ export default function CreateVotingSection() {
 						text-neutral-900 font-semibold transition-[color,box-shadow] outline-none selection:bg-primary
 						selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm
 						file:font-medium file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none
-						md:text-sm dark:bg-input/30 dark:placeholder:text-gray-500 dark:focus-visible:ring-ring/50
+						md:text-2xl dark:bg-input/30 dark:placeholder:text-gray-500 dark:focus-visible:ring-ring/50
 						dark:focus-visible:border-ring`,
 						"focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 scroll-mt-0 scroll-mb-100",
 						"aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
@@ -36,7 +36,8 @@ export default function CreateVotingSection() {
 				<div
 					className={cn(
 						`bg-linear-to-r from-yellow-300 to-orange-400 text-3xl font-extrabold font-montserrat p-5 py-10 text-white
-						rounded-xl text-shadow-2xs text-center text-[clamp(3xl,2vw,24px)] overflow-hidden min-w-0 max-w-[90vw]`,
+						rounded-xl text-shadow-2xs text-center text-[clamp(3xl,2vw,24px)] overflow-hidden min-w-0 max-w-[90vw]
+						md:text-text-[clamp(6xl,20vw,24px)] md:rounded-3xl md:py-20 `,
 						(votingName?.length ?? 0) > 30
 							? "text-lg"
 							: (votingName?.length ?? 0) > 20
