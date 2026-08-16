@@ -80,8 +80,8 @@ export default function DemoSongs() {
 	}
 
 	return (
-		<>
-			<div className="flex flex-col items-center justify-center gap-3.5">
+		<div className="relative contents md:block">
+			<div className="flex flex-col items-center justify-center gap-3.5 md:w-[40vw] xl:w-[25vw]">
 				{songs.map((item, i) => (
 					<DemoSongCard
 						key={i}
@@ -106,14 +106,27 @@ export default function DemoSongs() {
 			</div>
 			{likedSong && (
 				<Link
-					className="flex items-center text-white bg-company px-5 py-3 rounded-2xl text-xl font-bold gap-1 shadow-xl
-						shadow-company/10"
+					className="flex md:hidden items-center text-white bg-company px-5 py-3 rounded-2xl text-lg sm:text-xl
+						font-bold gap-1 shadow-xl shadow-company/10 text-center"
 					href={"/voting/new"}
 				>
 					<>Now let your guests decide</>
 					<ArrowRight className="text-white" strokeWidth={3} />
 				</Link>
 			)}
-		</>
+			{likedSong && (
+				<div
+					className="hidden md:flex absolute inset-0 z-20 items-center justify-center animate-in fade-in zoom-in-95
+						duration-300 rounded-2xl"
+				>
+					<div className="bg-company rounded-3xl px-8 py-6 shadow-2xl shadow-company/30 flex items-center gap-2">
+						<Link className="flex items-center text-white text-lg font-bold gap-1" href={"/voting/new"}>
+							Now let your guests decide
+							<ArrowRight className="text-white" strokeWidth={3} />
+						</Link>
+					</div>
+				</div>
+			)}
+		</div>
 	);
 }
