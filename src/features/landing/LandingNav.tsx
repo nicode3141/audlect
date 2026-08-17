@@ -81,7 +81,11 @@ export default function LandingNav() {
 							onToggle={() => toggleNavBar((prev) => !prev)}
 						/>
 
-						<Link href={"/voting/new"} className="hidden xl:block bg-company p-2 rounded-lg text-white">
+						<Link
+							href={"/voting/new"}
+							className="hidden xl:block bg-company p-2 rounded-lg text-white bold duration-300 hover:underline
+								hover:bg-blue-400 ease-in-out font-semibold text-lg"
+						>
 							Create your event
 						</Link>
 					</div>
