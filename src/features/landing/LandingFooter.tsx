@@ -68,7 +68,7 @@ export default function LandingFooter() {
 			</footer>
 			<p className="text-neutral-500 md:pb-40 w-full text-center py-10 font-montserrat font-medium">
 				{" "}
-				© 2026 Nicolas Pfeifer audlect.nicodenetworks.com
+				© 2026 Nicolas Pfeifer info[at]nicodenetworks.com
 			</p>
 		</>
 	);
