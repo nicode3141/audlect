@@ -1,5 +1,5 @@
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/shared/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { UserAvatar } from "~/features/auth/components/auth/user-avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -48,10 +48,7 @@ export function NavUser() {
 							className="data-[state=open]:bg-sidebar-accent dark:data-[state=open]:bg-neutral-700
 								data-[state=open]:text-sidebar-accent-foreground dark:data-[state=open]:text-neutral-200"
 						>
-							<Avatar className="h-8 w-8 rounded-lg grayscale">
-								<AvatarImage src={user?.image ?? "/ImagePlaceholder"} alt={user?.name} />
-								<AvatarFallback className="rounded-lg">CN</AvatarFallback>
-							</Avatar>
+							<UserAvatar user={user} isPending={sessionPending} className="h-8 w-8 rounded-lg" />
 							<div className="grid flex-1 text-left text-sm leading-tight dark:text-white">
 								<span className="truncate font-medium">{user?.name}</span>
 								<span className="truncate text-xs text-muted-foreground">{user?.email}</span>
@@ -68,11 +65,8 @@ export function NavUser() {
 					>
 						<DropdownMenuLabel className="p-0 font-normal">
 							<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-								<Avatar className="h-8 w-8 rounded-lg">
-									<AvatarImage src={user?.image ?? "/ImagePlaceholder"} alt={user?.name} />
-									<AvatarFallback className="rounded-lg">CN</AvatarFallback>
-								</Avatar>
-								<div className="grid flex-1 text-left text-sm leading-tight">
+							<UserAvatar user={user} isPending={sessionPending} className="h-8 w-8 rounded-lg" />
+							<div className="grid flex-1 text-left text-sm leading-tight">
 									<span className="truncate font-medium">{user?.name}</span>
 									<span className="truncate text-xs text-muted-foreground">{user?.email}</span>
 								</div>
