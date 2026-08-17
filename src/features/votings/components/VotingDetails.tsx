@@ -1,5 +1,3 @@
-"use server";
-
 import { VotingSubitle, VotingTitle } from "~/features/voting/components/VotingTitle";
 
 interface IVotingDetails {
