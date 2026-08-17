@@ -1,4 +1,3 @@
-import Image from "next/image";
 import CreateVotingSection from "~/features/landing/CreateVotingSection";
 import DeadlineFeature from "~/features/landing/DeadlineFeature";
 import DemoSection from "~/features/landing/DemoSection";

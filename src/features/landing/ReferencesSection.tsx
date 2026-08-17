@@ -28,7 +28,7 @@ export default function ReferencesSection() {
 							height={100}
 							className="rounded-md object-cover h-96"
 						/>
-						<div className="absolute bottom-6 left-5 right-3">
+						<div className="absolute bottom-6 left-5 right-3 select-none">
 							{`${"Schulball' 25 - OHG Wiesloch"}`.split("").map((el, i) => (
 								<motion.span
 									className="text-white font-montserrat font-semibold text-xl"
@@ -60,7 +60,7 @@ export default function ReferencesSection() {
 								height={600}
 								className="rounded-md shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] object-cover h-96 md:w-110 w-full"
 							/>
-							<div className="absolute bottom-6 left-5 right-3">
+							<div className="absolute bottom-6 left-5 right-3 select-none">
 								{`${"Schulball' 26 - OHGW"}`.split("").map((el, i) => (
 									<motion.span
 										className="text-white font-montserrat font-semibold text-xl"
@@ -90,7 +90,7 @@ export default function ReferencesSection() {
 								height={100}
 								className="rounded-md shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)]"
 							/>
-							<div className="absolute bottom-6 left-5 right-3">
+							<div className="absolute bottom-6 left-5 right-3 select-none">
 								{`${"Aloha Festival 2025"}`.split("").map((el, i) => (
 									<motion.span
 										className="text-white font-montserrat font-semibold text-xl"
