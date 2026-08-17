@@ -67,9 +67,43 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+	const organizationSchema = {
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		name: "Audlect",
+		url: baseUrl,
+		logo: `${baseUrl}/app-logo.svg`,
+		description:
+			"Collaborative music voting for events, parties, and venues.",
+		sameAs: ["https://github.com/nicode3141"],
+	};
+
+	const websiteSchema = {
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		name: "Audlect",
+		url: baseUrl,
+		potentialAction: {
+			"@type": "SearchAction",
+			target: {
+				"@type": "EntryPoint",
+				urlTemplate: `${baseUrl}/voting?q={search_term_string}`,
+			},
+			"query-input": "required name=search_term_string",
+		},
+	};
+
 	return (
 		<html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
 			<head>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+				/>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+				/>
 				<link rel="manifest" href="/manifest.json" />
 				<meta name="google-site-verification" content="yLjcVnpIMX5kpihar7L_mOImR_sVKCkDCK4uH0rV_hM" />
 				<meta name="mobile-web-app-capable" content="yes" />

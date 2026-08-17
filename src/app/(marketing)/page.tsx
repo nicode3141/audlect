@@ -12,7 +12,7 @@ import { TextFade } from "~/shared/animations/TextFade";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Audlect — Collaborative Music Voting for Events & Parties",
+	title: "Audlect - Vote Music for Events & Parties",
 	description:
 		"Let your guests vote songs into a shared playlist in real time. Free music voting app for parties, weddings, bars, and live events.",
 	alternates: {
