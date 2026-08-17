@@ -32,6 +32,8 @@ function Calendar({
 				className,
 			)}
 			captionLayout={captionLayout}
+			startMonth={props.startMonth ?? new Date(2000, 0)}
+			endMonth={props.endMonth ?? new Date(2060, 11)}
 			formatters={{
 				formatMonthDropdown: (date) => date.toLocaleString("default", { month: "short" }),
 				...formatters,

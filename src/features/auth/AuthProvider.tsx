@@ -10,6 +10,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	return (
 		<AuthUIProvider
 			authClient={authClient}
+			gravatar={{ d: "identicon" }}
 			navigate={(url) => {
 				if (url.startsWith("/voting/")) {
 					window.location.href = url;

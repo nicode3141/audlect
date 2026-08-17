@@ -61,7 +61,10 @@ export const AudioProvider = (props: IAudioProvider) => {
 		if (!audio) return;
 
 		if (audio.paused) {
-			void audio.play();
+			void audio.play().catch(() => {
+				setCurrentSong(null);
+				setIsPlaying(false);
+			});
 		} else {
 			audio.pause();
 		}
@@ -80,7 +83,10 @@ export const AudioProvider = (props: IAudioProvider) => {
 
 		audio.src = currentSong.previewUrl;
 
-		void audio.play();
+		void audio.play().catch(() => {
+			setCurrentSong(null);
+			setIsPlaying(false);
+		});
 	}, [currentSong]);
 
 	const value = useMemo<IAudioContext>(
@@ -106,6 +112,7 @@ export const AudioProvider = (props: IAudioProvider) => {
 				onPlay={() => setIsPlaying(true)}
 				onPause={() => setIsPlaying(false)}
 				onEnded={stop}
+				onError={stop}
 				hidden
 			/>
 		</AudioContext.Provider>

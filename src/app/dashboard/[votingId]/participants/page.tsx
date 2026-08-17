@@ -27,13 +27,13 @@ export default function Page() {
 						<div className="flex items-center gap-4 flex-1">
 							{user.image ? (
 								<Image
-									src={user.image ?? "./ImagePlaceholder.png"}
+									src={user.image ?? "/ImagePlaceholder.png"}
 									alt={"user avatar"}
 									width={90}
 									height={90}
 									loading="lazy"
 									className="h-12 w-12 rounded-xl"
-									blurDataURL="ImagePlaceholder.png"
+									blurDataURL="/ImagePlaceholder.png"
 									onError={(e) => (e.currentTarget.src = "/ImagePlaceholder.png")}
 									unoptimized
 								/>

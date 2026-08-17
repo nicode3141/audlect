@@ -30,7 +30,12 @@ const addButtonAnimate = { opacity: 1, scale: 1 };
 const addButtonTransition = { type: "tween" as const, duration: 0.45, bounce: 0.51 };
 const addButtonWhileTap = { scale: 2 };
 
-export const LikeButton = React.memo(function LikeButton({ liked, handleLike, isLoadingLike = false, disabled = false }: LikeButtonProps) {
+export const LikeButton = React.memo(function LikeButton({
+	liked,
+	handleLike,
+	isLoadingLike = false,
+	disabled = false,
+}: LikeButtonProps) {
 	const onClick = useCallback(() => {
 		if (disabled) {
 			toast.info(disabledToastMessage);
@@ -56,7 +61,12 @@ export const LikeButton = React.memo(function LikeButton({ liked, handleLike, is
 	);
 });
 
-export const AddSongButton = React.memo(function AddSongButton({ added, handleAdd, isLoadingAdd = false, disabled = false }: AddSongButtonProps) {
+export const AddSongButton = React.memo(function AddSongButton({
+	added,
+	handleAdd,
+	isLoadingAdd = false,
+	disabled = false,
+}: AddSongButtonProps) {
 	const onClick = useCallback(() => {
 		if (disabled) {
 			toast.info(disabledToastMessage);

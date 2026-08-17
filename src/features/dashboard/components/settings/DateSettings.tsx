@@ -36,10 +36,6 @@ export default function DateSettings({ settings }: DateSettingsProps) {
 			toast.error("Please slow down.");
 			return;
 		}
-		if (date === null) {
-			toast.error("Invalid date");
-			return;
-		}
 
 		if (date && endTime && startsAfterEnds(date, endTime)) {
 			toast.error("Start time must be before end time");
@@ -47,7 +43,7 @@ export default function DateSettings({ settings }: DateSettingsProps) {
 			return;
 		}
 
-		setting.mutate({ voting_id: settings.voting_id, starts_at: date });
+		setting.mutate({ voting_id: settings.voting_id, starts_at: date ?? null });
 
 		setStartTime(date);
 		if (!date) return;
@@ -67,10 +63,6 @@ export default function DateSettings({ settings }: DateSettingsProps) {
 			toast.error("Please slow down.");
 			return;
 		}
-		if (date === null) {
-			toast.error("Invalid date");
-			return;
-		}
 
 		if (date && startTime && startsAfterEnds(startTime, date)) {
 			toast.error("Start time must be before end time");
@@ -78,7 +70,7 @@ export default function DateSettings({ settings }: DateSettingsProps) {
 			return;
 		}
 
-		setting.mutate({ voting_id: settings.voting_id, ends_at: date });
+		setting.mutate({ voting_id: settings.voting_id, ends_at: date ?? null });
 
 		setEndTime(date);
 		if (!date) return;

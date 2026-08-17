@@ -32,7 +32,7 @@ export function LikeIcon({ liked }: LikeIconProps) {
 			height="24"
 			viewBox="0 0 33 29"
 			fill="none"
-			className="text-[#7F7F7F] dark:text-gray-100"
+			className="text-[#7F7F7F] dark:text-gray-100 [.demoSectionLanding_&]:text-[#7F7F7F]"
 		>
 			<path
 				d="M19.5713 3.58203C22.3001 0.806351 26.7135 0.806426 29.4424 3.58203C32.1852 6.37196 32.1852 10.9054 29.4424 13.6953L16.5 26.8604L3.55762 13.6953C0.814756 10.9054 0.814756 6.37196 3.55762 3.58203C6.28651 0.806426 10.6999 0.806351 13.4287 3.58203L15.4307 5.61816L16.5 6.70605L17.5693 5.61816L19.5713 3.58203Z"

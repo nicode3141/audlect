@@ -20,7 +20,7 @@ export default function VotingHeader({ votingTitle, votingId, votingShortId }: V
 
 	const isLoading = votingId === "";
 
-	const { data: membership } = api.votings.getMyMembership.useQuery({ voting_id: votingId }, { enabled: !isLoading });
+	const { data: membership } = api.votings.getMyMembership.useQuery({ voting_id: votingId }, { enabled: !isLoading && !!session });
 
 	return (
 		<div className="inline-flex w-full items-center justify-between self-stretch px-3 py-2">
