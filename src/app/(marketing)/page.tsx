@@ -18,6 +18,9 @@ export default async function Home() {
 			<ReferencesSection />
 			<DemoSection />
 			<CreateVotingSection />
+			<h1 className="hidden md:block text-black font-inter text-6xl font-bold max-w-90 text-center pb-10 pt-25">
+				Fits <span className="text-[#415FFF]">all use cases</span>
+			</h1>
 			<div className="md:flex flex-col">
 				<div className="md:flex">
 					<DeadlineFeature />
