@@ -5,7 +5,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import { AuthProvider } from "~/features/auth/AuthProvider";
-import { Toaster } from "sonner";
+import { Toaster } from "~/shared/ui/sonner";
 
 export const metadata: Metadata = {
 	title: "Audlect - Vote Music",
