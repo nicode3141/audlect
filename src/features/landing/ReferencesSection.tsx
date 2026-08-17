@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import React, { useRef } from "react";
+import { TextFade } from "~/shared/animations/TextFade";
 import OptimizedImage from "~/shared/components/OptimizedImage";
 
 export default function ReferencesSection() {
@@ -11,14 +12,14 @@ export default function ReferencesSection() {
 	return (
 		<section ref={containerRef} className="relative py-30">
 			<div className="flex w-full flex-col items-center justify-center gap-10 p-5">
-				<div className="flex flex-col gap-1 md:w-[40vw] md:items-center">
+				<TextFade className="flex flex-col gap-1 md:w-[40vw] md:items-center" direction="up" staggerChildren={0.05}>
 					<div className="font-inter font-bold text-black text-4xl md:text-center md:text-5xl xl:text-6xl">
 						Trusted by real<br></br> events!
 					</div>
 					<p className="text-neutral-400 text-2xl font-semibold font-inter md:text-center md:w-[35vw]">
 						Already used by <span className="text-black">200+ guests</span> at <br></br> live events
 					</p>
-				</div>
+				</TextFade>
 				<div className="flex gap-5 items-center flex-col md:flex-row">
 					<div className="mt-4 relative overflow-hidden rounded-md shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)]">
 						<OptimizedImage

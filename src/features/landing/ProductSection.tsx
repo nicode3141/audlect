@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import { TextFade } from "~/shared/animations/TextFade";
 import OptimizedImage from "~/shared/components/OptimizedImage";
 
 export default function ProductSection() {
@@ -17,7 +18,7 @@ export default function ProductSection() {
 				</p>
 			</div>
 
-			<div className="hidden flex-col gap-1 md:flex max-w-[50vw]">
+			<TextFade className="hidden flex-col gap-1 md:flex max-w-[50vw]" direction="up">
 				<div className="font-inter font-bold text-black text-5xl">
 					Find out what <br></br>your crowd likes
 				</div>
@@ -27,7 +28,7 @@ export default function ProductSection() {
 				<p className="text-neutral-400 text-xl font-medium font-montserrat max-w-[30vw] pt-10">
 					secure votings in seconds.{" "}
 				</p>
-			</div>
+			</TextFade>
 			<OptimizedImage
 				src={"/images/landing/product-shot"}
 				alt={""}

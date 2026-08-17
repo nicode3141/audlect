@@ -3,6 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { TextFade } from "~/shared/animations/TextFade";
 import { cn } from "~/shared/utils/utils";
 
 export default function CreateVotingSection() {
@@ -10,12 +11,20 @@ export default function CreateVotingSection() {
 
 	return (
 		<section className="flex flex-col items-center gap-10 p-5 pt-20 pb-20">
-			<div className="flex flex-col gap-1 text-center">
-				<div className="font-inter font-bold text-black text-4xl md:text-6xl md:max-w-100">
-					Create <u>your</u> <span className="text-company">Voting today!</span>
+			<TextFade className="flex flex-col gap-1 text-center" direction={"up"}>
+				<div
+					className="font-inter font-bold text-black text-4xl md:text-6xl md:max-w-100"
+					style={{ willChange: "transform" }}
+				>
+					<>
+						Create <u>your</u>
+					</>{" "}
+					<span className="text-company">Voting today!</span>
 				</div>
-				<p className="text-neutral-400 text-lg font-medium font-inter md:text-xl">takes less than 2 mins. </p>
-			</div>
+				<p className="text-neutral-400 text-lg font-medium font-inter md:text-xl" style={{ willChange: "transform" }}>
+					takes less than 2 mins.{" "}
+				</p>
+			</TextFade>
 			<div className="flex flex-col gap-5">
 				<input
 					type="text"
