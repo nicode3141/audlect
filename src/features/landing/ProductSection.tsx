@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import OptimizedImage from "~/shared/components/OptimizedImage";
 
 export default function ProductSection() {
 	return (
@@ -27,12 +28,11 @@ export default function ProductSection() {
 					secure votings in seconds.{" "}
 				</p>
 			</div>
-			<Image
-				src={"/images/landing/product-shot.avif"}
+			<OptimizedImage
+				src={"/images/landing/product-shot"}
 				alt={""}
 				width={270}
 				height={100}
-				unoptimized
 				className="rounded-xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-359"
 			/>
 		</section>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import OptimizedImage from "~/shared/components/OptimizedImage";
 
 export default function AdditionalFeature() {
 	return (
@@ -21,21 +22,21 @@ export default function AdditionalFeature() {
 						md:p-10"
 				>
 					<div className="relative h-90 w-full flex items-center justify-center perspective-[1000px]">
-						<Image
-							src={"/images/landing/mockup-limits-light.avif"}
+						<OptimizedImage
+							src={"/images/landing/mockup-limits-light"}
 							alt={""}
 							width={245}
 							height={100}
-							unoptimized
-							className="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-50"
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-50"
+							className="rounded-2xl"
 						/>
-						<Image
-							src={"/images/landing/mockup-limits-dark.avif"}
+						<OptimizedImage
+							src={"/images/landing/mockup-limits-dark"}
 							alt={""}
 							width={230}
 							height={100}
-							unoptimized
-							className="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-50"
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-50"
+							className="rounded-2xl"
 						/>
 					</div>
 				</div>
@@ -50,21 +51,21 @@ export default function AdditionalFeature() {
 						md:p-10"
 				>
 					<div className="relative h-90 w-full flex items-center justify-center perspective-[1000px]">
-						<Image
-							src={"/images/landing/mockup-preview-dark.avif"}
+						<OptimizedImage
+							src={"/images/landing/mockup-preview-dark"}
 							alt={""}
 							width={245}
 							height={100}
-							unoptimized
-							className="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] z-1 right-2 -translate-y-5"
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] z-1 right-2 -translate-y-5"
+							className="rounded-2xl"
 						/>
-						<Image
-							src={"/images/landing/mockup-preview-light.avif"}
+						<OptimizedImage
+							src={"/images/landing/mockup-preview-light"}
 							alt={""}
 							width={230}
 							height={100}
-							unoptimized
-							className="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] left-2 translate-y-1"
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] left-2 translate-y-1"
+							className="rounded-2xl"
 						/>
 					</div>
 				</div>
