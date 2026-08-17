@@ -1,16 +1,21 @@
 import "~/styles/globals.css";
 import { interFont, montserratFont, nunitoFont } from "~/app/styles/fonts/font";
-import { type Metadata } from "next";
+import { type Metadata, type Viewport } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import { AuthProvider } from "~/features/auth/AuthProvider";
 import { Toaster } from "~/shared/ui/sonner";
 
-export const metadata: Metadata = {
-	title: "Audlect - Vote Music",
-	description: "Vote Music with your Friends, Guests and Artists",
+const baseUrl = "https://audlect.nicodenetworks.com";
 
+export const metadata: Metadata = {
+	title: {
+		default: "Audlect — Music Voting App | Vote Music Together",
+		template: "%s | Audlect",
+	},
+	description:
+		"Collaborative music voting for events, parties, and venues. Let your guests vote songs into a shared playlist in real time.",
 	authors: [
 		{
 			name: "nicode3141",
@@ -26,6 +31,39 @@ export const metadata: Metadata = {
 		"event engagement",
 		"interactive playlist",
 	],
+	alternates: {
+		canonical: baseUrl,
+	},
+	openGraph: {
+		type: "website",
+		locale: "en_US",
+		url: baseUrl,
+		siteName: "Audlect",
+		title: "Audlect — Music Voting App | Vote Music Together",
+		description:
+			"Collaborative music voting for events, parties, and venues. Let your guests vote songs into a shared playlist in real time.",
+		images: [
+			{
+				url: "/images/landing/hero-video-frame.png",
+				width: 1200,
+				height: 630,
+				alt: "Audlect — collaborative music voting platform",
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Audlect — Music Voting App | Vote Music Together",
+		description:
+			"Collaborative music voting for events, parties, and venues. Let your guests vote songs into a shared playlist in real time.",
+		images: ["/images/landing/hero-video-frame.png"],
+	},
+};
+
+export const viewport: Viewport = {
+	width: "device-width",
+	initialScale: 1,
+	viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -38,16 +76,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 				<meta name="apple-mobile-web-app-capable" content="yes" />
 				<meta name="application-name" content="Audlect" />
 				<meta name="apple-mobile-web-app-title" content="Audlect" />
-				<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-				<meta property="og:image" content="<generated>" />
-				<meta property="og:image:type" content="<generated>" />
-				<meta property="og:image:width" content="<generated>" />
-				<meta property="og:image:height" content="<generated>" />
-				<meta name="twitter:image" content="<generated>" />
-				<meta name="twitter:image:type" content="<generated>" />
-				<meta name="twitter:image:width" content="<generated>" />
-				<meta name="twitter:image:height" content="<generated>" />
-				<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+				<link rel="apple-touch-icon" href="/apple-icon-180.png" />
+				<script async src="https://scripts.simpleanalyticscdn.com/latest.js" />
 			</head>
 			<body
 				className={`${interFont.variable} ${montserratFont.variable} ${nunitoFont.variable} antialiase min-h-screen
