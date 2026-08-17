@@ -66,14 +66,14 @@ export function UserAvatar({
 	const gravatarUrl =
 		gravatar && user?.email ? getGravatarUrl(user.email, gravatar === true ? undefined : gravatar) : null;
 
-	const src = gravatar ? gravatarUrl : userImage;
+	const src = userImage ?? gravatarUrl;
 
 	if (isPending) {
 		return (
 			<Skeleton
 				className={cn(
 					"shrink-0 rounded-full",
-					size === "sm" ? "size-6" : size === "lg" ? "size-10" : (size as string === "xl") ? "size-12" : "size-8",
+					size === "sm" ? "size-6" : size === "lg" ? "size-10" : (size as string) === "xl" ? "size-12" : "size-8",
 					className,
 					classNames?.base,
 					classNames?.skeleton,
@@ -86,7 +86,7 @@ export function UserAvatar({
 		<Avatar
 			className={cn(
 				"bg-muted",
-				size === "sm" ? "size-6" : size === "lg" ? "size-10" : (size as string === "xl") ? "size-12" : "size-8",
+				size === "sm" ? "size-6" : size === "lg" ? "size-10" : (size as string) === "xl" ? "size-12" : "size-8",
 				className,
 				classNames?.base,
 			)}
@@ -106,4 +106,3 @@ export function UserAvatar({
 }
 
 const firstTwoCharacters = (name?: string | null) => name?.slice(0, 2);
-
