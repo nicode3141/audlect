@@ -18,9 +18,13 @@ export default async function Home() {
 			<ReferencesSection />
 			<DemoSection />
 			<CreateVotingSection />
-			<DeadlineFeature />
-			<ShareFeature />
-			<AdditionalFeature />
+			<div className="md:flex flex-col">
+				<div className="md:flex">
+					<DeadlineFeature />
+					<ShareFeature />
+				</div>
+				<AdditionalFeature />
+			</div>
 			<LandingFooter />
 		</div>
 	);
