@@ -43,7 +43,7 @@ export default function LandingNav() {
 				<div className="hidden md:flex flex-1 items-center justify-center font-semibold md:text-neutral-700 text-xl">
 					<div className="flex space-x-4 items-center justify-center">
 						<Link
-							href={"/features"}
+							href={"/#features"}
 							className="flex items-center gap-1 px-3 py-2 transition hover:bg-neutral-200/95 rounded-2xl duration-300
 								ease-in-out"
 						>
@@ -120,17 +120,17 @@ export default function LandingNav() {
 								</Link>
 							</motion.li>
 							<motion.li variants={menuItemVariants}>
-								<Link href={"/features"} className="">
+								<Link href={"/"} className="">
 									About
 								</Link>
 							</motion.li>
 							<motion.li variants={menuItemVariants}>
-								<Link href={"/features"} className="">
+								<Link href={"/pricing"} className="">
 									Pricing
 								</Link>
 							</motion.li>
 							<motion.li variants={menuItemVariants}>
-								<Link href={"/features"} className="">
+								<Link href={"/voting"} className="">
 									Explore
 								</Link>
 							</motion.li>
