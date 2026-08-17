@@ -27,7 +27,7 @@ export default function AdditionalFeature() {
 							alt={""}
 							width={245}
 							height={100}
-							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-50"
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-50 select-none"
 							className="rounded-2xl"
 						/>
 						<OptimizedImage
@@ -35,13 +35,13 @@ export default function AdditionalFeature() {
 							alt={""}
 							width={230}
 							height={100}
-							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-50"
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-50 select-none"
 							className="rounded-2xl"
 						/>
 					</div>
 				</div>
 			</section>
-			<section className="flex flex-col items-center text-center md:p-5">
+			<section className="flex flex-col items-center text-center md:gap-2 md:p-5">
 				<div className="flex flex-col gap-1 text-shadow-2xs md:order-2 md:text-shadow-none md:text-left md:w-full">
 					<div className="font-inter font-bold text-black text-4xl md:text-3xl xl:text-4xl">Listen to music</div>
 					<p className="text-neutral-500 text-xl font-medium font-montserrat">Listen to song previews for free </p>
@@ -56,7 +56,7 @@ export default function AdditionalFeature() {
 							alt={""}
 							width={245}
 							height={100}
-							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] z-1 right-2 -translate-y-5"
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] z-1 right-2 -translate-y-5 select-none"
 							className="rounded-2xl"
 						/>
 						<OptimizedImage
@@ -64,7 +64,7 @@ export default function AdditionalFeature() {
 							alt={""}
 							width={230}
 							height={100}
-							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] left-2 translate-y-1"
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] left-2 translate-y-1 select-none"
 							className="rounded-2xl"
 						/>
 					</div>
