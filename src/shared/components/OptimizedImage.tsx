@@ -5,6 +5,7 @@ type OptimizedImageProps = {
 	height: number;
 	className?: string;
 	classNameParent?: string;
+	type?: "png" | "jpg";
 };
 
 /**
@@ -24,7 +25,15 @@ type OptimizedImageProps = {
  *   height={800}
  * />
  */
-export default function OptimizedImage({ src, alt, width, height, className, classNameParent }: OptimizedImageProps) {
+export default function OptimizedImage({
+	src,
+	alt,
+	width,
+	height,
+	className,
+	classNameParent,
+	type,
+}: OptimizedImageProps) {
 	if (!src) {
 		throw new Error("[OptimizedImage] src is required");
 	}
@@ -32,7 +41,15 @@ export default function OptimizedImage({ src, alt, width, height, className, cla
 	return (
 		<picture className={classNameParent}>
 			<source srcSet={`${src}.avif`} type="image/avif" />
-			<img src={`${src}.png`} alt={alt} width={width} height={height} className={className} loading="lazy" />
+
+			<img
+				src={`${src}.${type === "jpg" ? "jpg" : "png"}`}
+				alt={alt}
+				width={width}
+				height={height}
+				className={className}
+				loading="lazy"
+			/>
 		</picture>
 	);
 }

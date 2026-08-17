@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import OptimizedImage from "~/shared/components/OptimizedImage";
 
 export default function DeadlineFeature() {
 	return (
@@ -20,21 +21,21 @@ export default function DeadlineFeature() {
 					h-90 w-full flex items-center justify-center md:p-20"
 			>
 				<div className="relative h-90 w-full flex items-center justify-center perspective-[1000px]">
-					<Image
-						src={"/images/landing/mockup-deadline-dark.avif"}
+					<OptimizedImage
+						src={"/images/landing/mockup-deadline-dark"}
 						alt={""}
 						width={245}
 						height={100}
-						unoptimized
-						className="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-45"
+						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-45"
+						className="rounded-2xl"
 					/>
-					<Image
-						src={"/images/landing/mockup-deadline-light.avif"}
+					<OptimizedImage
+						src={"/images/landing/mockup-deadline-light"}
 						alt={""}
 						width={230}
 						height={100}
-						unoptimized
-						className="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-45"
+						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-45"
+						className="rounded-2xl"
 					/>
 				</div>
 			</div>

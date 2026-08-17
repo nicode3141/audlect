@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import OptimizedImage from "~/shared/components/OptimizedImage";
 
 export default function ShareFeature() {
 	return (
@@ -15,11 +16,11 @@ export default function ShareFeature() {
 					className="py-3 px-1 bg-white border border-neutral-300 rounded-xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]
 						md:w-50"
 				>
-					<Image
-						src={"/images/landing/mockup-share-light.avif"}
+					<OptimizedImage
+						src={"/images/landing/mockup-share-light"}
 						alt={"share page product shot"}
 						width={300}
-						height={100}
+						height={60}
 					/>
 				</div>
 			</div>
