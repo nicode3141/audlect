@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import NavBarHamburger from "./NavBarHamburger";
 import { AnimatePresence, motion, type Variants } from "motion/react";
 import { ArrowLeft } from "~/shared/icons/Arrows";
+import DynamicAuthBtn from "../auth/components/DynamicAuthBtn";
 
 const menuListVariants: Variants = {
 	visible: {
@@ -73,9 +74,7 @@ export default function LandingNav() {
 				</div>
 				<div className="flex items-center gap-2 font-semibold flex-1 justify-end md:text-black md:font-bold md:text-xl">
 					<div className="flex items-center gap-4">
-						<Link href={"/auth/sign-in"} className="flex gap-1 underline">
-							Sign in
-						</Link>
+						<DynamicAuthBtn />
 						<NavBarHamburger
 							className="md:hidden"
 							isOpen={isNavBarOpen}
