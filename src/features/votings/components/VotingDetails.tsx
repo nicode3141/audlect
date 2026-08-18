@@ -1,4 +1,5 @@
 import { VotingSubitle, VotingTitle } from "~/features/voting/components/VotingTitle";
+import AudlectHeader from "~/shared/components/AudlectHeader";
 
 interface IVotingDetails {
 	votingId: string | null;
@@ -11,7 +12,8 @@ export async function VotingDetails(props: IVotingDetails) {
 
 	return (
 		<>
-			<div className={"VotingDetails font-inter pt-7 lg:mt-24"}>
+			<div className={"VotingDetails font-inter pt-7"}>
+				<AudlectHeader headerTitle={"Audlect"} />
 				<VotingTitle>{name}</VotingTitle>
 				<VotingSubitle>{description}</VotingSubitle>
 			</div>
