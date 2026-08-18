@@ -9,6 +9,7 @@ import PrivacySettings from "~/features/dashboard/components/settings/PrivacySet
 import { useParams } from "next/navigation";
 import { useSettings } from "~/features/dashboard/hooks/useDashboard";
 import { Separator } from "~/shared/ui/separator";
+import DeleteSettings from "~/features/dashboard/components/settings/DeleteSettings";
 
 export default function Page() {
 	const { votingId } = useParams<{ votingId: string }>();
@@ -71,6 +72,16 @@ export default function Page() {
 					</div>
 					<div className="px-2">
 						<AdditionalSettings settings={settings} />
+					</div>
+				</div>
+				<Separator decorative className="md:hidden" />
+				<div className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:items-center gap-4 md:gap-8 p-6 px-2 md:px-6">
+					<div>
+						<div className="font-semibold text-sm md:text-base text-danger">Deletion</div>
+						<div className="text-xs text-danger/80">Danger Zone</div>
+					</div>
+					<div className="px-2">
+						<DeleteSettings settings={settings} />
 					</div>
 				</div>
 			</div>
