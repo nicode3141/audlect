@@ -1,5 +1,4 @@
 import { Loader2 } from "lucide-react";
-import LoadingSpinner from "~/features/voting/components/LoadingSpinner";
 
 export default function Loading() {
 	return (
