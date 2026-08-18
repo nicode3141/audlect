@@ -3,7 +3,7 @@
 	"short_name": "Audlect",
 	"display": "minimal-ui",
 	"orientation": "portrait",
-	"description": "spotifyapi - song voting platform for small- to medium-sized venues",
+	"description": "Collaborative music voting for events, parties, and venues",
 	"categories": ["entertainment", "music", "utilities"],
 	"icons": [
 		{

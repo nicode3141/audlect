@@ -15,9 +15,13 @@ import VotingInfoBar from "~/features/votings/components/VotingInfoBar";
 export async function generateMetadata({ params }: PageParams) {
 	const votingId = (await params).votingId;
 	const [voting] = await getVoting(votingId);
+	const baseUrl = "https://audlect.nicodenetworks.com";
 	return {
 		title: voting?.name ?? "Audlect Voting",
 		description: voting?.description ?? "Vote Music with your Friends, Guests and Artists",
+		alternates: {
+			canonical: `${baseUrl}/voting/${votingId}`,
+		},
 	};
 }
 

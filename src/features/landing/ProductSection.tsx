@@ -31,7 +31,7 @@ export default function ProductSection() {
 			</TextFade>
 			<OptimizedImage
 				src={"/images/landing/product-shot"}
-				alt={""}
+				alt={"Audlect music voting interface showing guest song voting"}
 				width={270}
 				height={100}
 				className="rounded-xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-359 bg-gray-700 h-115 w-67.5"
