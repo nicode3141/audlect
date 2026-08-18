@@ -10,7 +10,7 @@ export default function ReferencesSection() {
 	const containerRef = useRef(null);
 
 	return (
-		<section ref={containerRef} className="relative py-30">
+		<section ref={containerRef} className="relative py-30 max-w-full overflow-hidden">
 			<div className="flex w-full flex-col items-center justify-center gap-10 p-5">
 				<TextFade className="flex flex-col gap-1 md:w-[40vw] md:items-center" direction="up" staggerChildren={0.05}>
 					<div className="font-inter font-bold text-black text-4xl md:text-center md:text-5xl xl:text-6xl">
@@ -27,10 +27,10 @@ export default function ReferencesSection() {
 							alt={"Schulball 2025"}
 							width={500}
 							height={100}
-							className="rounded-md object-cover h-96"
+							className="rounded-md object-cover h-96 min-w-[90vw] max-w-[90vw] md:min-w-0 md:max-w-none bg-gray-300"
 						/>
 						<div className="absolute bottom-6 left-5 right-3 select-none">
-							{`${"Schulball' 25 - OHG Wiesloch"}`.split("").map((el, i) => (
+							{`${"Schulball '25 - OHG Wiesloch"}`.split("").map((el, i) => (
 								<motion.span
 									className="text-white font-montserrat font-semibold text-xl"
 									initial={{ opacity: 0, y: 10 }}
@@ -59,10 +59,11 @@ export default function ReferencesSection() {
 								alt={"Schulball 2025"}
 								width={400}
 								height={600}
-								className="rounded-md shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] object-cover h-96 md:w-110 w-full"
+								className="rounded-md shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] object-cover h-96 w-90 md:w-110
+									bg-gray-300"
 							/>
 							<div className="absolute bottom-6 left-5 right-3 select-none">
-								{`${"Schulball' 26 - OHGW"}`.split("").map((el, i) => (
+								{`${"Schulball '26 - OHGW"}`.split("").map((el, i) => (
 									<motion.span
 										className="text-white font-montserrat font-semibold text-xl"
 										initial={{ opacity: 0, y: 10 }}
@@ -89,7 +90,8 @@ export default function ReferencesSection() {
 								alt={"Schulball 2025"}
 								width={500}
 								height={100}
-								className="rounded-md shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)]"
+								className="rounded-md shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] min-h-50 min-w-[90vw] max-w-[90vw]
+									md:min-h-60 md:max-w-none md:min-w-0 bg-gray-300"
 							/>
 							<div className="absolute bottom-6 left-5 right-3 select-none">
 								{`${"Aloha Festival 2025"}`.split("").map((el, i) => (
