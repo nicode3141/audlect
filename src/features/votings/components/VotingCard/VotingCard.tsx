@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Disc3, ExternalLink } from "lucide-react";
+import AudlectTitle from "~/shared/components/AudlectTitle";
 
 interface VotingCardProps {
 	votingId: string;
@@ -23,25 +24,27 @@ export default function VotingCard({ shortId, title, description, coverImageUrl 
 							alt="Voting Preview"
 							width={400}
 							height={200}
-							className="aspect-1 w-full rounded-lg object-cover"
+							unoptimized
+							className="aspect-square w-full rounded-lg object-cover"
 						/>
 					</Link>
 				) : (
 					<div
-						className="flex aspect-1 items-center justify-center rounded-sm bg-linear-to-br from-stone-50 to-slate-100
-							dark:from-stone-900 dark:to-stone-950 h-100"
+						className="flex aspect-square items-center justify-center rounded-lg bg-linear-to-br from-stone-50
+							to-slate-100 dark:from-stone-900 dark:to-stone-950 w-full bg-[url('/images/backgrounds/output.jpg')]
+							bg-cover bg-center"
 					>
-						<Disc3 strokeWidth={1.5} className="h-10 w-10 text-gray-400" />
+						<AudlectTitle />
 					</div>
 				)}
 				<div
 					className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black via-black/70 via-65% to-transparent
-						pointer-events-none"
+						pointer-events-none rounded-lg"
 				></div>
 				<div className="absolute z-10 bottom-0 p-5">
 					<div className="font-inter truncate dark:text-white">
-						<div className="truncate text-2xl font-semibold font-montserrat">{title}</div>
-						<div className="text-xl text-gray-500 dark:text-gray-300 font-montserrat font-medium">{description}</div>
+						<div className="truncate text-2xl font-semibold font-montserrat text-white">{title}</div>
+						<div className="text-xl text-gray-400 dark:text-gray-300 font-montserrat font-medium">{description}</div>
 					</div>
 					<Link
 						className="align-center mt-4 inline-block flex-row justify-center rounded-md bg-[#415FFF]/55 p-2 px-3

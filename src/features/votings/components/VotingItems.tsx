@@ -18,7 +18,7 @@ export default function VotingItems() {
 	});
 
 	return (
-		<div className="flex items-center justify-center pt-[2vw]">
+		<div className="flex items-center justify-center pt-[2vw] max-w-screen overflow-hidden">
 			<div
 				className="flex flex-col justify-items-stretch gap-3.5 md:grid md:max-w-[80vw] md:grid-cols-2 md:flex-wrap
 					md:gap-4 xl:max-w-[60vw] xl:grid-cols-3 w-[90vw]"
