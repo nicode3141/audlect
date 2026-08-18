@@ -28,8 +28,8 @@ export default function VotingCard({ shortId, title, description, coverImageUrl 
 					</Link>
 				) : (
 					<div
-						className="flex aspect-8/4 items-center justify-center rounded-sm bg-linear-to-br from-stone-50 to-slate-100
-							dark:from-stone-900 dark:to-stone-950"
+						className="flex aspect-1 items-center justify-center rounded-sm bg-linear-to-br from-stone-50 to-slate-100
+							dark:from-stone-900 dark:to-stone-950 h-100"
 					>
 						<Disc3 strokeWidth={1.5} className="h-10 w-10 text-gray-400" />
 					</div>
