@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
 		rules: {
 			userAgent: "*",
 			allow: "/",
-			disallow: "/private/",
+			disallow: ["/private/", "/api/"],
 		},
-		sitemap: "https://audlect.nicodenwetworks.com/sitemap.xml",
+		sitemap: "https://audlect.nicodenetworks.com/sitemap.xml",
 	};
 }
