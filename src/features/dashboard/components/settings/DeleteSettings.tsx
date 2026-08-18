@@ -32,7 +32,11 @@ export default function DeleteSettings({ settings }: DeleteSettingsProps) {
 		},
 		onError: (err) => {
 			setLoading(false);
-			toast.error("Couldn't delete your voting " + err.message);
+			if (err.data?.code === "TOO_MANY_REQUESTS") {
+				toast.error("Too many requests. Please slow down.");
+			} else {
+				toast.error("Couldn't delete your voting " + err.message);
+			}
 		},
 		onSuccess: (data) => {
 			setLoading(false);
@@ -43,7 +47,9 @@ export default function DeleteSettings({ settings }: DeleteSettingsProps) {
 			}
 
 			toast.success("Deleted " + data?.name);
-			setTimeout(() => router.push("/dashboard/"), 100);
+			setTimeout(() => {
+				window.location.href = "/dashboard";
+			}, 100);
 		},
 	});
 

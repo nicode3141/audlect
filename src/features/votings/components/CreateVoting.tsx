@@ -38,7 +38,11 @@ export default function CreateVoting({ initialName }: { initialName?: string }) 
 		},
 		onError: (error) => {
 			toast.dismiss();
-			toast.error(`Failed to create voting: ${error.message}`);
+			if (error.data?.code === "TOO_MANY_REQUESTS") {
+				toast.error("Too many requests. Please slow down.");
+			} else {
+				toast.error(`Failed to create voting: ${error.message}`);
+			}
 		},
 	});
 

@@ -2,7 +2,7 @@ import { and, asc, count, desc, eq, max } from "drizzle-orm";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure, rateLimitedProcedure } from "~/server/api/trpc";
 
 import { voting_membershipsTable, likesTable, songsTable, votingsTable } from "~/server/db/schema";
 
@@ -157,7 +157,7 @@ export const votingsRouter = createTRPCRouter({
 		return membership ?? null;
 	}),
 
-	createVoting: protectedProcedure
+	createVoting: rateLimitedProcedure(5, 60_000)
 		.input(
 			z.object({
 				name: z.string().min(3).max(100),
@@ -217,7 +217,7 @@ export const votingsRouter = createTRPCRouter({
 			}
 		}),
 
-	deleteVoting: protectedProcedure
+	deleteVoting: rateLimitedProcedure(3, 60_000)
 		.input(
 			z.object({
 				voting_id: z.uuid(),
