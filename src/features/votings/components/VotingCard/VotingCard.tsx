@@ -31,7 +31,7 @@ export default function VotingCard({ shortId, title, description, coverImageUrl 
 				) : (
 					<div
 						className="flex aspect-square items-center justify-center rounded-lg bg-linear-to-br from-stone-50
-							to-slate-100 dark:from-stone-900 dark:to-stone-950 w-full bg-[url('/images/backgrounds/output.jpg')]
+							to-slate-100 dark:from-stone-900 dark:to-stone-950 w-full bg-[url('/images/backgrounds/disco-cover.jpg')]
 							bg-cover bg-center"
 					>
 						<AudlectTitle />
