@@ -38,14 +38,17 @@ function checkRateLimit(key: string, maxRequests: number, windowMs: number): boo
 	return true;
 }
 
-setInterval(() => {
+const cleanupInterval = setInterval(() => {
 	const now = Date.now();
-	for (const [key, entry] of rateLimitStore.entries()) {
+
+	for (const [key, entry] of rateLimitStore) {
 		if (now > entry.resetAt) {
 			rateLimitStore.delete(key);
 		}
 	}
 }, 60_000);
+
+cleanupInterval.unref?.();
 
 /**
  * 1. CONTEXT
