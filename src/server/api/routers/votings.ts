@@ -2,7 +2,7 @@ import { and, asc, count, desc, eq, max } from "drizzle-orm";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure, rateLimitedProcedure } from "~/server/api/trpc";
 
 import { voting_membershipsTable, likesTable, songsTable, votingsTable } from "~/server/db/schema";
 
@@ -12,8 +12,8 @@ export const votingsRouter = createTRPCRouter({
 	getPublicVotings: publicProcedure
 		.input(
 			z.object({
-				limit: z.number().default(10),
-				page: z.number().default(0),
+				limit: z.number().min(0).max(200).default(10),
+				page: z.number().min(0).default(0),
 				sort_method: z.enum(["Date Added", "Users", "A-Z"]).default("Date Added"),
 			}),
 		)
@@ -86,13 +86,13 @@ export const votingsRouter = createTRPCRouter({
 	getOwnVotings: protectedProcedure
 		.input(
 			z.object({
-				limit: z.number().default(10),
-				page: z.number().default(0),
+				limit: z.number().min(0).max(200).default(10),
+				page: z.number().min(0).default(0),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
 			try {
-				const votings = ctx.db
+				const votings = await ctx.db
 					.select()
 					.from(votingsTable)
 					.where(eq(votingsTable.created_by, ctx.auth.session.userId))
@@ -131,37 +131,33 @@ export const votingsRouter = createTRPCRouter({
 			return votings[0];
 		}),
 
-	getMyMembership: protectedProcedure
-		.input(z.object({ voting_id: z.uuid() }))
-		.query(async ({ ctx, input }) => {
-			const [membership] = await ctx.db
-				.select({ role: voting_membershipsTable.role })
-				.from(voting_membershipsTable)
-				.where(
-					and(
-						eq(voting_membershipsTable.user_id, ctx.auth.session.userId),
-						eq(voting_membershipsTable.voting_id, input.voting_id),
-					),
-				);
-			return membership ?? null;
-		}),
+	getMyMembership: protectedProcedure.input(z.object({ voting_id: z.uuid() })).query(async ({ ctx, input }) => {
+		const [membership] = await ctx.db
+			.select({ role: voting_membershipsTable.role })
+			.from(voting_membershipsTable)
+			.where(
+				and(
+					eq(voting_membershipsTable.user_id, ctx.auth.session.userId),
+					eq(voting_membershipsTable.voting_id, input.voting_id),
+				),
+			);
+		return membership ?? null;
+	}),
 
-	joinVoting: protectedProcedure
-		.input(z.object({ voting_id: z.uuid() }))
-		.mutation(async ({ ctx, input }) => {
-			const [membership] = await ctx.db
-				.insert(voting_membershipsTable)
-				.values({
-					voting_id: input.voting_id,
-					user_id: ctx.auth.session.userId,
-					role: "participant",
-				})
-				.onConflictDoNothing()
-				.returning();
-			return membership ?? null;
-		}),
+	joinVoting: protectedProcedure.input(z.object({ voting_id: z.uuid() })).mutation(async ({ ctx, input }) => {
+		const [membership] = await ctx.db
+			.insert(voting_membershipsTable)
+			.values({
+				voting_id: input.voting_id,
+				user_id: ctx.auth.session.userId,
+				role: "participant",
+			})
+			.onConflictDoNothing()
+			.returning();
+		return membership ?? null;
+	}),
 
-	createVoting: protectedProcedure
+	createVoting: rateLimitedProcedure(5, 60_000)
 		.input(
 			z.object({
 				name: z.string().min(3).max(100),
@@ -217,6 +213,28 @@ export const votingsRouter = createTRPCRouter({
 				throw new TRPCError({
 					code: "INTERNAL_SERVER_ERROR",
 					message: err instanceof Error ? err.message : "couldn't fetch songs",
+				});
+			}
+		}),
+
+	deleteVoting: rateLimitedProcedure(3, 60_000)
+		.input(
+			z.object({
+				voting_id: z.uuid(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			try {
+				const deletedVoting = await ctx.db
+					.delete(votingsTable)
+					.where(and(eq(votingsTable.voting_id, input.voting_id), eq(votingsTable.created_by, ctx.auth.session.userId)))
+					.returning();
+
+				return deletedVoting[0];
+			} catch (err: unknown) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: err instanceof Error ? err.message : "couldn't delete voting",
 				});
 			}
 		}),

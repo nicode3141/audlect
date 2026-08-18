@@ -70,7 +70,7 @@ export default function HeroVideo() {
 				loop
 				playsInline
 				preload="metadata"
-				className="object-cover w-full h-full bg-cover bg-center select-none"
+				className="object-cover w-full h-full bg-cover bg-center select-none bg-blue-950"
 				style={{ backgroundImage: "url('/images/landing/hero-video-frame.webp')" }}
 			>
 				<source
