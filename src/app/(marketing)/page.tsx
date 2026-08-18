@@ -9,9 +9,37 @@ import ReferencesSection from "~/features/landing/ReferencesSection";
 import ShareFeature from "~/features/landing/ShareFeature";
 import LandingFooter from "~/features/landing/LandingFooter";
 import { TextFade } from "~/shared/animations/TextFade";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Audlect - Vote Music for Events & Parties",
+	description:
+		"Let your guests vote songs into a shared playlist in real time. Free music voting app for parties, weddings, bars, and live events.",
+	alternates: {
+		canonical: "https://audlect.nicodenetworks.com",
+	},
+};
+
+const softwareSchema = {
+	"@context": "https://schema.org",
+	"@type": "SoftwareApplication",
+	name: "Audlect",
+	applicationCategory: "MusicApplication",
+	operatingSystem: "Web",
+	description:
+		"Collaborative music voting app for events, parties, and venues. Let guests vote songs into a shared playlist.",
+	url: "https://audlect.nicodenetworks.com",
+	offers: {
+		"@type": "Offer",
+		price: "0",
+		priceCurrency: "USD",
+	},
+};
+
 export default async function Home() {
 	return (
 		<div className="bg-white flex flex-col items-center w-full md:pt-4">
+			<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
 			<LandingNav />
 			<HeroSection />
 			<ProductSection />

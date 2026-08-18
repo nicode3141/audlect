@@ -1,7 +1,12 @@
 import { AccountView } from "~/features/auth/components/auth/account/account-view";
 import { accountViewPaths } from "~/lib/auth/view-paths";
+import type { Metadata } from "next";
 
 export const dynamicParams = false;
+
+export const metadata: Metadata = {
+	robots: { index: false, follow: true },
+};
 export function generateStaticParams() {
 	return Object.values(accountViewPaths).map((path) => ({ path }));
 }

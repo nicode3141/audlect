@@ -23,19 +23,19 @@ export default function DeadlineFeature() {
 				<div className="relative h-90 w-full flex items-center justify-center perspective-[1000px]">
 					<OptimizedImage
 						src={"/images/landing/mockup-deadline-dark"}
-						alt={""}
+						alt={"Audlect voting deadline settings in dark mode"}
 						width={245}
 						height={100}
 						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-45"
-						className="rounded-2xl"
+						className="rounded-2xl select-none"
 					/>
 					<OptimizedImage
 						src={"/images/landing/mockup-deadline-light"}
-						alt={""}
+						alt={"Audlect voting deadline settings in light mode"}
 						width={230}
 						height={100}
 						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-45"
-						className="rounded-2xl"
+						className="rounded-2xl select-none"
 					/>
 				</div>
 			</div>

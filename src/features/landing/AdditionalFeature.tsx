@@ -22,26 +22,26 @@ export default function AdditionalFeature() {
 						md:p-10"
 				>
 					<div className="relative h-90 w-full flex items-center justify-center perspective-[1000px]">
-						<OptimizedImage
-							src={"/images/landing/mockup-limits-light"}
-							alt={""}
-							width={245}
-							height={100}
-							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-50"
-							className="rounded-2xl"
-						/>
-						<OptimizedImage
-							src={"/images/landing/mockup-limits-dark"}
-							alt={""}
-							width={230}
-							height={100}
-							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-50"
-							className="rounded-2xl"
-						/>
+					<OptimizedImage
+						src={"/images/landing/mockup-limits-light"}
+						alt={"Audlect song voting limits settings in light mode"}
+						width={245}
+						height={100}
+						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-50"
+						className="rounded-2xl"
+					/>
+					<OptimizedImage
+						src={"/images/landing/mockup-limits-dark"}
+						alt={"Audlect song voting limits settings in dark mode"}
+						width={230}
+						height={100}
+						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-50"
+						className="rounded-2xl"
+					/>
 					</div>
 				</div>
 			</section>
-			<section className="flex flex-col items-center text-center md:p-5">
+			<section className="flex flex-col items-center text-center md:gap-2 md:p-5">
 				<div className="flex flex-col gap-1 text-shadow-2xs md:order-2 md:text-shadow-none md:text-left md:w-full">
 					<div className="font-inter font-bold text-black text-4xl md:text-3xl xl:text-4xl">Listen to music</div>
 					<p className="text-neutral-500 text-xl font-medium font-montserrat">Listen to song previews for free </p>
@@ -51,22 +51,22 @@ export default function AdditionalFeature() {
 						md:p-10"
 				>
 					<div className="relative h-90 w-full flex items-center justify-center perspective-[1000px]">
-						<OptimizedImage
-							src={"/images/landing/mockup-preview-dark"}
-							alt={""}
-							width={245}
-							height={100}
-							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] z-1 right-2 -translate-y-5"
-							className="rounded-2xl"
-						/>
-						<OptimizedImage
-							src={"/images/landing/mockup-preview-light"}
-							alt={""}
-							width={230}
-							height={100}
-							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] left-2 translate-y-1"
-							className="rounded-2xl"
-						/>
+					<OptimizedImage
+						src={"/images/landing/mockup-preview-dark"}
+						alt={"Audlect song preview player in dark mode"}
+						width={245}
+						height={100}
+						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] z-1 right-2 -translate-y-5"
+						className="rounded-2xl"
+					/>
+					<OptimizedImage
+						src={"/images/landing/mockup-preview-light"}
+						alt={"Audlect song preview player in light mode"}
+						width={230}
+						height={100}
+						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] left-2 translate-y-1"
+						className="rounded-2xl"
+					/>
 					</div>
 				</div>
 			</section>
