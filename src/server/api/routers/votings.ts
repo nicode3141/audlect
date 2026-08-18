@@ -12,8 +12,8 @@ export const votingsRouter = createTRPCRouter({
 	getPublicVotings: publicProcedure
 		.input(
 			z.object({
-				limit: z.number().default(10),
-				page: z.number().default(0),
+				limit: z.number().min(0).max(200).default(10),
+				page: z.number().min(0).default(0),
 				sort_method: z.enum(["Date Added", "Users", "A-Z"]).default("Date Added"),
 			}),
 		)
@@ -86,8 +86,8 @@ export const votingsRouter = createTRPCRouter({
 	getOwnVotings: protectedProcedure
 		.input(
 			z.object({
-				limit: z.number().default(10),
-				page: z.number().default(0),
+				limit: z.number().min(0).max(200).default(10),
+				page: z.number().min(0).default(0),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
