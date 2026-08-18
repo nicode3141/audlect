@@ -29,13 +29,14 @@ export default function VotingCard({ shortId, title, description, coverImageUrl 
 						/>
 					</Link>
 				) : (
-					<div
+					<Link
+						href={`/voting/${shortId}`}
 						className="flex aspect-square items-center justify-center rounded-lg bg-linear-to-br from-stone-50
 							to-slate-100 dark:from-stone-900 dark:to-stone-950 w-full bg-[url('/images/backgrounds/disco-cover.jpg')]
 							bg-cover bg-center"
 					>
 						<AudlectTitle />
-					</div>
+					</Link>
 				)}
 				<div
 					className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black via-black/70 via-65% to-transparent
@@ -48,7 +49,7 @@ export default function VotingCard({ shortId, title, description, coverImageUrl 
 					</div>
 					<Link
 						className="align-center mt-4 inline-block flex-row justify-center rounded-md bg-[#415FFF]/55 p-2 px-3
-							text-white shadow-[0px_4px_4px_0px_rgba(65,95,255,0.15)]"
+							text-white shadow-[0px_4px_4px_0px_rgba(65,95,255,0.15)] hover:bg-company duration-300"
 						href={`/voting/${shortId}`}
 					>
 						<ArrowUpRight strokeWidth={2} className="text-bold font-montserrat mr-2 inline-block h-7 w-7 pb-0.5" />

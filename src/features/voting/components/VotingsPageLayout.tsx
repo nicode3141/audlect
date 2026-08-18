@@ -1,12 +1,45 @@
-import React from "react";
-import { VotingDetails } from "../../votings/components/VotingDetails";
+import React, { useCallback, useState } from "react";
 import VotingItems from "~/features/votings/components/VotingItems";
 import NewVotingButton from "~/features/votings/components/NewVotingButton";
+import AudlectHeader from "~/shared/components/AudlectHeader";
+import { cn } from "~/shared/utils/utils";
+import { SearchIcon } from "~/shared/icons/Search";
+import { ArrowDownAZ, CalendarArrowUpIcon, UserStar } from "lucide-react";
+import OptionBtn from "~/shared/ui/OptionBtn";
+import BrowseSearch from "./BrowseSearch";
+import { useQueryParams } from "~/shared/hooks/useQueryParams";
 
 export default function VotingsPageLayout() {
+	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
+	const [searchString, setSearchString] = useState<string>("");
+
+	const handleSearchSubmit = useCallback(
+		(value: string) => {
+			setShowSearchResults(true);
+			setSearchString(value);
+		},
+		[setShowSearchResults, setSearchString],
+	);
+
 	return (
 		<div>
-			<VotingDetails votingId={null} name={"Browse Votings"} description={"Active votings on Audlect"} />
+			<div className={"VotingDetails font-inter pt-2"}>
+				<AudlectHeader headerTitle={"Audlect"} />
+				<div className="py-5">
+					<div className={"heading1 font-montserrat text-center text-4xl font-bold text-company-second lg:text-6xl"}>
+						Browse Votings
+					</div>
+					<div
+						className={`heading2small font-inter text-center text-2xl font-normal text-neutral-400 text-shadow-2xs
+							lg:text-3xl dark:text-gray-300`}
+					>
+						public votings on Audlect
+					</div>
+				</div>
+			</div>
+			<div className="w-full items-center flex flex-col">
+				<BrowseSearch onSubmit={handleSearchSubmit} lastSearch={""} />
+			</div>
 			<VotingItems />
 			<div className="fixed right-0 bottom-0 z-10 flex items-center justify-center p-10">
 				<NewVotingButton />

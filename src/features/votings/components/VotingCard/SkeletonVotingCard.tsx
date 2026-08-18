@@ -4,7 +4,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 export default function SkeletonVotingCard() {
 	return (
 		<div
-			className="flex flex-col gap-5 rounded-md border border-gray-300 p-2 shadow-sm hover:shadow-md md:place-self-auto
+			className="flex flex-col gap-5 rounded-md border border-gray-300 shadow-sm hover:shadow-md md:place-self-auto
 				dark:border-none dark:bg-[#252525] dark:drop-shadow-sm dark:drop-shadow-gray-600"
 		>
 			<SkeletonTheme>

@@ -5,6 +5,8 @@ import { api } from "~/trpc/react";
 import VotingCard from "./VotingCard/VotingCard";
 import SkeletonVotingCard from "./VotingCard/SkeletonVotingCard";
 import ErrorBanner from "~/shared/components/ErrorBanner";
+import AudlectTitle from "~/shared/components/AudlectTitle";
+import { Loader2 } from "lucide-react";
 
 export default function VotingItems() {
 	const {
@@ -23,7 +25,14 @@ export default function VotingItems() {
 				className="flex flex-col justify-items-stretch gap-3.5 md:grid md:max-w-[80vw] md:grid-cols-2 md:flex-wrap
 					md:gap-4 xl:max-w-[60vw] xl:grid-cols-3 w-[90vw]"
 			>
-				{isLoading && Array.from({ length: 10 }).map((_, i) => <SkeletonVotingCard key={i} />)}
+				{isLoading && (
+					<div className="h-[50vh] w-[90vw] flex items-center">
+						<div className="flex items-center justify-center flex-col gap-3 w-full">
+							<AudlectTitle />
+							<Loader2 className="animate-spin" />
+						</div>
+					</div>
+				)}
 				{error && <ErrorBanner />}
 				{!isLoading &&
 					!error &&
