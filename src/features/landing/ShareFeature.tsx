@@ -21,6 +21,7 @@ export default function ShareFeature() {
 						alt={"share page product shot"}
 						width={300}
 						height={60}
+						className="select-none"
 					/>
 				</div>
 			</div>

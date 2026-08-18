@@ -41,7 +41,7 @@ export default function AdditionalFeature() {
 					</div>
 				</div>
 			</section>
-			<section className="flex flex-col items-center text-center md:p-5">
+			<section className="flex flex-col items-center text-center md:gap-2 md:p-5">
 				<div className="flex flex-col gap-1 text-shadow-2xs md:order-2 md:text-shadow-none md:text-left md:w-full">
 					<div className="font-inter font-bold text-black text-4xl md:text-3xl xl:text-4xl">Listen to music</div>
 					<p className="text-neutral-500 text-xl font-medium font-montserrat">Listen to song previews for free </p>

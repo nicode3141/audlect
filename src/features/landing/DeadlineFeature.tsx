@@ -27,7 +27,7 @@ export default function DeadlineFeature() {
 						width={245}
 						height={100}
 						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-45"
-						className="rounded-2xl"
+						className="rounded-2xl select-none"
 					/>
 					<OptimizedImage
 						src={"/images/landing/mockup-deadline-light"}
@@ -35,7 +35,7 @@ export default function DeadlineFeature() {
 						width={230}
 						height={100}
 						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-45"
-						className="rounded-2xl"
+						className="rounded-2xl select-none"
 					/>
 				</div>
 			</div>
