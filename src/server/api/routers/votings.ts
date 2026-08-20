@@ -1,4 +1,4 @@
-import { and, asc, count, desc, eq, max } from "drizzle-orm";
+import { and, asc, count, desc, eq, gt, ilike, lt, max, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 
@@ -8,73 +8,243 @@ import { voting_membershipsTable, likesTable, songsTable, votingsTable } from "~
 
 import { TRPCError } from "@trpc/server";
 
+const votingCursorSchema = z.discriminatedUnion("sort", [
+	z.object({
+		sort: z.literal("date"),
+		createdAt: z.string(),
+		votingId: z.uuid(),
+	}),
+
+	z.object({
+		sort: z.literal("a-z"),
+		name: z.string(),
+		votingId: z.uuid(),
+	}),
+
+	z.object({
+		sort: z.literal("popularity"),
+		popularity: z.number(),
+		votingId: z.uuid(),
+	}),
+]);
+
+//includes sort, other needed data for current sort
+type VotingCursor = z.infer<typeof votingCursorSchema>;
+
+/**
+ *  Decode Cursor to base64url
+ * @param cursor
+ * @returns base64 string
+ */
+function encodeCursor(cursor: VotingCursor): string {
+	return Buffer.from(JSON.stringify(cursor)).toString("base64url");
+}
+
+/**
+ *  Decode Cursor to a Object with sort / sort props / votingId
+ * @param cursor
+ * @returns VotingCursor
+ */
+function decodeCursor(cursor: string | null | undefined): VotingCursor | null {
+	if (!cursor) {
+		return null;
+	}
+
+	try {
+		const decoded = JSON.parse(Buffer.from(cursor, "base64url").toString("utf8")) as VotingCursor;
+
+		return votingCursorSchema.parse(decoded);
+	} catch {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: "Invalid pagination cursor",
+		});
+	}
+}
+
 export const votingsRouter = createTRPCRouter({
 	getPublicVotings: publicProcedure
 		.input(
 			z.object({
 				limit: z.number().min(0).max(200).default(10),
 				page: z.number().min(0).default(0),
-				sort_method: z.enum(["Date Added", "Users", "A-Z"]).default("Date Added"),
+				cursor: z.string().nullish(),
+				sort_method: z.enum(["date", "popularity", "a-z"]).default("date"),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
-			let sortQuery;
-			switch (input.sort_method) {
-				default:
-					sortQuery = votingsTable.created_at;
-					break;
-				case "A-Z":
-					sortQuery = asc(votingsTable.name);
-					break;
+			const cursor = decodeCursor(input.cursor);
+
+			const songLikes = ctx.db
+				.select({
+					song_id: songsTable.song_id,
+					voting_id: songsTable.voting_id,
+					cover_image: songsTable.cover_image,
+					like_count: count(likesTable.song_id).as("like_count"),
+				})
+				.from(songsTable)
+				.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
+				.groupBy(songsTable.song_id, songsTable.voting_id, songsTable.cover_image)
+				.as("song_stats");
+
+			const topSong = ctx.db
+				.selectDistinctOn([songLikes.voting_id], {
+					voting_id: songLikes.voting_id,
+					preview_image: songLikes.cover_image,
+					popularity: songLikes.like_count,
+					song_id: songLikes.song_id,
+				})
+				.from(songLikes)
+				.orderBy(songLikes.voting_id, desc(songLikes.like_count), asc(songLikes.song_id))
+				.as("best_song");
+
+			let cursorCondition;
+
+			if (cursor) {
+				if (cursor.sort !== input.sort_method) {
+					throw new TRPCError({
+						code: "BAD_REQUEST",
+						message: "Cursor does not match sort method",
+					});
+				}
+
+				switch (cursor.sort) {
+					case "date": {
+						const createdAt = new Date(cursor.createdAt);
+
+						if (Number.isNaN(createdAt.getTime())) {
+							throw new TRPCError({
+								code: "BAD_REQUEST",
+								message: "Invalid date cursor",
+							});
+						}
+
+						//if voting.date < cursor.date || voting.date == cursor.date && voting.voting_id < cursor.votingId
+						cursorCondition = or(
+							lt(votingsTable.created_at, createdAt),
+							and(eq(votingsTable.created_at, createdAt), lt(votingsTable.voting_id, cursor.votingId)),
+						);
+
+						break;
+					}
+
+					case "a-z": {
+						//if voting.name > cursor.name || voting.name == cursor.name && voting.voting_id < cursor.votingId
+						cursorCondition = or(
+							gt(votingsTable.name, cursor.name),
+							and(eq(votingsTable.name, cursor.name), gt(votingsTable.voting_id, cursor.votingId)),
+						);
+
+						break;
+					}
+
+					case "popularity": {
+						//if topSong.popularity < cursor.popularity || topSong.popularity == cursor.popularity && voting.voting_id < cursor.votingId
+						cursorCondition = or(
+							sql`${topSong.popularity} < ${cursor.popularity}`,
+							and(eq(topSong.popularity, cursor.popularity), lt(votingsTable.voting_id, cursor.votingId)),
+						);
+
+						break;
+					}
+				}
 			}
 
+			const orderBy = (() => {
+				switch (input.sort_method) {
+					case "date":
+						return [desc(votingsTable.created_at), desc(votingsTable.voting_id)];
+
+					case "a-z":
+						return [asc(votingsTable.name), asc(votingsTable.voting_id)];
+
+					case "popularity":
+						return [sql`${topSong.popularity} DESC NULLS LAST`, desc(votingsTable.voting_id)];
+				}
+			})();
+
 			try {
-				const imageSubquery = ctx.db
+				//query one more row (to see if another page exists)
+				const rows = await ctx.db
 					.select({
-						preview_image: songsTable.cover_image,
-						voting_id: songsTable.voting_id,
-						like_count: count(likesTable.song_id).as("like_count"),
-					})
-					.from(songsTable)
-					.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
-					.groupBy(songsTable.song_id)
-					.orderBy(desc(count(likesTable.song_id)))
-					.as("imageSubquery");
-
-				const maxLikes = ctx.db
-					.select({
-						voting_id: imageSubquery.voting_id,
-						max_likes: max(imageSubquery.like_count).as("max_likes"),
-					})
-					.from(imageSubquery)
-					.groupBy(imageSubquery.voting_id)
-					.as("maxLikes");
-
-				const votings = await ctx.db
-					.selectDistinctOn([votingsTable.voting_id], {
 						voting_id: votingsTable.voting_id,
 						short_id: votingsTable.short_id,
 						name: votingsTable.name,
 						description: votingsTable.description,
-						external_url_: votingsTable.external_url,
+						external_url: votingsTable.external_url,
 						created_by: votingsTable.created_by,
 						public: votingsTable.public,
 						active: votingsTable.active,
 						created_at: votingsTable.created_at,
-						preview_image: imageSubquery.preview_image,
+
+						preview_image: topSong.preview_image, //external
+						popularity: topSong.popularity, //external
 					})
 					.from(votingsTable)
-					.leftJoin(maxLikes, eq(votingsTable.voting_id, maxLikes.voting_id))
-					.leftJoin(
-						imageSubquery,
-						and(eq(votingsTable.voting_id, imageSubquery.voting_id), eq(imageSubquery.like_count, maxLikes.max_likes)),
-					)
-					.where(eq(votingsTable.public, true))
-					.orderBy(votingsTable.voting_id, desc(sortQuery))
-					.limit(input.limit)
-					.offset(input.page * input.limit);
+					.leftJoin(topSong, eq(votingsTable.voting_id, topSong.voting_id))
+					.where(and(eq(votingsTable.public, true), cursorCondition))
+					.orderBy(...orderBy)
+					.limit(input.limit + 1);
 
-				return votings;
+				if (!rows) {
+					throw new TRPCError({
+						code: "INTERNAL_SERVER_ERROR",
+						message: "Failed to retrieve votings",
+					});
+				}
+
+				const hasNextPage = rows.length > input.limit;
+
+				const votings = hasNextPage ? rows.slice(0, input.limit) : rows;
+
+				let nextCursor: string | null = null;
+
+				if (hasNextPage) {
+					const last = votings[votings.length - 1]; //last voting
+
+					if (!last) {
+						throw new TRPCError({
+							code: "INTERNAL_SERVER_ERROR",
+							message: "Failed to create pagination cursor",
+						});
+					}
+
+					switch (input.sort_method) {
+						case "date":
+							nextCursor = encodeCursor({
+								sort: "date",
+								createdAt: last.created_at?.toISOString() ?? "",
+								votingId: last.voting_id,
+							});
+							break;
+
+						case "a-z":
+							nextCursor = encodeCursor({
+								sort: "a-z",
+								name: last.name,
+								votingId: last.voting_id,
+							});
+							break;
+
+						case "popularity":
+							if (last.popularity === null) {
+								nextCursor = null;
+							} else {
+								nextCursor = encodeCursor({
+									sort: "popularity",
+									popularity: last.popularity,
+									votingId: last.voting_id,
+								});
+							}
+
+							break;
+					}
+				}
+
+				return {
+					items: votings,
+					nextCursor,
+				};
 			} catch (err: unknown) {
 				throw new TRPCError({
 					code: "INTERNAL_SERVER_ERROR",
