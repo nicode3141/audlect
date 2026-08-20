@@ -2,7 +2,7 @@ import React from "react";
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Disc3, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import AudlectTitle from "~/shared/components/AudlectTitle";
 
 interface VotingCardProps {
