@@ -1,17 +1,30 @@
+"use client";
+
 import React, { useCallback, useState } from "react";
 import VotingItems from "~/features/votings/components/VotingItems";
 import NewVotingButton from "~/features/votings/components/NewVotingButton";
 import AudlectHeader from "~/shared/components/AudlectHeader";
-import { cn } from "~/shared/utils/utils";
-import { SearchIcon } from "~/shared/icons/Search";
-import { ArrowDownAZ, CalendarArrowUpIcon, UserStar } from "lucide-react";
-import OptionBtn from "~/shared/ui/OptionBtn";
 import BrowseSearch from "./BrowseSearch";
-import { useQueryParams } from "~/shared/hooks/useQueryParams";
+import { api } from "~/trpc/react";
 
 export default function VotingsPageLayout() {
 	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
 	const [searchString, setSearchString] = useState<string>("");
+	const [sort, setSort] = useState<"a-z" | "popularity" | "date">("popularity");
+
+	const {
+		data: searchResults,
+		isLoading,
+		error,
+		refetch: refetchSearch,
+	} = api.search.searchPublicVotings.useQuery(
+		{
+			search_string: searchString,
+			limit: 10,
+			page: 0,
+		},
+		{ enabled: showSearchResults },
+	);
 
 	const handleSearchSubmit = useCallback(
 		(value: string) => {
@@ -38,9 +51,9 @@ export default function VotingsPageLayout() {
 				</div>
 			</div>
 			<div className="w-full items-center flex flex-col">
-				<BrowseSearch onSubmit={handleSearchSubmit} lastSearch={""} />
+				<BrowseSearch onSubmit={handleSearchSubmit} lastSearch={""} sort={sort} setSort={(method) => setSort(method)} />
 			</div>
-			<VotingItems />
+			{showSearchResults ? <></> : <VotingItems sortMethod={sort} />}
 			<div className="fixed right-0 bottom-0 z-10 flex items-center justify-center p-10">
 				<NewVotingButton />
 			</div>

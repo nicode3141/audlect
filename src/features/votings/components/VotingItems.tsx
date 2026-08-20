@@ -1,14 +1,15 @@
 "use client";
 
 import React from "react";
-import { api } from "~/trpc/react";
 import VotingCard from "./VotingCard/VotingCard";
 import SkeletonVotingCard from "./VotingCard/SkeletonVotingCard";
 import ErrorBanner from "~/shared/components/ErrorBanner";
 import AudlectTitle from "~/shared/components/AudlectTitle";
 import { Loader2 } from "lucide-react";
+import { api, type RouterOutputs } from "~/trpc/react";
+import type { BrowseSortOptions } from "~/features/voting/components/BrowseSearch";
 
-export default function VotingItems() {
+export default function VotingItems({ sortMethod }: { sortMethod: BrowseSortOptions }) {
 	const {
 		data: publicVotings,
 		isLoading,
@@ -16,7 +17,7 @@ export default function VotingItems() {
 	} = api.votings.getPublicVotings.useQuery({
 		limit: 100,
 		page: 0,
-		sort_method: "Date Added",
+		sort_method: sortMethod,
 	});
 
 	return (
@@ -33,10 +34,9 @@ export default function VotingItems() {
 						</div>
 					</div>
 				)}
-				{error && <ErrorBanner />}
 				{!isLoading &&
 					!error &&
-					publicVotings?.map((voting) => (
+					publicVotings?.items.map((voting) => (
 						<VotingCard
 							key={voting.voting_id}
 							votingId={voting.voting_id}
@@ -46,6 +46,32 @@ export default function VotingItems() {
 							coverImageUrl={voting.preview_image?.replace(/\/\d+x\d+-/, "/1000x1000-")}
 						/>
 					))}
+			</div>
+		</div>
+	);
+}
+
+export function SearchResultVotings({
+	searchResults,
+}: {
+	searchResults: RouterOutputs["search"]["searchPublicVotings"];
+}) {
+	return (
+		<div className="flex items-center justify-center pt-[2vw] max-w-screen overflow-hidden">
+			<div
+				className="flex flex-col justify-items-stretch gap-3.5 md:grid md:max-w-[80vw] md:grid-cols-2 md:flex-wrap
+					md:gap-4 xl:max-w-[60vw] xl:grid-cols-3 w-[90vw]"
+			>
+				{searchResults?.map((voting) => (
+					<VotingCard
+						key={voting.voting_id}
+						votingId={voting.voting_id}
+						shortId={voting.short_id}
+						title={voting.name}
+						description={voting.description}
+						coverImageUrl={voting.preview_image?.replace(/\/\d+x\d+-/, "/1000x1000-")}
+					/>
+				))}
 			</div>
 		</div>
 	);

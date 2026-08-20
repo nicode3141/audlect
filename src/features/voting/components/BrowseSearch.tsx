@@ -6,15 +6,19 @@ import { useDebounce } from "~/shared/hooks/useDebounce";
 import { SearchIcon } from "~/shared/icons/Search";
 import OptionBtn from "~/shared/ui/OptionBtn";
 
+export type BrowseSortOptions = "a-z" | "popularity" | "date";
+
 interface BrowseSearchProps {
 	inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 	onSubmit: (value: string) => void;
 	onClose?: () => void;
 	lastSearch: string;
+	sort: BrowseSortOptions;
+	setSort: (input: BrowseSortOptions) => void;
 }
 
 export default function BrowseSearch(props: BrowseSearchProps) {
-	const { inputProps, onSubmit, onClose, lastSearch } = props;
+	const { inputProps, onSubmit, onClose, lastSearch, sort, setSort } = props;
 	const [value, setValue] = useState("");
 
 	const { debounced: debouncedSearch, setDebounced: setDebouncedSearch } = useDebounce(value, 350);
@@ -58,13 +62,22 @@ export default function BrowseSearch(props: BrowseSearchProps) {
 				/>
 			</form>
 			<div className="flex px-2 gap-2 text-nowrap overflow-scroll scrollbar-none">
-				<OptionBtn variant={"selected"}>
+				<OptionBtn
+					variant={props.sort === "popularity" ? "selected" : "disabled"}
+					onClick={() => props.sort !== "popularity" && props.setSort("popularity")}
+				>
 					<UserStar /> Popular
 				</OptionBtn>
-				<OptionBtn variant={"disabled"}>
+				<OptionBtn
+					variant={props.sort === "a-z" ? "selected" : "disabled"}
+					onClick={() => props.sort !== "a-z" && props.setSort("a-z")}
+				>
 					<ArrowDownAZ /> A-Z
 				</OptionBtn>
-				<OptionBtn variant={"disabled"}>
+				<OptionBtn
+					variant={props.sort === "date" ? "selected" : "disabled"}
+					onClick={() => props.sort !== "date" && props.setSort("date")}
+				>
 					<CalendarArrowUpIcon /> Newest
 				</OptionBtn>
 			</div>
