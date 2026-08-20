@@ -15,7 +15,10 @@ interface VotingCardProps {
 
 export default function VotingCard({ shortId, title, description, coverImageUrl }: VotingCardProps) {
 	return (
-		<div className="flex flex-col rounded-md shadow-sm hover:shadow-md md:place-self-auto dark:border-none">
+		<div
+			className="flex flex-col rounded-md shadow-sm hover:shadow-md md:place-self-auto dark:border-none hover:scale-102
+				duration-100 ease-in-out"
+		>
 			<div className="relative overflow-hidden">
 				{coverImageUrl ? (
 					<Link href={`/voting/${shortId}`}>

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useMemo, useRef } from "react";
 import VotingCard from "./VotingCard/VotingCard";
-import SkeletonVotingCard from "./VotingCard/SkeletonVotingCard";
 import ErrorBanner from "~/shared/components/ErrorBanner";
 import { useSearchPublicVotings } from "~/features/votings/hooks/useSearchPublicVotings";
 import { Spinner } from "~/shared/ui/spinner";

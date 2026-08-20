@@ -73,9 +73,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 		name: "Audlect",
 		url: baseUrl,
 		logo: `${baseUrl}/app-logo.svg`,
-		description:
-			"Collaborative music voting for events, parties, and venues.",
-		sameAs: ["https://github.com/nicode3141"],
+		description: "Collaborative music voting for events, parties, and venues.",
+		sameAs: ["https://github.com/nicode3141", "https://x.com/nicode3141"],
 	};
 
 	const websiteSchema = {
@@ -93,17 +92,36 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 		},
 	};
 
+	const softwareAppSchema = {
+		"@context": "https://schema.org",
+		"@type": "SoftwareApplication",
+		name: "Audlect",
+		url: baseUrl,
+		description:
+			"Collaborative music voting app for events, parties, and venues. Guests vote songs into a shared playlist in real time.",
+		applicationCategory: "MultimediaApplication",
+		operatingSystem: "Web",
+		offers: {
+			"@type": "Offer",
+			price: "0",
+			priceCurrency: "USD",
+		},
+		screenshot: `${baseUrl}/images/landing/product-shot.png`,
+		featureList: [
+			"Real-time song voting",
+			"Custom voting deadlines",
+			"Shared event playlists",
+			"Song preview playback",
+		],
+	};
+
 	return (
 		<html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
 			<head>
-				<script
-					type="application/ld+json"
-					dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-				/>
-				<script
-					type="application/ld+json"
-					dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-				/>
+				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
+
 				<link rel="manifest" href="/manifest.json" />
 				<meta name="google-site-verification" content="yLjcVnpIMX5kpihar7L_mOImR_sVKCkDCK4uH0rV_hM" />
 				<meta name="mobile-web-app-capable" content="yes" />
