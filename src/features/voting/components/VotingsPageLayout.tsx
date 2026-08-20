@@ -12,12 +12,7 @@ export default function VotingsPageLayout() {
 	const [searchString, setSearchString] = useState<string>("");
 	const [sort, setSort] = useState<"a-z" | "popularity" | "date">("popularity");
 
-	const {
-		data: searchResults,
-		isLoading,
-		error,
-		refetch: refetchSearch,
-	} = api.search.searchPublicVotings.useQuery(
+	const {} = api.search.searchPublicVotings.useQuery(
 		{
 			search_string: searchString,
 			limit: 10,
@@ -27,7 +22,11 @@ export default function VotingsPageLayout() {
 
 	const handleSearchSubmit = useCallback(
 		(value: string) => {
-			setShowSearchResults(true);
+			if (value === "") {
+				setShowSearchResults(false);
+			} else {
+				setShowSearchResults(true);
+			}
 			setSearchString(value);
 		},
 		[setShowSearchResults, setSearchString],
@@ -50,7 +49,12 @@ export default function VotingsPageLayout() {
 				</div>
 			</div>
 			<div className="w-full items-center flex flex-col">
-				<BrowseSearch onSubmit={handleSearchSubmit} lastSearch={""} sort={sort} setSort={(method) => setSort(method)} />
+				<BrowseSearch
+					onSubmit={handleSearchSubmit}
+					lastSearch={searchString}
+					sort={sort}
+					setSort={(method) => setSort(method)}
+				/>
 			</div>
 			{showSearchResults ? <></> : <VotingItems sortMethod={sort} />}
 			<div className="fixed right-0 bottom-0 z-10 flex items-center justify-center p-10">

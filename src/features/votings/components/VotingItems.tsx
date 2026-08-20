@@ -2,7 +2,6 @@
 
 import React, { useEffect, useMemo, useRef } from "react";
 import VotingCard from "./VotingCard/VotingCard";
-import SkeletonVotingCard from "./VotingCard/SkeletonVotingCard";
 import ErrorBanner from "~/shared/components/ErrorBanner";
 import { usePublicVotings } from "~/features/votings/hooks/usePublicVotings";
 import { Spinner } from "~/shared/ui/spinner";
@@ -19,7 +18,7 @@ export default function VotingItems({ sortMethod }: { sortMethod: BrowseSortOpti
 		fetchNextPage,
 		hasNextPage,
 		isFetchingNextPage,
-	} = usePublicVotings({ limit: 5, sort_method: sortMethod });
+	} = usePublicVotings({ limit: 9, sort_method: sortMethod });
 
 	const sentinelRef = useRef<HTMLDivElement>(null);
 	const votings = useMemo(() => publicVotings?.pages.flatMap((page) => page.items) ?? [], [publicVotings]);

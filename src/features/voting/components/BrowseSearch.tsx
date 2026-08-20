@@ -3,7 +3,7 @@
 import { UserStar, ArrowDownAZ, CalendarArrowUpIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDebounce } from "~/shared/hooks/useDebounce";
-import { SearchIcon } from "~/shared/icons/Search";
+import { CloseIcon, SearchIcon } from "~/shared/icons/Search";
 import OptionBtn from "~/shared/ui/OptionBtn";
 
 export type BrowseSortOptions = "a-z" | "popularity" | "date";
@@ -18,7 +18,7 @@ interface BrowseSearchProps {
 }
 
 export default function BrowseSearch(props: BrowseSearchProps) {
-	const { inputProps, onSubmit, onClose, lastSearch, sort, setSort } = props;
+	const { inputProps, onSubmit, onClose, lastSearch } = props;
 	const [value, setValue] = useState("");
 
 	const { debounced: debouncedSearch, setDebounced: setDebouncedSearch } = useDebounce(value, 350);
@@ -59,7 +59,14 @@ export default function BrowseSearch(props: BrowseSearchProps) {
 					placeholder={"Search"}
 					value={value}
 					onChange={(e) => setValue(e.target.value)}
+					onKeyDown={handleSearchKeyDown}
+					{...inputProps}
 				/>
+				{value && (
+					<button className="shrink-0 cursor-pointer" aria-label="Close" onClick={() => handleSearchReset()}>
+						<CloseIcon className="h-4 w-4 text-[#757575] dark:text-gray-100" />
+					</button>
+				)}
 			</form>
 			<div className="flex px-2 gap-2 text-nowrap overflow-scroll scrollbar-none">
 				<OptionBtn
