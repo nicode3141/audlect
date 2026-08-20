@@ -2,23 +2,16 @@
 
 import React, { useCallback, useState } from "react";
 import VotingItems from "~/features/votings/components/VotingItems";
+import SearchVotingItems from "~/features/votings/components/SearchVotingItems";
 import NewVotingButton from "~/features/votings/components/NewVotingButton";
 import AudlectHeader from "~/shared/components/AudlectHeader";
 import BrowseSearch from "./BrowseSearch";
-import { api } from "~/trpc/react";
+import type { BrowseSortOptions } from "./BrowseSearch";
 
 export default function VotingsPageLayout() {
 	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
 	const [searchString, setSearchString] = useState<string>("");
-	const [sort, setSort] = useState<"a-z" | "popularity" | "date">("popularity");
-
-	const {} = api.search.searchPublicVotings.useQuery(
-		{
-			search_string: searchString,
-			limit: 10,
-		},
-		{ enabled: showSearchResults },
-	);
+	const [sort, setSort] = useState<BrowseSortOptions>("popularity");
 
 	const handleSearchSubmit = useCallback(
 		(value: string) => {
@@ -56,7 +49,11 @@ export default function VotingsPageLayout() {
 					setSort={(method) => setSort(method)}
 				/>
 			</div>
-			{showSearchResults ? <></> : <VotingItems sortMethod={sort} />}
+			{showSearchResults ? (
+				<SearchVotingItems searchString={searchString} sortMethod={sort} />
+			) : (
+				<VotingItems sortMethod={sort} />
+			)}
 			<div className="fixed right-0 bottom-0 z-10 flex items-center justify-center p-10">
 				<NewVotingButton />
 			</div>

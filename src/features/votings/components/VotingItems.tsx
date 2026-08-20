@@ -5,7 +5,6 @@ import VotingCard from "./VotingCard/VotingCard";
 import ErrorBanner from "~/shared/components/ErrorBanner";
 import { usePublicVotings } from "~/features/votings/hooks/usePublicVotings";
 import { Spinner } from "~/shared/ui/spinner";
-import type { RouterOutputs } from "~/trpc/react";
 import type { BrowseSortOptions } from "~/features/voting/components/BrowseSearch";
 import AudlectTitle from "~/shared/components/AudlectTitle";
 import { Loader2 } from "lucide-react";
@@ -121,32 +120,6 @@ export default function VotingItems({ sortMethod }: { sortMethod: BrowseSortOpti
 			{!isLoading && !hasNextPage && votings.length > 0 && (
 				<div className="col-span-full text-center py-4 font-inter dark:text-gray-300">You have reached the end.</div>
 			)}
-		</div>
-	);
-}
-
-export function SearchResultVotings({
-	searchResults,
-}: {
-	searchResults: RouterOutputs["search"]["searchPublicVotings"];
-}) {
-	return (
-		<div className="flex items-center justify-center pt-[2vw] max-w-screen overflow-hidden">
-			<div
-				className="flex flex-col justify-items-stretch gap-3.5 md:grid md:max-w-[80vw] md:grid-cols-2 md:flex-wrap
-					md:gap-4 xl:max-w-[60vw] xl:grid-cols-3 w-[90vw]"
-			>
-				{searchResults?.items.map((voting) => (
-					<VotingCard
-						key={voting.voting_id}
-						votingId={voting.voting_id}
-						shortId={voting.short_id}
-						title={voting.name}
-						description={voting.description}
-						coverImageUrl={voting.preview_image?.replace(/\/\d+x\d+-/, "/1000x1000-")}
-					/>
-				))}
-			</div>
 		</div>
 	);
 }
