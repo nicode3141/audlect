@@ -82,23 +82,23 @@ export default function VotingItems({ sortMethod }: { sortMethod: BrowseSortOpti
 	}, []);
 
 	return (
-		<div className="flex items-center justify-center pt-[2vw] max-w-screen overflow-hidden">
-			<div
-				className="flex flex-col justify-items-stretch gap-3.5 md:grid md:max-w-[80vw] md:grid-cols-2 md:flex-wrap
-					md:gap-4 xl:max-w-[60vw] xl:grid-cols-3 w-[90vw]"
-			>
-				{isLoading && (
-					<div className="h-[50vh] w-[90vw] flex items-center">
-						<div className="flex items-center justify-center flex-col gap-3 w-full">
-							<AudlectTitle />
-							<Loader2 className="animate-spin" />
-						</div>
+		<div className="flex items-center justify-center pt-[2vw] max-w-screen overflow-hidden flex-col gap-5">
+			{isLoading && (
+				<div className="h-[50vh] w-screen flex items-center">
+					<div className="flex items-center justify-center flex-col gap-3 w-full">
+						<AudlectTitle />
+						<Loader2 className="animate-spin" />
 					</div>
-				)}
-				{error && <ErrorBanner />}
-				{!isLoading &&
-					!error &&
-					votings.map((voting) => (
+				</div>
+			)}
+			{error && <ErrorBanner />}
+
+			{!isLoading && !error && (
+				<div
+					className="flex flex-col justify-items-stretch gap-3.5 md:grid md:max-w-[80vw] md:grid-cols-2 md:flex-wrap
+						md:gap-4 xl:max-w-[60vw] xl:grid-cols-3 w-[90vw]"
+				>
+					{votings.map((voting) => (
 						<VotingCard
 							key={voting.voting_id}
 							votingId={voting.voting_id}
@@ -108,19 +108,20 @@ export default function VotingItems({ sortMethod }: { sortMethod: BrowseSortOpti
 							coverImageUrl={voting.preview_image?.replace(/\/\d+x\d+-/, "/1000x1000-")}
 						/>
 					))}
+				</div>
+			)}
 
-				<div ref={sentinelRef} className="h-1" aria-hidden="true" />
+			<div ref={sentinelRef} className="h-1" aria-hidden="true" />
 
-				{isFetchingNextPage && (
-					<div className="col-span-full flex justify-center py-4">
-						<Spinner />
-					</div>
-				)}
+			{isFetchingNextPage && (
+				<div className="col-span-full flex justify-center py-4">
+					<Spinner />
+				</div>
+			)}
 
-				{!isLoading && !hasNextPage && votings.length > 0 && (
-					<div className="col-span-full text-center py-4 font-inter dark:text-gray-300">You have reached the end.</div>
-				)}
-			</div>
+			{!isLoading && !hasNextPage && votings.length > 0 && (
+				<div className="col-span-full text-center py-4 font-inter dark:text-gray-300">You have reached the end.</div>
+			)}
 		</div>
 	);
 }
