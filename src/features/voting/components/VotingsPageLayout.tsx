@@ -21,7 +21,6 @@ export default function VotingsPageLayout() {
 		{
 			search_string: searchString,
 			limit: 10,
-			page: 0,
 		},
 		{ enabled: showSearchResults },
 	);

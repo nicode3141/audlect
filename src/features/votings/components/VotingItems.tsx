@@ -62,7 +62,7 @@ export function SearchResultVotings({
 				className="flex flex-col justify-items-stretch gap-3.5 md:grid md:max-w-[80vw] md:grid-cols-2 md:flex-wrap
 					md:gap-4 xl:max-w-[60vw] xl:grid-cols-3 w-[90vw]"
 			>
-				{searchResults?.map((voting) => (
+				{searchResults?.items.map((voting) => (
 					<VotingCard
 						key={voting.voting_id}
 						votingId={voting.voting_id}
