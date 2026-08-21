@@ -11,7 +11,7 @@ const baseUrl = "https://audlect.nicodenetworks.com";
 
 export const metadata: Metadata = {
 	title: {
-		default: "Audlect — Music Voting App | Vote Music Together",
+		default: "Audlect - Vote Music for Events",
 		template: "%s | Audlect",
 	},
 	description:
@@ -39,24 +39,24 @@ export const metadata: Metadata = {
 		locale: "en_US",
 		url: baseUrl,
 		siteName: "Audlect",
-		title: "Audlect — Music Voting App | Vote Music Together",
+		title: "Audlect - Vote Music Together | Music Votings",
 		description:
 			"Collaborative music voting for events, parties, and venues. Let your guests vote songs into a shared playlist in real time.",
 		images: [
 			{
-				url: "/images/landing/hero-video-frame.png",
+				url: "/images/audlect-og-image.png",
 				width: 1200,
 				height: 630,
-				alt: "Audlect — collaborative music voting platform",
+				alt: "Audlect - collaborative music voting platform",
 			},
 		],
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "Audlect — Music Voting App | Vote Music Together",
+		title: "Audlect - Vote Music Together | Music Votings",
 		description:
 			"Collaborative music voting for events, parties, and venues. Let your guests vote songs into a shared playlist in real time.",
-		images: ["/images/landing/hero-video-frame.png"],
+		images: ["/images/audlect-og-image.png"],
 	},
 };
 
