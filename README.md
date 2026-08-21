@@ -1,4 +1,4 @@
-![Static Badge](https://img.shields.io/badge/nextjs-%3E%3D%2015.2.3-FFC857.svg) ![Static Badge](https://img.shields.io/badge/license-MIT-428f7e.svg?logo=open%20source%20initiative&logoColor=white&labelColor=555555)
+![Audlect Title](/public/images/audlect-og-image.png)
 
 # Audlect - Vote on music with your friends!
 
