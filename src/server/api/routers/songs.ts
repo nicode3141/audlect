@@ -1,12 +1,14 @@
 import { TRPCError } from "@trpc/server";
 import { and, asc, count, desc, eq, exists, gt, lt, or, sql, type SQL } from "drizzle-orm";
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure, protectedProcedure, rateLimitedProcedure } from "~/server/api/trpc";
 import { likesTable, songsTable, voting_membershipsTable, votingsTable } from "~/server/db/schema";
 import type { DeezerTrack, NextCursor } from "~/types/songs";
 import { getTrack } from "~/server/utils/deezer";
+import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
+import type * as schema from "~/server/db/schema";
 
-async function assertVotingActive(db: typeof import("~/server/db").db, votingId: string) {
+async function assertVotingActive(db: PostgresJsDatabase<typeof schema>, votingId: string) {
 	const [voting] = await db
 		.select({ starts_at: votingsTable.starts_at, ends_at: votingsTable.ends_at })
 		.from(votingsTable)
@@ -256,7 +258,7 @@ export const songsRouter = createTRPCRouter({
 	 * @return track:
 	 */
 
-	addSongID: protectedProcedure
+	addSongID: rateLimitedProcedure(10, 60_000)
 		.input(
 			z.object({
 				voting_id: z.string().uuid(),

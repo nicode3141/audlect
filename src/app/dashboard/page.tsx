@@ -10,7 +10,7 @@ export default function Page() {
 
 	return (
 		<>
-			<AudlectHeader headerTitle={"Dashboard"} redirectUrl={"/"} />
+			<AudlectHeader headerTitle={"Dashboard"} />
 			<UserVotings />
 		</>
 	);

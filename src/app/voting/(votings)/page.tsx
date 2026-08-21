@@ -1,6 +1,7 @@
 import React from "react";
 import VotingsPageLayout from "~/features/voting/components/VotingsPageLayout";
 import type { Metadata } from "next";
+import Footer from "~/shared/components/AppFooter";
 
 export const metadata: Metadata = {
 	title: "Browse Music Votings",
@@ -11,5 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default function page() {
-	return <VotingsPageLayout />;
+	return (
+		<>
+			<VotingsPageLayout /> <Footer />
+		</>
+	);
 }

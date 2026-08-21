@@ -14,6 +14,42 @@ import { ZodError } from "zod";
 
 import { db } from "~/server/db";
 
+interface RateLimitEntry {
+	count: number;
+	resetAt: number;
+}
+
+const rateLimitStore = new Map<string, RateLimitEntry>();
+
+function checkRateLimit(key: string, maxRequests: number, windowMs: number): boolean {
+	const now = Date.now();
+	const entry = rateLimitStore.get(key);
+
+	if (!entry || now > entry.resetAt) {
+		rateLimitStore.set(key, { count: 1, resetAt: now + windowMs });
+		return true;
+	}
+
+	if (entry.count >= maxRequests) {
+		return false;
+	}
+
+	entry.count++;
+	return true;
+}
+
+const cleanupInterval = setInterval(() => {
+	const now = Date.now();
+
+	for (const [key, entry] of rateLimitStore) {
+		if (now > entry.resetAt) {
+			rateLimitStore.delete(key);
+		}
+	}
+}, 60_000);
+
+cleanupInterval.unref?.();
+
 /**
  * 1. CONTEXT
  *
@@ -126,6 +162,21 @@ const isAuthed = t.middleware(({ next, ctx }) => {
 	});
 });
 
+const createRateLimitMiddleware = (maxRequests: number, windowMs: number) =>
+	t.middleware(({ next, ctx, path }) => {
+		const userId = ctx.auth?.session?.userId ?? "anonymous";
+		const key = `${userId}:${path}`;
+
+		if (!checkRateLimit(key, maxRequests, windowMs)) {
+			throw new TRPCError({
+				code: "TOO_MANY_REQUESTS",
+				message: "Rate limit exceeded. Please try again later.",
+			});
+		}
+
+		return next();
+	});
+
 /**
  * Public (unauthenticated) procedure
  *
@@ -135,3 +186,5 @@ const isAuthed = t.middleware(({ next, ctx }) => {
  */
 export const publicProcedure = t.procedure.use(timingMiddleware);
 export const protectedProcedure = t.procedure.use(isAuthed);
+export const rateLimitedProcedure = (maxRequests: number, windowMs: number) =>
+	t.procedure.use(timingMiddleware).use(isAuthed).use(createRateLimitMiddleware(maxRequests, windowMs));

@@ -17,8 +17,8 @@ export default function DeadlineFeature() {
 				</p>
 			</div>
 			<div
-				className="md:order-1 md:bg-[url('/images/backgrounds/mesh-background-3.avif')] bg-cover bg-center md:rounded-lg
-					h-90 w-full flex items-center justify-center md:p-20"
+				className="md:order-1 md:bg-neutral-100 md:bg-[url('/images/backgrounds/mesh-background-3.avif')] bg-cover
+					bg-center md:rounded-lg h-90 w-full flex items-center justify-center md:p-20"
 			>
 				<div className="relative h-90 w-full flex items-center justify-center perspective-[1000px]">
 					<OptimizedImage
@@ -27,7 +27,7 @@ export default function DeadlineFeature() {
 						width={245}
 						height={100}
 						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-45"
-						className="rounded-2xl select-none"
+						className="rounded-2xl select-none bg-gray-500 min-h-70 md:min-h-50"
 					/>
 					<OptimizedImage
 						src={"/images/landing/mockup-deadline-light"}
@@ -35,7 +35,7 @@ export default function DeadlineFeature() {
 						width={230}
 						height={100}
 						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-45"
-						className="rounded-2xl select-none"
+						className="rounded-2xl select-none bg-gray-300 min-h-70 md:min-h-50"
 					/>
 				</div>
 			</div>

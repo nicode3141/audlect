@@ -22,22 +22,22 @@ export default function AdditionalFeature() {
 						md:p-10"
 				>
 					<div className="relative h-90 w-full flex items-center justify-center perspective-[1000px]">
-					<OptimizedImage
-						src={"/images/landing/mockup-limits-light"}
-						alt={"Audlect song voting limits settings in light mode"}
-						width={245}
-						height={100}
-						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-50"
-						className="rounded-2xl"
-					/>
-					<OptimizedImage
-						src={"/images/landing/mockup-limits-dark"}
-						alt={"Audlect song voting limits settings in dark mode"}
-						width={230}
-						height={100}
-						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-50"
-						className="rounded-2xl"
-					/>
+						<OptimizedImage
+							src={"/images/landing/mockup-limits-light"}
+							alt={"limits feature light"}
+							width={245}
+							height={100}
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-8 z-1 right-2 md:w-50 select-none"
+							className="rounded-2xl bg-gray-300 min-h-50"
+						/>
+						<OptimizedImage
+							src={"/images/landing/mockup-limits-dark"}
+							alt={"limits feature dark"}
+							width={230}
+							height={100}
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] rotate-355 left-2 md:w-50 select-none"
+							className="rounded-2xl bg-gray-400 min-h-50"
+						/>
 					</div>
 				</div>
 			</section>
@@ -51,22 +51,22 @@ export default function AdditionalFeature() {
 						md:p-10"
 				>
 					<div className="relative h-90 w-full flex items-center justify-center perspective-[1000px]">
-					<OptimizedImage
-						src={"/images/landing/mockup-preview-dark"}
-						alt={"Audlect song preview player in dark mode"}
-						width={245}
-						height={100}
-						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] z-1 right-2 -translate-y-5"
-						className="rounded-2xl"
-					/>
-					<OptimizedImage
-						src={"/images/landing/mockup-preview-light"}
-						alt={"Audlect song preview player in light mode"}
-						width={230}
-						height={100}
-						classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] left-2 translate-y-1"
-						className="rounded-2xl"
-					/>
+						<OptimizedImage
+							src={"/images/landing/mockup-preview-dark"}
+							alt={""}
+							width={245}
+							height={100}
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] z-1 right-2 -translate-y-5 select-none"
+							className="rounded-2xl bg-gray-400 min-h-50"
+						/>
+						<OptimizedImage
+							src={"/images/landing/mockup-preview-light"}
+							alt={""}
+							width={230}
+							height={100}
+							classNameParent="absolute rounded-2xl shadow-[2px_4px_4px_0px_rgba(0,0,0,0.50)] left-2 translate-y-1 select-none"
+							className="rounded-2xl bg-gray-300 min-h-50"
+						/>
 					</div>
 				</div>
 			</section>

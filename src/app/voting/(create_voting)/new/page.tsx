@@ -12,16 +12,12 @@ export const metadata: Metadata = {
 	},
 };
 
-export default async function page({
-	searchParams,
-}: {
-	searchParams: Promise<{ name?: string }>;
-}) {
+export default async function page({ searchParams }: { searchParams: Promise<{ name?: string }> }) {
 	const { name } = await searchParams;
 
 	return (
 		<LoginWarnProvider>
-			<AudlectHeader headerTitle={"Create New Voting"} redirectUrl={"/voting"} />
+			<AudlectHeader headerTitle={"Create New Voting"} />
 			<CreateVoting initialName={name} />
 		</LoginWarnProvider>
 	);

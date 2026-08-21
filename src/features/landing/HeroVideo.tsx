@@ -70,14 +70,10 @@ export default function HeroVideo() {
 				loop
 				playsInline
 				preload="metadata"
-				className="object-cover w-full h-full bg-cover bg-center select-none"
+				className="object-cover w-full h-full bg-cover bg-center select-none bg-blue-950"
 				style={{ backgroundImage: "url('/images/landing/hero-video-frame.webp')" }}
 			>
-				<source
-					src="/videos/6602b47f0c264b8edbe569da_10swebmhd-transcode.webm"
-					type='video/webm; codecs="vp9"'
-					media="(max-width: 768px)"
-				/>
+				<source src="/videos/hero-video-mobile.webm" type='video/webm; codecs="vp9"' media="(max-width: 768px)" />
 				<source src="/videos/hero-video.webm" type='video/webm; codecs="vp9"' />
 				<source src="/videos/hero-video.mp4" type="video/mp4" />
 			</video>

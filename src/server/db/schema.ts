@@ -28,7 +28,7 @@ export const songsTable = pgTable(
 		isrc: varchar("isrc", { length: 12 }), //isrc from music api
 		voting_id: uuid("voting_id")
 			.notNull()
-			.references(() => votingsTable.voting_id),
+			.references(() => votingsTable.voting_id, { onDelete: "cascade" }),
 		cover_image: varchar("cover_image", { length: 255 }),
 		song_name: text("song_name"),
 		song_artists: text("song_artists"),
@@ -48,10 +48,10 @@ export const likesTable = pgTable(
 		user_id: varchar("user_id", { length: 255 }).notNull(), //clerk
 		song_id: uuid("song_id")
 			.notNull()
-			.references(() => songsTable.song_id),
+			.references(() => songsTable.song_id, { onDelete: "cascade" }),
 		voting_id: uuid("voting_id")
 			.notNull()
-			.references(() => votingsTable.voting_id),
+			.references(() => votingsTable.voting_id, { onDelete: "cascade" }),
 	},
 	(t) => [unique("song_user_voting-unique").on(t.song_id, t.user_id, t.voting_id)],
 );
@@ -68,7 +68,7 @@ export const voting_membershipsTable = pgTable(
 			.references(() => user.id),
 		voting_id: uuid("voting_id")
 			.notNull()
-			.references(() => votingsTable.voting_id),
+			.references(() => votingsTable.voting_id, { onDelete: "cascade" }),
 	},
 	(t) => [unique("voting_membership-unique").on(t.user_id, t.voting_id)],
 );
@@ -80,7 +80,7 @@ export const linked_streamingServicesTable = pgTable(
 		user_id: text("user_id").references(() => user.id),
 		voting_id: uuid("voting_id")
 			.notNull()
-			.references(() => votingsTable.voting_id),
+			.references(() => votingsTable.voting_id, { onDelete: "cascade" }),
 		refresh_token: text("refresh_token"),
 		playlist_url: text("playlist_url").notNull(),
 	},

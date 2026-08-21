@@ -21,6 +21,22 @@ const config = {
 				hostname: "cdn-images.dzcdn.net",
 				pathname: "/images/cover/**",
 			},
+			{
+				protocol: "https",
+				hostname: "lh3.googleusercontent.com",
+			},
+			{
+				protocol: "https",
+				hostname: "lh3.googleusercontent.com",
+			},
+			{
+				protocol: "https",
+				hostname: "www.gravatar.com",
+			},
+			{
+				protocol: "https",
+				hostname: "gravatar.com",
+			},
 		],
 	},
 };

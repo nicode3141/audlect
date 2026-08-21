@@ -38,7 +38,11 @@ export default function SearchCardContainer(props: ISearchCardProps) {
 			setAdded(false);
 			setIsLoadingAdd(false);
 
-			if (err.message) toast.error(err.message);
+			if (err.data?.code === "TOO_MANY_REQUESTS") {
+				toast.error("Too many requests. Please slow down.");
+			} else if (err.message) {
+				toast.error(err.message);
+			}
 		},
 		onSuccess: (data) => {
 			setAdded(true);

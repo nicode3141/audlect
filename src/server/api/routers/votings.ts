@@ -1,80 +1,114 @@
-import { and, asc, count, desc, eq, max } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure, rateLimitedProcedure } from "~/server/api/trpc";
 
-import { voting_membershipsTable, likesTable, songsTable, votingsTable } from "~/server/db/schema";
+import { voting_membershipsTable, votingsTable } from "~/server/db/schema";
 
 import { TRPCError } from "@trpc/server";
+
+import { decodeCursor, encodeCursor, buildTopSongSubquery, buildCursorCondition, buildOrderBy } from "./votingHelpers";
 
 export const votingsRouter = createTRPCRouter({
 	getPublicVotings: publicProcedure
 		.input(
 			z.object({
-				limit: z.number().default(10),
-				page: z.number().default(0),
-				sort_method: z.enum(["Date Added", "Users", "A-Z"]).default("Date Added"),
+				limit: z.number().min(0).max(200).default(10),
+				page: z.number().min(0).default(0),
+				cursor: z.string().nullish(),
+				sort_method: z.enum(["date", "popularity", "a-z"]).default("date"),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
-			let sortQuery;
-			switch (input.sort_method) {
-				default:
-					sortQuery = votingsTable.created_at;
-					break;
-				case "A-Z":
-					sortQuery = asc(votingsTable.name);
-					break;
+			const cursor = decodeCursor(input.cursor);
+			const topSong = buildTopSongSubquery(ctx.db);
+
+			let cursorCondition;
+
+			if (cursor) {
+				if (cursor.sort !== input.sort_method) {
+					throw new TRPCError({
+						code: "BAD_REQUEST",
+						message: "Cursor does not match sort method",
+					});
+				}
+
+				cursorCondition = buildCursorCondition(cursor, topSong);
 			}
 
+			const orderBy = buildOrderBy(input.sort_method, topSong);
+
 			try {
-				const imageSubquery = ctx.db
+				const rows = await ctx.db
 					.select({
-						preview_image: songsTable.cover_image,
-						voting_id: songsTable.voting_id,
-						like_count: count(likesTable.song_id).as("like_count"),
-					})
-					.from(songsTable)
-					.leftJoin(likesTable, eq(likesTable.song_id, songsTable.song_id))
-					.groupBy(songsTable.song_id)
-					.orderBy(desc(count(likesTable.song_id)))
-					.as("imageSubquery");
-
-				const maxLikes = ctx.db
-					.select({
-						voting_id: imageSubquery.voting_id,
-						max_likes: max(imageSubquery.like_count).as("max_likes"),
-					})
-					.from(imageSubquery)
-					.groupBy(imageSubquery.voting_id)
-					.as("maxLikes");
-
-				const votings = await ctx.db
-					.selectDistinctOn([votingsTable.voting_id], {
 						voting_id: votingsTable.voting_id,
 						short_id: votingsTable.short_id,
 						name: votingsTable.name,
 						description: votingsTable.description,
-						external_url_: votingsTable.external_url,
+						external_url: votingsTable.external_url,
 						created_by: votingsTable.created_by,
 						public: votingsTable.public,
 						active: votingsTable.active,
 						created_at: votingsTable.created_at,
-						preview_image: imageSubquery.preview_image,
+
+						preview_image: topSong.preview_image, //external
+						popularity: topSong.popularity, //external
 					})
 					.from(votingsTable)
-					.leftJoin(maxLikes, eq(votingsTable.voting_id, maxLikes.voting_id))
-					.leftJoin(
-						imageSubquery,
-						and(eq(votingsTable.voting_id, imageSubquery.voting_id), eq(imageSubquery.like_count, maxLikes.max_likes)),
-					)
-					.where(eq(votingsTable.public, true))
-					.orderBy(votingsTable.voting_id, desc(sortQuery))
-					.limit(input.limit)
-					.offset(input.page * input.limit);
+					.leftJoin(topSong, eq(votingsTable.voting_id, topSong.voting_id))
+					.where(and(eq(votingsTable.public, true), cursorCondition))
+					.orderBy(...orderBy)
+					.limit(input.limit + 1);
 
-				return votings;
+				const hasNextPage = rows.length > input.limit;
+				const votings = hasNextPage ? rows.slice(0, input.limit) : rows;
+
+				let nextCursor: string | null = null;
+
+				if (hasNextPage) {
+					const last = votings[votings.length - 1]; //last voting
+
+					if (!last) {
+						throw new TRPCError({
+							code: "INTERNAL_SERVER_ERROR",
+							message: "Failed to create pagination cursor",
+						});
+					}
+
+					switch (input.sort_method) {
+						case "date":
+							nextCursor = encodeCursor({
+								sort: "date",
+								createdAt: last.created_at?.toISOString() ?? "",
+								votingId: last.voting_id,
+							});
+							break;
+
+						case "a-z":
+							nextCursor = encodeCursor({
+								sort: "a-z",
+								name: last.name,
+								votingId: last.voting_id,
+							});
+							break;
+
+						case "popularity":
+							if (last.popularity !== null) {
+								nextCursor = encodeCursor({
+									sort: "popularity",
+									popularity: last.popularity,
+									votingId: last.voting_id,
+								});
+							}
+							break;
+					}
+				}
+
+				return {
+					items: votings,
+					nextCursor,
+				};
 			} catch (err: unknown) {
 				throw new TRPCError({
 					code: "INTERNAL_SERVER_ERROR",
@@ -86,13 +120,13 @@ export const votingsRouter = createTRPCRouter({
 	getOwnVotings: protectedProcedure
 		.input(
 			z.object({
-				limit: z.number().default(10),
-				page: z.number().default(0),
+				limit: z.number().min(0).max(200).default(10),
+				page: z.number().min(0).default(0),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
 			try {
-				const votings = ctx.db
+				const votings = await ctx.db
 					.select()
 					.from(votingsTable)
 					.where(eq(votingsTable.created_by, ctx.auth.session.userId))
@@ -109,11 +143,6 @@ export const votingsRouter = createTRPCRouter({
 			}
 		}),
 
-	/**
-	 * GET votings by ID (UUID)
-	 *
-	 * voting: voting_id, name, description, created_by, public, active, created_at
-	 */
 	votings: publicProcedure
 		.input(
 			z.object({
@@ -121,7 +150,6 @@ export const votingsRouter = createTRPCRouter({
 			}),
 		)
 		.query(async ({ ctx, input }) => {
-			//SELECT * FROM votings WHERE voting_id = 798327357943;
 			const votings = await ctx.db
 				.select()
 				.from(votingsTable)
@@ -131,37 +159,33 @@ export const votingsRouter = createTRPCRouter({
 			return votings[0];
 		}),
 
-	getMyMembership: protectedProcedure
-		.input(z.object({ voting_id: z.uuid() }))
-		.query(async ({ ctx, input }) => {
-			const [membership] = await ctx.db
-				.select({ role: voting_membershipsTable.role })
-				.from(voting_membershipsTable)
-				.where(
-					and(
-						eq(voting_membershipsTable.user_id, ctx.auth.session.userId),
-						eq(voting_membershipsTable.voting_id, input.voting_id),
-					),
-				);
-			return membership ?? null;
-		}),
+	getMyMembership: protectedProcedure.input(z.object({ voting_id: z.uuid() })).query(async ({ ctx, input }) => {
+		const [membership] = await ctx.db
+			.select({ role: voting_membershipsTable.role })
+			.from(voting_membershipsTable)
+			.where(
+				and(
+					eq(voting_membershipsTable.user_id, ctx.auth.session.userId),
+					eq(voting_membershipsTable.voting_id, input.voting_id),
+				),
+			);
+		return membership ?? null;
+	}),
 
-	joinVoting: protectedProcedure
-		.input(z.object({ voting_id: z.uuid() }))
-		.mutation(async ({ ctx, input }) => {
-			const [membership] = await ctx.db
-				.insert(voting_membershipsTable)
-				.values({
-					voting_id: input.voting_id,
-					user_id: ctx.auth.session.userId,
-					role: "participant",
-				})
-				.onConflictDoNothing()
-				.returning();
-			return membership ?? null;
-		}),
+	joinVoting: protectedProcedure.input(z.object({ voting_id: z.uuid() })).mutation(async ({ ctx, input }) => {
+		const [membership] = await ctx.db
+			.insert(voting_membershipsTable)
+			.values({
+				voting_id: input.voting_id,
+				user_id: ctx.auth.session.userId,
+				role: "participant",
+			})
+			.onConflictDoNothing()
+			.returning();
+		return membership ?? null;
+	}),
 
-	createVoting: protectedProcedure
+	createVoting: rateLimitedProcedure(5, 60_000)
 		.input(
 			z.object({
 				name: z.string().min(3).max(100),
@@ -217,6 +241,28 @@ export const votingsRouter = createTRPCRouter({
 				throw new TRPCError({
 					code: "INTERNAL_SERVER_ERROR",
 					message: err instanceof Error ? err.message : "couldn't fetch songs",
+				});
+			}
+		}),
+
+	deleteVoting: rateLimitedProcedure(3, 60_000)
+		.input(
+			z.object({
+				voting_id: z.uuid(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			try {
+				const deletedVoting = await ctx.db
+					.delete(votingsTable)
+					.where(and(eq(votingsTable.voting_id, input.voting_id), eq(votingsTable.created_by, ctx.auth.session.userId)))
+					.returning();
+
+				return deletedVoting[0];
+			} catch (err: unknown) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: err instanceof Error ? err.message : "couldn't delete voting",
 				});
 			}
 		}),
