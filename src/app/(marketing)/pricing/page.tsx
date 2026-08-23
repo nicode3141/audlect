@@ -21,7 +21,7 @@ export default function pricing() {
 					className={`heading2small font-inter text-center text-2xl font-normal text-neutral-400 text-shadow-2xs
 						lg:text-3xl dark:text-gray-300`}
 				>
-					sponsor us to continue this developmen
+					sponsor us to continue this development
 				</div>
 			</div>
 		</div>

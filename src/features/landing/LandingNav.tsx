@@ -115,7 +115,7 @@ export default function LandingNav() {
 								decoration-3 font-montserrat"
 						>
 							<motion.li variants={menuItemVariants}>
-								<Link href={"/features"} className="">
+								<Link href={"/#features"} className="">
 									Features
 								</Link>
 							</motion.li>

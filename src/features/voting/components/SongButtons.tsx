@@ -78,7 +78,7 @@ export const AddSongButton = React.memo(function AddSongButton({
 
 	return (
 		<motion.button
-			className={`cursor-pointer rounded-full bg-gray-300 p-3 dark:bg-[#191919]${disabled ? " opacity-40" : ""}`}
+			className={`cursor-pointer rounded-full bg-gray-300 p-3 dark:bg-[#191919] ${disabled ? " opacity-40" : ""}`}
 			initial={addButtonInitial}
 			animate={addButtonAnimate}
 			transition={addButtonTransition}
