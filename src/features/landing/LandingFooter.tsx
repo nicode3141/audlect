@@ -9,6 +9,7 @@ const footerLinks = [
 			{ label: "Browse events", href: "/voting/" },
 			{ label: "Pricing", href: "/pricing" },
 			{ label: "Feedback", href: "https://forms.gle/um6yszPE2oirzFg47" },
+			{ label: "Guidelines", href: "/legal/terms" },
 		],
 	},
 	{
@@ -18,7 +19,7 @@ const footerLinks = [
 			{ label: "Privacy Policy", href: "/legal/privacy" },
 			{ label: "Terms & Conditions", href: "/legal/terms" },
 			{ label: "Cookie Policy", href: "/legal/cookies" },
-			{ label: "Guidelines", href: "/legal/terms" },
+			{ label: "Legal Notice", href: "/legal/legal-notice" },
 		],
 	},
 	{
