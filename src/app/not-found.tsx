@@ -17,7 +17,7 @@ export default function NotFound() {
 			<Link
 				className="align-center mt-4 inline-block flex-row justify-center rounded-md bg-[#415FFF]/55 p-2 px-3 text-white
 					shadow-[0px_4px_4px_0px_rgba(65,95,255,0.15)] hover:bg-company duration-300"
-				href={`/voting/`}
+				href={`/`}
 			>
 				<ArrowUpRight strokeWidth={2} className="text-bold font-montserrat mr-2 inline-block h-7 w-7 pb-0.5" />
 				<span className="font-semibold">Homepage</span>
