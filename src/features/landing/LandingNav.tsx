@@ -1,11 +1,10 @@
 "use client";
 
-import { ArrowRight, ArrowUpRight, ChevronDown, TextAlignJustify, User } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import NavBarHamburger from "./NavBarHamburger";
 import { AnimatePresence, motion, type Variants } from "motion/react";
-import { ArrowLeft } from "~/shared/icons/Arrows";
 import DynamicAuthBtn from "../auth/components/DynamicAuthBtn";
 
 const menuListVariants: Variants = {
@@ -42,14 +41,34 @@ export default function LandingNav() {
 				</Link>
 				<div className="hidden md:flex flex-1 items-center justify-center font-semibold md:text-neutral-700 text-xl">
 					<div className="flex space-x-4 items-center justify-center">
-						<Link
-							href={"/#features"}
-							className="flex items-center gap-1 px-3 py-2 transition hover:bg-neutral-200/95 rounded-2xl duration-300
-								ease-in-out"
-						>
-							Features
-							<ChevronDown />
-						</Link>
+						<div className="group relative">
+							<Link
+								href={"/#features"}
+								className="flex items-center gap-1 px-3 py-2 transition group-hover:bg-neutral-200/95 rounded-2xl
+									duration-300 ease-in-out"
+							>
+								Features
+								<ChevronDown />
+							</Link>
+							<div
+								className="absolute invisible group-hover:visible p-2 bg-[#F0F0F0]/95 rounded-xl left-1/2 top-full mt-3
+									text-nowrap px-5 -translate-x-1/2 flex items-center flex-col gap-3 select-none opacity-0
+									group-hover:opacity-100 duration-300"
+							>
+								<Link className="hover:text-company-second" href={"/#features"}>
+									Deadlines
+								</Link>
+								<Link className="hover:text-company-second" href={"/#features"}>
+									Share
+								</Link>
+								<Link className="hover:text-company-second" href={"/#features"}>
+									Limits
+								</Link>
+								<Link className="hover:text-company-second" href={"/#features"}>
+									Music previews
+								</Link>
+							</div>
+						</div>
 						<Link
 							href={"/"}
 							className="px-3 py-2 transition hover:bg-neutral-200/95 rounded-2xl duration-300 ease-in-out"
