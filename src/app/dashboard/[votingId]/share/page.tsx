@@ -24,7 +24,7 @@ export default function Page() {
 				<span className="font-montserrat font-semibold text-xl">Share</span>
 				<div className="font-montserrat text-sm">Invite your friends to the next party.</div>
 			</div>
-			<Card className="md:w-[75%] md:mx-auto md:p-4">
+			<Card className="md:w-[50%] xl:w-[25vw] md:mx-auto md:p-4">
 				<div className="flex flex-col p-2 dark:text-white">
 					<CardHeader className="gap-0">
 						<CardTitle>

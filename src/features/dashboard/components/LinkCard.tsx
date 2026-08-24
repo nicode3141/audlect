@@ -16,7 +16,8 @@ export default function LinkCard({ shortId }: { shortId: string }) {
 				</div>
 			</div>
 			<CopyLinkButton
-				className="bg-neutral-900 transition-colors duration-200 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+				className="bg-neutral-900 transition-colors duration-200 hover:bg-black hover:text-white dark:hover:bg-white
+					dark:hover:text-black"
 				url={`https://audlect.nicodenetworks.com/voting/${shortId}`}
 				copyChildren={
 					<>
