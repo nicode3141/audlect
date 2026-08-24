@@ -11,7 +11,7 @@ export default function NotFound() {
 			<div className="text-center font-montserrat font-extrabold text-3xl max-w-110">
 				Couldn’t find what you were looking for
 			</div>
-			<div className="text-center font-inter font-medium text-xl max-w-110">
+			<div className="text-center font-inter font-medium text-xl max-w-90">
 				The requested page <span className="text-neutral-500">“{pathname}”</span> {`couldn’t be found`}
 			</div>
 			<Link
