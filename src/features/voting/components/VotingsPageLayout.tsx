@@ -28,7 +28,7 @@ export default function VotingsPageLayout() {
 	return (
 		<div>
 			<div className={"VotingDetails font-inter pt-2"}>
-				<AudlectHeader headerTitle={"Audlect"} />
+				<AudlectHeader headerTitle={"Audlect"} url="/" />
 				<div className="py-5">
 					<div className={"heading1 font-montserrat text-center text-4xl font-bold text-company-second lg:text-6xl"}>
 						Browse Votings
