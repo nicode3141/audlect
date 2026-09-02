@@ -22,7 +22,8 @@ export default function SignInLink({ className }: SignInProps) {
 			onClick={handleSignIn}
 			type="submit"
 			className={cn(
-				"cursor-pointer text-left underline hover:text-shadow-md hover:font-bold duration-150 ease-in-out transition",
+				`cursor-pointer text-left underline hover:text-shadow-sm hover:font-semibold duration-150 ease-in-out transition
+				font-semibold`,
 				className,
 			)}
 		>
