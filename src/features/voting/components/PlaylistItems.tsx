@@ -56,6 +56,7 @@ export default function PlaylistItems(props: IPlaylistItemProps) {
 				added_by: items.added_by,
 				likes_total: items.likes_total,
 				liked: items.liked,
+        rank: items.rank,
 			},
 			key: items.isrc,
 		}));

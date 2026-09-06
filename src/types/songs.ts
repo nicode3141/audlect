@@ -45,6 +45,7 @@ export type TSongMetadata = {
 	created_at?: Date;
 	likes_total?: number;
 	liked?: unknown;
+	rank?: number;
 };
 
 export type NextCursor = {

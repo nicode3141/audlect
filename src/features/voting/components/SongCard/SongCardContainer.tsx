@@ -46,7 +46,8 @@ function arePropsEqual(prevProps: ISongCardContainerProps, nextProps: ISongCardC
 		prev.cover_image === next.cover_image &&
 		prev.added_by === next.added_by &&
 		prev.likes_total === next.likes_total &&
-		prev.liked === next.liked
+		prev.liked === next.liked &&
+		prev.rank === next.rank
 	);
 }
 

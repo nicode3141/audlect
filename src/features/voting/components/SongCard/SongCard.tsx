@@ -24,7 +24,7 @@ interface SongCardProps {
 
 // Custom comparison to prevent re-renders when only metadata reference changes
 function areSongCardPropsEqual(prevProps: SongCardProps, nextProps: SongCardProps): boolean {
-	// Compare all props except metadata (we'll do deep compare for that)
+	// Compare all props except metadata. If one prop isn't same, their not same anymore
 	if (
 		prevProps.added !== nextProps.added ||
 		prevProps.addedSearchResult !== nextProps.addedSearchResult ||
@@ -54,7 +54,8 @@ function areSongCardPropsEqual(prevProps: SongCardProps, nextProps: SongCardProp
 		prev.cover_image === next.cover_image &&
 		prev.added_by === next.added_by &&
 		prev.likes_total === next.likes_total &&
-		prev.liked === next.liked
+		prev.liked === next.liked &&
+		prev.rank === next.rank
 	);
 }
 

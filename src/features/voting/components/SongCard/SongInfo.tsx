@@ -43,7 +43,7 @@ export default React.memo(function SongInfo(props: ISongInfo) {
 	return (
 		showPopup && (
 			<AnimatePresence>
-				<PopupCard title="SONG" subtitle={metadata.song_name} ref={ref}>
+				<PopupCard title={`Rank #${metadata.rank}`} subtitle={metadata.song_name} ref={ref}>
 					<Link
 						className="flex min-w-3/4 items-center justify-center gap-2 truncate rounded-xl bg-gray-300 p-3 px-3.5
 							text-nowrap md:min-w-10 md:rounded-none md:bg-transparent md:p-0 md:hover:pl-2 dark:bg-[#010101]"
