@@ -28,7 +28,7 @@ export default React.memo(function SongInfo(props: ISongInfo) {
 	const { data: session } = authClient.useSession();
 	const { data: membership } = api.votings.getMyMembership.useQuery(
 		{ voting_id: metadata.voting_id },
-		{ enabled: showPopup },
+		{ enabled: showPopup && !!session },
 	);
 
 	async function removeSong() {
