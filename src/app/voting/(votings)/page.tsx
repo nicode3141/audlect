@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 
 export default function page() {
 	return (
-		<>
+		<div className="flex flex-col h-screen">
 			<VotingsPageLayout /> <Footer />
-		</>
+		</div>
 	);
 }

@@ -49,6 +49,12 @@ export default function Footer() {
 					>
 						Cookies Policy
 					</Link>
+					<Link
+						href="/legal/legal-notice"
+						className="underline decoration-gray-300 transition-colors hover:text-black dark:hover:text-white"
+					>
+						Legal Notice
+					</Link>
 				</div>
 
 				{/* Right section */}

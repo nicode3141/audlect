@@ -11,15 +11,24 @@ import { useRouter } from "next/navigation";
 
 interface AudlectHeaderProps {
 	headerTitle: string;
+	url?: string;
 }
 
-export default function AudlectHeader({ headerTitle }: AudlectHeaderProps) {
+export default function AudlectHeader({ headerTitle, url }: AudlectHeaderProps) {
 	const router = useRouter();
 	const { data: session, isPending } = authClient.useSession();
 
+	function redirect() {
+		if (!url) {
+			router.back();
+			return;
+		}
+		router.push(url);
+	}
+
 	return (
 		<div className="inline-flex w-full items-center justify-between self-stretch px-3 py-2">
-			<button className="flex items-center gap-4" onClick={() => router.back()}>
+			<button className="flex items-center gap-4" onClick={redirect}>
 				<ArrowLeft />
 				<div className="font-montserrat text-lg font-bold text-gray-500 dark:text-gray-200">{headerTitle}</div>
 			</button>

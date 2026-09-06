@@ -11,6 +11,7 @@ import { getVoting } from "~/lib/getVoting";
 import { AudioProvider } from "~/features/voting/context/AudioContext";
 import AudioProgressBar from "~/features/voting/components/AudioProgressBar";
 import VotingInfoBar from "~/features/votings/components/VotingInfoBar";
+import NotFound from "~/features/votings/components/NotFound";
 
 export async function generateMetadata({ params }: PageParams) {
 	const votingId = (await params).votingId;
@@ -34,7 +35,11 @@ export default async function Page({ params }: PageParams) {
 	const [voting] = await db.select().from(votingsTable).where(eq(votingsTable.short_id, votingId)).limit(1);
 
 	if (!voting) {
-		return <div className="font-inter pt-7 lg:mt-24">Voting not found</div>;
+		return (
+			<div className="font-inter pt-7 lg:mt-24 flex min-h-screen flex-col">
+				<NotFound reqVotingId={votingId} />
+			</div>
+		);
 	}
 
 	return (

@@ -47,12 +47,15 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
 		<Sidebar collapsible="offcanvas" className="" {...props}>
 			<SidebarHeader>
 				<SidebarMenu>
-					<div className="flex items-center gap-4 text-lg font-semibold font-montserrat p-2 dark:text-white">
+					<Link
+						href={"/"}
+						className="flex items-center gap-4 text-lg font-semibold font-montserrat p-2 dark:text-white"
+					>
 						<div className="p-2 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
 							<Image src="/app-logo.svg" alt="Audlect" width={20} height={20} />
 						</div>
 						<span className="font-montserrat">Audlect</span>
-					</div>
+					</Link>
 				</SidebarMenu>
 			</SidebarHeader>
 			<SidebarContent className="flex gap-5 py-2 px-2 dark:text-white">

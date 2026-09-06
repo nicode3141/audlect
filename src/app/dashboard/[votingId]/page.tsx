@@ -50,98 +50,112 @@ export default function Page() {
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="flex flex-col gap-5 pt-3">
-						<div className="flex font-inter text-sm gap-2.5">
-							<Link
-								href={`/dashboard/${votingId}/settings`}
-								className="px-2 py-1 border rounded-lg flex gap-2 items-center transition-colors duration-200
-									hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black md:py-2 md:px-3"
-							>
-								<Cog size={20} />
-								Settings
-							</Link>
-							<Link
-								href={`/voting/${votingId}`}
-								className="px-2 rounded-lg flex gap-2 items-center truncate bg-company transition-colors duration-200
-									hover:bg-black hover:text-white"
-							>
-								<ExternalLink size={20} />
-								Open Live
-							</Link>
+						<div className="dashboardMain">
+							<div className="flex font-inter text-sm gap-2.5">
+								<Link
+									href={`/dashboard/${votingId}/settings`}
+									className="px-2 py-1 border rounded-lg flex gap-2 items-center transition-colors duration-200
+										hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black md:py-2 md:px-3"
+								>
+									<Cog size={20} />
+									Settings
+								</Link>
+								<Link
+									href={`/voting/${votingId}`}
+									className="px-2 rounded-lg flex gap-2 items-center truncate bg-company transition-colors duration-200
+										hover:bg-black hover:text-white"
+								>
+									<ExternalLink size={20} />
+									Open Live
+								</Link>
+							</div>
+							<LinkCard shortId={votingId} />
+							<Separator className="md:hidden" />
+							<CampaignProgress
+								startsAt={settings?.starts_at}
+								endsAt={settings?.ends_at}
+								createdAt={settings?.created_at}
+							/>
+							<Separator className="md:hidden" />
+							<div className="flex flex-col pt-10 gap-5 md:flex-row md:w-fit">
+								<StatsCard label="Songs" value={stats?.totalSongs ?? 0} icon={<VoteIcon />} />
+								<StatsCard label="Total Votes" value={stats?.totalLikes ?? 0} icon={<ChartNoAxesColumnIncreasing />} />
+								<StatsCard label="Participants" value={stats?.participants ?? 0} icon={<Globe />} />
+							</div>
+							<Separator className="md:hidden" />
 						</div>
-						<LinkCard shortId={votingId} />
-						<Separator className="md:hidden" />
-						<CampaignProgress
-							startsAt={settings?.starts_at}
-							endsAt={settings?.ends_at}
-							createdAt={settings?.created_at}
-						/>
-						<Separator className="md:hidden" />
-						<div className="flex flex-col pt-10 gap-5 md:flex-row md:w-fit">
-							<StatsCard label="Songs" value={stats?.totalSongs ?? 0} icon={<VoteIcon />} />
-							<StatsCard label="Total Votes" value={stats?.totalLikes ?? 0} icon={<ChartNoAxesColumnIncreasing />} />
-							<StatsCard label="Participants" value={stats?.participants ?? 0} icon={<Globe />} />
-						</div>
-						<Separator className="md:hidden" />
 
-						<div className="md:border md:rounded-xl md:overflow-hidden md:divide-y md:dark:divide-neutral-700 md:mt-10">
-							<div className="px-6 py-4 md:bg-neutral-50 md:dark:bg-neutral-800/50">
-								<span className="font-montserrat font-semibold text-xl md:text-2xl">Settings</span>
-								<div className="font-montserrat text-sm md:text-base text-muted-foreground">
-									Customize your voting to fit your needs.
+						<div className="dashboardSettings pt-10 xl:pt-0">
+							<div
+								className="md:border md:rounded-xl md:overflow-hidden md:divide-y md:dark:divide-neutral-700 md:mt-10"
+							>
+								<div className="px-6 py-4 md:bg-neutral-50 md:dark:bg-neutral-800/50">
+									<span className="font-montserrat font-semibold text-xl md:text-2xl">Settings</span>
+									<div className="font-montserrat text-sm md:text-base text-muted-foreground">
+										Customize your voting to fit your needs.
+									</div>
 								</div>
-							</div>
 
-							<div className="flex flex-col gap-4 p-6 px-2 md:px-6">
-								<TitleSettings settings={settings} />
-							</div>
-							<Separator decorative className="md:hidden" />
-							<div className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:items-center gap-4 md:gap-8 p-6 px-2 md:px-6">
-								<div>
-									<div className="font-semibold text-base md:text-xl">Privacy</div>
-									<div className="text-xs text-muted-foreground">Control who can see your voting</div>
+								<div className="flex flex-col gap-4 p-6 px-2 md:px-6">
+									<TitleSettings settings={settings} />
 								</div>
-								<div className="px-2">
-									<PrivacySettings settings={settings} />
+								<Separator decorative className="md:hidden" />
+								<div
+									className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:items-center gap-4 md:gap-8 p-6 px-2 md:px-6"
+								>
+									<div>
+										<div className="font-semibold text-base md:text-xl">Privacy</div>
+										<div className="text-xs text-muted-foreground">Control who can see your voting</div>
+									</div>
+									<div className="px-2">
+										<PrivacySettings settings={settings} />
+									</div>
 								</div>
-							</div>
-							<Separator decorative className="md:hidden" />
-							<div className="p-6 px-2 md:px-6">
-								<div className="mb-4">
-									<div className="font-semibold text-base">Schedule</div>
-									<div className="text-xs text-muted-foreground">Set when your voting starts and ends</div>
+								<Separator decorative className="md:hidden" />
+								<div className="p-6 px-2 md:px-6">
+									<div className="mb-4">
+										<div className="font-semibold text-base">Schedule</div>
+										<div className="text-xs text-muted-foreground">Set when your voting starts and ends</div>
+									</div>
+									<div className="px-2">
+										<DateSettings settings={settings} />
+									</div>
 								</div>
-								<div className="px-2">
-									<DateSettings settings={settings} />
+								<Separator decorative className="md:hidden" />
+								<div
+									className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:items-center gap-4 md:gap-8 p-6 px-2 md:px-6"
+								>
+									<div>
+										<div className="font-semibold text-base">Limits</div>
+										<div className="text-xs text-muted-foreground">Songs and likes per participant</div>
+									</div>
+									<div className="px-2">
+										<ComboSettings settings={settings} />
+									</div>
 								</div>
-							</div>
-							<Separator decorative className="md:hidden" />
-							<div className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:items-center gap-4 md:gap-8 p-6 px-2 md:px-6">
-								<div>
-									<div className="font-semibold text-base">Limits</div>
-									<div className="text-xs text-muted-foreground">Songs and likes per participant</div>
+								<Separator decorative className="md:hidden" />
+								<div
+									className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:items-center gap-4 md:gap-8 p-6 px-2 md:px-6"
+								>
+									<div>
+										<div className="font-semibold text-base">Moderation</div>
+										<div className="text-xs text-muted-foreground">Approval and content filtering</div>
+									</div>
+									<div className="px-2">
+										<AdditionalSettings settings={settings} />
+									</div>
 								</div>
-								<div className="px-2">
-									<ComboSettings settings={settings} />
-								</div>
-							</div>
-							<Separator decorative className="md:hidden" />
-							<div className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:items-center gap-4 md:gap-8 p-6 px-2 md:px-6">
-								<div>
-									<div className="font-semibold text-base">Moderation</div>
-									<div className="text-xs text-muted-foreground">Approval and content filtering</div>
-								</div>
-								<div className="px-2">
-									<AdditionalSettings settings={settings} />
-								</div>
-							</div>
-							<Separator decorative className="md:hidden" />
-							<div className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:items-center gap-4 md:gap-8 p-6 px-2 md:px-6">
-								<div>
-									<div className="font-semibold text-sm md:text-base text-danger">Deletion</div>
-									<div className="text-xs text-danger/80">Danger Zone</div>
-								</div>
-								<div className="px-2">
-									<DeleteSettings settings={settings} />
+								<Separator decorative className="md:hidden" />
+								<div
+									className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:items-center gap-4 md:gap-8 p-6 px-2 md:px-6"
+								>
+									<div>
+										<div className="font-semibold text-sm md:text-base text-danger">Deletion</div>
+										<div className="text-xs text-danger/80">Danger Zone</div>
+									</div>
+									<div className="px-2">
+										<DeleteSettings settings={settings} />
+									</div>
 								</div>
 							</div>
 						</div>
