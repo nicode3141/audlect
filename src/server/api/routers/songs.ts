@@ -42,11 +42,11 @@ export const songsRouter = createTRPCRouter({
 	songs: publicProcedure
 		.input(
 			z.object({
-				limit: z.number(),
-				offset: z.number(),
+				limit: z.number().min(1).max(100),
+				offset: z.number().min(0),
 				cursor: z.string().nullish(), //infiniteQuery param
 				sort_method: z.string(),
-				voting_id: z.string().uuid(),
+				voting_id: z.uuid(),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
@@ -261,8 +261,8 @@ export const songsRouter = createTRPCRouter({
 	addSongID: rateLimitedProcedure(10, 60_000)
 		.input(
 			z.object({
-				voting_id: z.string().uuid(),
-				id: z.number(),
+				voting_id: z.uuid(),
+				id: z.number().positive(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {

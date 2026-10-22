@@ -39,7 +39,7 @@ describe("songs router", () => {
 		const caller = appRouter.createCaller(context);
 
 		const result = await caller.songs.songs({
-			limit: 1000,
+			limit: 100,
 			offset: 0,
 			sort_method: "likes_total",
 			voting_id: audlectVotingId,
