@@ -24,9 +24,9 @@ export const searchRouter = createTRPCRouter({
 		.input(
 			z.object({
 				search_string: z.string(),
-				limit: z.number(),
-				offset: z.number(),
-				voting_id: z.string().uuid(),
+				limit: z.number().min(1).max(100),
+				offset: z.number().min(0),
+				voting_id: z.uuid(),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
@@ -147,7 +147,9 @@ export const searchRouter = createTRPCRouter({
 					})
 					.from(votingsTable)
 					.leftJoin(topSong, eq(votingsTable.voting_id, topSong.voting_id))
-					.where(and(eq(votingsTable.public, true), ilike(votingsTable.name, `%${input.search_string}%`), cursorCondition))
+					.where(
+						and(eq(votingsTable.public, true), ilike(votingsTable.name, `%${input.search_string}%`), cursorCondition),
+					)
 					.orderBy(...orderBy)
 					.limit(input.limit + 1);
 
